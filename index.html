@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("theme");
+        document.documentElement.dataset.theme = savedTheme === "light" ? "light" : "dark";
+      })();
+    </script>
+    <title>Painel Pessoal | Jonatã</title>
+    <meta name="description" content="Painel pessoal para organizar rotina, tarefas, compras, agenda, projetos e conquistas." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="auth-locked">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="profile-block">
+          <button class="avatar-button" type="button" id="avatar-button" title="Alterar foto">
+            <img class="avatar" id="profile-avatar" src="assets/jonata.jpeg" alt="Foto de Jonatã" />
+          </button>
+          <input id="avatar-input" type="file" accept="image/*" hidden />
+          <div>
+            <strong>Particular</strong>
+            <span>Painel pessoal</span>
+          </div>
+        </div>
+
+        <nav class="side-nav" aria-label="Areas do painel">
+          <button class="active" data-section="dashboard"><span>⌂</span>Visão geral</button>
+          <button data-section="quick-notes"><span>📝</span>Anotações rápidas</button>
+          <button data-section="tasks"><span>📋</span>Coisas a fazer</button>
+          <button data-section="pending"><span>🚨</span>Pendências/Tarefas</button>
+          <button data-section="routine"><span>💪</span>Rotina</button>
+          <button data-section="personal"><span>🏙</span>Pessoal - Jonatã</button>
+          <button data-section="market"><span>🛒</span>Lista de compras</button>
+          <button data-section="wishlist"><span>🛍</span>Coisas a comprar</button>
+          <button data-section="diet"><span>🥬</span>Dieta</button>
+          <button data-section="finance"><span>💰</span>Financeiro</button>
+          <button data-section="cnh"><span>🪪</span>CNH - Processo</button>
+          <button data-section="agenda"><span>🗓</span>Agenda</button>
+          <button data-section="wardrobe"><span>👔</span>Guarda-Roupa</button>
+          <button data-section="pc"><span>💻</span>PC - Windows</button>
+          <button data-section="home"><span>🪑</span>Mobília casa</button>
+          <button data-section="wins"><span>★</span>Conquistas</button>
+        </nav>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <button class="menu-toggle" type="button" aria-label="Abrir menu">☰</button>
+          <div>
+            <p class="today-label">Hoje</p>
+            <h1 id="page-title">Visão geral</h1>
+          </div>
+          <div class="top-actions">
+            <button class="icon-btn theme-toggle" type="button" id="theme-toggle" title="Ativar modo claro" aria-label="Ativar modo claro">☀</button>
+            <span class="sync-status" id="sync-status">Local</span>
+            <button class="icon-btn" type="button" id="login-btn" title="Entrar">Entrar</button>
+            <button class="icon-btn" type="button" id="logout-btn" title="Sair" hidden>Sair</button>
+            <button class="icon-btn" type="button" id="undo-btn" title="Desfazer última ação" disabled>↶</button>
+            <button class="icon-btn" type="button" id="search-btn" title="Pesquisar">⌕</button>
+            <button class="primary-action" type="button" data-section-shortcut="quick-notes">Nova nota</button>
+          </div>
+        </header>
+
+        <section class="page active" id="dashboard">
+          <div class="metrics-grid">
+            <article>
+              <span>Tarefas abertas</span>
+              <strong id="metric-tasks">0</strong>
+            </article>
+            <article>
+              <span>Compras pendentes</span>
+              <strong id="metric-market">0</strong>
+            </article>
+            <article>
+              <span>Rotina de hoje</span>
+              <strong id="metric-routine">0%</strong>
+            </article>
+            <article>
+              <span>Total mercado</span>
+              <strong id="metric-total">R$ 0,00</strong>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Prioridades</h3>
+                <button type="button" data-section-shortcut="tasks">Ver tudo</button>
+              </div>
+              <ul class="simple-list" id="dashboard-tasks"></ul>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Compras recentes</h3>
+                <button type="button" data-section-shortcut="market">Abrir</button>
+              </div>
+              <ul class="simple-list" id="dashboard-market"></ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="quick-notes">
+          <div class="section-head">
+            <span class="section-kicker">Captura rápida</span>
+            <h2>Anotações rápidas</h2>
+            <p>Jogue ideias, lembretes e pensamentos sem precisar organizar na hora.</p>
+          </div>
+          <form class="composer" id="note-form">
+            <textarea id="note-input" rows="4" placeholder="Escreva uma anotação rápida..."></textarea>
+            <button class="primary-action" type="submit">Salvar nota</button>
+          </form>
+          <div class="notes-grid" id="notes-list"></div>
+        </section>
+
+        <section class="page" id="tasks">
+          <div class="section-head">
+            <span class="section-kicker">Execução</span>
+            <h2>Coisas a fazer</h2>
+            <p>Lista prática para ações do dia, semana e próximos passos.</p>
+          </div>
+          <form class="inline-form" id="task-form">
+            <input id="task-input" type="text" placeholder="Nova tarefa" />
+            <select id="task-priority">
+              <option>Alta</option>
+              <option selected>Média</option>
+              <option>Baixa</option>
+            </select>
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+          <div class="table-panel">
+            <div class="table-row table-head">
+              <span>Status</span>
+              <span>Tarefa</span>
+              <span>Prioridade</span>
+              <span></span>
+              <span></span>
+            </div>
+            <div id="task-list"></div>
+          </div>
+        </section>
+
+        <section class="page" id="pending">
+          <div class="section-head pending-head">
+            <span class="section-kicker">Pendências/Tarefas</span>
+            <h2>Organização por prazo</h2>
+            <p id="today-date">Hoje</p>
+          </div>
+
+          <form class="inline-form pending-form" id="pending-form">
+            <input id="pending-input" type="text" placeholder="Nova pendência ou tarefa" />
+            <select id="pending-type">
+              <option value="daily">Diária/imediata</option>
+              <option value="backlog">Sem prazo</option>
+              <option value="weekly">Semanal</option>
+              <option value="monthly">Mensal</option>
+            </select>
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+
+          <div class="pending-board">
+            <section class="task-column" data-pending-column="daily">
+              <div class="task-column-head">
+                <span>🚨</span>
+                <div>
+                  <h3>Diárias/imediatas</h3>
+                  <p>Coisas para resolver hoje ou o quanto antes.</p>
+                </div>
+              </div>
+              <div class="pending-list" id="pending-daily"></div>
+            </section>
+
+            <section class="task-column" data-pending-column="backlog">
+              <div class="task-column-head">
+                <span>📌</span>
+                <div>
+                  <h3>Sem prazo</h3>
+                  <p>Pendências soltas que precisam ficar registradas.</p>
+                </div>
+              </div>
+              <div class="pending-list" id="pending-backlog"></div>
+            </section>
+
+            <section class="task-column" data-pending-column="weekly">
+              <div class="task-column-head">
+                <span>🗓</span>
+                <div>
+                  <h3>Semanais</h3>
+                  <p>Tarefas que voltam ou devem ser revisadas na semana.</p>
+                </div>
+              </div>
+              <div class="pending-list" id="pending-weekly"></div>
+            </section>
+
+            <section class="task-column" data-pending-column="monthly">
+              <div class="task-column-head">
+                <span>📅</span>
+                <div>
+                  <h3>Mensais</h3>
+                  <p>Compromissos, revisões e manutenções do mês.</p>
+                </div>
+              </div>
+              <div class="pending-list" id="pending-monthly"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="routine">
+          <header class="routine-page-head">
+            <div><h2>💪 Rotina de Hoje</h2><p id="routine-date-subtitle">Hoje</p></div>
+            <div class="routine-date-controls">
+              <button class="period-arrow" type="button" id="routine-date-prev" title="Período anterior">‹</button>
+              <label class="routine-period-label">
+                <span>▣</span>
+                <strong id="routine-period-label">Mês</strong>
+                <span>⌄</span>
+                <input id="routine-month-input" type="month" aria-label="Escolher mês da rotina" />
+              </label>
+              <button class="period-arrow" type="button" id="routine-date-next" title="Próximo período">›</button>
+            </div>
+            <div class="routine-head-actions">
+              <button type="button" id="routine-toggle-view">Ver ano</button>
+              <button class="primary-action routine-new-button" type="button" id="routine-new-item">＋ Novo card</button>
+            </div>
+          </header>
+
+          <div class="routine-app-layout">
+            <main class="routine-main-column">
+              <section class="routine-hero">
+                <div class="routine-progress-ring" id="routine-progress-ring"><strong id="routine-progress-percent">0%</strong></div>
+                <div class="routine-hero-copy"><span>Progresso do dia</span><h2 id="routine-progress-title">0 de 0 hábitos concluídos</h2><p id="routine-progress-message">Continue assim! Você está no caminho certo.</p></div>
+                <div class="routine-hero-art" aria-hidden="true">♕</div>
+              </section>
+
+              <div class="routine-summary">
+                <article class="done"><i>✓</i><div><span>Concluídos</span><strong id="routine-done-count">0</strong><small id="routine-done-percent">0% do total</small></div></article>
+                <article class="progress"><i>○</i><div><span>Em andamento</span><strong id="routine-progress-count">0</strong><small id="routine-progress-percent-note">0% do total</small></div></article>
+                <article class="pending"><i>×</i><div><span>Pendentes</span><strong id="routine-open-count">0</strong><small id="routine-open-percent">0% do total</small></div></article>
+                <article class="total"><i>◎</i><div><span>Total de hábitos</span><strong id="routine-total-count">0</strong><small>hábitos cadastrados</small></div></article>
+                <strong id="routine-score" hidden>0%</strong><span id="routine-progress-bar" hidden></span>
+              </div>
+
+              <div class="routine-board">
+                <section class="routine-section" data-routine-card="required" draggable="true"><div class="routine-section-head"><h3>Essenciais (Diário)</h3><div><button type="button" data-routine-add-type="required" title="Adicionar hábito essencial">＋</button><strong id="routine-required-progress">0/0</strong></div></div><div class="routine-list" id="routine-required"></div></section>
+                <section class="routine-section" data-routine-card="endday" draggable="true"><div class="routine-section-head"><h3>Saúde</h3><div><button type="button" data-routine-add-type="endday" title="Adicionar hábito de saúde">＋</button><strong id="routine-endday-progress">0/0</strong></div></div><div class="routine-list" id="routine-endday"></div></section>
+                <section class="routine-section" data-routine-card="day" draggable="true"><div class="routine-section-head"><h3>Produtividade</h3><div><button type="button" data-routine-add-type="day" title="Adicionar hábito de produtividade">＋</button><strong id="routine-day-progress">0/0</strong></div></div><div class="routine-list" id="routine-day"></div></section>
+                <section class="routine-section" data-routine-card="weekly" draggable="true"><div class="routine-section-head"><h3>Semanais</h3><div><button type="button" data-routine-add-type="weekly" title="Adicionar hábito semanal">＋</button><strong id="routine-weekly-progress">0/0</strong></div></div><div class="routine-list" id="routine-weekly"></div></section>
+                <section class="routine-section" data-routine-card="extras" draggable="true"><div class="routine-section-head"><h3>Extras</h3><div><button type="button" data-routine-add-type="extras" title="Adicionar hábito extra">＋</button><strong id="routine-extras-progress">0/0</strong></div></div><div class="routine-list" id="routine-extras"></div></section>
+                <button type="button" class="routine-add-card" id="routine-add-card"><span>＋</span><strong>Adicionar novo card</strong></button>
+              </div>
+            </main>
+
+            <aside class="routine-side-column">
+              <section class="routine-streak-card"><span>Sequência atual</span><strong>🔥 <b id="routine-current-streak">0 dias</b></strong><small>Você está incrível!</small></section>
+              <section class="routine-streak-card"><span>Melhor sequência</span><strong>🏆 <b id="routine-best-streak">0 dias</b></strong><small>Recorde pessoal</small></section>
+              <section class="routine-calendar-panel"><div class="panel-header"><h3>Calendário de hábitos</h3></div><strong id="routine-calendar-title">Mês</strong><div class="routine-calendar-weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div><div class="routine-calendar-grid" id="routine-calendar-grid"></div><div class="routine-calendar-legend"><span><i class="complete"></i>Concluído</span><span><i class="partial"></i>Parcial</span><span><i class="missed"></i>Não feito</span></div></section>
+              <section class="routine-insights"><h3>Insights da semana</h3><p>📈 <strong id="routine-insight-score">0%</strong> de aproveitamento</p><p>☑️ <strong id="routine-insight-done">0</strong> hábitos concluídos</p><p>⭐ <strong id="routine-perfect-days">0</strong> dias perfeitos</p><button type="button" data-routine-expand="insights">Ver relatório completo</button></section>
+            </aside>
+          </div>
+
+          <footer class="routine-footer-grid">
+            <section class="routine-consistency-card"><h3>Hábitos mais consistentes</h3><div id="routine-consistency-list"></div></section>
+            <section class="routine-due-card"><h3>Próximos de vencer</h3><div id="routine-due-list"></div></section>
+          </footer>
+
+          <div hidden><strong id="routine-water-label">0L / 3L</strong><div id="routine-water-drops"></div><button type="button" id="routine-water-less">-500ml</button><button type="button" id="routine-water-more">+500ml</button></div>
+        </section>
+
+        <section class="page" id="personal">
+          <div class="section-head">
+            <span class="section-kicker">Central pessoal</span>
+            <h2>Pessoal - Jonatã</h2>
+            <p>Guarde dados importantes, metas, documentos e links que você precisa encontrar rápido.</p>
+          </div>
+
+          <div class="personal-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Dados importantes</h3>
+                <button type="button" id="personal-save-btn">Salvar dados</button>
+              </div>
+              <div class="personal-fields">
+                <label>
+                  <span>Nome completo</span>
+                  <input id="personal-name" type="text" placeholder="Seu nome" data-personal-info="name" />
+                </label>
+                <label>
+                  <span>Telefone</span>
+                  <input id="personal-phone" type="text" placeholder="Telefone principal" data-personal-info="phone" />
+                </label>
+                <label>
+                  <span>E-mail</span>
+                  <input id="personal-email" type="email" placeholder="E-mail principal" data-personal-info="email" />
+                </label>
+                <label>
+                  <span>Endereço</span>
+                  <input id="personal-address" type="text" placeholder="Endereço ou referência" data-personal-info="address" />
+                </label>
+                <label class="full-field">
+                  <span>Observações importantes</span>
+                  <textarea id="personal-notes" rows="4" placeholder="Informações que você quer guardar com cuidado..." data-personal-info="notes"></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Resumo pessoal</h3>
+              </div>
+              <div class="personal-stats">
+                <article><span>Metas abertas</span><strong id="personal-goals-open">0</strong></article>
+                <article><span>Documentos</span><strong id="personal-docs-count">0</strong></article>
+                <article><span>Concluídas</span><strong id="personal-goals-done">0</strong></article>
+              </div>
+            </section>
+          </div>
+
+          <div class="personal-layout personal-bottom">
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Metas pessoais</h3>
+              </div>
+              <form class="inline-form personal-goal-form" id="personal-goal-form">
+                <input id="personal-goal-title" type="text" placeholder="Nova meta pessoal" />
+                <select id="personal-goal-area">
+                  <option>Vida</option>
+                  <option>Saúde</option>
+                  <option>Trabalho</option>
+                  <option>Estudo</option>
+                  <option>Casa</option>
+                  <option>Dinheiro</option>
+                </select>
+                <button class="primary-action" type="submit">Adicionar</button>
+              </form>
+              <div class="personal-list" id="personal-goals-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h3>Documentos e links</h3>
+              </div>
+              <form class="inline-form personal-doc-form" id="personal-doc-form">
+                <input id="personal-doc-title" type="text" placeholder="Documento, conta ou link" />
+                <input id="personal-doc-value" type="text" placeholder="Número, local, site ou detalhe" />
+                <button class="primary-action" type="submit">Adicionar</button>
+              </form>
+              <div class="personal-list" id="personal-docs-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="market">
+          <div class="section-head">
+            <span class="section-kicker">Mercado</span>
+            <h2>Lista de compras</h2>
+            <p>Use os atalhos de categoria para pular direto para a parte da lista que você quer organizar.</p>
+          </div>
+          <div class="category-grid" id="market-categories"></div>
+          <form class="inline-form market-form" id="market-form">
+            <input id="market-name" type="text" placeholder="Item" />
+            <select id="market-category">
+              <option value="food">Comida</option>
+              <option value="seasoning">Temperos</option>
+              <option value="cleaning">Limpeza</option>
+              <option value="hygiene">Higiene pessoal</option>
+              <option value="mix">Mistura</option>
+              <option value="fruit">Frutas</option>
+              <option value="dessert">Sobremesas</option>
+            </select>
+            <input id="market-qty" type="number" min="1" step="1" value="1" aria-label="Quantidade" />
+            <input id="market-price" type="number" min="0" step="0.01" placeholder="Preço" />
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+          <div class="market-shop-toolbar">
+            <button class="primary-action" type="button" id="market-shop-toggle">Ir ao mercado</button>
+            <div class="market-shop-totals">
+              <article><span>Itens pendentes</span><strong id="market-shop-pending">0</strong></article>
+              <article><span>Itens pegos</span><strong id="market-shop-picked">0</strong></article>
+              <article><span>Estimativa da lista</span><strong id="market-shop-estimate">R$ 0,00</strong></article>
+              <article><span>No carrinho</span><strong id="market-shop-total">R$ 0,00</strong></article>
+            </div>
+          </div>
+          <section class="market-shop-panel" id="market-shop-panel" hidden>
+            <div class="market-shop-head">
+              <h3>Modo mercado</h3>
+              <div>
+                <button class="danger-action" type="button" id="market-shop-clear">Limpar pegos</button>
+                <button class="primary-action" type="button" id="market-shop-finish">Finalizar compra</button>
+              </div>
+            </div>
+            <div class="market-shop-list" id="market-shop-list"></div>
+          </section>
+          <div class="market-layout">
+            <aside class="market-side" id="market-side"></aside>
+            <div class="market-sections" id="market-list"></div>
+          </div>
+        </section>
+
+        <section class="page" id="wishlist">
+          <div class="section-head">
+            <span class="section-kicker">Desejos e compras futuras</span>
+            <h2>Coisas a comprar</h2>
+            <p>Guarde itens que ainda não são mercado: prioridade, valor previsto, loja ou link e status da compra.</p>
+          </div>
+          <div class="wishlist-categories" id="wishlist-categories"></div>
+          <form class="inline-form wishlist-form" id="wishlist-form">
+            <input id="wishlist-name" type="text" placeholder="O que você quer comprar" />
+            <select id="wishlist-category">
+              <option value="technology">Tecnologia</option>
+              <option value="bedroom">Quarto</option>
+              <option value="kitchen">Cozinha</option>
+              <option value="cleaning">Limpeza</option>
+              <option value="clothing">Roupas e acessórios</option>
+            </select>
+            <select id="wishlist-priority">
+              <option>Alta</option>
+              <option selected>Média</option>
+              <option>Baixa</option>
+            </select>
+            <input id="wishlist-price" type="number" min="0" step="0.01" placeholder="Valor previsto" />
+            <input id="wishlist-link" type="text" placeholder="Loja ou link" />
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+          <div class="wishlist-summary">
+            <article><span>Pendentes</span><strong id="wishlist-open">0</strong></article>
+            <article><span>Total previsto</span><strong id="wishlist-total">R$ 0,00</strong></article>
+            <article><span>Alta prioridade</span><strong id="wishlist-high">0</strong></article>
+          </div>
+          <div class="wishlist-list-heading">
+            <h3>Lista geral</h3>
+          </div>
+          <div class="wishlist-sections" id="wishlist-list"></div>
+        </section>
+
+        <section class="page" id="finance">
+          <div class="section-head">
+            <span class="section-kicker">Vida financeira</span>
+            <h2>Financeiro do Jonatã</h2>
+            <p>Controle renda do mês, custos fixos, variáveis, lançamentos extras e o que sobra livre.</p>
+          </div>
+
+          <div class="finance-page-head">
+            <div>
+              <h2><span class="finance-title-icon">↗</span> Financeiro</h2>
+              <p>Visão geral das suas finanças</p>
+            </div>
+            <div class="finance-period-inline">
+              <button class="period-arrow" type="button" id="finance-inline-prev" title="Período anterior">‹</button>
+              <strong><span class="finance-calendar-icon">▣</span><span id="finance-period-label">Mês</span><span class="finance-period-caret">⌄</span></strong>
+              <button class="period-arrow" type="button" id="finance-inline-next" title="Próximo período">›</button>
+            </div>
+            <div class="finance-head-actions">
+              <button type="button" id="finance-toggle-view">Ver ano</button>
+              <button class="primary-action" type="button" id="finance-new-entry">+ Novo lançamento</button>
+            </div>
+          </div>
+
+          <div class="finance-planner">
+            <label>
+              <span>Visualização</span>
+              <select id="finance-view-mode">
+                <option value="month">Mês</option>
+                <option value="year">Ano</option>
+              </select>
+            </label>
+            <label class="finance-period-control" id="finance-month-wrap">
+              <span class="finance-period-heading">
+                <button class="period-arrow" type="button" id="finance-month-prev" title="Mês anterior">‹</button>
+                <span>Mês</span>
+                <button class="period-arrow" type="button" id="finance-month-next" title="Próximo mês">›</button>
+              </span>
+              <input id="finance-month" type="month" />
+            </label>
+            <label class="finance-period-control" id="finance-year-wrap">
+              <span class="finance-period-heading">
+                <button class="period-arrow" type="button" id="finance-year-prev" title="Ano anterior">‹</button>
+                <span>Ano</span>
+                <button class="period-arrow" type="button" id="finance-year-next" title="Próximo ano">›</button>
+              </span>
+              <input id="finance-year" type="number" min="2000" max="2200" step="1" />
+            </label>
+          </div>
+
+          <div class="finance-summary">
+            <article data-finance-summary-card="received" draggable="true">
+              <span>Custo mensal</span>
+              <span class="finance-summary-icon income-icon">＄</span>
+              <strong class="money-income" id="finance-received">R$ 0,00</strong>
+              <small id="finance-received-note">Confirmado no período</small>
+            </article>
+            <article data-finance-summary-card="payable" draggable="true">
+              <span>Variáveis</span>
+              <span class="finance-summary-icon payable-icon">▤</span>
+              <strong class="money-expense" id="finance-payable">R$ 0,00</strong>
+              <small id="finance-payable-note">Contas pendentes</small>
+            </article>
+            <article data-finance-summary-card="expected" draggable="true">
+              <span>Total de custos</span>
+              <span class="finance-summary-icon expected-icon">▥</span>
+              <strong id="finance-income">R$ 0,00</strong>
+              <small id="finance-expected-note">Total esperado</small>
+              <div class="finance-summary-progress"><span id="finance-expected-progress"></span></div>
+            </article>
+            <article data-finance-summary-card="free" draggable="true">
+              <span>Entradas</span>
+              <span class="finance-summary-icon free-icon">♜</span>
+              <strong id="finance-balance">R$ 0,00</strong>
+              <small>Disponível após contas</small>
+            </article>
+            <article>
+              <span>Saldo livre</span>
+              <strong id="finance-commission-expected">R$ 0,00</strong>
+            </article>
+          </div>
+
+          <div class="finance-legacy-metrics" hidden>
+            <span id="finance-fixed"></span>
+            <span id="finance-variable"></span>
+            <span id="finance-cost-total"></span>
+          </div>
+
+          <div class="finance-year-summary" id="finance-year-summary" hidden>
+            <article>
+              <span>Total vendido</span>
+              <strong id="finance-year-sold-total">R$ 0,00</strong>
+            </article>
+            <article>
+              <span>Média vendida</span>
+              <strong id="finance-year-sold-average">R$ 0,00</strong>
+            </article>
+            <article>
+              <span>Total comissão</span>
+              <strong id="finance-year-commission-total">R$ 0,00</strong>
+            </article>
+            <article>
+              <span>Média comissão</span>
+              <strong id="finance-year-commission-average">R$ 0,00</strong>
+            </article>
+          </div>
+
+          <form class="inline-form finance-form" id="finance-form">
+            <input id="finance-title" type="text" placeholder="Descrição" />
+            <select id="finance-type">
+              <option value="income">Entrada</option>
+              <option value="expense">Saída</option>
+            </select>
+            <select id="finance-category">
+              <option>Salário</option>
+              <option>Casa</option>
+              <option>Mercado</option>
+              <option>Transporte</option>
+              <option>Lazer</option>
+              <option>Saúde</option>
+              <option>Outros</option>
+            </select>
+            <select id="finance-date-mode" aria-label="Tipo de data">
+              <option value="date">Data exata</option>
+              <option value="business">Dia útil do mês</option>
+            </select>
+            <input id="finance-due-date" type="date" aria-label="Data prevista" />
+            <input id="finance-business-day" type="number" min="1" max="23" step="1" value="5" aria-label="Dia útil" hidden />
+            <select id="finance-repeat" aria-label="Recorrência">
+              <option value="once">Uma vez</option>
+              <option value="monthly">Todo mês</option>
+              <option value="biweekly">A cada 15 dias</option>
+            </select>
+            <input id="finance-repeat-count" type="number" min="1" max="120" step="1" value="1" aria-label="Quantidade de vezes" />
+            <input id="finance-value" type="number" min="0" step="0.01" placeholder="Valor" />
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+
+          <div class="finance-dashboard-grid">
+            <section class="panel finance-overview-panel" data-finance-dashboard-card="bills" draggable="true">
+              <div class="panel-header">
+                <h3>Contas do período</h3>
+              </div>
+              <div class="finance-bill-tabs">
+                <button class="active" type="button" data-finance-bill-filter="all">Todas</button>
+                <button type="button" data-finance-bill-filter="fixed">Fixas</button>
+                <button type="button" data-finance-bill-filter="variable">Variáveis</button>
+              </div>
+              <div class="finance-overview-list" id="finance-overview-bills"></div>
+              <button class="finance-panel-action" type="button" data-finance-show-details>Ver todas as contas</button>
+            </section>
+
+            <section class="panel finance-distribution-panel" data-finance-dashboard-card="distribution" draggable="true">
+              <div class="panel-header">
+                <h3>Distribuição do período</h3>
+              </div>
+              <div class="finance-donut" id="finance-donut"></div>
+              <div class="finance-distribution-bars" id="finance-distribution"></div>
+              <div class="finance-distribution-footer">
+                <article><span>Total previsto</span><strong id="finance-distribution-expected">R$ 0,00</strong></article>
+                <article><span>Total realizado</span><strong id="finance-distribution-realized">R$ 0,00</strong></article>
+                <article><span>Diferença</span><strong id="finance-distribution-difference">R$ 0,00</strong></article>
+                <span id="finance-distribution-expenses" hidden></span>
+                <span id="finance-distribution-percent" hidden></span>
+              </div>
+            </section>
+
+            <section class="panel finance-subscriptions-panel" data-finance-dashboard-card="subscriptions" draggable="true">
+              <div class="panel-header">
+                <h3>Assinaturas</h3>
+                <strong id="finance-subscriptions-total">R$ 0,00</strong>
+              </div>
+              <div class="finance-compact-list" id="finance-subscriptions"></div>
+              <button class="finance-panel-action" type="button" data-finance-new-subscription>Gerenciar assinaturas</button>
+            </section>
+
+            <section class="panel finance-commissions-panel" data-finance-dashboard-card="commissions" draggable="true">
+              <div class="panel-header">
+                <h3>Comissões previstas</h3>
+                <strong id="finance-commissions-total">R$ 0,00</strong>
+              </div>
+              <div class="finance-compact-list" id="finance-commissions"></div>
+              <button class="finance-panel-action" type="button" data-finance-show-details>Ver todas</button>
+            </section>
+
+            <section class="panel finance-goals-panel" data-finance-dashboard-card="goals" draggable="true">
+              <div class="panel-header">
+                <h3>Metas financeiras</h3>
+              </div>
+              <form class="finance-goal-form" id="finance-goal-form">
+                <input id="finance-goal-title" type="text" placeholder="Nova meta" />
+                <input id="finance-goal-target" type="number" min="0" step="0.01" placeholder="Valor alvo" />
+                <button class="primary-action" type="submit">Adicionar</button>
+              </form>
+              <div class="finance-goals-list" id="finance-goals-list"></div>
+              <button class="finance-panel-action" type="button" id="finance-new-goal">Nova meta</button>
+            </section>
+
+            <section class="panel finance-recent-panel" data-finance-dashboard-card="recent" draggable="true">
+              <div class="panel-header">
+                <h3>Lançamentos recentes</h3>
+                <button class="finance-panel-action" type="button" data-finance-show-details>Ver todos</button>
+              </div>
+              <div class="finance-recent-columns" aria-hidden="true"><span>Data</span><span>Descrição</span><span>Categoria</span><span>Tipo</span><span>Valor</span></div>
+              <div class="finance-recent-list" id="finance-recent-list"></div>
+            </section>
+
+            <section class="panel finance-categories-panel" data-finance-dashboard-card="categories" draggable="true">
+              <div class="panel-header">
+                <h3>Gastos por categoria</h3>
+                <button class="finance-panel-action" type="button" data-finance-show-details>Ver relatório</button>
+              </div>
+              <div class="finance-category-breakdown" id="finance-category-breakdown"></div>
+            </section>
+          </div>
+
+          <section class="panel finance-today-panel">
+            <div class="panel-header">
+              <h3>Hoje no financeiro</h3>
+              <button type="button" data-section-shortcut="finance">Ver lançamentos</button>
+            </div>
+            <div class="finance-today-list" id="finance-today-list"></div>
+          </section>
+
+          <div class="finance-main-columns">
+            <section class="panel finance-column income-column">
+              <div class="panel-header">
+                <h3>Recebimentos</h3>
+                <button type="button" id="finance-clear-filter">Todos</button>
+              </div>
+              <div class="finance-list" id="finance-income-list"></div>
+            </section>
+
+            <section class="panel finance-column expense-column">
+              <div class="panel-header">
+                <h3>Gastos</h3>
+                <div class="panel-actions">
+                  <button type="button" id="finance-reset-paid">Desmarcar pagos</button>
+                </div>
+              </div>
+              <div class="finance-subsection">
+                <div class="finance-subsection-head">
+                  <h4>Custos fixos</h4>
+                  <button type="button" id="fixed-add-btn">Adicionar</button>
+                </div>
+                <div class="budget-list" id="fixed-cost-list"></div>
+              </div>
+              <div class="finance-subsection">
+                <div class="finance-subsection-head">
+                  <h4>Custos variáveis</h4>
+                  <button type="button" id="variable-add-btn">Adicionar</button>
+                </div>
+                <div class="budget-list" id="variable-cost-list"></div>
+              </div>
+              <div class="finance-subsection">
+                <div class="finance-subsection-head">
+                  <h4>Saídas extras</h4>
+                </div>
+                <div class="finance-list" id="finance-expense-list"></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="panel finance-bottom">
+            <div class="panel-header">
+              <h3>Categorias</h3>
+            </div>
+            <div class="finance-categories" id="finance-categories"></div>
+          </section>
+        </section>
+
+        <section class="page" id="cnh">
+          <div class="cnh-summary">
+            <article>
+              <span>Total previsto</span>
+              <strong id="cnh-total">R$ 0,00</strong>
+            </article>
+            <article>
+              <span>Concluído</span>
+              <strong id="cnh-paid">R$ 0,00</strong>
+            </article>
+            <article>
+              <span>Falta</span>
+              <strong id="cnh-open">R$ 0,00</strong>
+            </article>
+            <article>
+              <span>Progresso</span>
+              <strong id="cnh-progress-text">0%</strong>
+            </article>
+          </div>
+
+          <section class="panel cnh-progress-card">
+            <div class="panel-header">
+              <h3>Processo da CNH</h3>
+              <span id="cnh-date-range">Sem datas</span>
+            </div>
+            <div class="cnh-progress-track">
+              <span id="cnh-progress-bar"></span>
+            </div>
+            <div class="cnh-progress-meta">
+              <span id="cnh-step-count">0 de 0 etapas</span>
+              <span id="cnh-next-step">Próxima etapa: nenhuma</span>
+            </div>
+          </section>
+
+          <form class="inline-form cnh-form" id="cnh-form">
+            <input id="cnh-title" type="text" placeholder="Nova etapa da CNH" />
+            <input id="cnh-value" type="number" min="0" step="0.01" placeholder="Valor" />
+            <input id="cnh-date" type="date" />
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+
+          <div class="cnh-list" id="cnh-list"></div>
+        </section>
+
+        <section class="page" id="agenda">
+          <div class="section-head">
+            <span class="section-kicker">Calendário</span>
+            <h2>Agenda</h2>
+            <p>Compromissos, lembretes e datas importantes com status simples.</p>
+          </div>
+          <section class="agenda-calendar">
+            <div class="agenda-calendar-header">
+              <button class="period-arrow" type="button" id="agenda-month-prev" title="Mês anterior">‹</button>
+              <h3 id="agenda-calendar-title">Mês</h3>
+              <button class="period-arrow" type="button" id="agenda-month-next" title="Próximo mês">›</button>
+            </div>
+            <div class="agenda-weekdays" aria-hidden="true">
+              <span>Dom</span>
+              <span>Seg</span>
+              <span>Ter</span>
+              <span>Qua</span>
+              <span>Qui</span>
+              <span>Sex</span>
+              <span>Sáb</span>
+            </div>
+            <div class="agenda-calendar-grid" id="agenda-calendar-grid"></div>
+          </section>
+          <form class="inline-form agenda-form" id="agenda-form">
+            <input id="agenda-title" type="text" placeholder="Compromisso ou lembrete" />
+            <input id="agenda-date" type="date" />
+            <select id="agenda-type">
+              <option value="appointment">Compromisso</option>
+              <option value="reminder">Lembrete</option>
+              <option value="deadline">Prazo</option>
+            </select>
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+          <div class="agenda-list-heading">
+            <h3>Compromissos e afazeres</h3>
+          </div>
+          <div class="timeline" id="agenda-list"></div>
+        </section>
+
+        <section class="page" id="wardrobe">
+          <div class="wardrobe-head">
+            <div>
+              <span>Estilo pessoal</span>
+              <h2>Guarda-Roupa</h2>
+              <p>Cadastre suas peças, combine possibilidades e salve seus looks favoritos.</p>
+            </div>
+            <div class="wardrobe-metrics">
+              <article><span>Peças</span><strong id="wardrobe-item-count">0</strong></article>
+              <article><span>Combinações</span><strong id="wardrobe-look-count">0</strong></article>
+              <article><span>Looks salvos</span><strong id="wardrobe-saved-count">0</strong></article>
+            </div>
+          </div>
+
+          <form class="panel wardrobe-form" id="wardrobe-form">
+            <div class="panel-header"><h3>Cadastrar roupa</h3></div>
+            <input id="wardrobe-name" type="text" placeholder="Nome da peça" required />
+            <select id="wardrobe-category" required>
+              <option value="top">Parte de cima</option>
+              <option value="coat">Casaco/Jaqueta</option>
+              <option value="bottom">Parte de baixo</option>
+              <option value="shoes">Calçado</option>
+              <option value="accessory">Acessório</option>
+            </select>
+            <input id="wardrobe-color" type="text" placeholder="Cor" required />
+            <input id="wardrobe-style" type="text" placeholder="Estilo" />
+            <textarea id="wardrobe-notes" rows="2" placeholder="Observações"></textarea>
+            <label class="wardrobe-photo-picker"><input id="wardrobe-photo" type="file" accept="image/*" /><span>Escolher foto</span></label>
+            <button class="primary-action" type="submit">Adicionar roupa</button>
+          </form>
+
+          <section class="wardrobe-section">
+            <div class="wardrobe-section-head"><div><h3>Meu Guarda-Roupa</h3><p>Todas as peças cadastradas.</p></div><div class="wardrobe-filters"><input id="wardrobe-filter-name" type="search" placeholder="Buscar nome" /><select id="wardrobe-filter-category"><option value="">Todas as categorias</option><option value="top">Parte de cima</option><option value="coat">Casaco/Jaqueta</option><option value="bottom">Parte de baixo</option><option value="shoes">Calçado</option><option value="accessory">Acessório</option></select><input id="wardrobe-filter-color" type="search" placeholder="Filtrar cor" /></div></div>
+            <input id="wardrobe-change-photo" type="file" accept="image/*" hidden />
+            <div class="wardrobe-grid" id="wardrobe-list"></div>
+          </section>
+
+          <section class="wardrobe-section wardrobe-builder">
+            <div class="wardrobe-section-head"><div><h3>Montador de Looks</h3><p>Selecione as peças que poderão entrar nas combinações.</p></div><button type="button" id="wardrobe-clear-selection">Limpar seleção</button></div>
+            <div class="wardrobe-selection-groups" id="wardrobe-selection-groups"></div>
+            <div class="wardrobe-generated-head"><h3>Looks gerados</h3><strong id="wardrobe-generated-total">0 combinações</strong></div>
+            <div class="wardrobe-looks-grid" id="wardrobe-generated-looks"></div>
+          </section>
+
+          <section class="wardrobe-section">
+            <div class="wardrobe-section-head"><div><h3>Looks Salvos</h3><p>Suas combinações guardadas para usar depois.</p></div><label class="wardrobe-favorite-filter"><input id="wardrobe-favorites-only" type="checkbox" /><span>Somente favoritos</span></label></div>
+            <div class="wardrobe-looks-grid" id="wardrobe-saved-looks"></div>
+          </section>
+        </section>
+
+        <section class="page" id="home">
+          <form class="inline-form home-form" id="home-form">
+            <input id="home-title" type="text" placeholder="Novo item da casa" />
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+          <input id="home-change-photo" type="file" accept="image/*" hidden />
+          <div class="home-summary">
+            <article><span>Tenho</span><strong id="home-done-count">0</strong></article>
+            <article><span>Faltam</span><strong id="home-open-count">0</strong></article>
+          </div>
+          <div class="home-grid" id="home-list"></div>
+        </section>
+
+        <section class="page" id="wins">
+          <form class="inline-form wins-form" id="wins-form">
+            <input id="wins-title" type="text" placeholder="Nova conquista" required />
+            <input id="wins-date" type="date" required />
+            <label class="wins-photo-picker">
+              <input id="wins-photo" type="file" accept="image/*" required />
+              <span>Escolher foto</span>
+            </label>
+            <button class="primary-action" type="submit">Adicionar conquista</button>
+          </form>
+          <input id="wins-change-photo" type="file" accept="image/*" hidden />
+          <div class="wins-timeline" id="wins-list"></div>
+        </section>
+
+        <section class="overlay-panel" id="search-panel" aria-hidden="true">
+          <div class="overlay-card">
+            <div class="panel-header">
+              <h3>Busca global</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <input id="global-search" type="search" placeholder="Pesquisar tarefas, notas, compras, agenda..." />
+            <div class="search-results" id="search-results"></div>
+          </div>
+        </section>
+
+        <section class="overlay-panel" id="summary-panel" aria-hidden="true">
+          <div class="overlay-card">
+            <div class="panel-header">
+              <h3>Resumo de hoje</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <div class="today-summary" id="today-summary"></div>
+          </div>
+        </section>
+
+        <section class="overlay-panel" id="finance-edit-panel" aria-hidden="true">
+          <form class="overlay-card finance-edit-card" id="finance-edit-form">
+            <div class="panel-header">
+              <h3>Editar lançamento</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <input id="finance-edit-id" type="hidden" />
+            <div class="finance-edit-grid">
+              <label>
+                <span>Nome</span>
+                <input id="finance-edit-title" type="text" />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="finance-edit-type">
+                  <option value="income">Entrada</option>
+                  <option value="expense">Saída</option>
+                </select>
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="finance-edit-category"></select>
+              </label>
+              <label>
+                <span>Data</span>
+                <input id="finance-edit-date" type="date" />
+              </label>
+              <label>
+                <span>Valor</span>
+                <input id="finance-edit-value" type="number" min="0" step="0.01" />
+              </label>
+              <label>
+                <span>Recorrência</span>
+                <select id="finance-edit-repeat">
+                  <option value="once">Uma vez</option>
+                  <option value="monthly">Todo mês</option>
+                  <option value="biweekly">A cada 15 dias</option>
+                </select>
+              </label>
+              <label>
+                <span>Quantidade</span>
+                <input id="finance-edit-repeat-count" type="number" min="1" max="120" step="1" />
+              </label>
+            </div>
+            <div class="overlay-actions">
+              <button class="danger-action" type="button" id="finance-edit-delete">Excluir</button>
+              <button class="primary-action" type="submit">Salvar alterações</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="overlay-panel" id="login-panel" aria-hidden="true">
+          <form class="overlay-card login-card" id="login-form">
+            <div class="panel-header">
+              <h3>Entrar no painel</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <p class="login-copy">Use seu e-mail e senha para salvar tudo online no Supabase.</p>
+            <label>
+              <span>E-mail</span>
+              <input id="login-email" type="email" autocomplete="email" required />
+            </label>
+            <label>
+              <span>Senha</span>
+              <input id="login-password" type="password" autocomplete="current-password" required />
+            </label>
+            <label class="remember-login">
+              <input id="login-remember" type="checkbox" checked />
+              <span>Manter conectado</span>
+            </label>
+            <button class="primary-action" type="submit">Entrar ou criar conta</button>
+            <p class="login-message" id="login-message"></p>
+          </form>
+        </section>
+
+        <section class="overlay-panel" id="budget-edit-panel" aria-hidden="true">
+          <form class="overlay-card finance-edit-card" id="budget-edit-form">
+            <div class="panel-header">
+              <h3>Editar gasto</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <input id="budget-edit-id" type="hidden" />
+            <input id="budget-edit-kind" type="hidden" />
+            <div class="finance-edit-grid">
+              <label>
+                <span>Nome</span>
+                <input id="budget-edit-title" type="text" />
+              </label>
+              <label>
+                <span>Data</span>
+                <input id="budget-edit-date" type="date" />
+              </label>
+              <label id="budget-edit-day-wrap">
+                <span>Dia do mês</span>
+                <input id="budget-edit-day" type="number" min="1" max="31" step="1" />
+              </label>
+              <label>
+                <span>Valor</span>
+                <input id="budget-edit-value" type="number" min="0" step="0.01" />
+              </label>
+            </div>
+            <div class="overlay-actions">
+              <button class="danger-action" type="button" id="budget-edit-delete">Excluir</button>
+              <button class="primary-action" type="submit">Salvar alterações</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="overlay-panel" id="generic-edit-panel" aria-hidden="true">
+          <form class="overlay-card finance-edit-card" id="generic-edit-form">
+            <div class="panel-header">
+              <h3 id="generic-edit-title">Editar</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <input id="generic-edit-entity" type="hidden" />
+            <input id="generic-edit-id" type="hidden" />
+            <div class="finance-edit-grid" id="generic-edit-fields"></div>
+            <div class="overlay-actions">
+              <button class="danger-action" type="button" id="generic-edit-delete">Excluir</button>
+              <button class="primary-action" type="submit">Salvar alterações</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="overlay-panel" id="routine-add-habit-panel" aria-hidden="true">
+          <form class="overlay-card routine-small-modal" id="routine-add-habit-form">
+            <div class="panel-header"><h3 id="routine-add-habit-title">Novo hábito</h3><button type="button" data-close-overlay>Fechar</button></div>
+            <input id="routine-add-habit-type" type="hidden" />
+            <label><span>Emoji</span><div class="emoji-input-wrap"><input id="routine-add-habit-emoji" type="text" placeholder="Escolha um emoji" /><button type="button" data-emoji-picker-target="routine-add-habit-emoji" title="Escolher emoji">☺</button></div></label>
+            <label><span>Nome</span><input id="routine-add-habit-name" type="text" placeholder="Nome do hábito" required /></label>
+            <button class="primary-action" type="submit">Adicionar</button>
+          </form>
+        </section>
+
+        <section class="emoji-picker" id="emoji-picker" hidden>
+          <div class="emoji-picker-head"><strong>Escolher emoji</strong><button type="button" id="emoji-picker-close">×</button></div>
+          <div class="emoji-picker-grid" id="emoji-picker-grid"></div>
+        </section>
+
+        <section class="overlay-panel" id="routine-add-card-panel" aria-hidden="true">
+          <form class="overlay-card routine-small-modal" id="routine-add-card-form">
+            <div class="panel-header"><h3>Novo card da rotina</h3><button type="button" data-close-overlay>Fechar</button></div>
+            <label><span>Nome do card</span><input id="routine-add-card-name" type="text" placeholder="Ex.: Estudos, Cuidados, Noite" required /></label>
+            <button class="primary-action" type="submit">Criar card</button>
+          </form>
+        </section>
+
+        <section class="page" id="placeholder">
+          <div class="section-head">
+            <span class="section-kicker" id="placeholder-kicker">Módulo</span>
+            <h2 id="placeholder-title">Área em construção</h2>
+            <p id="placeholder-copy">Esse espaço já está reservado no painel. A gente transforma em uma ferramenta real quando você definir as funções principais.</p>
+          </div>
+          <div class="module-preview">
+            <article><span>01</span><strong>Campos personalizados</strong><p>Listas, tabelas, status, anexos e filtros do jeito que fizer sentido para essa área.</p></article>
+            <article><span>02</span><strong>Automação futura</strong><p>Depois conectamos notificações, banco de dados e relatórios.</p></article>
+            <article><span>03</span><strong>Integração geral</strong><p>O módulo aparece na visão geral e conversa com tarefas, agenda e conquistas.</p></article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

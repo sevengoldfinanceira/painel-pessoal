@@ -1,0 +1,4629 @@
+const storageKey = "painel-pessoal-v1";
+const authRememberKey = "painel-pessoal-manter-login";
+const themeStorageKey = "theme";
+
+function applyTheme(theme) {
+  const nextTheme = theme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = nextTheme;
+  const button = document.querySelector("#theme-toggle");
+  if (!button) return;
+  const isDark = nextTheme === "dark";
+  button.textContent = isDark ? "☀" : "☾";
+  button.title = isDark ? "Ativar modo claro" : "Ativar modo escuro";
+  button.setAttribute("aria-label", button.title);
+}
+
+function toggleTheme() {
+  const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem(themeStorageKey, nextTheme);
+  applyTheme(nextTheme);
+}
+
+function closeEmojiPicker() {
+  const picker = document.querySelector("#emoji-picker");
+  picker.hidden = true;
+  activeEmojiInput = null;
+}
+
+function openEmojiPicker(input, anchor) {
+  const picker = document.querySelector("#emoji-picker");
+  activeEmojiInput = input;
+  picker.hidden = false;
+  const rect = anchor.getBoundingClientRect();
+  const pickerWidth = 300;
+  const left = Math.min(window.innerWidth - pickerWidth - 12, Math.max(12, rect.right - pickerWidth));
+  const top = Math.min(window.innerHeight - 310, rect.bottom + 7);
+  picker.style.left = `${left}px`;
+  picker.style.top = `${Math.max(12, top)}px`;
+}
+
+const defaultState = {
+  profilePhoto: "",
+  navOrder: ["dashboard", "quick-notes", "tasks", "pending", "routine", "personal", "market", "wishlist", "diet", "finance", "cnh", "agenda", "wardrobe", "pc", "home", "wins"],
+  marketSeedVersion: 0,
+  wishlistSeedVersion: 0,
+  homePhotoSeedVersion: 1,
+  tasks: [
+    { id: crypto.randomUUID(), title: "Organizar primeiro painel pessoal", priority: "Alta", done: false },
+    { id: crypto.randomUUID(), title: "Definir subdomínio do app", priority: "Média", done: false },
+    { id: crypto.randomUUID(), title: "Separar módulos que terão login e banco", priority: "Média", done: false },
+  ],
+  market: [
+    { id: crypto.randomUUID(), name: "Sucrilhos para açaí", category: "food", qty: 1, price: 0, bought: false },
+    { id: crypto.randomUUID(), name: "Pão sovado", category: "food", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "Macarrão 500g", category: "food", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "Pão italiano", category: "food", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "Ketchup", category: "seasoning", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "Detergente", category: "cleaning", qty: 1, price: 0, bought: false },
+    { id: crypto.randomUUID(), name: "Sabonete", category: "hygiene", qty: 3, price: 0, bought: false },
+    { id: crypto.randomUUID(), name: "Frango", category: "mix", qty: 2, price: 18.5, bought: false },
+    { id: crypto.randomUUID(), name: "Maçã", category: "fruit", qty: 6, price: 0, bought: false },
+    { id: crypto.randomUUID(), name: "Leite condensado", category: "dessert", qty: 1, price: 0, bought: true },
+  ],
+  wishlist: [
+    { id: crypto.randomUUID(), name: "Cuecas novas", priority: "Alta", price: 0, link: "", bought: false },
+    { id: crypto.randomUUID(), name: "Bateria do notebook", priority: "Média", price: 0, link: "", bought: false },
+    { id: crypto.randomUUID(), name: "Bateria do iPhone", priority: "Média", price: 0, link: "Santa Efigênia", bought: false },
+  ],
+  agenda: [
+    { id: crypto.randomUUID(), title: "Revisar prioridades do dia", date: new Date().toISOString().slice(0, 10), type: "reminder", done: false },
+  ],
+  agendaPlan: {
+    month: todayISO().slice(0, 7),
+  },
+  cnh: {
+    startDate: "2026-04-29",
+    endDate: "2027-04-29",
+    steps: [
+      { id: crypto.randomUUID(), title: "Iniciar", value: 0, dueDate: "2026-04-29", done: true },
+      { id: crypto.randomUUID(), title: "Curso teórico", value: 0, dueDate: "", done: true },
+      { id: crypto.randomUUID(), title: "Coleta biométrica (foto + digital)", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Exame médico", value: 90, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Psicotécnico", value: 90, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Taxa prova teórica", value: 52.83, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Agendar prova teórica", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Aulas práticas (auto escola)", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Aulas práticas", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Prova prática", value: 52.83, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Agendar prova prática", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Emitir CNH", value: 137.79, dueDate: "2027-04-29", done: false },
+    ],
+  },
+  wins: [
+    { id: crypto.randomUUID(), title: "Comprei Notebook", date: todayISO(), photo: "" },
+    { id: crypto.randomUUID(), title: "Comprei Air Fryer", date: todayISO(), photo: "" },
+    { id: crypto.randomUUID(), title: "Comprei Panela de Arroz", date: todayISO(), photo: "" },
+    { id: crypto.randomUUID(), title: "Comprei Liquidificador", date: todayISO(), photo: "" },
+    { id: crypto.randomUUID(), title: "Comprei PC Gamer", date: todayISO(), photo: "" },
+    { id: crypto.randomUUID(), title: "Entrei na Faculdade", date: todayISO(), photo: "" },
+    { id: crypto.randomUUID(), title: "Fui morar em um Studio Melhor", date: todayISO(), photo: "" },
+  ],
+  homeItems: [
+    { id: crypto.randomUUID(), title: "Air Fryer", done: true, photo: "https://images-na.ssl-images-amazon.com/images/I/61reOuZyZNL.jpg" },
+    { id: crypto.randomUUID(), title: "Panela de Arroz", done: true, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Rice_Cooker_1.png/500px-Rice_Cooker_1.png" },
+    { id: crypto.randomUUID(), title: "Liquidificador", done: true, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Vitamix_Blender.jpg/500px-Vitamix_Blender.jpg" },
+    { id: crypto.randomUUID(), title: "Ventilador", done: true, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Hatari_18_inch_fan.jpg/500px-Hatari_18_inch_fan.jpg" },
+    { id: crypto.randomUUID(), title: "Geladeira", done: false, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/A_Samsung_Refrigerator.jpg/500px-A_Samsung_Refrigerator.jpg" },
+    { id: crypto.randomUUID(), title: "Máquina de lava e seca", done: false, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg/500px-LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg" },
+    { id: crypto.randomUUID(), title: "Chuveiro ducha", done: false, photo: "https://whitehauscollection.com/cdn/shop/products/WHOSA28SQ-8_PolishedChrome.jpg?v=1602014810&width=900" },
+  ],
+  wardrobeItems: [],
+  wardrobeSelection: [],
+  wardrobeLooks: [],
+  personal: {
+    info: {
+      name: "Jonatã",
+      phone: "",
+      email: "",
+      address: "",
+      notes: "",
+    },
+    goals: [
+      { id: crypto.randomUUID(), title: "Organizar documentos pessoais", area: "Vida", done: false },
+      { id: crypto.randomUUID(), title: "Definir metas do mês", area: "Dinheiro", done: false },
+    ],
+    docs: [
+      { id: crypto.randomUUID(), title: "CNH", value: "Acompanhar processo", done: false },
+      { id: crypto.randomUUID(), title: "Documentos importantes", value: "Separar documentos pessoais", done: false },
+    ],
+  },
+  notes: [
+    { id: crypto.randomUUID(), text: "Ideia: transformar cada área do Notion em um módulo real do app.", date: new Date().toLocaleDateString("pt-BR") },
+  ],
+  finance: [
+    { id: crypto.randomUUID(), title: "Salário", type: "income", category: "Salário", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
+    { id: crypto.randomUUID(), title: "Mercado", type: "expense", category: "Mercado", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
+  ],
+  financePlan: {
+    month: todayISO().slice(0, 7),
+    viewMode: "month",
+    year: Number(todayISO().slice(0, 4)),
+    plannedIncome: 0,
+    reserveGoal: 0,
+  },
+  financeLayout: {
+    summary: ["received", "payable", "expected", "free"],
+    dashboard: ["distribution", "bills", "subscriptions", "commissions", "goals", "categories", "recent"],
+  },
+  financeGoals: [
+    { id: crypto.randomUUID(), title: "Reserva de emergência", current: 0, target: 10000 },
+  ],
+  fixedCosts: [
+    { id: crypto.randomUUID(), title: "Aluguel", value: 0, dueDay: 10, paid: false },
+    { id: crypto.randomUUID(), title: "Água", value: 0, dueDay: 10, paid: false },
+    { id: crypto.randomUUID(), title: "Energia", value: 0, dueDay: 10, paid: false },
+    { id: crypto.randomUUID(), title: "Conta de celular", value: 0, dueDay: 15, paid: false },
+    { id: crypto.randomUUID(), title: "Internet", value: 0, dueDay: 15, paid: false },
+  ],
+  variableCosts: [
+    { id: crypto.randomUUID(), title: "Lazer", value: 0, dueDate: todayISO(), paid: false },
+    { id: crypto.randomUUID(), title: "Educação", value: 0, dueDate: todayISO(), paid: false },
+    { id: crypto.randomUUID(), title: "Sair", value: 0, dueDate: todayISO(), paid: false },
+    { id: crypto.randomUUID(), title: "Comprar coisas", value: 0, dueDate: todayISO(), paid: false },
+    { id: crypto.randomUUID(), title: "Mercado extra", value: 0, dueDate: todayISO(), paid: false },
+  ],
+  pending: [
+    {
+      id: crypto.randomUUID(),
+      title: "Organização pessoal",
+      type: "daily",
+      done: false,
+      subtasks: [
+        { id: crypto.randomUUID(), title: "Revisar prioridades do dia", done: false },
+        { id: crypto.randomUUID(), title: "Organizar pendências abertas", done: false },
+        { id: crypto.randomUUID(), title: "Separar tarefas importantes", done: false },
+      ],
+    },
+    { id: crypto.randomUUID(), title: "Comprar cueca", type: "daily", done: false, subtasks: [] },
+    {
+      id: crypto.randomUUID(),
+      title: "Revisão semanal",
+      type: "weekly",
+      done: false,
+      subtasks: [
+        { id: crypto.randomUUID(), title: "Revisar tarefas da semana", done: false },
+        { id: crypto.randomUUID(), title: "Atualizar agenda e finanças", done: false },
+      ],
+    },
+    { id: crypto.randomUUID(), title: "Trocar bateria iPhone Santa Efigênia", type: "backlog", done: false, subtasks: [] },
+    { id: crypto.randomUUID(), title: "Trocar bateria notebook", type: "backlog", done: false, subtasks: [] },
+    { id: crypto.randomUUID(), title: "Revisar planejamento do mês", type: "monthly", done: false, subtasks: [] },
+  ],
+  routineTracker: {
+    date: todayISO(),
+    selectedDate: todayISO(),
+    viewMode: "month",
+    waterType: "required",
+    consistencyStartDate: todayISO(),
+    waterMl: 0,
+    waterGoalMl: 3000,
+    history: {},
+    habitHistory: {},
+    bestStreak: 0,
+  },
+  routineCategories: [
+    { id: "required", name: "Essenciais (Diário)", locked: true },
+    { id: "endday", name: "Saúde", locked: true },
+    { id: "day", name: "Produtividade", locked: true },
+    { id: "weekly", name: "Semanais", locked: true },
+    { id: "extras", name: "Extras", locked: true },
+  ],
+  routineLayout: ["required", "endday", "day", "weekly", "extras"],
+  routine: [
+    { id: crypto.randomUUID(), title: "Café da manhã", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Almoço", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Lanche da tarde", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Janta", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Sobremesa", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Fruta", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "1L de água", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "1L de água", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "1L de água", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "3L de água", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "30m de sol", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Remédios", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "Academia", type: "endday", done: false },
+    { id: crypto.randomUUID(), title: "Correr", type: "endday", done: false },
+    { id: crypto.randomUUID(), title: "Luta", type: "endday", done: false },
+    { id: crypto.randomUUID(), title: "Sair para qualquer coisa", type: "extras", done: false },
+    { id: crypto.randomUUID(), title: "Trabalhar", type: "day", done: false },
+    { id: crypto.randomUUID(), title: "B12 1 semana", type: "weekly", done: false },
+  ],
+};
+
+const placeholders = {
+  pending: ["Pendências/Tarefas", "Acompanhamento de pendências com prazos, status, responsáveis e alertas."],
+  personal: ["Pessoal - Jonatã", "Espaço para documentos, metas pessoais, dados importantes e planos."],
+  wishlist: ["Coisas a comprar", "Lista de desejos com prioridade, preço esperado e link de compra."],
+  diet: ["Dieta - Reeducação alimentar", "Controle de refeições, metas, compras e acompanhamento alimentar."],
+  cnh: ["CNH - Processo", "Etapas, documentos, datas e pendências do processo de habilitação."],
+  pc: ["PC - Windows", "Configurações, programas, manutenções e histórico do computador."],
+  mods: ["Modificações", "Ideias de mudanças, melhorias e projetos em andamento."],
+  apps: ["Aplicativos", "Lista de ferramentas, contas, assinaturas e apps importantes."],
+  specs: ["Especificações", "Dados técnicos, medidas, equipamentos e informações de referência."],
+  home: ["Mobília casa", "Planejamento de móveis, medidas, compras e prioridades da casa."],
+  wins: ["Conquistas", "Registro de vitórias, marcos e evolução pessoal."],
+};
+
+let activeFinanceFilter = "all";
+let marketShopMode = false;
+
+const financeCategories = ["Salário", "Casa", "Mercado", "Transporte", "Lazer", "Saúde", "Outros"];
+
+const wardrobeCategories = [
+  { id: "coat", label: "Casaco/Jaqueta", optional: true },
+  { id: "top", label: "Parte de cima", optional: false },
+  { id: "bottom", label: "Parte de baixo", optional: false },
+  { id: "shoes", label: "Calçado", optional: false },
+  { id: "accessory", label: "Acessório", optional: true },
+];
+
+const routineEmojiOptions = [
+  "☕", "🍽️", "🍛", "🍎", "🍌", "🥗", "💧", "💊",
+  "🏋️", "🏃", "🥊", "🚴", "⚽", "☀️", "🌙", "🛌",
+  "🧘", "🧹", "🧼", "🚿", "🪥", "💼", "📚", "✍️",
+  "💻", "📱", "💡", "🎯", "✅", "🔥", "⭐", "🏆",
+  "💰", "🛒", "🚶", "🚗", "🎵", "🎮", "❤️", "🙏",
+];
+let activeEmojiInput = null;
+
+function wardrobeCategoryLabel(category) {
+  return wardrobeCategories.find((item) => item.id === category)?.label || category;
+}
+
+function inferRoutineEmoji(title) {
+  return /café|cafe/i.test(title) ? "☕"
+    : /almoço/i.test(title) ? "🍽️"
+      : /janta|lanche|sobremesa/i.test(title) ? "🍛"
+        : /fruta/i.test(title) ? "🍎"
+          : /academia/i.test(title) ? "🏋️"
+            : /correr/i.test(title) ? "🏃"
+              : /luta/i.test(title) ? "🥊"
+                : /sol/i.test(title) ? "☀️"
+                  : /medit/i.test(title) ? "🧘"
+                    : /trabalh/i.test(title) ? "💼"
+                      : /estud|ler|leitura/i.test(title) ? "📚"
+                        : /projeto/i.test(title) ? "💡"
+                          : /b12|remédio|remedio/i.test(title) ? "💊"
+                            : /limpeza/i.test(title) ? "🧹"
+                              : /sair/i.test(title) ? "🚶"
+                                : "✅";
+}
+
+const marketCategories = [
+  { id: "food", icon: "🍽", label: "Comida" },
+  { id: "seasoning", icon: "🔥", label: "Temperos" },
+  { id: "cleaning", icon: "🧹", label: "Limpeza" },
+  { id: "hygiene", icon: "🧴", label: "Higiene pessoal" },
+  { id: "mix", icon: "🍖", label: "Mistura" },
+  { id: "fruit", icon: "🍎", label: "Frutas" },
+  { id: "dessert", icon: "🍫", label: "Sobremesas" },
+];
+
+const marketSeedItems = [
+  { name: "Sucrilhos para Açaí", category: "food" },
+  { name: "Pão Sovado", category: "food" },
+  { name: "Macarrão 500g 1 Pacote", category: "food" },
+  { name: "Pão Italiano", category: "food" },
+  { name: "Miojo", category: "food" },
+  { name: "Ketchup 1", category: "food" },
+  { name: "Suco de Pacote 10", category: "food" },
+  { name: "Leite Condensado", category: "food" },
+  { name: "Queijo Ralado", category: "food" },
+  { name: "Leite", category: "food" },
+  { name: "Iogurte", category: "food" },
+  { name: "Goiabada 2", category: "food" },
+  { name: "Maionese", category: "food" },
+  { name: "Manteiga", category: "food" },
+  { name: "Bolacha de Sal", category: "food" },
+  { name: "Bolacha de Maizena", category: "food" },
+  { name: "Polpa de Frutas Variadas 2", category: "food" },
+  { name: "Arroz 8 KG", category: "food" },
+  { name: "Toddy 1 Pote", category: "food" },
+  { name: "Gelatina 4", category: "food" },
+  { name: "Molho de Tomate 3", category: "food" },
+  { name: "Feijão 1 KG", category: "food" },
+  { name: "Óleo 6", category: "food" },
+  { name: "Sal 1 KG", category: "seasoning" },
+  { name: "Azeite", category: "seasoning" },
+  { name: "Vinagre", category: "seasoning" },
+  { name: "Bom Ar em Spray", category: "cleaning" },
+  { name: "Bom Ar Automático de Banheiro", category: "cleaning" },
+  { name: "Saco de Lixo Grande", category: "cleaning" },
+  { name: "Sabão em Pó 2 KG", category: "cleaning" },
+  { name: "Detergente 5L", category: "cleaning" },
+  { name: "Amaciante 5L", category: "cleaning" },
+  { name: "Enxaguante Bucal", category: "hygiene" },
+  { name: "Desodorante", category: "hygiene" },
+  { name: "Barbeador", category: "hygiene" },
+  { name: "Fio Dental", category: "hygiene" },
+  { name: "Pasta de Dente", category: "hygiene" },
+  { name: "Sabonete", category: "hygiene" },
+  { name: "Shampoo", category: "hygiene" },
+  { name: "Papel higiênico", category: "hygiene" },
+  { name: "Soro Fisiológico", category: "hygiene" },
+  { name: "Lasanha", category: "mix" },
+  { name: "Peixe - Tilápia e Salmão", category: "mix" },
+  { name: "Coxinha da Asa", category: "mix" },
+  { name: "Filé de Frango 2 KG", category: "mix" },
+  { name: "Cartela de Ovos 12", category: "mix" },
+  { name: "Maçã 1kg", category: "fruit" },
+  { name: "Banana 5", category: "fruit" },
+  { name: "Manga", category: "fruit" },
+  { name: "Morango", category: "fruit" },
+  { name: "Uva", category: "fruit" },
+  { name: "Pera", category: "fruit" },
+  { name: "Melancia", category: "fruit" },
+  { name: "Limão", category: "fruit" },
+  { name: "AÇAÍ 2L", category: "dessert" },
+  { name: "Barra de Chocolate", category: "dessert" },
+];
+
+const wishlistCategories = [
+  { id: "technology", icon: "▣", label: "Tecnologia" },
+  { id: "bedroom", icon: "⌁", label: "Quarto" },
+  { id: "kitchen", icon: "⌂", label: "Cozinha" },
+  { id: "cleaning", icon: "⌁", label: "Limpeza" },
+  { id: "clothing", icon: "◇", label: "Roupas e acessórios" },
+];
+
+const wishlistSeedItems = [
+  { name: "Televisão", category: "technology" },
+  { name: "Cabo de carregador Tipo C para Iphone", category: "technology" },
+  { name: "Teclado Gamer", category: "technology", link: "Link" },
+  { name: "Base para Notebook com Cooler", category: "technology" },
+  { name: "Sensor de Presença/Movimento para ligar luz.", category: "technology" },
+  { name: "Luz de Led HDMI para Tv e Monitor", category: "technology" },
+  { name: "Carregador Sem Fio Iphone", category: "technology" },
+  { name: "Tomada Inteligente", category: "technology" },
+  { name: "Tomada com cabo de carregador e USB", category: "technology" },
+  { name: "Teclado Macro de Atalhos", category: "technology" },
+  { name: "HDMI sem FIO", category: "technology" },
+  { name: "Bateria Portátil Iphone - Baseus", category: "technology" },
+  { name: "Travesseiro Grande", category: "bedroom" },
+  { name: "3 Fronha de Travesseiro", category: "bedroom" },
+  { name: "2 Lençóis Cama de Casal", category: "bedroom" },
+  { name: "2 Protetor de Cama de Casal", category: "bedroom" },
+  { name: "Cabides Normal e de Ternos", category: "bedroom" },
+  { name: "Micro-ondas", category: "kitchen" },
+  { name: "Panela de Arroz", category: "kitchen" },
+  { name: "Lancheira ou Bolsa Térmica", category: "kitchen" },
+  { name: "Faca de Cortar Carnes Amolada", category: "kitchen" },
+  { name: "Pote para Batata Balha e Macarrão", category: "kitchen" },
+  { name: "Copo de Vidro Grosso", category: "kitchen" },
+  { name: "Copo de Plástico", category: "kitchen" },
+  { name: "Pincel para Temperar Carne e Untar Forno", category: "kitchen" },
+  { name: "Pano de Prato", category: "kitchen" },
+  { name: "Máquina de Lavar", category: "cleaning" },
+  { name: "Toalha de Rosto", category: "cleaning" },
+  { name: "Rodo e Cabo", category: "cleaning" },
+  { name: "Cabo de Vassoura", category: "cleaning" },
+  { name: "Pá", category: "cleaning" },
+  { name: "Cueca", category: "clothing", link: "Link" },
+  { name: "Multivitamínicos", category: "clothing" },
+  { name: "Óculos Colorido de Role", category: "clothing", link: "Loja Insta e Net" },
+  { name: "Relógio", category: "clothing", link: "Loja Insta e Net" },
+  { name: "Sapato Social Preto", category: "clothing", link: "Loja Insta e Net" },
+  { name: "Corrente", category: "clothing", link: "Loja Insta e Net" },
+  { name: "Minoxidil", category: "clothing" },
+  { name: "Perfume para trabalho", category: "clothing" },
+  { name: "Perfume para sair", category: "clothing" },
+  { name: "Palmilha Tênis Puma", category: "clothing" },
+  { name: "Cadarço Preto Tênis Puma", category: "clothing" },
+  { name: "Cadarço Marrom Sapato Marrom", category: "clothing" },
+  { name: "Cinto", category: "clothing" },
+  { name: "Dixavador", category: "clothing" },
+  { name: "Maquina de Cortar Barba e Aparador de Pelos", category: "clothing" },
+];
+
+const homeDefaultPhotos = {
+  "air fryer": "https://images-na.ssl-images-amazon.com/images/I/61reOuZyZNL.jpg",
+  "panela de arroz": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Rice_Cooker_1.png/500px-Rice_Cooker_1.png",
+  liquidificador: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Vitamix_Blender.jpg/500px-Vitamix_Blender.jpg",
+  ventilador: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Hatari_18_inch_fan.jpg/500px-Hatari_18_inch_fan.jpg",
+  geladeira: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/A_Samsung_Refrigerator.jpg/500px-A_Samsung_Refrigerator.jpg",
+  "maquina de lava e seca": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg/500px-LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg",
+  "chuveiro ducha": "https://whitehauscollection.com/cdn/shop/products/WHOSA28SQ-8_PolishedChrome.jpg?v=1602014810&width=900",
+};
+
+let stateWasMigrated = false;
+let state = loadState();
+if (stateWasMigrated) {
+  localStorage.setItem(storageKey, JSON.stringify(state));
+}
+let expandedPending = new Set();
+let undoStack = [];
+let supabaseClient = null;
+let currentUser = null;
+let onlineSaveTimer = null;
+let isLoadingRemoteState = false;
+let financeBillFilter = "all";
+const cloudModuleKeys = Object.keys(defaultState);
+
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".side-nav button");
+const sidebar = document.querySelector(".sidebar");
+const pageTitle = document.querySelector("#page-title");
+
+function loadState() {
+  try {
+    stateWasMigrated = false;
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    const savedRoutineHasGroups = saved?.routine?.some((item) => item.type);
+    const merged = saved ? {
+      ...defaultState,
+      ...saved,
+      tasks: saved.tasks || defaultState.tasks,
+      market: saved.market || defaultState.market,
+      wishlist: saved.wishlist || defaultState.wishlist,
+      agenda: saved.agenda || defaultState.agenda,
+      cnh: saved.cnh || defaultState.cnh,
+      wins: saved.wins || defaultState.wins,
+      homeItems: saved.homeItems || defaultState.homeItems,
+      wardrobeItems: saved.wardrobeItems || defaultState.wardrobeItems,
+      wardrobeSelection: saved.wardrobeSelection || defaultState.wardrobeSelection,
+      wardrobeLooks: saved.wardrobeLooks || defaultState.wardrobeLooks,
+      personal: saved.personal || defaultState.personal,
+      notes: saved.notes || defaultState.notes,
+      finance: saved.finance || defaultState.finance,
+      financePlan: saved.financePlan || defaultState.financePlan,
+      financeLayout: saved.financeLayout || defaultState.financeLayout,
+      financeGoals: saved.financeGoals || defaultState.financeGoals,
+      fixedCosts: saved.fixedCosts || defaultState.fixedCosts,
+      variableCosts: saved.variableCosts || defaultState.variableCosts,
+      pending: saved.pending || defaultState.pending,
+      routineTracker: saved.routineTracker || defaultState.routineTracker,
+      routineCategories: saved.routineCategories || defaultState.routineCategories,
+      routineLayout: saved.routineLayout || defaultState.routineLayout,
+      routine: savedRoutineHasGroups ? saved.routine : defaultState.routine,
+    } : defaultState;
+    merged.pending = merged.pending.map((task) => ({ ...task, subtasks: task.subtasks || [] }));
+    merged.wardrobeItems = (merged.wardrobeItems || []).map((item) => ({
+      ...item,
+      name: item.name || "Peça sem nome",
+      category: item.category || "top",
+      color: item.color || "",
+      style: item.style || "",
+      notes: item.notes || "",
+      image: item.image || "",
+    }));
+    merged.wardrobeSelection = (merged.wardrobeSelection || []).filter((id) => merged.wardrobeItems.some((item) => item.id === id));
+    merged.wardrobeLooks = (merged.wardrobeLooks || []).map((look) => ({
+      ...look,
+      pieces: (look.pieces || []).filter((id) => merged.wardrobeItems.some((item) => item.id === id)),
+      favorite: Boolean(look.favorite),
+      createdAt: look.createdAt || new Date().toISOString(),
+    }));
+    merged.routineTracker = {
+      ...defaultState.routineTracker,
+      ...(merged.routineTracker || {}),
+      history: merged.routineTracker?.history || {},
+      habitHistory: merged.routineTracker?.habitHistory || {},
+      selectedDate: merged.routineTracker?.selectedDate || todayISO(),
+      viewMode: merged.routineTracker?.viewMode === "year" ? "year" : "month",
+      waterType: merged.routineTracker?.waterType || "required",
+      consistencyStartDate: merged.routineTracker?.consistencyStartDate || todayISO(),
+      waterMl: Number(merged.routineTracker?.waterMl || 0),
+      waterGoalMl: Number(merged.routineTracker?.waterGoalMl || 3000),
+      bestStreak: Number(merged.routineTracker?.bestStreak || 0),
+    };
+    merged.routineCategories = [
+      ...defaultState.routineCategories,
+      ...(merged.routineCategories || []).filter((category) => !defaultState.routineCategories.some((defaultCategory) => defaultCategory.id === category.id)),
+    ];
+    const savedRoutineLayout = merged.routineLayout || [];
+    const availableRoutineCategories = merged.routineCategories.map((category) => category.id);
+    if (!availableRoutineCategories.includes(merged.routineTracker.waterType)) merged.routineTracker.waterType = "required";
+    merged.routineLayout = [
+      ...savedRoutineLayout.filter((key) => availableRoutineCategories.includes(key)),
+      ...availableRoutineCategories.filter((key) => !savedRoutineLayout.includes(key)),
+    ];
+    if (merged.routineTracker.date !== todayISO()) {
+      const previousHabits = merged.routine.filter((item) => !/água|agua/i.test(item.title));
+      const previousDone = previousHabits.filter((item) => item.done).length;
+      const previousTotal = previousHabits.length + 1;
+      const waterDone = merged.routineTracker.waterMl >= merged.routineTracker.waterGoalMl ? 1 : 0;
+      merged.routineTracker.history[merged.routineTracker.date] = Math.round(((previousDone + waterDone) / Math.max(1, previousTotal)) * 100);
+      if (merged.routineTracker.date >= merged.routineTracker.consistencyStartDate) {
+        recordRoutineHabitHistoryFor(merged.routineTracker, merged.routine, merged.routineTracker.date);
+      }
+      merged.routineTracker.date = todayISO();
+      merged.routineTracker.waterMl = 0;
+      merged.routine = merged.routine.map((item) => ({ ...item, done: false }));
+      stateWasMigrated = true;
+    }
+    [
+      ["Meditar", "endday"],
+      ["Estudar", "day"],
+      ["Ler", "day"],
+      ["Projetos pessoais", "day"],
+      ["Limpeza geral", "weekly"],
+    ].forEach(([title, type]) => {
+      if (!merged.routine.some((item) => item.title.toLocaleLowerCase("pt-BR") === title.toLocaleLowerCase("pt-BR"))) {
+        merged.routine.push({ id: crypto.randomUUID(), title, type, done: false });
+        stateWasMigrated = true;
+      }
+    });
+    const availableNavSections = [...document.querySelectorAll(".side-nav button")].map((button) => button.dataset.section);
+    merged.navOrder = [
+      ...(merged.navOrder || []).filter((section) => availableNavSections.includes(section)),
+      ...availableNavSections.filter((section) => !(merged.navOrder || []).includes(section)),
+    ];
+    const normalizeName = (value) => String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
+    merged.market = merged.market.map((item) => ({ ...item, category: item.category || "food" }));
+    if (Number(saved?.marketSeedVersion || merged.marketSeedVersion || 0) < 1) {
+      const existingMarketNames = new Set(merged.market.map((item) => normalizeName(item.name)));
+      const newMarketItems = marketSeedItems
+        .filter((item) => !existingMarketNames.has(normalizeName(item.name)))
+        .map((item) => ({
+          id: crypto.randomUUID(),
+          name: item.name,
+          category: item.category,
+          qty: 1,
+          price: 0,
+          shopQty: 1,
+          shopPrice: 0,
+          bought: false,
+          inCart: false,
+        }));
+      merged.market.push(...newMarketItems);
+      merged.marketSeedVersion = 1;
+      stateWasMigrated = true;
+    }
+    merged.wishlist = merged.wishlist.map((item) => {
+      const name = String(item.name || "").toLowerCase();
+      const inferredCategory = /cueca|roupa|sapato|tênis|tenis|perfume|óculos|oculos|relógio|relogio|cinto|corrente/.test(name)
+        ? "clothing"
+        : /bateria|notebook|iphone|carregador|teclado|monitor|hdmi|tomada|sensor|televis/.test(name)
+          ? "technology"
+          : "technology";
+      return {
+        ...item,
+        category: item.category || inferredCategory,
+        priority: item.priority || "Média",
+        price: Number(item.price || 0),
+        link: item.link || "",
+        bought: Boolean(item.bought),
+      };
+    });
+    if (Number(saved?.wishlistSeedVersion || merged.wishlistSeedVersion || 0) < 1) {
+      const existingNames = new Set(merged.wishlist.map((item) => item.name.trim().toLowerCase()));
+      const newItems = wishlistSeedItems
+        .filter((item) => !existingNames.has(item.name.trim().toLowerCase()))
+        .map((item) => ({
+          id: crypto.randomUUID(),
+          name: item.name,
+          category: item.category,
+          priority: "Média",
+          price: 0,
+          link: item.link || "",
+          bought: false,
+        }));
+      merged.wishlist.push(...newItems);
+      merged.wishlistSeedVersion = 1;
+      stateWasMigrated = true;
+    }
+    merged.agenda = merged.agenda.map((item) => ({ ...item, date: item.date || new Date().toISOString().slice(0, 10), type: item.type || "reminder", done: Boolean(item.done) }));
+    merged.cnh = {
+      ...defaultState.cnh,
+      ...(merged.cnh || {}),
+      steps: (merged.cnh?.steps || defaultState.cnh.steps).map((item) => ({
+        ...item,
+        title: item.title || "Etapa da CNH",
+        value: Number(item.value || 0),
+        dueDate: item.dueDate || "",
+        done: Boolean(item.done),
+      })),
+    };
+    merged.wins = merged.wins.map((item) => ({ ...item, date: item.date || todayISO(), photo: item.photo || "" }));
+    const shouldRefreshHomePhotos = Number(saved?.homePhotoSeedVersion || 0) < 1;
+    merged.homeItems = (merged.homeItems || defaultState.homeItems).map((item) => {
+      const defaultPhoto = homeDefaultPhotos[normalizeName(item.title)] || "";
+      const currentPhoto = String(item.photo || "");
+      const hasManualPhoto = currentPhoto.startsWith("data:image/");
+      const hasOldRandomPhoto = currentPhoto.includes("loremflickr.com");
+      const needsDefaultPhoto = defaultPhoto && (!currentPhoto || hasOldRandomPhoto || (shouldRefreshHomePhotos && !hasManualPhoto));
+      if (needsDefaultPhoto) stateWasMigrated = true;
+      return {
+        ...item,
+        done: Boolean(item.done),
+        photo: needsDefaultPhoto ? defaultPhoto : currentPhoto,
+      };
+    });
+    if (shouldRefreshHomePhotos) {
+      merged.homePhotoSeedVersion = 1;
+      stateWasMigrated = true;
+    }
+    merged.personal = {
+      ...defaultState.personal,
+      ...merged.personal,
+      info: { ...defaultState.personal.info, ...(merged.personal?.info || {}) },
+      goals: (merged.personal?.goals || defaultState.personal.goals).map((item) => ({ ...item, area: item.area || "Vida", done: Boolean(item.done) })),
+      docs: (merged.personal?.docs || defaultState.personal.docs).map((item) => ({ ...item, value: item.value || "", done: Boolean(item.done) })),
+    };
+    merged.financePlan = {
+      ...defaultState.financePlan,
+      ...merged.financePlan,
+      viewMode: merged.financePlan?.viewMode || "month",
+      year: Number(merged.financePlan?.year || String(merged.financePlan?.month || todayISO()).slice(0, 4)),
+      plannedIncome: Number(merged.financePlan?.plannedIncome || 0),
+      reserveGoal: Number(merged.financePlan?.reserveGoal || 0),
+    };
+    const savedSummaryLayout = merged.financeLayout?.summary || [];
+    let savedDashboardLayout = merged.financeLayout?.dashboard || [];
+    const previousDashboardDefaults = [
+      ["bills", "subscriptions", "distribution", "commissions", "goals", "recent", "categories"],
+      ["bills", "distribution", "subscriptions", "commissions", "goals", "recent", "categories"],
+    ];
+    if (previousDashboardDefaults.some((layout) => layout.join("|") === savedDashboardLayout.join("|"))) {
+      savedDashboardLayout = defaultState.financeLayout.dashboard;
+      stateWasMigrated = true;
+    }
+    merged.financeLayout = {
+      summary: [
+        ...savedSummaryLayout.filter((key) => defaultState.financeLayout.summary.includes(key)),
+        ...defaultState.financeLayout.summary.filter((key) => !savedSummaryLayout.includes(key)),
+      ],
+      dashboard: [
+        ...savedDashboardLayout.filter((key) => defaultState.financeLayout.dashboard.includes(key)),
+        ...defaultState.financeLayout.dashboard.filter((key) => !savedDashboardLayout.includes(key)),
+      ],
+    };
+    merged.financeGoals = (merged.financeGoals || defaultState.financeGoals).map((item) => ({
+      ...item,
+      title: item.title || "Meta financeira",
+      current: Number(item.current || 0),
+      target: Number(item.target || 0),
+    }));
+    merged.fixedCosts = merged.fixedCosts.map((item) => ({
+      ...item,
+      value: Number(item.value || 0),
+      dueDay: Number(item.dueDay || 1),
+      paidMonths: item.paidMonths || (item.paid ? { [merged.financePlan.month || todayISO().slice(0, 7)]: true } : {}),
+      paid: Boolean(item.paid),
+    }));
+    merged.variableCosts = merged.variableCosts.map((item) => ({
+      ...item,
+      value: Number(item.value || 0),
+      dueDate: item.dueDate || todayISO(),
+      paidMonths: item.paidMonths || (item.paid ? { [merged.financePlan.month || todayISO().slice(0, 7)]: true } : {}),
+      paid: Boolean(item.paid),
+    }));
+    merged.finance = merged.finance.map((item) => ({
+      ...item,
+      value: Number(item.value || 0),
+      dueDate: item.dueDate || todayISO(),
+      dateMode: item.dateMode || "date",
+      businessDay: Number(item.businessDay || 5),
+      done: Boolean(item.done),
+      date: item.date || new Date().toLocaleDateString("pt-BR"),
+    }));
+    if (merged.routine.some((item) => !item.emoji)) stateWasMigrated = true;
+    merged.routine = merged.routine.map((item) => ({
+      ...item,
+      type: item.type === "day" && /sair/i.test(item.title) ? "extras" : item.type || "required",
+      emoji: item.emoji || inferRoutineEmoji(item.title),
+    }));
+    return merged;
+  } catch {
+    return defaultState;
+  }
+}
+
+function recordRoutineHabitHistoryFor(tracker, routine, date = todayISO()) {
+  if (!tracker || !routine) return;
+  tracker.consistencyStartDate ||= todayISO();
+  tracker.habitHistory ||= {};
+  tracker.habitHistory[date] ||= {};
+  routine
+    .filter((item) => !/água|agua/i.test(item.title))
+    .forEach((item) => {
+      tracker.habitHistory[date][item.id] = Boolean(item.done);
+    });
+  tracker.habitHistory[date].__water = tracker.waterMl >= tracker.waterGoalMl;
+}
+
+function recordRoutineHabitHistory() {
+  recordRoutineHabitHistoryFor(state.routineTracker, state.routine);
+}
+
+function saveState() {
+  if (state.routineTracker && state.routine) {
+    recordRoutineHabitHistory();
+    const habits = state.routine.filter((item) => !/água|agua/i.test(item.title));
+    const done = habits.filter((item) => item.done).length + (state.routineTracker.waterMl >= state.routineTracker.waterGoalMl ? 1 : 0);
+    state.routineTracker.history[todayISO()] = Math.round((done / Math.max(1, habits.length + 1)) * 100);
+  }
+  localStorage.setItem(storageKey, JSON.stringify(state));
+  queueOnlineSave();
+}
+
+function isSupabaseConfigured() {
+  const config = window.PAINEL_SUPABASE || {};
+  return Boolean(
+    window.supabase
+    && config.url
+    && config.anonKey
+    && !config.url.includes("COLE_AQUI")
+    && !config.anonKey.includes("COLE_AQUI")
+  );
+}
+
+function setSyncStatus(text, mode = "local") {
+  const status = document.querySelector("#sync-status");
+  if (!status) return;
+  status.textContent = text;
+  status.dataset.mode = mode;
+}
+
+function setAuthGate(isLocked) {
+  document.body.classList.toggle("auth-locked", isLocked);
+}
+
+function openLoginPanel(message = "") {
+  document.querySelector("#login-message").textContent = message;
+  document.querySelector("#login-remember").checked = shouldRememberLogin();
+  setAuthGate(!currentUser);
+  document.querySelector("#login-panel").classList.add("open");
+  document.querySelector("#login-panel").setAttribute("aria-hidden", "false");
+}
+
+function closeLoginPanel() {
+  if (!currentUser) return;
+  setAuthGate(false);
+  document.querySelector("#login-panel").classList.remove("open");
+  document.querySelector("#login-panel").setAttribute("aria-hidden", "true");
+}
+
+function updateAuthButtons() {
+  document.querySelector("#login-btn").hidden = Boolean(currentUser);
+  document.querySelector("#logout-btn").hidden = !currentUser;
+}
+
+function shouldRememberLogin() {
+  return localStorage.getItem(authRememberKey) !== "false";
+}
+
+function initSupabaseClient() {
+  if (!isSupabaseConfigured()) {
+    setSyncStatus("Local", "local");
+    updateAuthButtons();
+    return false;
+  }
+
+  const config = window.PAINEL_SUPABASE;
+  if (supabaseClient) return true;
+  supabaseClient = window.supabase.createClient(config.url, config.anonKey, {
+    auth: {
+      storageKey: "painel-pessoal-jonata-auth",
+      storage: window.localStorage,
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false,
+    },
+  });
+  setSyncStatus("Conectando", "syncing");
+  return true;
+}
+
+async function loadRemoteState() {
+  if (!supabaseClient || !currentUser) return;
+  isLoadingRemoteState = true;
+  setSyncStatus("Sincronizando", "syncing");
+
+  const { data, error } = await supabaseClient
+    .from("painel_pessoal_modules")
+    .select("module,data")
+    .eq("user_id", currentUser.id);
+
+  if (error) {
+    console.error(error);
+    setSyncStatus("Erro sync", "error");
+    isLoadingRemoteState = false;
+    return;
+  }
+
+  if (data?.length) {
+    const remoteState = data.reduce((result, item) => {
+      result[item.module] = item.data;
+      return result;
+    }, {});
+    if (remoteState.market && !Object.prototype.hasOwnProperty.call(remoteState, "marketSeedVersion")) {
+      remoteState.marketSeedVersion = 0;
+    }
+    if (remoteState.wishlist && !Object.prototype.hasOwnProperty.call(remoteState, "wishlistSeedVersion")) {
+      remoteState.wishlistSeedVersion = 0;
+    }
+    if (remoteState.homeItems && !Object.prototype.hasOwnProperty.call(remoteState, "homePhotoSeedVersion")) {
+      remoteState.homePhotoSeedVersion = 0;
+    }
+    localStorage.setItem(storageKey, JSON.stringify({ ...state, ...remoteState }));
+    state = loadState();
+    const migratedRemoteState = stateWasMigrated;
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    render();
+    if (migratedRemoteState) {
+      isLoadingRemoteState = false;
+      await saveStateOnlineNow();
+      setSyncStatus("Online", "online");
+      return;
+    }
+  } else {
+    await saveStateOnlineNow();
+  }
+
+  isLoadingRemoteState = false;
+  setSyncStatus("Online", "online");
+}
+
+async function saveStateOnlineNow() {
+  if (!supabaseClient || !currentUser || isLoadingRemoteState) return;
+
+  const modules = cloudModuleKeys.map((module) => ({
+    user_id: currentUser.id,
+    module,
+    data: state[module],
+    updated_at: new Date().toISOString(),
+  }));
+
+  setSyncStatus("Salvando", "syncing");
+  const { error } = await supabaseClient
+    .from("painel_pessoal_modules")
+    .upsert(modules, { onConflict: "user_id,module" });
+
+  if (error) {
+    console.error(error);
+    setSyncStatus("Erro sync", "error");
+    return;
+  }
+
+  setSyncStatus("Online", "online");
+}
+
+function queueOnlineSave() {
+  if (!supabaseClient || !currentUser || isLoadingRemoteState) return;
+  clearTimeout(onlineSaveTimer);
+  onlineSaveTimer = setTimeout(() => {
+    saveStateOnlineNow();
+  }, 650);
+}
+
+async function initAuth() {
+  if (!initSupabaseClient()) {
+    openLoginPanel("Configure o Supabase para acessar o painel online.");
+    return;
+  }
+
+  const { data } = await supabaseClient.auth.getSession();
+  currentUser = shouldRememberLogin() ? data.session?.user || null : null;
+  if (!shouldRememberLogin() && data.session) {
+    await supabaseClient.auth.signOut();
+  }
+  updateAuthButtons();
+
+  if (currentUser) {
+    setAuthGate(false);
+    closeLoginPanel();
+    await loadRemoteState();
+  } else {
+    setAuthGate(true);
+    setSyncStatus("Sem login", "local");
+    openLoginPanel("Entre ou crie sua conta para acessar e salvar o painel online.");
+  }
+
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    currentUser = session?.user || null;
+    updateAuthButtons();
+    if (currentUser) {
+      setAuthGate(false);
+      closeLoginPanel();
+      await loadRemoteState();
+    } else if (_event === "SIGNED_OUT") {
+      setAuthGate(true);
+      setSyncStatus("Local", "local");
+      openLoginPanel("Entre para acessar o painel online.");
+    }
+  });
+}
+
+function snapshot() {
+  return JSON.parse(JSON.stringify(state));
+}
+
+function rememberUndo() {
+  undoStack.push(snapshot());
+  if (undoStack.length > 30) undoStack.shift();
+  updateUndoButton();
+}
+
+function updateUndoButton() {
+  const undoButton = document.querySelector("#undo-btn");
+  undoButton.disabled = undoStack.length === 0;
+}
+
+function commitChange() {
+  saveState();
+  render();
+}
+
+function formatMoney(value) {
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value || 0);
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatDate(value) {
+  if (!value) return "Sem data";
+  const [year, month, day] = value.split("-");
+  return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(Number(year), Number(month) - 1, Number(day)));
+}
+
+function isUrl(value) {
+  return /^(https?:\/\/|www\.)\S+/i.test(String(value || "").trim());
+}
+
+function normalizeUrl(value) {
+  const url = String(value || "").trim();
+  if (!url) return "";
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
+function todayISO() {
+  const date = new Date();
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+}
+
+function dateToISO(date) {
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+}
+
+function daysInMonth(monthKey) {
+  const [year, month] = monthKey.split("-").map(Number);
+  return new Date(year, month, 0).getDate();
+}
+
+function getBusinessDayDate(monthKey, businessDay) {
+  const [year, month] = monthKey.split("-").map(Number);
+  let count = 0;
+  const limit = daysInMonth(monthKey);
+
+  for (let day = 1; day <= limit; day += 1) {
+    const date = new Date(year, month - 1, day);
+    const weekday = date.getDay();
+    if (weekday === 0 || weekday === 6) continue;
+    count += 1;
+    if (count === businessDay) return dateToISO(date);
+  }
+
+  return dateToISO(new Date(year, month - 1, limit));
+}
+
+function getFixedCostDueDate(item) {
+  const monthKey = state.financePlan.month || todayISO().slice(0, 7);
+  const [year, month] = monthKey.split("-").map(Number);
+  const day = Math.min(daysInMonth(monthKey), Math.max(1, Number(item.dueDay || 1)));
+  return dateToISO(new Date(year, month - 1, day));
+}
+
+function getFixedCostDueLabel(item) {
+  const dueDate = getFixedCostDueDate(item);
+  return `Dia ${item.dueDay || 1} • ${formatDate(dueDate)}`;
+}
+
+function getFinanceDueDateFromForm() {
+  const mode = document.querySelector("#finance-date-mode").value;
+  if (mode === "business") {
+    const businessDay = Number(document.querySelector("#finance-business-day").value || 5);
+    return getBusinessDayDate(state.financePlan.month || todayISO().slice(0, 7), businessDay);
+  }
+  return document.querySelector("#finance-due-date").value || `${currentFinanceMonth()}-01`;
+}
+
+function addDays(isoDate, days) {
+  const [year, month, day] = isoDate.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  date.setDate(date.getDate() + days);
+  return dateToISO(date);
+}
+
+function addMonthsToDate(isoDate, monthsToAdd) {
+  const [year, month, day] = isoDate.split("-").map(Number);
+  const target = new Date(year, month - 1 + monthsToAdd, 1);
+  const monthKey = `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}`;
+  const safeDay = Math.min(day, daysInMonth(monthKey));
+  return dateToISO(new Date(target.getFullYear(), target.getMonth(), safeDay));
+}
+
+function getFinanceOccurrenceDate(baseDate, index, dateMode, repeat, businessDay = 5) {
+  if (index === 0) return baseDate;
+  if (repeat === "biweekly") return addDays(baseDate, index * 15);
+  if (repeat === "monthly") {
+    if (dateMode === "business") {
+      const [year, month] = baseDate.split("-").map(Number);
+      const target = new Date(year, month - 1 + index, 1);
+      const monthKey = `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}`;
+      return getBusinessDayDate(monthKey, businessDay);
+    }
+    return addMonthsToDate(baseDate, index);
+  }
+  return baseDate;
+}
+
+function normalizeFinanceRepeat(repeat, repeatCount) {
+  const count = Math.max(1, Number(repeatCount || 1));
+  return count > 1 && repeat === "once" ? "monthly" : repeat || "once";
+}
+
+function currentFinanceMonth() {
+  return state.financePlan.month || todayISO().slice(0, 7);
+}
+
+function isInFinanceMonth(dateValue) {
+  return String(dateValue || "").slice(0, 7) === currentFinanceMonth();
+}
+
+function currentFinanceYear() {
+  return String(state.financePlan.year || currentFinanceMonth().slice(0, 4));
+}
+
+function isInFinancePeriod(dateValue) {
+  const value = String(dateValue || "");
+  return state.financePlan.viewMode === "year"
+    ? value.slice(0, 4) === currentFinanceYear()
+    : value.slice(0, 7) === currentFinanceMonth();
+}
+
+function isBudgetPaid(item) {
+  return Boolean(item.paidMonths?.[currentFinanceMonth()] ?? item.paid);
+}
+
+function toggleBudgetPaid(item) {
+  const month = currentFinanceMonth();
+  const paidMonths = { ...(item.paidMonths || {}) };
+  paidMonths[month] = !Boolean(paidMonths[month] ?? item.paid);
+  return { ...item, paidMonths, paid: paidMonths[month] };
+}
+
+function clearBudgetPaidForCurrentMonth(item) {
+  const month = currentFinanceMonth();
+  const paidMonths = { ...(item.paidMonths || {}) };
+  paidMonths[month] = false;
+  return { ...item, paidMonths, paid: false };
+}
+
+function openSection(sectionId) {
+  const realSection = document.querySelector(`#${sectionId}`) ? sectionId : "placeholder";
+  pages.forEach((page) => page.classList.toggle("active", page.id === realSection));
+  navButtons.forEach((button) => button.classList.toggle("active", button.dataset.section === sectionId));
+
+  const navLabel = document.querySelector(`[data-section="${sectionId}"]`)?.textContent.trim() || "Painel";
+  pageTitle.textContent = sectionId === "dashboard" ? "Visão geral" : navLabel;
+
+  if (realSection === "placeholder") {
+    const [title, copy] = placeholders[sectionId] || ["Área em construção", "Esse módulo está reservado para evoluir depois."];
+    document.querySelector("#placeholder-title").textContent = title;
+    document.querySelector("#placeholder-copy").textContent = copy;
+    document.querySelector("#placeholder-kicker").textContent = "Módulo reservado";
+  }
+
+  sidebar.classList.remove("open");
+}
+
+function applyNavOrder() {
+  const nav = document.querySelector(".side-nav");
+  const buttonsBySection = new Map([...navButtons].map((button) => [button.dataset.section, button]));
+  state.navOrder.forEach((section) => {
+    const button = buttonsBySection.get(section);
+    if (button) nav.append(button);
+  });
+}
+
+function applyFinanceLayoutOrder() {
+  const summary = document.querySelector(".finance-summary");
+  const dashboard = document.querySelector(".finance-dashboard-grid");
+  if (!summary || !dashboard) return;
+  const summaryCards = new Map([...summary.querySelectorAll("[data-finance-summary-card]")].map((card) => [card.dataset.financeSummaryCard, card]));
+  const dashboardCards = new Map([...dashboard.querySelectorAll("[data-finance-dashboard-card]")].map((card) => [card.dataset.financeDashboardCard, card]));
+  state.financeLayout.summary.forEach((key) => summaryCards.get(key) && summary.append(summaryCards.get(key)));
+  state.financeLayout.dashboard.forEach((key) => dashboardCards.get(key) && dashboard.append(dashboardCards.get(key)));
+}
+
+function ensureRoutineCategoryCards() {
+  const board = document.querySelector(".routine-board");
+  if (!board) return;
+  const addCard = board.querySelector("#routine-add-card");
+  const categoryIds = state.routineCategories.map((category) => category.id);
+  board.querySelectorAll("[data-routine-card]").forEach((card) => {
+    if (!categoryIds.includes(card.dataset.routineCard)) card.remove();
+  });
+  state.routineCategories.forEach((category) => {
+    let card = board.querySelector(`[data-routine-card="${category.id}"]`);
+    if (!card) {
+      card = document.createElement("section");
+      card.className = "routine-section";
+      card.dataset.routineCard = category.id;
+      card.draggable = true;
+      card.innerHTML = `<div class="routine-section-head"><h3></h3><div><button type="button" data-routine-add-type="${category.id}" title="Adicionar hábito">＋</button><button class="routine-card-delete" type="button" data-routine-delete-card="${category.id}" title="Excluir card">×</button><strong id="routine-${category.id}-progress">0/0</strong></div></div><div class="routine-list" id="routine-${category.id}"></div>`;
+      board.insertBefore(card, addCard);
+    }
+    card.querySelector("h3").textContent = category.name;
+  });
+}
+
+function applyRoutineLayoutOrder() {
+  const board = document.querySelector(".routine-board");
+  if (!board) return;
+  const cards = new Map([...board.querySelectorAll("[data-routine-card]")].map((card) => [card.dataset.routineCard, card]));
+  const addCard = board.querySelector("#routine-add-card");
+  state.routineLayout.forEach((key) => cards.get(key) && board.insertBefore(cards.get(key), addCard));
+}
+
+function render() {
+  applyNavOrder();
+  applyFinanceLayoutOrder();
+  ensureRoutineCategoryCards();
+  applyRoutineLayoutOrder();
+  document.querySelector("#profile-avatar").src = state.profilePhoto || "assets/jonata.jpeg";
+  renderTasks();
+  renderPending();
+  renderMarket();
+  renderFinance();
+  renderPersonal();
+  renderWishlist();
+  renderCnh();
+  renderAgenda();
+  renderWins();
+  renderHomeItems();
+  renderWardrobe();
+  renderNotes();
+  renderRoutineDashboard();
+  renderDashboard();
+  renderToday();
+}
+
+function getFinanceBaseTitle(item) {
+  return String(item.baseTitle || item.title || "").replace(/\s+\(\d+\/\d+\)$/, "").trim();
+}
+
+function getFinanceYearGroupKey(item) {
+  return [
+    item.type,
+    item.category,
+    item.groupId || getFinanceBaseTitle(item).toLowerCase(),
+  ].join("::");
+}
+
+function formatFinanceMonthShort(value) {
+  const [year, month] = String(value).split("-").map(Number);
+  return new Intl.DateTimeFormat("pt-BR", { month: "short" }).format(new Date(year, month - 1, 1)).replace(".", "");
+}
+
+function groupFinanceYearItems(items) {
+  const groups = items.reduce((result, item) => {
+    const key = getFinanceYearGroupKey(item);
+    result[key] = result[key] || [];
+    result[key].push(item);
+    return result;
+  }, {});
+
+  return Object.entries(groups).map(([groupKey, groupItems]) => {
+    const sorted = [...groupItems].sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+    const first = sorted[0];
+    if (sorted.length === 1) return first;
+    return {
+      ...first,
+      id: groupKey,
+      editId: first.id,
+      groupKey,
+      isGrouped: true,
+      title: getFinanceBaseTitle(first),
+      value: sorted.reduce((sum, item) => sum + Number(item.value || 0), 0),
+      averageValue: sorted.reduce((sum, item) => sum + Number(item.value || 0), 0) / sorted.length,
+      dueDate: sorted[0].dueDate,
+      endDate: sorted[sorted.length - 1].dueDate,
+      count: sorted.length,
+      doneCount: sorted.filter((item) => item.done).length,
+      done: sorted.every((item) => item.done),
+    };
+  }).sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+}
+
+function isCommissionItem(item) {
+  return /comiss|comissão|comissao/i.test(`${item.title || ""} ${item.category || ""}`);
+}
+
+function getActiveMonthCount(items) {
+  return Math.max(1, new Set(items.map((item) => String(item.dueDate || "").slice(0, 7))).size);
+}
+
+function renderFinanceYearSummary(periodFinance) {
+  const box = document.querySelector("#finance-year-summary");
+  const isYear = state.financePlan.viewMode === "year";
+  box.hidden = !isYear;
+
+  const incomeItems = periodFinance.filter((item) => item.type === "income");
+  const commissionItems = incomeItems.filter(isCommissionItem);
+  const soldItems = incomeItems.filter((item) => !isCommissionItem(item));
+  const soldTotal = soldItems.reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const commissionTotal = commissionItems.reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const soldMonthCount = getActiveMonthCount(soldItems);
+  const commissionMonthCount = getActiveMonthCount(commissionItems);
+  if (!isYear) return;
+
+  document.querySelector("#finance-year-sold-total").textContent = formatMoney(soldTotal);
+  document.querySelector("#finance-year-sold-average").textContent = formatMoney(soldTotal / soldMonthCount);
+  document.querySelector("#finance-year-commission-total").textContent = formatMoney(commissionTotal);
+  document.querySelector("#finance-year-commission-average").textContent = formatMoney(commissionTotal / commissionMonthCount);
+}
+
+function isSubscriptionItem(item) {
+  return /netflix|spotify|chatgpt|icloud|prime|disney|hbo|max|youtube|assinatura|streaming/i.test(`${item.title || ""} ${item.category || ""}`);
+}
+
+function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, variableTotal, expense, income, balance) {
+  const isYear = state.financePlan.viewMode === "year";
+  document.querySelector(".finance-overview-panel h3").textContent = "Contas a pagar";
+  document.querySelector(".finance-distribution-panel h3").textContent = isYear ? "Fluxo do ano" : "Fluxo do mês";
+  const received = periodFinance
+    .filter((item) => item.type === "income" && item.done)
+    .reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const pendingExtraExpenses = periodFinance
+    .filter((item) => item.type === "expense" && !item.done)
+    .reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const pendingFixed = isYear
+    ? fixedTotal
+    : state.fixedCosts.filter((item) => !isBudgetPaid(item)).reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const pendingVariable = isYear
+    ? variableTotal
+    : periodVariableCosts.filter((item) => !isBudgetPaid(item)).reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const payable = pendingFixed + pendingVariable + pendingExtraExpenses;
+  const commissionItems = periodFinance.filter((item) => {
+    const isSalary = /sal[aá]rio/i.test(`${item.title || ""} ${item.category || ""}`);
+    return item.type === "income" && !item.done && (isCommissionItem(item) || !isSalary);
+  });
+  const commissionExpected = commissionItems.reduce((sum, item) => sum + Number(item.value || 0), 0);
+
+  const summaryLabels = document.querySelectorAll(".finance-summary [data-finance-summary-card] > span:not(.finance-summary-icon)");
+  ["Recebido", "A pagar", "Previsto", "Sobra do período", "Comissões previstas"].forEach((label, index) => {
+    if (summaryLabels[index]) summaryLabels[index].textContent = label;
+  });
+  document.querySelector("#finance-received").textContent = formatMoney(received);
+  document.querySelector("#finance-payable").textContent = formatMoney(payable);
+  document.querySelector("#finance-commission-expected").textContent = formatMoney(commissionExpected);
+  const periodWord = isYear ? "ANO" : "MÊS";
+  [`RECEBIDO NO ${periodWord}`, "A PAGAR", `PREVISTO NO ${periodWord}`, `SOBRA DO ${periodWord}`, "COMISSÕES PREVISTAS"].forEach((label, index) => {
+    if (summaryLabels[index]) summaryLabels[index].textContent = label;
+  });
+  const previousPeriod = isYear
+    ? String(Number(currentFinanceYear()) - 1)
+    : dateToISO(new Date(Number(currentFinanceMonth().slice(0, 4)), Number(currentFinanceMonth().slice(5, 7)) - 2, 1)).slice(0, 7);
+  const previousReceived = state.finance
+    .filter((item) => item.type === "income" && item.done && String(item.dueDate).startsWith(previousPeriod))
+    .reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const receivedChange = previousReceived > 0 ? Math.round(((received - previousReceived) / previousReceived) * 100) : 0;
+  const receivedNote = document.querySelector("#finance-received-note");
+  receivedNote.textContent = `${receivedChange >= 0 ? "↑" : "↓"} ${Math.abs(receivedChange)}% vs ${isYear ? "ano" : "mês"} anterior`;
+  receivedNote.className = receivedChange >= 0 ? "positive-note" : "negative-note";
+  const pendingBillsCount = state.fixedCosts.filter((item) => !isBudgetPaid(item)).length
+    + periodVariableCosts.filter((item) => !isBudgetPaid(item)).length
+    + periodFinance.filter((item) => item.type === "expense" && !item.done).length;
+  document.querySelector("#finance-payable-note").textContent = `${pendingBillsCount} contas pendentes`;
+  document.querySelector("#finance-expected-progress").style.width = `${income > 0 ? Math.min(100, Math.round((received / income) * 100)) : 0}%`;
+  document.querySelector("#finance-period-label").textContent = state.financePlan.viewMode === "year"
+    ? String(state.financePlan.year)
+    : new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(new Date(`${currentFinanceMonth()}-01T12:00:00`));
+
+  const billItems = [
+    ...state.fixedCosts.map((item) => ({
+      ...item,
+      dueDate: getFixedCostDueDate(item),
+      done: isBudgetPaid(item),
+      kind: "fixed",
+    })),
+    ...periodVariableCosts.map((item) => ({ ...item, done: isBudgetPaid(item), kind: "variable" })),
+    ...periodFinance.filter((item) => item.type === "expense").map((item) => ({ ...item, kind: "extra" })),
+  ].sort((a, b) => String(a.dueDate || "").localeCompare(String(b.dueDate || "")));
+
+  const filteredBillItems = financeBillFilter === "all"
+    ? billItems
+    : billItems.filter((item) => financeBillFilter === "variable" ? item.kind !== "fixed" : item.kind === "fixed");
+  document.querySelectorAll("[data-finance-bill-filter]").forEach((button) => button.classList.toggle("active", button.dataset.financeBillFilter === financeBillFilter));
+  const billsList = document.querySelector("#finance-overview-bills");
+  billsList.innerHTML = billItems.length ? "" : `<div class="empty-state">Nenhuma conta neste período.</div>`;
+  filteredBillItems.slice(0, 8).forEach((item) => {
+    const row = document.createElement("article");
+    const actionData = item.kind === "fixed" || item.kind === "variable"
+      ? `data-budget-paid="${item.kind}:${item.id}"`
+      : `data-finance-done="${item.id}"`;
+    row.className = item.done ? "done" : "";
+    row.innerHTML = `
+      <button class="check-btn ${item.done ? "active" : ""}" type="button" ${actionData}>✓</button>
+      <div><strong>${escapeHtml(item.title)} <small class="finance-bill-kind">${item.kind === "fixed" ? "Fixa" : "Variável"}</small></strong><span>${item.done ? "Pago em" : "Vence em"} ${formatDate(item.dueDate)}</span></div>
+      <strong class="${item.done ? "money-income" : "money-expense"}">${formatMoney(item.value)}</strong>
+      <button class="finance-status ${item.done ? "paid" : ""}" type="button" ${actionData}>${item.done ? "Pago" : "Pagar"}</button>
+    `;
+    billsList.append(row);
+  });
+
+  const subscriptions = [
+    ...state.fixedCosts.filter(isSubscriptionItem).map((item) => ({ ...item, dueDate: getFixedCostDueDate(item) })),
+    ...periodFinance.filter((item) => item.type === "expense" && isSubscriptionItem(item)),
+  ];
+  const subscriptionsTotal = subscriptions.reduce((sum, item) => {
+    const multiplier = isYear && state.fixedCosts.some((fixed) => fixed.id === item.id) ? 12 : 1;
+    return sum + Number(item.value || 0) * multiplier;
+  }, 0);
+  document.querySelector("#finance-subscriptions-total").textContent = formatMoney(subscriptionsTotal);
+  const subscriptionsList = document.querySelector("#finance-subscriptions");
+  subscriptionsList.innerHTML = subscriptions.length ? "" : `<div class="empty-state">Cadastre Netflix, Spotify ou outra assinatura.</div>`;
+  subscriptions.slice(0, 6).forEach((item) => {
+    const brand = /netflix/i.test(item.title) ? "N" : /spotify/i.test(item.title) ? "S" : /chatgpt/i.test(item.title) ? "AI" : /icloud/i.test(item.title) ? "☁" : "◆";
+    subscriptionsList.innerHTML += `<article><span class="finance-brand-icon">${brand}</span><div><strong>${escapeHtml(item.title)}</strong><span>${formatDate(item.dueDate)}</span></div><strong>${formatMoney(item.value)}</strong></article>`;
+  });
+
+  document.querySelector("#finance-commissions-total").textContent = formatMoney(commissionExpected);
+  const commissionsList = document.querySelector("#finance-commissions");
+  commissionsList.innerHTML = commissionItems.length ? "" : `<div class="empty-state">Nenhuma comissão prevista.</div>`;
+  commissionItems.slice(0, 6).forEach((item) => {
+    const name = getFinanceBaseTitle(item);
+    commissionsList.innerHTML += `<article><span class="finance-avatar">${escapeHtml(name.slice(0, 1).toUpperCase())}</span><div><strong>${escapeHtml(name)}</strong><span>Previsto ${formatDate(item.dueDate)}</span></div><strong class="money-income">${formatMoney(item.value)}</strong></article>`;
+  });
+
+  const distributionItems = [
+    { label: "Receitas", value: income, className: "income" },
+    { label: "Custos fixos", value: fixedTotal, className: "fixed" },
+    { label: "Variáveis", value: variableTotal + expense, className: "variable" },
+    { label: "Livre", value: Math.max(0, balance), className: "free" },
+  ];
+  const distributionMax = Math.max(1, ...distributionItems.map((item) => item.value));
+  const distributionTotal = Math.max(1, income + fixedTotal + variableTotal + expense + Math.max(0, balance));
+  const incomeEnd = (Math.max(0, income) / distributionTotal) * 360;
+  const fixedEnd = incomeEnd + (Math.max(0, fixedTotal) / distributionTotal) * 360;
+  const variableEnd = fixedEnd + (Math.max(0, variableTotal + expense) / distributionTotal) * 360;
+  const freeEnd = variableEnd + (Math.max(0, balance) / distributionTotal) * 360;
+  document.querySelector("#finance-donut").style.background = `conic-gradient(#45d483 0deg ${incomeEnd}deg, #ff5b73 ${incomeEnd}deg ${fixedEnd}deg, #f3bd36 ${fixedEnd}deg ${variableEnd}deg, #9b5de5 ${variableEnd}deg ${freeEnd}deg, #291035 ${freeEnd}deg 360deg)`;
+  document.querySelector("#finance-distribution").innerHTML = distributionItems.map((item) => `
+    <article>
+      <div><span><i class="${item.className}"></i>${item.label}</span><strong>${formatMoney(item.value)} <small>${Math.round((Math.max(0, item.value) / distributionTotal) * 100)}%</small></strong></div>
+      <div class="finance-bar"><span class="${item.className}" style="width:${Math.max(2, (item.value / distributionMax) * 100)}%"></span></div>
+    </article>
+  `).join("");
+  const totalExpenses = fixedTotal + variableTotal + expense;
+  document.querySelector("#finance-distribution-expenses").textContent = formatMoney(totalExpenses);
+  document.querySelector("#finance-distribution-percent").textContent = `${income > 0 ? Math.round((totalExpenses / income) * 100) : 0}%`;
+  document.querySelector("#finance-distribution-expected").textContent = formatMoney(income);
+  document.querySelector("#finance-distribution-realized").textContent = formatMoney(received);
+  document.querySelector("#finance-distribution-difference").textContent = formatMoney(received - income);
+  document.querySelector("#finance-distribution-difference").className = received - income >= 0 ? "money-income" : "money-expense";
+
+  const goalsList = document.querySelector("#finance-goals-list");
+  goalsList.innerHTML = state.financeGoals.length ? "" : `<div class="empty-state">Nenhuma meta financeira.</div>`;
+  state.financeGoals.forEach((goal) => {
+    const percent = goal.target > 0 ? Math.min(100, Math.round((goal.current / goal.target) * 100)) : 0;
+    goalsList.innerHTML += `
+      <article>
+        <div class="finance-goal-head">
+          <span class="finance-goal-icon">${/reserva|emerg/i.test(goal.title) ? "♜" : /viagem/i.test(goal.title) ? "✈" : "★"}</span>
+          <div><strong>${escapeHtml(goal.title)}</strong><span>${formatMoney(goal.current)} de ${formatMoney(goal.target)}</span></div>
+          <button class="edit-btn" type="button" data-generic-edit="financeGoal:${goal.id}">Editar</button>
+        </div>
+        <div class="finance-bar"><span class="free" style="width:${Math.max(2, percent)}%"></span></div>
+        <small>${percent}% concluído</small>
+      </article>
+    `;
+  });
+  const recentList = document.querySelector("#finance-recent-list");
+  const recentItems = [...periodFinance].sort((a, b) => String(b.dueDate).localeCompare(String(a.dueDate))).slice(0, 6);
+  recentList.innerHTML = recentItems.length ? "" : `<div class="empty-state">Nenhum lançamento neste período.</div>`;
+  recentItems.forEach((item) => {
+    recentList.innerHTML += `
+      <article>
+        <span class="finance-recent-date">${String(item.dueDate || "").slice(8, 10)}<small>${formatFinanceMonthShort(item.dueDate)}</small></span>
+        <div><strong>${item.type === "income" ? "Recebimento" : "Pagamento"} - ${escapeHtml(getFinanceBaseTitle(item))}</strong><span>${escapeHtml(item.category)}</span></div>
+        <span class="finance-recent-type ${item.type === "income" ? "money-income" : "money-expense"}">${item.type === "income" ? "Entrada" : "Saída"}</span>
+        <strong class="${item.type === "income" ? "money-income" : "money-expense"}">${item.type === "income" ? "+" : "-"} ${formatMoney(item.value)}</strong>
+      </article>
+    `;
+  });
+
+  const categoryExpenses = {};
+  state.fixedCosts.forEach((item) => { categoryExpenses.Casa = (categoryExpenses.Casa || 0) + Number(item.value || 0) * (isYear ? 12 : 1); });
+  periodVariableCosts.forEach((item) => { categoryExpenses[item.title || "Variáveis"] = (categoryExpenses[item.title || "Variáveis"] || 0) + Number(item.value || 0); });
+  periodFinance.filter((item) => item.type === "expense").forEach((item) => {
+    categoryExpenses[item.category || "Outros"] = (categoryExpenses[item.category || "Outros"] || 0) + Number(item.value || 0);
+  });
+  const categoryTotal = Math.max(1, Object.values(categoryExpenses).reduce((sum, value) => sum + value, 0));
+  const categoryIcons = { Casa: "⌂", Mercado: "▦", Transporte: "◆", Lazer: "★", Saúde: "+", Outros: "●" };
+  const categoryColors = ["green", "red", "yellow", "purple", "blue"];
+  document.querySelector("#finance-category-breakdown").innerHTML = Object.entries(categoryExpenses)
+    .sort((a, b) => b[1] - a[1])
+    .map(([category, value], index) => {
+      const percent = Math.round((value / categoryTotal) * 100);
+      const color = categoryColors[index % categoryColors.length];
+      return `<article><span class="finance-category-icon ${color}">${categoryIcons[category] || "●"}</span><div><div><strong>${escapeHtml(category)}</strong><span>${formatMoney(value)} · ${percent}%</span></div><div class="finance-bar"><span class="${color}" style="width:${percent}%"></span></div></div></article>`;
+    }).join("") || `<div class="empty-state">Nenhum gasto categorizado.</div>`;
+}
+
+function renderFinance() {
+  const periodFinance = state.finance.filter((item) => isInFinancePeriod(item.dueDate));
+  const periodVariableCosts = state.variableCosts.filter((item) => isInFinancePeriod(item.dueDate));
+  const incomeExtra = periodFinance.filter((item) => item.type === "income").reduce((sum, item) => sum + item.value, 0);
+  const expense = periodFinance.filter((item) => item.type === "expense").reduce((sum, item) => sum + item.value, 0);
+  const fixedMonthlyTotal = state.fixedCosts.reduce((sum, item) => sum + item.value, 0);
+  const fixedTotal = state.financePlan.viewMode === "year" ? fixedMonthlyTotal * 12 : fixedMonthlyTotal;
+  const variableTotal = periodVariableCosts.reduce((sum, item) => sum + item.value, 0);
+  const costTotal = fixedTotal + variableTotal + expense;
+  const income = incomeExtra;
+  const balance = income - costTotal;
+  const today = todayISO();
+  const financeDueToday = periodFinance.filter((item) => !item.done && item.dueDate <= today);
+  const fixedDueToday = state.fixedCosts
+    .map((item) => ({ ...item, dueDate: getFixedCostDueDate(item), type: "fixed" }))
+    .filter((item) => isInFinanceMonth(item.dueDate) && !isBudgetPaid(item) && item.dueDate <= today);
+  const variableDueToday = periodVariableCosts
+    .map((item) => ({ ...item, type: "variable" }))
+    .filter((item) => !isBudgetPaid(item) && item.dueDate <= today);
+
+  document.querySelector("#finance-month").value = state.financePlan.month || todayISO().slice(0, 7);
+  document.querySelector("#finance-view-mode").value = state.financePlan.viewMode || "month";
+  document.querySelector("#finance-year").value = state.financePlan.year || Number(currentFinanceMonth().slice(0, 4));
+  document.querySelector("#finance-toggle-view").textContent = state.financePlan.viewMode === "year" ? "Ver mês" : "Ver ano";
+  document.querySelector("#finance").classList.toggle("finance-year-mode", state.financePlan.viewMode === "year");
+
+  document.querySelector("#finance-fixed").textContent = formatMoney(fixedTotal);
+  document.querySelector("#finance-variable").textContent = formatMoney(variableTotal);
+  document.querySelector("#finance-cost-total").textContent = formatMoney(costTotal);
+  document.querySelector("#finance-income").textContent = formatMoney(income);
+  document.querySelector("#finance-balance").textContent = formatMoney(balance);
+  document.querySelector("#finance-balance").className = balance >= 0 ? "money-income" : "money-expense";
+  renderFinanceYearSummary(periodFinance);
+  renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, variableTotal, expense, income, balance);
+
+  renderBudgetList("fixed-cost-list", state.fixedCosts, "fixed");
+  renderBudgetList("variable-cost-list", periodVariableCosts, "variable");
+  renderFinanceToday([...financeDueToday, ...fixedDueToday, ...variableDueToday]);
+
+  const visible = activeFinanceFilter === "all"
+    ? periodFinance
+    : periodFinance.filter((item) => item.category === activeFinanceFilter);
+  const financeRows = state.financePlan.viewMode === "year" ? groupFinanceYearItems(visible) : visible;
+  const incomeList = document.querySelector("#finance-income-list");
+  const expenseList = document.querySelector("#finance-expense-list");
+  const incomeItems = financeRows.filter((item) => item.type === "income");
+  const expenseItems = financeRows.filter((item) => item.type === "expense");
+
+  incomeList.innerHTML = "";
+  expenseList.innerHTML = "";
+
+  if (!incomeItems.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhum recebimento nessa seleção.";
+    incomeList.append(empty);
+  }
+
+  if (!expenseItems.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhuma saída extra nessa seleção.";
+    expenseList.append(empty);
+  }
+
+  financeRows.forEach((item) => {
+    const row = document.createElement("article");
+    const statusText = item.isGrouped
+      ? `${item.doneCount}/${item.count} ${item.type === "income" ? "recebido(s)" : "pago(s)"}`
+      : item.done ? (item.type === "income" ? "Recebido" : "Pago") : item.dueDate < today ? "Atrasado" : "Pendente";
+    row.className = `finance-row ${item.done ? "done" : ""} ${!item.done && item.dueDate < today ? "late" : ""}`;
+    const repeatLabel = item.repeat && item.repeat !== "once"
+      ? ` • ${item.repeat === "monthly" ? "Mensal" : "15 dias"}${item.repeatCount ? ` ${item.installment || 1}/${item.repeatCount}` : ""}`
+      : "";
+    const groupedLabel = item.isGrouped
+      ? ` • ${formatFinanceMonthShort(item.dueDate)} até ${formatFinanceMonthShort(item.endDate)} • ${item.count} mês(es)`
+      : repeatLabel;
+    row.innerHTML = `
+      <span class="finance-date">${formatDate(item.dueDate)}</span>
+      <div class="finance-row-main">
+        <strong>${escapeHtml(item.title)}</strong>
+        <small>${escapeHtml(item.category)} • ${statusText}${groupedLabel}</small>
+      </div>
+      <strong class="${item.type === "income" ? "money-income" : "money-expense"}">${item.type === "income" ? "+" : "-"} ${formatMoney(item.value)}</strong>
+      ${state.financePlan.viewMode === "year" ? `<strong class="finance-average">${formatMoney(item.averageValue || item.value)}</strong>` : ""}
+      <div class="finance-row-actions">
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" ${item.isGrouped ? `data-finance-done-group="${escapeHtml(item.groupKey)}"` : `data-finance-done="${item.id}"`} title="${item.type === "income" ? "Marcar recebido" : "Marcar pago"}">✓</button>
+        <button class="edit-btn" type="button" data-finance-edit="${item.editId || item.id}">Editar</button>
+        <button class="delete-btn" type="button" ${item.isGrouped ? `data-finance-delete-group="${escapeHtml(item.groupKey)}"` : `data-finance-delete="${item.id}"`}>×</button>
+      </div>
+    `;
+    if (item.type === "income") {
+      incomeList.append(row);
+    } else {
+      expenseList.append(row);
+    }
+  });
+
+  const categories = [...new Set(periodFinance.map((item) => item.category))];
+  const categoriesList = document.querySelector("#finance-categories");
+  categoriesList.innerHTML = "";
+
+  categories.forEach((category) => {
+    const totalIncome = periodFinance.filter((item) => item.category === category && item.type === "income").reduce((sum, item) => sum + item.value, 0);
+    const totalExpense = periodFinance.filter((item) => item.category === category && item.type === "expense").reduce((sum, item) => sum + item.value, 0);
+    const card = document.createElement("button");
+    card.className = "finance-category-card";
+    card.type = "button";
+    card.dataset.financeFilter = category;
+    card.innerHTML = `<strong>${category}</strong><span>${formatMoney(totalIncome - totalExpense)}</span>`;
+    categoriesList.append(card);
+  });
+}
+
+function renderFinanceToday(items) {
+  const list = document.querySelector("#finance-today-list");
+  list.innerHTML = "";
+
+  if (!items.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nada para receber ou pagar hoje.";
+    list.append(empty);
+    return;
+  }
+
+  items.forEach((item) => {
+    const row = document.createElement("article");
+    const isFixed = item.type === "fixed";
+    const isVariable = item.type === "variable";
+    const isBudget = isFixed || isVariable;
+    const actionLabel = isBudget ? "Pagar" : item.type === "income" ? "Receber" : "Pagar";
+    const doneLabel = isBudget ? "Paguei" : item.type === "income" ? "Recebi" : "Paguei";
+    const actionData = isBudget ? `data-budget-paid="${isFixed ? "fixed" : "variable"}:${item.id}"` : `data-finance-done="${item.id}"`;
+    row.className = `finance-alert ${item.type === "income" ? "income" : "expense"}`;
+    row.innerHTML = `
+      <div>
+        <strong>${actionLabel}: ${escapeHtml(item.title)}</strong>
+        <span>${formatMoney(item.value)} • ${escapeHtml(item.category || (isFixed ? "Custo fixo" : "Custo variável"))} • ${formatDate(item.dueDate)}</span>
+      </div>
+      <button class="primary-action" type="button" ${actionData}>${doneLabel}</button>
+    `;
+    list.append(row);
+  });
+}
+
+function openFinanceEdit(itemId) {
+  const item = state.finance.find((entry) => entry.id === itemId);
+  if (!item) return;
+
+  document.querySelector("#finance-edit-id").value = item.id;
+  document.querySelector("#finance-edit-title").value = item.title;
+  document.querySelector("#finance-edit-type").value = item.type;
+  document.querySelector("#finance-edit-date").value = item.dueDate;
+  document.querySelector("#finance-edit-value").value = item.value;
+  document.querySelector("#finance-edit-repeat").value = item.repeat || "once";
+  document.querySelector("#finance-edit-repeat-count").value = item.repeatCount || 1;
+
+  const category = document.querySelector("#finance-edit-category");
+  category.innerHTML = financeCategories.map((option) => `<option value="${option}" ${item.category === option ? "selected" : ""}>${option}</option>`).join("");
+
+  document.querySelector("#finance-edit-panel").classList.add("open");
+  document.querySelector("#finance-edit-panel").setAttribute("aria-hidden", "false");
+}
+
+function rebuildFinanceSeries(original, updates) {
+  const repeat = normalizeFinanceRepeat(updates.repeat, updates.repeatCount);
+  const count = repeat === "once" ? 1 : Math.max(1, Number(updates.repeatCount || 1));
+  const groupId = original.groupId || crypto.randomUUID();
+  const enteredTitle = String(updates.title || original.baseTitle || original.title).replace(/\s+\(\d+\/\d+\)$/, "");
+  const baseTitle = enteredTitle;
+  const baseDate = updates.dueDate || original.dueDate;
+  const businessDay = Number(original.businessDay || 5);
+
+  state.finance = state.finance.filter((item) => item.id === original.id || item.groupId !== groupId);
+
+  const entries = Array.from({ length: count }, (_, index) => ({
+    ...original,
+    ...updates,
+    id: index === 0 ? original.id : crypto.randomUUID(),
+    groupId,
+    baseTitle,
+    title: count > 1 ? `${baseTitle} (${index + 1}/${count})` : baseTitle,
+    dueDate: getFinanceOccurrenceDate(baseDate, index, original.dateMode || "date", repeat, businessDay),
+    repeat,
+    repeatCount: count,
+    installment: index + 1,
+    done: index === 0 ? false : false,
+  }));
+
+  state.finance = state.finance.filter((item) => item.id !== original.id);
+  state.finance.push(...entries);
+}
+
+function openBudgetEdit(payload) {
+  const [kind, id] = payload.split(":");
+  const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+  const item = state[key].find((entry) => entry.id === id);
+  if (!item) return;
+
+  document.querySelector("#budget-edit-id").value = id;
+  document.querySelector("#budget-edit-kind").value = kind;
+  document.querySelector("#budget-edit-title").value = item.title;
+  document.querySelector("#budget-edit-value").value = item.value;
+  document.querySelector("#budget-edit-day").value = item.dueDay || 1;
+  document.querySelector("#budget-edit-date").value = kind === "fixed" ? getFixedCostDueDate(item) : item.dueDate || todayISO();
+  document.querySelector("#budget-edit-date").disabled = kind === "fixed";
+  document.querySelector("#budget-edit-day-wrap").style.display = kind === "fixed" ? "grid" : "none";
+
+  document.querySelector("#budget-edit-panel").classList.add("open");
+  document.querySelector("#budget-edit-panel").setAttribute("aria-hidden", "false");
+}
+
+const genericEditConfigs = {
+  task: {
+    title: "Editar tarefa",
+    find: (id) => state.tasks.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Tarefa", type: "text" },
+      { key: "priority", label: "Prioridade", type: "select", options: ["Alta", "Média", "Baixa"] },
+    ],
+    save: (id, values) => {
+      state.tasks = state.tasks.map((item) => item.id === id ? { ...item, title: values.title || item.title, priority: values.priority } : item);
+    },
+  },
+  pending: {
+    title: "Editar pendência",
+    find: (id) => state.pending.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Nome", type: "text" },
+      { key: "type", label: "Tipo", type: "select", options: [["daily", "Diária/imediata"], ["backlog", "Sem prazo"], ["weekly", "Semanal"], ["monthly", "Mensal"]] },
+    ],
+    save: (id, values) => {
+      state.pending = state.pending.map((item) => item.id === id ? { ...item, title: values.title || item.title, type: values.type } : item);
+    },
+  },
+  subtask: {
+    title: "Editar subtarefa",
+    find: (id) => {
+      const [taskId, subtaskId] = id.split(":");
+      return state.pending.find((task) => task.id === taskId)?.subtasks.find((subtask) => subtask.id === subtaskId);
+    },
+    fields: [{ key: "title", label: "Subtarefa", type: "text" }],
+    save: (id, values) => {
+      const [taskId, subtaskId] = id.split(":");
+      state.pending = state.pending.map((task) => task.id === taskId ? {
+        ...task,
+        subtasks: task.subtasks.map((subtask) => subtask.id === subtaskId ? { ...subtask, title: values.title || subtask.title } : subtask),
+      } : task);
+    },
+  },
+  market: {
+    title: "Editar compra",
+    find: (id) => state.market.find((item) => item.id === id),
+    fields: [
+      { key: "name", label: "Item", type: "text" },
+      { key: "category", label: "Categoria", type: "select", options: marketCategories.map((category) => [category.id, category.label]) },
+      { key: "qty", label: "Quantidade", type: "number" },
+      { key: "price", label: "Preço", type: "number" },
+    ],
+    save: (id, values) => {
+      state.market = state.market.map((item) => item.id === id ? {
+        ...item,
+        name: values.name || item.name,
+        category: values.category,
+        qty: Number(values.qty || 1),
+        price: Number(values.price || 0),
+        shopQty: Number(values.qty || 1),
+        shopPrice: Number(values.price || 0),
+      } : item);
+    },
+  },
+  wishlist: {
+    title: "Editar item para comprar",
+    find: (id) => state.wishlist.find((item) => item.id === id),
+    fields: [
+      { key: "name", label: "Item", type: "text" },
+      { key: "category", label: "Categoria", type: "select", options: wishlistCategories.map((category) => [category.id, category.label]) },
+      { key: "priority", label: "Prioridade", type: "select", options: ["Alta", "Média", "Baixa"] },
+      { key: "price", label: "Valor previsto", type: "number" },
+      { key: "link", label: "Loja ou link", type: "text" },
+    ],
+    save: (id, values) => {
+      state.wishlist = state.wishlist.map((item) => item.id === id ? { ...item, name: values.name || item.name, category: values.category, priority: values.priority, price: Number(values.price || 0), link: values.link || "" } : item);
+    },
+  },
+  routine: {
+    title: "Editar rotina",
+    find: (id) => state.routine.find((item) => item.id === id),
+    fields: [
+      { key: "emoji", label: "Emoji", type: "text" },
+      { key: "title", label: "Tarefa", type: "text" },
+      { key: "type", label: "Tipo", type: "select", options: () => state.routineCategories.map((category) => [category.id, category.name]) },
+    ],
+    save: (id, values) => {
+      state.routine = state.routine.map((item) => item.id === id ? { ...item, emoji: values.emoji || inferRoutineEmoji(values.title || item.title), title: values.title || item.title, type: values.type } : item);
+    },
+  },
+  agenda: {
+    title: "Editar agenda",
+    find: (id) => state.agenda.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Compromisso", type: "text" },
+      { key: "date", label: "Data", type: "date" },
+      { key: "type", label: "Tipo", type: "select", options: [["appointment", "Compromisso"], ["reminder", "Lembrete"], ["deadline", "Prazo"]] },
+    ],
+    save: (id, values) => {
+      state.agenda = state.agenda.map((item) => item.id === id ? { ...item, title: values.title || item.title, date: values.date || item.date, type: values.type } : item);
+    },
+  },
+  cnh: {
+    title: "Editar etapa da CNH",
+    find: (id) => state.cnh.steps.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Etapa", type: "text" },
+      { key: "value", label: "Valor", type: "number" },
+      { key: "dueDate", label: "Data prevista", type: "date" },
+    ],
+    save: (id, values) => {
+      state.cnh.steps = state.cnh.steps.map((item) => item.id === id ? {
+        ...item,
+        title: values.title || item.title,
+        value: Number(values.value || 0),
+        dueDate: values.dueDate || "",
+      } : item);
+    },
+  },
+  financeGoal: {
+    title: "Editar meta financeira",
+    find: (id) => state.financeGoals.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Meta", type: "text" },
+      { key: "current", label: "Valor atual", type: "number" },
+      { key: "target", label: "Valor alvo", type: "number" },
+    ],
+    save: (id, values) => {
+      state.financeGoals = state.financeGoals.map((item) => item.id === id ? {
+        ...item,
+        title: values.title || item.title,
+        current: Number(values.current || 0),
+        target: Number(values.target || 0),
+      } : item);
+    },
+  },
+  note: {
+    title: "Editar anotação",
+    find: (id) => state.notes.find((item) => item.id === id),
+    fields: [{ key: "text", label: "Anotação", type: "textarea" }],
+    save: (id, values) => {
+      state.notes = state.notes.map((item) => item.id === id ? { ...item, text: values.text || item.text } : item);
+    },
+  },
+  personalGoal: {
+    title: "Editar meta",
+    find: (id) => state.personal.goals.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Meta", type: "text" },
+      { key: "area", label: "Área", type: "text" },
+    ],
+    save: (id, values) => {
+      state.personal.goals = state.personal.goals.map((item) => item.id === id ? { ...item, title: values.title || item.title, area: values.area || item.area } : item);
+    },
+  },
+  personalDoc: {
+    title: "Editar documento/link",
+    find: (id) => state.personal.docs.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Nome", type: "text" },
+      { key: "value", label: "Detalhe", type: "text" },
+    ],
+    save: (id, values) => {
+      state.personal.docs = state.personal.docs.map((item) => item.id === id ? { ...item, title: values.title || item.title, value: values.value || "" } : item);
+    },
+  },
+  win: {
+    title: "Editar conquista",
+    find: (id) => state.wins.find((item) => item.id === id),
+    fields: [
+      { key: "title", label: "Conquista", type: "text" },
+      { key: "date", label: "Data", type: "date" },
+    ],
+    save: (id, values) => {
+      state.wins = state.wins.map((item) => item.id === id ? { ...item, title: values.title || item.title, date: values.date || item.date } : item);
+    },
+  },
+  wardrobe: {
+    title: "Editar roupa",
+    find: (id) => state.wardrobeItems.find((item) => item.id === id),
+    fields: [
+      { key: "name", label: "Nome", type: "text" },
+      { key: "category", label: "Categoria", type: "select", options: wardrobeCategories.map((category) => [category.id, category.label]) },
+      { key: "color", label: "Cor", type: "text" },
+      { key: "style", label: "Estilo", type: "text" },
+      { key: "notes", label: "Observações", type: "textarea" },
+    ],
+    save: (id, values) => {
+      state.wardrobeItems = state.wardrobeItems.map((item) => item.id === id ? {
+        ...item,
+        name: values.name || item.name,
+        category: values.category,
+        color: values.color || "",
+        style: values.style || "",
+        notes: values.notes || "",
+      } : item);
+    },
+  },
+};
+
+function openGenericEdit(entity, id) {
+  const config = genericEditConfigs[entity];
+  const item = config?.find(id);
+  if (!config || !item) return;
+
+  document.querySelector("#generic-edit-title").textContent = config.title;
+  document.querySelector("#generic-edit-entity").value = entity;
+  document.querySelector("#generic-edit-id").value = id;
+  const fields = document.querySelector("#generic-edit-fields");
+  fields.innerHTML = "";
+
+  config.fields.forEach((field) => {
+    const label = document.createElement("label");
+    label.innerHTML = `<span>${field.label}</span>`;
+    let input;
+    if (field.type === "select") {
+      input = document.createElement("select");
+      const options = typeof field.options === "function" ? field.options() : field.options;
+      options.forEach((option) => {
+        const value = Array.isArray(option) ? option[0] : option;
+        const text = Array.isArray(option) ? option[1] : option;
+        input.innerHTML += `<option value="${escapeHtml(value)}">${escapeHtml(text)}</option>`;
+      });
+    } else if (field.type === "textarea") {
+      input = document.createElement("textarea");
+      input.rows = 4;
+    } else {
+      input = document.createElement("input");
+      input.type = field.type;
+      if (field.type === "number") {
+        input.min = "0";
+        input.step = "0.01";
+      }
+    }
+    input.dataset.genericField = field.key;
+    input.value = item[field.key] ?? "";
+    if (field.key === "emoji") {
+      const wrap = document.createElement("div");
+      wrap.className = "emoji-input-wrap";
+      input.id = "generic-routine-emoji";
+      const emojiButton = document.createElement("button");
+      emojiButton.type = "button";
+      emojiButton.dataset.emojiPickerTarget = input.id;
+      emojiButton.title = "Escolher emoji";
+      emojiButton.textContent = "☺";
+      wrap.append(input, emojiButton);
+      label.append(wrap);
+    } else {
+      label.append(input);
+    }
+    fields.append(label);
+  });
+
+  document.querySelector("#generic-edit-panel").classList.add("open");
+  document.querySelector("#generic-edit-panel").setAttribute("aria-hidden", "false");
+}
+
+function deleteGenericItem(entity, id) {
+  if (entity === "task") state.tasks = state.tasks.filter((item) => item.id !== id);
+  if (entity === "pending") state.pending = state.pending.filter((item) => item.id !== id);
+  if (entity === "subtask") {
+    const [taskId, subtaskId] = id.split(":");
+    state.pending = state.pending.map((task) => task.id === taskId ? {
+      ...task,
+      subtasks: task.subtasks.filter((subtask) => subtask.id !== subtaskId),
+    } : task);
+  }
+  if (entity === "market") state.market = state.market.filter((item) => item.id !== id);
+  if (entity === "wishlist") state.wishlist = state.wishlist.filter((item) => item.id !== id);
+  if (entity === "routine") state.routine = state.routine.filter((item) => item.id !== id);
+  if (entity === "agenda") state.agenda = state.agenda.filter((item) => item.id !== id);
+  if (entity === "cnh") state.cnh.steps = state.cnh.steps.filter((item) => item.id !== id);
+  if (entity === "financeGoal") state.financeGoals = state.financeGoals.filter((item) => item.id !== id);
+  if (entity === "note") state.notes = state.notes.filter((item) => item.id !== id);
+  if (entity === "personalGoal") state.personal.goals = state.personal.goals.filter((item) => item.id !== id);
+  if (entity === "personalDoc") state.personal.docs = state.personal.docs.filter((item) => item.id !== id);
+  if (entity === "win") state.wins = state.wins.filter((item) => item.id !== id);
+  if (entity === "wardrobe") {
+    state.wardrobeItems = state.wardrobeItems.filter((item) => item.id !== id);
+    state.wardrobeSelection = state.wardrobeSelection.filter((itemId) => itemId !== id);
+    state.wardrobeLooks = state.wardrobeLooks.filter((look) => !look.pieces.includes(id));
+  }
+}
+
+function renderBudgetList(elementId, items, kind) {
+  const list = document.querySelector(`#${elementId}`);
+  list.innerHTML = "";
+
+  items.forEach((item) => {
+    const row = document.createElement("article");
+    const paid = isBudgetPaid(item);
+    const dueDate = kind === "fixed" ? getFixedCostDueDate(item) : item.dueDate;
+    const statusText = paid ? "Pago" : dueDate < todayISO() ? "Atrasado" : "Pendente";
+    row.className = `finance-row budget-row ${paid ? "done paid" : ""} ${!paid && dueDate < todayISO() ? "late" : ""}`;
+    row.innerHTML = `
+      <span class="finance-date">${formatDate(dueDate)}</span>
+      <div class="finance-row-main">
+        <strong>${escapeHtml(item.title)}</strong>
+        <small>${kind === "fixed" ? "Custo fixo" : "Custo variável"} • ${statusText}</small>
+      </div>
+      <strong class="money-expense">- ${formatMoney(item.value)}</strong>
+      <div class="finance-row-actions">
+        <button class="check-btn ${paid ? "active" : ""}" type="button" data-budget-paid="${kind}:${item.id}" title="Marcar como pago">✓</button>
+        <button class="edit-btn" type="button" data-budget-edit="${kind}:${item.id}">Editar</button>
+        <button class="delete-btn" type="button" data-budget-delete="${kind}:${item.id}">×</button>
+      </div>
+    `;
+    list.append(row);
+  });
+}
+
+function renderToday() {
+  const today = new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+  document.querySelector("#today-date").textContent = `Hoje, ${today}`;
+}
+
+function renderDashboard() {
+  const openTasks = state.tasks.filter((task) => !task.done);
+  const openPending = (state.pending || []).filter((task) => !task.done);
+  const pendingMarket = state.market.filter((item) => !item.bought);
+  const routineDone = state.routine.filter((item) => item.done).length;
+  const routinePercent = state.routine.length ? Math.round((routineDone / state.routine.length) * 100) : 0;
+  const total = state.market.reduce((sum, item) => sum + item.qty * item.price, 0);
+
+  document.querySelector("#metric-tasks").textContent = openTasks.length + openPending.length;
+  document.querySelector("#metric-market").textContent = pendingMarket.length;
+  document.querySelector("#metric-routine").textContent = `${routinePercent}%`;
+  document.querySelector("#metric-total").textContent = formatMoney(total);
+
+  const taskList = document.querySelector("#dashboard-tasks");
+  taskList.innerHTML = "";
+  openTasks.slice(0, 4).forEach((task) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${task.title}</span><strong>${task.priority}</strong>`;
+    taskList.append(li);
+  });
+  if (!openTasks.length) taskList.innerHTML = "<li><span>Nenhuma tarefa aberta.</span><strong>OK</strong></li>";
+
+  const marketList = document.querySelector("#dashboard-market");
+  marketList.innerHTML = "";
+  pendingMarket.slice(0, 4).forEach((item) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${item.name}</span><strong>${formatMoney(item.qty * item.price)}</strong>`;
+    marketList.append(li);
+  });
+  if (!pendingMarket.length) marketList.innerHTML = "<li><span>Nenhuma compra pendente.</span><strong>OK</strong></li>";
+}
+
+function renderPending() {
+  const types = ["daily", "backlog", "weekly", "monthly"];
+  const emptyText = {
+    daily: "Nada imediato por aqui. Quando aparecer algo para hoje, coloque nesta coluna.",
+    backlog: "Sem pendências soltas registradas.",
+    weekly: "Nenhuma tarefa semanal cadastrada.",
+    monthly: "Nenhuma tarefa mensal cadastrada.",
+  };
+
+  types.forEach((type) => {
+    const list = document.querySelector(`#pending-${type}`);
+    const items = (state.pending || []).filter((task) => task.type === type);
+    list.innerHTML = "";
+
+    if (!items.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = emptyText[type];
+      list.append(empty);
+      return;
+    }
+
+    items.forEach((task) => {
+      const completed = task.subtasks.filter((subtask) => subtask.done).length;
+      const progress = task.subtasks.length ? `${completed}/${task.subtasks.length}` : "sem subtarefas";
+      const row = document.createElement("article");
+      const isOpen = expandedPending.has(task.id);
+      row.className = `pending-item ${task.done ? "done" : ""}`;
+      row.draggable = true;
+      row.dataset.pendingDrag = task.id;
+      row.innerHTML = `
+        <div class="pending-main">
+          <button class="check-btn ${task.done ? "active" : ""}" type="button" data-pending-check="${task.id}">✓</button>
+          <div>
+            <strong>${task.title}</strong>
+            <small>${progress}</small>
+          </div>
+          <button class="expand-btn ${isOpen ? "open" : ""}" type="button" data-pending-expand="${task.id}" title="Abrir subtarefas">${isOpen ? "−" : "+"}</button>
+          <button class="drag-handle" type="button" title="Arrastar tarefa">⋮⋮</button>
+          <button class="edit-btn" type="button" data-generic-edit="pending:${task.id}">Editar</button>
+          <button class="delete-btn" type="button" data-pending-delete="${task.id}">×</button>
+        </div>
+        <div class="subtasks ${isOpen ? "" : "collapsed"}">
+          <ul>
+            ${task.subtasks.map((subtask) => `
+              <li class="${subtask.done ? "done" : ""}">
+                <button class="mini-check ${subtask.done ? "active" : ""}" type="button" data-subtask-check="${task.id}:${subtask.id}">✓</button>
+                <span>${subtask.title}</span>
+                <button class="mini-edit" type="button" data-generic-edit="subtask:${task.id}:${subtask.id}">Editar</button>
+                <button class="mini-delete" type="button" data-subtask-delete="${task.id}:${subtask.id}">×</button>
+              </li>
+            `).join("")}
+          </ul>
+          <form class="subtask-form" data-subtask-form="${task.id}">
+            <input type="text" placeholder="Adicionar subtarefa" />
+            <button type="submit">Adicionar</button>
+          </form>
+        </div>
+      `;
+      list.append(row);
+    });
+  });
+}
+
+function renderTasks() {
+  const list = document.querySelector("#task-list");
+  list.innerHTML = "";
+  state.tasks.forEach((task) => {
+    const row = document.createElement("div");
+    row.className = `table-row ${task.done ? "done" : ""}`;
+    row.innerHTML = `
+      <span><button class="check-btn ${task.done ? "active" : ""}" type="button" data-task-check="${task.id}">✓</button></span>
+      <strong>${task.title}</strong>
+      <span class="pill ${task.priority}">${task.priority}</span>
+      <button class="edit-btn" type="button" data-generic-edit="task:${task.id}">Editar</button>
+      <button class="delete-btn" type="button" data-task-delete="${task.id}">×</button>
+    `;
+    list.append(row);
+  });
+}
+
+function renderMarket() {
+  const list = document.querySelector("#market-list");
+  const categoryGrid = document.querySelector("#market-categories");
+  const side = document.querySelector("#market-side");
+  renderMarketShop();
+  list.innerHTML = "";
+  categoryGrid.innerHTML = "";
+  side.innerHTML = "";
+
+  marketCategories.forEach((category) => {
+    const items = state.market.filter((item) => item.category === category.id);
+    const pending = items.filter((item) => !item.bought).length;
+
+    const card = document.createElement("button");
+    card.className = "category-card";
+    card.type = "button";
+    card.dataset.marketJump = category.id;
+    card.innerHTML = `
+      <span>${category.icon}</span>
+      <strong>${category.label}</strong>
+      <small>${pending} pendente${pending === 1 ? "" : "s"}</small>
+    `;
+    categoryGrid.append(card);
+
+    const sideButton = document.createElement("button");
+    sideButton.type = "button";
+    sideButton.dataset.marketJump = category.id;
+    sideButton.innerHTML = `<span>${category.icon} ${category.label}</span><strong>${items.length}</strong>`;
+    side.append(sideButton);
+
+    const section = document.createElement("section");
+    section.className = "market-section";
+    section.id = `market-${category.id}`;
+    section.innerHTML = `
+      <div class="market-section-head">
+        <h3>${category.icon} ${category.label}</h3>
+        <span>${items.length} item${items.length === 1 ? "" : "s"}</span>
+      </div>
+    `;
+
+    if (!items.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "Nenhum item nesta categoria.";
+      section.append(empty);
+    }
+
+    items.forEach((item) => {
+      const total = item.qty * item.price;
+      const row = document.createElement("div");
+      row.className = `market-item-row ${item.bought ? "done" : ""}`;
+      row.innerHTML = `
+        <button class="check-btn ${item.bought ? "active" : ""}" type="button" data-market-check="${item.id}">✓</button>
+        <strong>${item.name}</strong>
+        <span class="market-value-cell"><small>Quantidade</small>${item.qty}</span>
+        <span class="market-value-cell"><small>Unitário</small>${formatMoney(item.price)}</span>
+        <span class="market-value-cell"><small>Total</small>${formatMoney(total)}</span>
+        <button class="edit-btn" type="button" data-generic-edit="market:${item.id}">Editar</button>
+        <button class="delete-btn" type="button" data-market-delete="${item.id}">×</button>
+      `;
+      section.append(row);
+    });
+
+    list.append(section);
+  });
+}
+
+function getMarketShopQty(item) {
+  return Math.max(1, Number(item.shopQty || item.qty || 1));
+}
+
+function getMarketShopPrice(item) {
+  return Number(item.shopPrice ?? item.price ?? 0);
+}
+
+function renderMarketShop() {
+  const panel = document.querySelector("#market-shop-panel");
+  const list = document.querySelector("#market-shop-list");
+  const toggle = document.querySelector("#market-shop-toggle");
+  const pendingItems = state.market.filter((item) => !item.bought || item.inCart);
+  const pickedItems = pendingItems.filter((item) => item.inCart);
+  const estimatedTotal = pendingItems.reduce((sum, item) => sum + getMarketShopQty(item) * getMarketShopPrice(item), 0);
+  const pickedTotal = pickedItems.reduce((sum, item) => sum + getMarketShopQty(item) * getMarketShopPrice(item), 0);
+
+  document.querySelector("#market").classList.toggle("market-shopping", marketShopMode);
+  panel.hidden = !marketShopMode;
+  toggle.textContent = marketShopMode ? "Voltar para lista geral" : "Ir ao mercado";
+  document.querySelector("#market-shop-pending").textContent = state.market.filter((item) => !item.bought).length;
+  document.querySelector("#market-shop-picked").textContent = pickedItems.length;
+  document.querySelector("#market-shop-estimate").textContent = formatMoney(estimatedTotal);
+  document.querySelector("#market-shop-total").textContent = formatMoney(pickedTotal);
+
+  if (!marketShopMode) return;
+
+  list.innerHTML = "";
+  if (!pendingItems.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhum item pendente para comprar.";
+    list.append(empty);
+    return;
+  }
+
+  marketCategories.forEach((category) => {
+    const items = pendingItems.filter((item) => item.category === category.id);
+    if (!items.length) return;
+
+    const section = document.createElement("section");
+    section.className = "market-shop-section";
+    section.innerHTML = `<h4>${category.icon} ${category.label}</h4>`;
+
+    items.forEach((item) => {
+      const qty = getMarketShopQty(item);
+      const price = getMarketShopPrice(item);
+      const rowTotal = qty * price;
+      const row = document.createElement("article");
+      row.className = `market-shop-row ${item.inCart ? "picked" : ""}`;
+      row.innerHTML = `
+        <button class="check-btn ${item.inCart ? "active" : ""}" type="button" data-market-shop-pick="${item.id}" title="Marcar como pego">✓</button>
+        <strong>${escapeHtml(item.name)}</strong>
+        <label>
+          <span>Qtd</span>
+          <input type="number" min="1" step="1" value="${qty}" data-market-shop-qty="${item.id}" />
+        </label>
+        <label>
+          <span>Preço</span>
+          <input type="number" min="0" step="0.01" value="${price || ""}" data-market-shop-price="${item.id}" />
+        </label>
+        <span class="market-shop-row-total">${formatMoney(rowTotal)}</span>
+      `;
+      section.append(row);
+    });
+
+    list.append(section);
+  });
+}
+
+function renderPersonal() {
+  const info = state.personal.info;
+  document.querySelector("#personal-name").value = info.name || "";
+  document.querySelector("#personal-phone").value = info.phone || "";
+  document.querySelector("#personal-email").value = info.email || "";
+  document.querySelector("#personal-address").value = info.address || "";
+  document.querySelector("#personal-notes").value = info.notes || "";
+
+  const openGoals = state.personal.goals.filter((item) => !item.done);
+  const doneGoals = state.personal.goals.filter((item) => item.done);
+  document.querySelector("#personal-goals-open").textContent = openGoals.length;
+  document.querySelector("#personal-goals-done").textContent = doneGoals.length;
+  document.querySelector("#personal-docs-count").textContent = state.personal.docs.length;
+
+  const goalsList = document.querySelector("#personal-goals-list");
+  goalsList.innerHTML = "";
+  if (!state.personal.goals.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhuma meta pessoal cadastrada.";
+    goalsList.append(empty);
+  }
+
+  state.personal.goals.forEach((goal) => {
+    const row = document.createElement("article");
+    row.className = `personal-row ${goal.done ? "done" : ""}`;
+    row.innerHTML = `
+      <button class="check-btn ${goal.done ? "active" : ""}" type="button" data-personal-goal-check="${goal.id}">✓</button>
+      <div>
+        <strong>${escapeHtml(goal.title)}</strong>
+        <small>${escapeHtml(goal.area)}</small>
+      </div>
+      <button class="edit-btn" type="button" data-generic-edit="personalGoal:${goal.id}">Editar</button>
+      <button class="delete-btn" type="button" data-personal-goal-delete="${goal.id}">×</button>
+    `;
+    goalsList.append(row);
+  });
+
+  const docsList = document.querySelector("#personal-docs-list");
+  docsList.innerHTML = "";
+  if (!state.personal.docs.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhum documento ou link cadastrado.";
+    docsList.append(empty);
+  }
+
+  state.personal.docs.forEach((doc) => {
+    const row = document.createElement("article");
+    row.className = `personal-row ${doc.done ? "done" : ""}`;
+    row.innerHTML = `
+      <button class="check-btn ${doc.done ? "active" : ""}" type="button" data-personal-doc-check="${doc.id}">✓</button>
+      <div>
+        <strong>${escapeHtml(doc.title)}</strong>
+        <small>${escapeHtml(doc.value || "Sem detalhe")}</small>
+      </div>
+      <button class="edit-btn" type="button" data-generic-edit="personalDoc:${doc.id}">Editar</button>
+      <button class="delete-btn" type="button" data-personal-doc-delete="${doc.id}">×</button>
+    `;
+    docsList.append(row);
+  });
+}
+
+function renderWishlist() {
+  const list = document.querySelector("#wishlist-list");
+  const categories = document.querySelector("#wishlist-categories");
+  const openItems = state.wishlist.filter((item) => !item.bought);
+  const total = openItems.reduce((sum, item) => sum + Number(item.price || 0), 0);
+  const high = openItems.filter((item) => item.priority === "Alta").length;
+
+  document.querySelector("#wishlist-open").textContent = openItems.length;
+  document.querySelector("#wishlist-total").textContent = formatMoney(total);
+  document.querySelector("#wishlist-high").textContent = high;
+
+  categories.innerHTML = "";
+  wishlistCategories.forEach((category) => {
+    const items = state.wishlist.filter((item) => item.category === category.id);
+    const pending = items.filter((item) => !item.bought).length;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "wishlist-category-card";
+    button.dataset.wishlistCategoryJump = category.id;
+    button.innerHTML = `
+      <span>${category.icon}</span>
+      <strong>${category.label}</strong>
+      <small>${pending} pendente(s)</small>
+    `;
+    categories.append(button);
+  });
+
+  list.innerHTML = "";
+  if (!state.wishlist.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhuma compra futura cadastrada.";
+    list.append(empty);
+    return;
+  }
+
+  wishlistCategories.forEach((category) => {
+    const items = state.wishlist.filter((item) => item.category === category.id);
+    const section = document.createElement("section");
+    section.className = "wishlist-section";
+    section.id = `wishlist-category-${category.id}`;
+    section.innerHTML = `
+      <div class="wishlist-section-head">
+        <span>${category.icon}</span>
+        <h3>${category.label}</h3>
+        <small>${items.filter((item) => !item.bought).length} pendente(s)</small>
+      </div>
+      <div class="wishlist-list"></div>
+    `;
+    const sectionList = section.querySelector(".wishlist-list");
+    if (!items.length) {
+      sectionList.innerHTML = `<div class="empty-state">Nenhum item nesta categoria.</div>`;
+    }
+    items.forEach((item) => {
+      const row = document.createElement("article");
+      row.className = `wishlist-row ${item.bought ? "done" : ""}`;
+      row.innerHTML = `
+        <button class="check-btn ${item.bought ? "active" : ""}" type="button" data-wishlist-check="${item.id}" title="Marcar como comprado">✓</button>
+        <div>
+          <strong>${escapeHtml(item.name)}</strong>
+          ${
+            isUrl(item.link)
+              ? `<a class="wishlist-link" href="${escapeHtml(normalizeUrl(item.link))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.link)}</a>`
+              : `<small>${escapeHtml(item.link || "Sem loja/link")}</small>`
+          }
+        </div>
+        <span class="pill ${escapeHtml(item.priority)}">${escapeHtml(item.priority)}</span>
+        <strong>${formatMoney(item.price)}</strong>
+        <button class="edit-btn" type="button" data-generic-edit="wishlist:${item.id}">Editar</button>
+        <button class="delete-btn" type="button" data-wishlist-delete="${item.id}">×</button>
+      `;
+      sectionList.append(row);
+    });
+    list.append(section);
+  });
+}
+
+function renderAgenda() {
+  const list = document.querySelector("#agenda-list");
+  const calendar = document.querySelector("#agenda-calendar-grid");
+  const typeLabels = {
+    appointment: "Compromisso",
+    reminder: "Lembrete",
+    deadline: "Prazo",
+  };
+  const sorted = [...state.agenda].sort((a, b) => a.date.localeCompare(b.date));
+  const monthKey = state.agendaPlan?.month || todayISO().slice(0, 7);
+  const [year, month] = monthKey.split("-").map(Number);
+  const firstWeekday = new Date(year, month - 1, 1).getDay();
+  const monthDays = daysInMonth(monthKey);
+  const previousMonthDate = new Date(year, month - 2, 1);
+  const previousMonthKey = `${previousMonthDate.getFullYear()}-${String(previousMonthDate.getMonth() + 1).padStart(2, "0")}`;
+  const previousMonthDays = daysInMonth(previousMonthKey);
+
+  document.querySelector("#agenda-calendar-title").textContent = new Intl.DateTimeFormat("pt-BR", {
+    month: "long",
+    year: "numeric",
+  }).format(new Date(year, month - 1, 1));
+
+  calendar.innerHTML = "";
+  Array.from({ length: 42 }, (_, index) => {
+    const relativeDay = index - firstWeekday + 1;
+    let date = "";
+    let day = relativeDay;
+    let outside = false;
+
+    if (relativeDay < 1) {
+      day = previousMonthDays + relativeDay;
+      date = dateToISO(new Date(year, month - 2, day));
+      outside = true;
+    } else if (relativeDay > monthDays) {
+      day = relativeDay - monthDays;
+      date = dateToISO(new Date(year, month, day));
+      outside = true;
+    } else {
+      date = dateToISO(new Date(year, month - 1, day));
+    }
+
+    const events = sorted.filter((item) => item.date === date);
+    const dayButton = document.createElement("button");
+    dayButton.type = "button";
+    dayButton.className = `agenda-day ${outside ? "outside" : ""} ${date === todayISO() ? "today" : ""}`;
+    dayButton.dataset.agendaDay = date;
+    dayButton.innerHTML = `
+      <span class="agenda-day-number">${day}</span>
+      <span class="agenda-day-events">
+        ${events.slice(0, 3).map((item) => `<small class="${item.type} ${item.done ? "done" : ""}">${escapeHtml(item.title)}</small>`).join("")}
+        ${events.length > 3 ? `<small class="agenda-more">+${events.length - 3} compromisso(s)</small>` : ""}
+      </span>
+    `;
+    calendar.append(dayButton);
+  });
+
+  list.innerHTML = "";
+  if (!sorted.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nenhum compromisso cadastrado.";
+    list.append(empty);
+    return;
+  }
+
+  sorted.forEach((item) => {
+    const row = document.createElement("article");
+    row.className = item.done ? "done" : "";
+    row.innerHTML = `
+      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-agenda-check="${item.id}">✓</button>
+      <b>${formatDate(item.date)}</b>
+      <div>
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${typeLabels[item.type] || "Lembrete"}</span>
+      </div>
+      <button class="edit-btn" type="button" data-generic-edit="agenda:${item.id}">Editar</button>
+      <button class="delete-btn" type="button" data-agenda-delete="${item.id}">×</button>
+    `;
+    list.append(row);
+  });
+}
+
+function renderCnh() {
+  const list = document.querySelector("#cnh-list");
+  if (!list) return;
+
+  const steps = state.cnh?.steps || [];
+  const total = steps.reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const completed = steps.filter((item) => item.done);
+  const completedTotal = completed.reduce((sum, item) => sum + Number(item.value || 0), 0);
+  const progress = steps.length ? Math.round((completed.length / steps.length) * 100) : 0;
+  const nextStep = steps.find((item) => !item.done);
+
+  document.querySelector("#cnh-total").textContent = formatMoney(total);
+  document.querySelector("#cnh-paid").textContent = formatMoney(completedTotal);
+  document.querySelector("#cnh-open").textContent = formatMoney(Math.max(0, total - completedTotal));
+  document.querySelector("#cnh-progress-text").textContent = `${progress}%`;
+  document.querySelector("#cnh-progress-bar").style.width = `${progress}%`;
+  document.querySelector("#cnh-step-count").textContent = `${completed.length} de ${steps.length} etapas`;
+  document.querySelector("#cnh-next-step").textContent = nextStep ? `Próxima etapa: ${nextStep.title}` : "Processo concluído";
+  document.querySelector("#cnh-date-range").textContent = `${formatDate(state.cnh?.startDate)} até ${formatDate(state.cnh?.endDate)}`;
+
+  list.innerHTML = "";
+  if (!steps.length) {
+    list.innerHTML = `<div class="empty-state">Nenhuma etapa da CNH cadastrada.</div>`;
+    return;
+  }
+
+  steps.forEach((item, index) => {
+    const row = document.createElement("article");
+    row.className = `cnh-step ${item.done ? "done" : ""}`;
+    row.innerHTML = `
+      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-cnh-check="${item.id}" title="Marcar etapa como concluída">✓</button>
+      <div class="cnh-step-index">${String(index + 1).padStart(2, "0")}</div>
+      <div class="cnh-step-main">
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${item.dueDate ? formatDate(item.dueDate) : "Sem data definida"}</span>
+      </div>
+      <strong class="cnh-step-value">${formatMoney(item.value)}</strong>
+      <span class="pill ${item.done ? "Baixa" : "Média"}">${item.done ? "Concluído" : "Pendente"}</span>
+      <button class="edit-btn" type="button" data-generic-edit="cnh:${item.id}">Editar</button>
+      <button class="delete-btn" type="button" data-cnh-delete="${item.id}">×</button>
+    `;
+    list.append(row);
+  });
+}
+
+function renderWins() {
+  const list = document.querySelector("#wins-list");
+  const sorted = [...state.wins].sort((a, b) => b.date.localeCompare(a.date));
+  const monthFormatter = new Intl.DateTimeFormat("pt-BR", { month: "long" });
+
+  list.innerHTML = "";
+  if (!sorted.length) {
+    list.innerHTML = `<div class="empty-state">Nenhuma conquista cadastrada.</div>`;
+    return;
+  }
+
+  const groupBy = (items, getKey) => items.reduce((groups, item) => {
+    const key = getKey(item);
+    groups[key] = groups[key] || [];
+    groups[key].push(item);
+    return groups;
+  }, {});
+  const byYear = groupBy(sorted, (item) => item.date.slice(0, 4));
+  Object.entries(byYear).forEach(([year, yearItems]) => {
+    const yearSection = document.createElement("section");
+    yearSection.className = "wins-year";
+    yearSection.innerHTML = `<h2>${year}</h2><div class="wins-months"></div>`;
+    const months = yearSection.querySelector(".wins-months");
+    const byMonth = groupBy(yearItems, (item) => item.date.slice(0, 7));
+
+    Object.entries(byMonth).forEach(([monthKey, monthItems]) => {
+      const [monthYear, month] = monthKey.split("-").map(Number);
+      const monthSection = document.createElement("section");
+      monthSection.className = "wins-month";
+      monthSection.innerHTML = `
+        <h3>${monthFormatter.format(new Date(monthYear, month - 1, 1))}</h3>
+        <div class="wins-grid"></div>
+      `;
+      const grid = monthSection.querySelector(".wins-grid");
+
+      monthItems.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "win-card";
+        card.innerHTML = `
+          <button class="win-photo ${item.photo ? "has-photo" : ""}" type="button" data-win-photo="${item.id}" title="Adicionar ou trocar foto">
+            ${item.photo ? `<img src="${item.photo}" alt="${escapeHtml(item.title)}" />` : `<span>Adicionar foto</span>`}
+          </button>
+          <div class="win-card-body">
+            <span>${formatDate(item.date)}</span>
+            <strong>${escapeHtml(item.title)}</strong>
+            <button class="edit-btn" type="button" data-generic-edit="win:${item.id}">Editar</button>
+            <button class="delete-btn" type="button" data-win-delete="${item.id}" title="Apagar conquista">×</button>
+          </div>
+        `;
+        grid.append(card);
+      });
+
+      months.append(monthSection);
+    });
+
+    list.append(yearSection);
+  });
+}
+
+function renderHomeItems() {
+  const list = document.querySelector("#home-list");
+  const doneItems = state.homeItems.filter((item) => item.done);
+  const openItems = state.homeItems.filter((item) => !item.done);
+  list.innerHTML = "";
+  document.querySelector("#home-done-count").textContent = doneItems.length;
+  document.querySelector("#home-open-count").textContent = openItems.length;
+
+  state.homeItems.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = `home-card ${item.done ? "done" : ""}`;
+    card.innerHTML = `
+      <button class="home-photo ${item.photo ? "has-photo" : ""}" type="button" data-home-photo="${item.id}" title="Adicionar ou trocar foto">
+        ${item.photo ? `<img src="${item.photo}" alt="${escapeHtml(item.title)}" />` : "<span>Foto</span>"}
+      </button>
+      <div class="home-card-body">
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-home-check="${item.id}" title="Marcar como comprado">✓</button>
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${item.done ? "Tenho" : "Pendente"}</span>
+        <button class="delete-btn" type="button" data-home-delete="${item.id}">×</button>
+      </div>
+    `;
+    list.append(card);
+  });
+}
+
+function getGeneratedWardrobeLooks() {
+  const selected = state.wardrobeItems.filter((item) => state.wardrobeSelection.includes(item.id));
+  const byCategory = Object.fromEntries(wardrobeCategories.map((category) => [
+    category.id,
+    selected.filter((item) => item.category === category.id),
+  ]));
+  if (!byCategory.top.length || !byCategory.bottom.length || !byCategory.shoes.length) return [];
+  const choices = [
+    byCategory.coat.length ? [null, ...byCategory.coat] : [null],
+    byCategory.top,
+    byCategory.bottom,
+    byCategory.shoes,
+    byCategory.accessory.length ? [null, ...byCategory.accessory] : [null],
+  ];
+  return choices.reduce((looks, categoryChoices) => (
+    looks.flatMap((look) => categoryChoices.map((piece) => piece ? [...look, piece.id] : look))
+  ), [[]]).filter((pieces) => pieces.length >= 3);
+}
+
+function wardrobePieceVisual(item, compact = false) {
+  return `<article class="wardrobe-look-piece ${compact ? "compact" : ""}">
+    <div>${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" />` : `<span>👕</span>`}</div>
+    <strong>${escapeHtml(item.name)}</strong>
+    <small>${escapeHtml(item.color || "Sem cor")}</small>
+  </article>`;
+}
+
+function wardrobeLookCard(pieces, actions = "") {
+  const ordered = wardrobeCategories.flatMap((category) => pieces.filter((item) => item.category === category.id));
+  return `<article class="wardrobe-look-card"><div class="wardrobe-look-pieces">${ordered.map((item) => wardrobePieceVisual(item, true)).join("")}</div><div class="wardrobe-look-actions">${actions}</div></article>`;
+}
+
+function renderWardrobe() {
+  const list = document.querySelector("#wardrobe-list");
+  if (!list) return;
+  const nameFilter = document.querySelector("#wardrobe-filter-name").value.trim().toLocaleLowerCase("pt-BR");
+  const categoryFilter = document.querySelector("#wardrobe-filter-category").value;
+  const colorFilter = document.querySelector("#wardrobe-filter-color").value.trim().toLocaleLowerCase("pt-BR");
+  const filtered = state.wardrobeItems.filter((item) => (
+    (!nameFilter || item.name.toLocaleLowerCase("pt-BR").includes(nameFilter))
+    && (!categoryFilter || item.category === categoryFilter)
+    && (!colorFilter || item.color.toLocaleLowerCase("pt-BR").includes(colorFilter))
+  ));
+  list.innerHTML = filtered.length ? filtered.map((item) => `<article class="wardrobe-item-card">
+    <button class="wardrobe-item-photo" type="button" data-wardrobe-photo="${item.id}" title="Adicionar ou trocar foto">${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" />` : `<span>Adicionar foto</span>`}</button>
+    <div class="wardrobe-item-body"><span>${escapeHtml(wardrobeCategoryLabel(item.category))}</span><h4>${escapeHtml(item.name)}</h4><p><i style="--piece-color:${escapeHtml(item.color)}"></i>${escapeHtml(item.color || "Sem cor")}</p><small>${escapeHtml(item.style || "Sem estilo definido")}</small><div><button type="button" data-generic-edit="wardrobe:${item.id}">Editar</button><button class="delete-btn" type="button" data-wardrobe-delete="${item.id}">×</button></div></div>
+  </article>`).join("") : `<div class="empty-state">Nenhuma roupa encontrada.</div>`;
+
+  const groups = document.querySelector("#wardrobe-selection-groups");
+  groups.innerHTML = wardrobeCategories.map((category) => {
+    const items = state.wardrobeItems.filter((item) => item.category === category.id);
+    return `<section><div><h4>${category.label}</h4><span>${category.optional ? "Opcional" : "Obrigatório"}</span></div><div>${items.length ? items.map((item) => `<label class="wardrobe-select-piece"><input type="checkbox" data-wardrobe-select="${item.id}" ${state.wardrobeSelection.includes(item.id) ? "checked" : ""} /><span>${item.image ? `<img src="${item.image}" alt="" />` : "👕"}</span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.color)}</small></label>`).join("") : `<p>Nenhuma peça cadastrada.</p>`}</div></section>`;
+  }).join("");
+
+  const generated = getGeneratedWardrobeLooks();
+  document.querySelector("#wardrobe-item-count").textContent = state.wardrobeItems.length;
+  document.querySelector("#wardrobe-look-count").textContent = generated.length;
+  document.querySelector("#wardrobe-saved-count").textContent = state.wardrobeLooks.length;
+  document.querySelector("#wardrobe-generated-total").textContent = `${generated.length} ${generated.length === 1 ? "combinação" : "combinações"}`;
+  document.querySelector("#wardrobe-generated-looks").innerHTML = generated.length
+    ? generated.map((pieceIds, index) => wardrobeLookCard(pieceIds.map((id) => state.wardrobeItems.find((item) => item.id === id)).filter(Boolean), `<button type="button" data-wardrobe-save-look="${index}">Salvar look</button><button type="button" data-wardrobe-favorite-generated="${index}">☆ Favoritar</button>`)).join("")
+    : `<div class="empty-state">Selecione pelo menos uma parte de cima, uma parte de baixo e um calçado.</div>`;
+
+  const favoritesOnly = document.querySelector("#wardrobe-favorites-only").checked;
+  const savedLooks = state.wardrobeLooks.filter((look) => !favoritesOnly || look.favorite);
+  document.querySelector("#wardrobe-saved-looks").innerHTML = savedLooks.length
+    ? savedLooks.map((look) => wardrobeLookCard(look.pieces.map((id) => state.wardrobeItems.find((item) => item.id === id)).filter(Boolean), `<button type="button" data-wardrobe-favorite-look="${look.id}">${look.favorite ? "★ Favorito" : "☆ Favoritar"}</button><button class="delete-btn" type="button" data-wardrobe-delete-look="${look.id}">×</button>`)).join("")
+    : `<div class="empty-state">Nenhum look salvo.</div>`;
+}
+
+function resizeImageFile(file, size = 720, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("error", reject);
+    reader.addEventListener("load", () => {
+      const image = new Image();
+      image.addEventListener("error", reject);
+      image.addEventListener("load", () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const context = canvas.getContext("2d");
+        const sourceSize = Math.min(image.naturalWidth, image.naturalHeight);
+        const sourceX = (image.naturalWidth - sourceSize) / 2;
+        const sourceY = (image.naturalHeight - sourceSize) / 2;
+        context.drawImage(image, sourceX, sourceY, sourceSize, sourceSize, 0, 0, size, size);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      });
+      image.src = reader.result;
+    });
+    reader.readAsDataURL(file);
+  });
+}
+
+function buildSearchItems() {
+  return [
+    ...state.tasks.map((item) => ({ section: "tasks", label: item.title, detail: `Tarefa • ${item.priority}` })),
+    ...state.pending.map((item) => ({ section: "pending", label: item.title, detail: `Pendência • ${item.type}` })),
+    ...state.market.map((item) => ({ section: "market", label: item.name, detail: `Mercado • ${item.bought ? "comprado" : "pendente"}` })),
+    ...state.personal.goals.map((item) => ({ section: "personal", label: item.title, detail: `Meta pessoal • ${item.area}` })),
+    ...state.personal.docs.map((item) => ({ section: "personal", label: item.title, detail: `Documento/link • ${item.value || "sem detalhe"}` })),
+    ...state.wishlist.map((item) => ({ section: "wishlist", label: item.name, detail: `Compra futura • ${item.priority}` })),
+    ...state.agenda.map((item) => ({ section: "agenda", label: item.title, detail: `Agenda • ${formatDate(item.date)}` })),
+    ...state.wins.map((item) => ({ section: "wins", label: item.title, detail: `Conquista • ${formatDate(item.date)}` })),
+    ...state.wardrobeItems.map((item) => ({ section: "wardrobe", label: item.name, detail: `Guarda-Roupa • ${wardrobeCategoryLabel(item.category)} • ${item.color}` })),
+    ...state.notes.map((item) => ({ section: "quick-notes", label: item.text, detail: `Nota • ${item.date}` })),
+    ...state.finance.map((item) => ({ section: "finance", label: item.title, detail: `Financeiro • ${item.category} • ${formatDate(item.dueDate)}` })),
+  ];
+}
+
+function renderSearch(query = "") {
+  const results = document.querySelector("#search-results");
+  const normalized = query.trim().toLowerCase();
+  const items = buildSearchItems().filter((item) => !normalized || `${item.label} ${item.detail}`.toLowerCase().includes(normalized));
+
+  results.innerHTML = "";
+  if (!items.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "Nada encontrado.";
+    results.append(empty);
+    return;
+  }
+
+  items.slice(0, 30).forEach((item) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.searchOpen = item.section;
+    button.innerHTML = `<strong>${escapeHtml(item.label)}</strong><span>${escapeHtml(item.detail)}</span>`;
+    results.append(button);
+  });
+}
+
+function renderTodaySummary() {
+  const box = document.querySelector("#today-summary");
+  const today = todayISO();
+  const openTasks = state.tasks.filter((item) => !item.done).length;
+  const openPending = state.pending.filter((item) => !item.done).length;
+  const todayAgenda = state.agenda.filter((item) => item.date === today && !item.done).length;
+  const todayFinance = state.finance.filter((item) => item.dueDate <= today && !item.done).length
+    + state.fixedCosts.filter((item) => !isBudgetPaid(item) && getFixedCostDueDate(item) <= today).length
+    + state.variableCosts.filter((item) => !isBudgetPaid(item) && item.dueDate <= today).length;
+  const market = state.market.filter((item) => !item.bought).length;
+  const routineDone = state.routine.filter((item) => item.done).length;
+  const routinePercent = state.routine.length ? Math.round((routineDone / state.routine.length) * 100) : 0;
+
+  box.innerHTML = `
+    <article><span>Tarefas abertas</span><strong>${openTasks}</strong></article>
+    <article><span>Pendências abertas</span><strong>${openPending}</strong></article>
+    <article><span>Agenda de hoje</span><strong>${todayAgenda}</strong></article>
+    <article><span>Financeiro hoje</span><strong>${todayFinance}</strong></article>
+    <article><span>Compras pendentes</span><strong>${market}</strong></article>
+    <article><span>Rotina concluída</span><strong>${routinePercent}%</strong></article>
+  `;
+}
+
+function renderNotes() {
+  const list = document.querySelector("#notes-list");
+  list.innerHTML = "";
+  if (!state.notes.length) {
+    list.innerHTML = `<div class="empty-state notes-empty">Nenhuma anotação salva ainda.</div>`;
+    return;
+  }
+  state.notes.forEach((note) => {
+    const card = document.createElement("article");
+    card.className = "note-card";
+    card.innerHTML = `
+      <div class="note-card-top">
+        <span>Nota rápida</span>
+        <small>${escapeHtml(note.date)}</small>
+      </div>
+      <p>${escapeHtml(note.text)}</p>
+      <div class="note-card-actions">
+        <button class="edit-btn" type="button" data-generic-edit="note:${note.id}">Editar</button>
+        <button class="delete-btn" type="button" data-note-delete="${note.id}">Excluir</button>
+      </div>
+    `;
+    list.append(card);
+  });
+}
+
+function renderRoutine() {
+  const types = ["required", "endday", "day", "weekly"];
+  const emptyText = {
+    required: "Nenhum obrigatório cadastrado.",
+    endday: "Nada no fim do dia por enquanto.",
+    day: "Nenhuma ação do dia cadastrada.",
+    weekly: "Nenhum item semanal cadastrado.",
+  };
+
+  types.forEach((type) => {
+    const list = document.querySelector(`#routine-${type}`);
+    const items = state.routine.filter((item) => item.type === type);
+    list.innerHTML = "";
+
+    if (!items.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = emptyText[type];
+      list.append(empty);
+      return;
+    }
+
+    items.forEach((item) => {
+      const row = document.createElement("article");
+      row.className = `routine-item ${item.done ? "done" : ""}`;
+      row.innerHTML = `
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-routine-check="${item.id}">✓</button>
+        <strong>${item.title}</strong>
+        <button class="edit-btn" type="button" data-generic-edit="routine:${item.id}">Editar</button>
+        <button class="delete-btn" type="button" data-routine-delete="${item.id}">×</button>
+      `;
+      list.append(row);
+    });
+  });
+}
+
+function renderRoutineDashboardLegacy() {
+  const tracker = state.routineTracker;
+  const habits = state.routine.filter((item) => !/água|agua/i.test(item.title));
+  const waterDone = tracker.waterMl >= tracker.waterGoalMl;
+  const doneCount = habits.filter((item) => item.done).length + (waterDone ? 1 : 0);
+  const totalCount = habits.length + 1;
+  const progress = Math.round((doneCount / Math.max(1, totalCount)) * 100);
+  tracker.history[todayISO()] = progress;
+
+  document.querySelector("#routine-progress-percent").textContent = `${progress}%`;
+  document.querySelector("#routine-progress-title").textContent = `${doneCount} de ${totalCount} hábitos concluídos`;
+  document.querySelector("#routine-progress-message").textContent = progress === 100
+    ? "Dia completo. Excelente trabalho."
+    : progress >= 70 ? "Continue assim. Você está perto de vencer o dia." : "Cada hábito concluído aproxima você da meta.";
+  document.querySelector("#routine-progress-bar").style.width = `${progress}%`;
+  document.querySelector("#routine-progress-ring").style.background = `conic-gradient(#f3bd36 ${progress}%, rgba(255,255,255,.09) 0)`;
+  document.querySelector("#routine-done-count").textContent = doneCount;
+  document.querySelector("#routine-open-count").textContent = Math.max(0, totalCount - doneCount);
+  document.querySelector("#routine-total-count").textContent = totalCount;
+  document.querySelector("#routine-score").textContent = `${progress}%`;
+
+  const historyDates = Object.entries(tracker.history).sort(([a], [b]) => b.localeCompare(a));
+  let currentStreak = 0;
+  for (const [, score] of historyDates) {
+    if (score < 100) break;
+    currentStreak += 1;
+  }
+  const perfectDates = historyDates.filter(([, score]) => score === 100).map(([date]) => date).sort();
+  let bestStreak = 0;
+  let runningStreak = 0;
+  let previousDate = "";
+  perfectDates.forEach((date) => {
+    runningStreak = previousDate && addDays(previousDate, 1) === date ? runningStreak + 1 : 1;
+    bestStreak = Math.max(bestStreak, runningStreak);
+    previousDate = date;
+  });
+  tracker.bestStreak = Math.max(tracker.bestStreak || 0, bestStreak);
+  document.querySelector("#routine-current-streak").textContent = `${currentStreak} dias`;
+  document.querySelector("#routine-best-streak").textContent = `${tracker.bestStreak} dias`;
+
+  document.querySelector("#routine-water-label").textContent = `${(tracker.waterMl / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}L / ${(tracker.waterGoalMl / 1000).toLocaleString("pt-BR")}L`;
+  document.querySelector("#routine-water-drops").innerHTML = Array.from({ length: 6 }, (_, index) =>
+    `<span class="${tracker.waterMl >= (index + 1) * 500 ? "filled" : ""}">●</span>`
+  ).join("");
+
+  const monthKey = todayISO().slice(0, 7);
+  const [calendarYear, calendarMonth] = monthKey.split("-").map(Number);
+  const firstDay = new Date(calendarYear, calendarMonth - 1, 1).getDay();
+  document.querySelector("#routine-calendar-title").textContent = new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(new Date(calendarYear, calendarMonth - 1, 1));
+  const calendar = document.querySelector("#routine-calendar-grid");
+  calendar.innerHTML = "";
+  Array.from({ length: firstDay }).forEach(() => calendar.append(document.createElement("span")));
+  Array.from({ length: daysInMonth(monthKey) }, (_, index) => {
+    const date = `${monthKey}-${String(index + 1).padStart(2, "0")}`;
+    const score = tracker.history[date];
+    const day = document.createElement("span");
+    day.className = score === undefined ? "future" : score >= 100 ? "complete" : score >= 50 ? "partial" : "missed";
+    day.title = `${formatDate(date)}: ${score ?? 0}%`;
+    day.textContent = index + 1;
+    calendar.append(day);
+  });
+
+  const labels = {
+    required: ["Essenciais", "Hábitos básicos de todos os dias."],
+    endday: ["Saúde", "Exercícios e cuidados pessoais."],
+    day: ["Produtividade", "Trabalho e ações importantes."],
+    weekly: ["Semana", "Hábitos que acontecem durante a semana."],
+  };
+  Object.entries(labels).forEach(([type, [label, description]]) => {
+    const list = document.querySelector(`#routine-${type}`);
+    const items = habits.filter((item) => item.type === type);
+    const section = list.closest(".routine-section");
+    section.querySelector("h3").textContent = label;
+    section.querySelector("p").textContent = description;
+    section.dataset.progress = `${items.filter((item) => item.done).length}/${items.length}`;
+    list.innerHTML = items.length ? "" : `<div class="empty-state">Nenhum hábito cadastrado.</div>`;
+    items.forEach((item) => {
+      const icon = /café|cafe/i.test(item.title) ? "☕" : /almoço|janta|lanche|sobremesa/i.test(item.title) ? "🍽" : /fruta/i.test(item.title) ? "🍎" : /academia/i.test(item.title) ? "🏋" : /correr/i.test(item.title) ? "🏃" : /luta/i.test(item.title) ? "🥊" : /sol/i.test(item.title) ? "☀" : /trabalh/i.test(item.title) ? "💼" : /b12|remédio|remedio/i.test(item.title) ? "💊" : "✓";
+      const row = document.createElement("article");
+      row.className = `routine-item ${item.done ? "done" : ""}`;
+      row.innerHTML = `
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-routine-check="${item.id}">✓</button>
+        <span class="routine-item-icon">${icon}</span>
+        <strong>${escapeHtml(item.title)}</strong>
+        <button class="edit-btn" type="button" data-generic-edit="routine:${item.id}">Editar</button>
+        <button class="delete-btn" type="button" data-routine-delete="${item.id}">×</button>
+      `;
+      list.append(row);
+    });
+  });
+}
+
+function getRoutinePeriodStats(tracker, habits, selectedDate, viewMode) {
+  if (viewMode === "day") {
+    const dailyHistory = tracker.habitHistory?.[selectedDate] || {};
+    const isToday = selectedDate === todayISO();
+    const done = habits.filter((item) => isToday ? item.done : Boolean(dailyHistory[item.id])).length
+      + (isToday ? tracker.waterMl >= tracker.waterGoalMl : Boolean(dailyHistory.__water) ? 1 : 0);
+    const total = habits.length + 1;
+    const inProgress = isToday
+      ? habits.filter((item) => !item.done && /sol|trabalh|sair|projeto/i.test(item.title)).length
+        + (tracker.waterMl > 0 && tracker.waterMl < tracker.waterGoalMl ? 1 : 0)
+      : 0;
+    return {
+      done,
+      inProgress,
+      pending: Math.max(0, total - done - inProgress),
+      total,
+      progress: Math.round((done / Math.max(1, total)) * 100),
+      label: "hábitos",
+    };
+  }
+
+  const prefix = viewMode === "year" ? selectedDate.slice(0, 4) : selectedDate.slice(0, 7);
+  const scores = Object.entries(tracker.history || {})
+    .filter(([date]) => date.startsWith(prefix))
+    .map(([, score]) => Number(score || 0));
+  const done = scores.filter((score) => score >= 100).length;
+  const inProgress = scores.filter((score) => score > 0 && score < 100).length;
+  const pending = scores.filter((score) => score <= 0).length;
+  return {
+    done,
+    inProgress,
+    pending,
+    total: scores.length,
+    progress: scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0,
+    label: "dias registrados",
+  };
+}
+
+function updateRoutineHistoryScoreForDate(date) {
+  const tracker = state.routineTracker;
+  const habits = state.routine.filter((item) => !/água|agua/i.test(item.title));
+  if (date === todayISO()) {
+    recordRoutineHabitHistory();
+    const done = habits.filter((item) => item.done).length + (tracker.waterMl >= tracker.waterGoalMl ? 1 : 0);
+    tracker.history[date] = Math.round((done / Math.max(1, habits.length + 1)) * 100);
+    return;
+  }
+  tracker.habitHistory ||= {};
+  tracker.habitHistory[date] ||= {};
+  const dailyHistory = tracker.habitHistory[date];
+  const done = habits.filter((item) => Boolean(dailyHistory[item.id])).length + (dailyHistory.__water ? 1 : 0);
+  tracker.history[date] = Math.round((done / Math.max(1, habits.length + 1)) * 100);
+}
+
+function renderRoutineDashboard() {
+  const tracker = state.routineTracker;
+  const habits = state.routine.filter((item) => !/água|agua/i.test(item.title));
+  const todayHabits = habits.filter((item) => item.done).length;
+  const todayWaterDone = tracker.waterMl >= tracker.waterGoalMl;
+  const todayProgress = Math.round(((todayHabits + (todayWaterDone ? 1 : 0)) / Math.max(1, habits.length + 1)) * 100);
+  tracker.history[todayISO()] = todayProgress;
+  recordRoutineHabitHistory();
+
+  const selectedDate = tracker.selectedDate || todayISO();
+  const routineViewMode = tracker.viewMode || "month";
+  const selected = new Date(`${selectedDate}T12:00:00`);
+  const fullDate = new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(selected);
+  const selectedMonthKey = selectedDate.slice(0, 7);
+  const selectedYear = selectedDate.slice(0, 4);
+  const periodStats = getRoutinePeriodStats(tracker, habits, selectedDate, routineViewMode);
+  const { done: doneCount, inProgress: progressCount, pending: pendingCount, total: totalCount, progress } = periodStats;
+  const routineMonthInput = document.querySelector("#routine-month-input");
+  routineMonthInput.value = selectedMonthKey;
+  document.querySelector("#routine-period-label").textContent = routineViewMode === "year"
+    ? selectedYear
+    : new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(selected);
+  document.querySelector("#routine-toggle-view").textContent = routineViewMode === "year" ? "Ver mês" : "Ver ano";
+  document.querySelector("#routine-date-subtitle").textContent = routineViewMode === "year"
+    ? `Ano de ${selectedYear}`
+    : routineViewMode === "month"
+      ? new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(selected)
+      : fullDate.charAt(0).toUpperCase() + fullDate.slice(1);
+  document.querySelector(".routine-hero-copy > span").textContent = routineViewMode === "year"
+    ? "Progresso do ano"
+    : routineViewMode === "month"
+      ? "Progresso do mês"
+      : "Progresso do dia";
+  document.querySelector("#routine-progress-percent").textContent = `${progress}%`;
+  document.querySelector("#routine-progress-title").textContent = routineViewMode === "day"
+    ? `${doneCount} de ${totalCount} hábitos concluídos`
+    : `${doneCount} dias completos de ${totalCount} registrados`;
+  document.querySelector("#routine-progress-message").textContent = progress === 100 ? "Dia completo. Excelente trabalho!" : progress >= 70 ? "Continue assim! Você está no caminho certo." : "Cada hábito concluído aproxima você da meta.";
+  document.querySelector("#routine-progress-ring").style.background = `conic-gradient(#f5c542 ${progress}%, rgba(255,255,255,.09) 0)`;
+  document.querySelector("#routine-done-count").textContent = doneCount;
+  document.querySelector("#routine-progress-count").textContent = progressCount;
+  document.querySelector("#routine-open-count").textContent = pendingCount;
+  document.querySelector("#routine-total-count").textContent = totalCount;
+  document.querySelector("#routine-total-count").nextElementSibling.textContent = periodStats.label;
+  document.querySelector("#routine-score").textContent = `${progress}%`;
+  document.querySelector("#routine-done-percent").textContent = `${progress}% do total`;
+  document.querySelector("#routine-progress-percent-note").textContent = `${Math.round((progressCount / Math.max(1, totalCount)) * 100)}% do total`;
+  document.querySelector("#routine-open-percent").textContent = `${Math.round((pendingCount / Math.max(1, totalCount)) * 100)}% do total`;
+  document.querySelector("#routine-insight-score").textContent = `${progress}%`;
+  document.querySelector("#routine-insight-done").textContent = doneCount;
+
+  const historyDates = Object.entries(tracker.history).sort(([a], [b]) => b.localeCompare(a));
+  let currentStreak = 0;
+  for (const [, score] of historyDates) {
+    if (score < 100) break;
+    currentStreak += 1;
+  }
+  const perfectDates = historyDates.filter(([, score]) => score === 100).map(([date]) => date).sort();
+  let bestStreak = 0;
+  let runningStreak = 0;
+  let previousDate = "";
+  perfectDates.forEach((date) => {
+    runningStreak = previousDate && addDays(previousDate, 1) === date ? runningStreak + 1 : 1;
+    bestStreak = Math.max(bestStreak, runningStreak);
+    previousDate = date;
+  });
+  tracker.bestStreak = Math.max(tracker.bestStreak || 0, bestStreak);
+  document.querySelector("#routine-current-streak").textContent = `${currentStreak} dias`;
+  document.querySelector("#routine-best-streak").textContent = `${tracker.bestStreak} dias`;
+  const perfectPeriodPrefix = routineViewMode === "year" ? selectedYear : routineViewMode === "month" ? selectedMonthKey : selectedDate;
+  document.querySelector("#routine-perfect-days").textContent = perfectDates.filter((date) => date.startsWith(perfectPeriodPrefix)).length;
+  document.querySelector("#routine-water-label").textContent = `${(tracker.waterMl / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}L / ${(tracker.waterGoalMl / 1000).toLocaleString("pt-BR")}L`;
+
+  const monthKey = selectedMonthKey;
+  const [calendarYear, calendarMonth] = monthKey.split("-").map(Number);
+  const calendar = document.querySelector("#routine-calendar-grid");
+  calendar.innerHTML = "";
+  calendar.classList.toggle("routine-calendar-year-grid", routineViewMode === "year");
+  document.querySelector(".routine-calendar-weekdays").hidden = routineViewMode === "year";
+  if (routineViewMode === "year") {
+    document.querySelector("#routine-calendar-title").textContent = selectedYear;
+    Array.from({ length: 12 }, (_, index) => {
+      const month = String(index + 1).padStart(2, "0");
+      const yearMonth = `${selectedYear}-${month}`;
+      const scores = Object.entries(tracker.history)
+        .filter(([date]) => date.startsWith(yearMonth))
+        .map(([, score]) => Number(score || 0));
+      const average = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
+      const monthButton = document.createElement("button");
+      monthButton.type = "button";
+      monthButton.dataset.routineCalendarMonth = yearMonth;
+      monthButton.className = scores.length ? average >= 100 ? "complete" : average >= 50 ? "partial" : "missed" : "future";
+      monthButton.innerHTML = `<strong>${new Intl.DateTimeFormat("pt-BR", { month: "short" }).format(new Date(Number(selectedYear), index, 1))}</strong><small>${scores.length ? `${average}%` : "sem dados"}</small>`;
+      calendar.append(monthButton);
+    });
+  } else {
+    const firstDay = new Date(calendarYear, calendarMonth - 1, 1).getDay();
+    document.querySelector("#routine-calendar-title").textContent = new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(new Date(calendarYear, calendarMonth - 1, 1));
+    Array.from({ length: firstDay }).forEach(() => calendar.append(document.createElement("span")));
+    Array.from({ length: daysInMonth(monthKey) }, (_, index) => {
+      const date = `${monthKey}-${String(index + 1).padStart(2, "0")}`;
+      const score = tracker.history[date];
+      const day = document.createElement("button");
+      day.type = "button";
+      day.dataset.routineCalendarDate = date;
+      day.className = `${score === undefined ? "future" : score >= 100 ? "complete" : score >= 50 ? "partial" : "missed"}${date === selectedDate ? " selected" : ""}`;
+      day.title = `${formatDate(date)}: ${score ?? 0}%`;
+      day.textContent = index + 1;
+      calendar.append(day);
+    });
+  }
+
+  const selectedDayHistory = tracker.habitHistory?.[selectedDate] || {};
+  const isSelectedToday = selectedDate === todayISO();
+  const isItemDone = (item) => isSelectedToday ? Boolean(item.done) : Boolean(selectedDayHistory[item.id]);
+  const progressItems = isSelectedToday ? habits.filter((item) => !item.done && /sol|trabalh|sair|projeto/i.test(item.title)) : [];
+  const displayWaterMl = isSelectedToday ? tracker.waterMl : selectedDayHistory.__water ? tracker.waterGoalMl : 0;
+  const waterDone = displayWaterMl >= tracker.waterGoalMl;
+  const groups = Object.fromEntries(state.routineCategories.map((category) => [
+    category.id,
+    habits.filter((item) => item.type === category.id),
+  ]));
+  Object.entries(groups).forEach(([type, items]) => {
+    const list = document.querySelector(`#routine-${type}`);
+    document.querySelector(`#routine-${type}-progress`).textContent = `${items.filter(isItemDone).length}/${items.length}`;
+    list.innerHTML = items.length ? "" : `<div class="empty-state">Nenhum hábito cadastrado.</div>`;
+    items.forEach((item) => {
+      const done = isItemDone(item);
+      const isProgress = !done && progressItems.some((progressItem) => progressItem.id === item.id);
+      const row = document.createElement("article");
+      row.className = `routine-item ${done ? "done" : isProgress ? "in-progress" : "pending"}`;
+      row.draggable = true;
+      row.dataset.routineHabitDrag = item.id;
+      row.innerHTML = `<span class="routine-item-icon">${escapeHtml(item.emoji || inferRoutineEmoji(item.title))}</span><strong>${escapeHtml(item.title)}</strong>${type === "weekly" ? `<small>${/b12/i.test(item.title) ? "Sáb" : "Dom"}</small>` : ""}<button class="routine-status-dot" type="button" data-routine-check="${item.id}" title="Alterar status">${done ? "✓" : ""}</button><button class="routine-item-edit" type="button" data-generic-edit="routine:${item.id}" title="Editar">⋮</button>`;
+      list.append(row);
+    });
+  });
+
+  const waterRow = document.createElement("article");
+  waterRow.className = `routine-item routine-water-row ${waterDone ? "done" : displayWaterMl ? "in-progress" : "pending"}`;
+  waterRow.draggable = true;
+  waterRow.dataset.routineHabitDrag = "__water";
+  waterRow.innerHTML = `<span class="routine-item-icon">💧</span><strong>Água</strong><button type="button" data-routine-water-less>-500ml</button><span class="routine-water-visual">${Array.from({ length: 6 }, (_, index) => `<i class="${displayWaterMl >= (index + 1) * 500 ? "filled" : ""}">●</i>`).join("")}</span><small>${(displayWaterMl / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}L / ${(tracker.waterGoalMl / 1000).toLocaleString("pt-BR")}L</small><button type="button" data-routine-water-more>+500ml</button>`;
+  const waterType = tracker.waterType || "required";
+  const waterTarget = document.querySelector(`#routine-${waterType}`) || document.querySelector("#routine-required");
+  waterTarget.append(waterRow);
+  const waterGroupItems = groups[waterType] || groups.required;
+  document.querySelector(`#routine-${waterType}-progress`).textContent = `${waterGroupItems.filter(isItemDone).length + (waterDone ? 1 : 0)}/${waterGroupItems.length + 1}`;
+
+  const trackedDates = Object.keys(tracker.habitHistory || {})
+    .filter((date) => date >= (tracker.consistencyStartDate || todayISO()) && date <= todayISO())
+    .sort();
+  const consistent = habits
+    .map((item) => {
+      const totals = trackedDates.reduce((acc, date) => {
+        const dailyHistory = tracker.habitHistory?.[date] || {};
+        if (!Object.prototype.hasOwnProperty.call(dailyHistory, item.id)) return acc;
+        return {
+          done: acc.done + (dailyHistory[item.id] ? 1 : 0),
+          total: acc.total + 1,
+        };
+      }, { done: 0, total: 0 });
+      return {
+        title: item.title,
+        percent: totals.total ? Math.round((totals.done / totals.total) * 100) : 0,
+        done: totals.done,
+        total: totals.total,
+      };
+    })
+    .filter((item) => item.total > 0)
+    .sort((a, b) => b.percent - a.percent || b.done - a.done || a.title.localeCompare(b.title, "pt-BR"))
+    .slice(0, 4);
+  document.querySelector("#routine-consistency-list").innerHTML = consistent.length
+    ? consistent.map(({ title, percent, done, total }) => `<article><div class="routine-mini-ring" style="--routine-percent:${percent}%"><strong>${percent}%</strong></div><div><strong>${escapeHtml(title)}</strong><small>${done}/${total} ${total === 1 ? "dia" : "dias"}</small></div></article>`).join("")
+    : `<div class="empty-state">A consistência começa a ser calculada a partir de hoje.</div>`;
+  document.querySelector("#routine-due-list").innerHTML = `<article><span>⏱</span><strong>B12 1 semana</strong><small>Sábado</small></article><article><span>▣</span><strong>Limpeza geral</strong><small>Domingo</small></article>`;
+}
+
+navButtons.forEach((button) => button.addEventListener("click", () => openSection(button.dataset.section)));
+
+const sideNav = document.querySelector(".side-nav");
+let draggedNavButton = null;
+
+navButtons.forEach((button) => {
+  button.draggable = true;
+
+  button.addEventListener("dragstart", (event) => {
+    draggedNavButton = button;
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", button.dataset.section);
+    requestAnimationFrame(() => button.classList.add("nav-dragging"));
+  });
+
+  button.addEventListener("dragend", () => {
+    draggedNavButton?.classList.remove("nav-dragging");
+    sideNav.classList.remove("nav-drag-active");
+    draggedNavButton = null;
+  });
+});
+
+sideNav.addEventListener("dragover", (event) => {
+  if (!draggedNavButton) return;
+  event.preventDefault();
+  sideNav.classList.add("nav-drag-active");
+  const target = event.target.closest(".side-nav button");
+  if (!target || target === draggedNavButton) return;
+  const insertAfter = event.clientY > target.getBoundingClientRect().top + target.offsetHeight / 2;
+  sideNav.insertBefore(draggedNavButton, insertAfter ? target.nextSibling : target);
+});
+
+sideNav.addEventListener("drop", (event) => {
+  if (!draggedNavButton) return;
+  event.preventDefault();
+  rememberUndo();
+  state.navOrder = [...sideNav.querySelectorAll("button")].map((button) => button.dataset.section);
+  saveState();
+  updateUndoButton();
+});
+
+document.querySelectorAll("[data-section-shortcut]").forEach((button) => {
+  button.addEventListener("click", () => openSection(button.dataset.sectionShortcut));
+});
+
+document.querySelector(".menu-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
+document.querySelector("#theme-toggle").addEventListener("click", toggleTheme);
+document.querySelector("#emoji-picker-grid").innerHTML = routineEmojiOptions
+  .map((emoji) => `<button type="button" data-emoji-value="${emoji}" title="Usar ${emoji}">${emoji}</button>`)
+  .join("");
+document.querySelector("#emoji-picker-close").addEventListener("click", closeEmojiPicker);
+
+document.querySelector("#login-btn").addEventListener("click", () => {
+  if (!isSupabaseConfigured()) {
+    openLoginPanel("Configure o arquivo supabase-config.js com a URL e anon key do seu projeto.");
+    return;
+  }
+  openLoginPanel();
+});
+
+document.querySelector("#logout-btn").addEventListener("click", async () => {
+  if (!supabaseClient) return;
+  await supabaseClient.auth.signOut();
+  currentUser = null;
+  updateAuthButtons();
+  setAuthGate(true);
+  setSyncStatus("Local", "local");
+  openLoginPanel("Entre para acessar o painel online.");
+});
+
+document.querySelector("#login-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!initSupabaseClient()) {
+    openLoginPanel("Configure o arquivo supabase-config.js antes de entrar.");
+    return;
+  }
+
+  const email = document.querySelector("#login-email").value.trim();
+  const password = document.querySelector("#login-password").value;
+  const rememberLogin = document.querySelector("#login-remember").checked;
+  const message = document.querySelector("#login-message");
+  localStorage.setItem(authRememberKey, rememberLogin ? "true" : "false");
+  message.textContent = "Entrando...";
+
+  let result = await supabaseClient.auth.signInWithPassword({ email, password });
+
+  if (result.error) {
+    result = await supabaseClient.auth.signUp({ email, password });
+  }
+
+  if (result.error) {
+    message.textContent = result.error.message;
+    setSyncStatus("Erro login", "error");
+    return;
+  }
+
+  currentUser = result.data.session?.user || result.data.user || null;
+  updateAuthButtons();
+
+  if (!result.data.session) {
+    message.textContent = "Conta criada. Confirme o e-mail se o Supabase pedir confirmação.";
+    setSyncStatus("Verifique email", "local");
+    return;
+  }
+
+  setAuthGate(false);
+  closeLoginPanel();
+  await loadRemoteState();
+  if (!rememberLogin) {
+    window.addEventListener("beforeunload", () => {
+      supabaseClient?.auth.signOut();
+    }, { once: true });
+  }
+});
+
+document.querySelector("#avatar-button").addEventListener("click", () => {
+  document.querySelector("#avatar-input").click();
+});
+
+document.querySelector("#avatar-input").addEventListener("change", (event) => {
+  const file = event.target.files?.[0];
+  if (!file || !file.type.startsWith("image/")) return;
+
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    const image = new Image();
+    image.addEventListener("load", () => {
+      const size = 320;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const context = canvas.getContext("2d");
+      const sourceSize = Math.min(image.naturalWidth, image.naturalHeight);
+      const sourceX = (image.naturalWidth - sourceSize) / 2;
+      const sourceY = (image.naturalHeight - sourceSize) / 2;
+      context.drawImage(image, sourceX, sourceY, sourceSize, sourceSize, 0, 0, size, size);
+      rememberUndo();
+      state.profilePhoto = canvas.toDataURL("image/jpeg", 0.82);
+      event.target.value = "";
+      commitChange();
+    });
+    image.src = reader.result;
+  });
+  reader.readAsDataURL(file);
+});
+
+document.querySelector("#undo-btn").addEventListener("click", () => {
+  const previous = undoStack.pop();
+  if (!previous) return;
+  state = previous;
+  saveState();
+  render();
+  updateUndoButton();
+});
+
+document.querySelector("#task-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = document.querySelector("#task-input");
+  const priority = document.querySelector("#task-priority");
+  if (!input.value.trim()) return;
+  rememberUndo();
+  state.tasks.unshift({ id: crypto.randomUUID(), title: input.value.trim(), priority: priority.value, done: false });
+  input.value = "";
+  commitChange();
+});
+
+document.querySelector("#pending-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = document.querySelector("#pending-input");
+  const type = document.querySelector("#pending-type");
+  if (!input.value.trim()) return;
+  rememberUndo();
+  state.pending.unshift({ id: crypto.randomUUID(), title: input.value.trim(), type: type.value, done: false, subtasks: [] });
+  input.value = "";
+  commitChange();
+});
+
+document.addEventListener("submit", (event) => {
+  const form = event.target.closest("[data-subtask-form]");
+  if (!form) return;
+  event.preventDefault();
+  const taskId = form.dataset.subtaskForm;
+  const input = form.querySelector("input");
+  if (!input.value.trim()) return;
+  rememberUndo();
+  state.pending = state.pending.map((task) => task.id === taskId ? {
+    ...task,
+    subtasks: [
+      ...task.subtasks,
+      { id: crypto.randomUUID(), title: input.value.trim(), done: false },
+    ],
+  } : task);
+  input.value = "";
+  commitChange();
+});
+
+document.querySelector("#market-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const name = document.querySelector("#market-name");
+  const category = document.querySelector("#market-category");
+  const qty = Number(document.querySelector("#market-qty").value || 1);
+  const price = Number(document.querySelector("#market-price").value || 0);
+  if (!name.value.trim()) return;
+  rememberUndo();
+  state.market.unshift({ id: crypto.randomUUID(), name: name.value.trim(), category: category.value, qty, price, shopQty: qty, shopPrice: price, bought: false, inCart: false });
+  name.value = "";
+  document.querySelector("#market-qty").value = 1;
+  document.querySelector("#market-price").value = "";
+  commitChange();
+});
+
+document.querySelector("#market-shop-toggle").addEventListener("click", () => {
+  marketShopMode = !marketShopMode;
+  renderMarket();
+});
+
+document.querySelector("#market-shop-clear").addEventListener("click", () => {
+  rememberUndo();
+  state.market = state.market.map((item) => ({ ...item, inCart: false }));
+  commitChange();
+});
+
+document.querySelector("#market-shop-finish").addEventListener("click", () => {
+  const pickedItems = state.market.filter((item) => item.inCart);
+  if (!pickedItems.length) return;
+  rememberUndo();
+  state.market = state.market.map((item) => item.inCart ? {
+    ...item,
+    qty: getMarketShopQty(item),
+    price: getMarketShopPrice(item),
+    bought: true,
+    inCart: false,
+  } : item);
+  commitChange();
+});
+
+document.querySelector("#personal-save-btn").addEventListener("click", () => {
+  rememberUndo();
+  state.personal.info = {
+    name: document.querySelector("#personal-name").value.trim(),
+    phone: document.querySelector("#personal-phone").value.trim(),
+    email: document.querySelector("#personal-email").value.trim(),
+    address: document.querySelector("#personal-address").value.trim(),
+    notes: document.querySelector("#personal-notes").value.trim(),
+  };
+  commitChange();
+});
+
+document.querySelector("#personal-goal-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#personal-goal-title");
+  const area = document.querySelector("#personal-goal-area");
+  if (!title.value.trim()) return;
+  rememberUndo();
+  state.personal.goals.unshift({
+    id: crypto.randomUUID(),
+    title: title.value.trim(),
+    area: area.value,
+    done: false,
+  });
+  title.value = "";
+  commitChange();
+});
+
+document.querySelector("#personal-doc-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#personal-doc-title");
+  const value = document.querySelector("#personal-doc-value");
+  if (!title.value.trim()) return;
+  rememberUndo();
+  state.personal.docs.unshift({
+    id: crypto.randomUUID(),
+    title: title.value.trim(),
+    value: value.value.trim(),
+    done: false,
+  });
+  title.value = "";
+  value.value = "";
+  commitChange();
+});
+
+document.querySelector("#wishlist-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const name = document.querySelector("#wishlist-name");
+  const category = document.querySelector("#wishlist-category");
+  const priority = document.querySelector("#wishlist-priority");
+  const price = Number(document.querySelector("#wishlist-price").value || 0);
+  const link = document.querySelector("#wishlist-link");
+  if (!name.value.trim()) return;
+  rememberUndo();
+  state.wishlist.unshift({
+    id: crypto.randomUUID(),
+    name: name.value.trim(),
+    category: category.value,
+    priority: priority.value,
+    price,
+    link: link.value.trim(),
+    bought: false,
+  });
+  name.value = "";
+  document.querySelector("#wishlist-price").value = "";
+  link.value = "";
+  commitChange();
+});
+
+document.querySelector("#routine-add-habit-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = document.querySelector("#routine-add-habit-name");
+  const emojiInput = document.querySelector("#routine-add-habit-emoji");
+  const type = document.querySelector("#routine-add-habit-type").value;
+  if (!input.value.trim()) return;
+  rememberUndo();
+  state.routine.unshift({ id: crypto.randomUUID(), title: input.value.trim(), emoji: emojiInput.value.trim() || inferRoutineEmoji(input.value.trim()), type, done: false });
+  input.value = "";
+  emojiInput.value = "";
+  document.querySelector("#routine-add-habit-panel").classList.remove("open");
+  document.querySelector("#routine-add-habit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#routine-add-card-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = document.querySelector("#routine-add-card-name");
+  const name = input.value.trim();
+  if (!name) return;
+  const id = `custom-${crypto.randomUUID()}`;
+  rememberUndo();
+  state.routineCategories.push({ id, name, locked: false });
+  state.routineLayout.push(id);
+  input.value = "";
+  document.querySelector("#routine-add-card-panel").classList.remove("open");
+  document.querySelector("#routine-add-card-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#routine-water-more").addEventListener("click", () => {
+  rememberUndo();
+  const selectedDate = state.routineTracker.selectedDate || todayISO();
+  if (selectedDate === todayISO()) {
+    state.routineTracker.waterMl = Math.min(state.routineTracker.waterGoalMl, state.routineTracker.waterMl + 500);
+  } else {
+    state.routineTracker.habitHistory[selectedDate] ||= {};
+    state.routineTracker.habitHistory[selectedDate].__water = true;
+    updateRoutineHistoryScoreForDate(selectedDate);
+  }
+  commitChange();
+});
+
+document.querySelector("#routine-water-less").addEventListener("click", () => {
+  rememberUndo();
+  const selectedDate = state.routineTracker.selectedDate || todayISO();
+  if (selectedDate === todayISO()) {
+    state.routineTracker.waterMl = Math.max(0, state.routineTracker.waterMl - 500);
+  } else {
+    state.routineTracker.habitHistory[selectedDate] ||= {};
+    state.routineTracker.habitHistory[selectedDate].__water = false;
+    updateRoutineHistoryScoreForDate(selectedDate);
+  }
+  commitChange();
+});
+
+document.querySelector("#routine-new-item").addEventListener("click", () => {
+  document.querySelector("#routine-add-card-panel").classList.add("open");
+  document.querySelector("#routine-add-card-panel").setAttribute("aria-hidden", "false");
+  document.querySelector("#routine-add-card-name").focus();
+});
+
+document.querySelector("#routine-add-card").addEventListener("click", () => {
+  document.querySelector("#routine-add-card-panel").classList.add("open");
+  document.querySelector("#routine-add-card-panel").setAttribute("aria-hidden", "false");
+  document.querySelector("#routine-add-card-name").focus();
+});
+
+function moveRoutinePeriod(direction) {
+  rememberUndo();
+  const selectedDate = state.routineTracker.selectedDate || todayISO();
+  const viewMode = state.routineTracker.viewMode || "month";
+  if (viewMode === "year") {
+    const [year, month, day] = selectedDate.split("-").map(Number);
+    state.routineTracker.selectedDate = dateToISO(new Date(year + direction, month - 1, day));
+  } else {
+    state.routineTracker.selectedDate = addMonthsToDate(selectedDate, direction);
+    state.routineTracker.viewMode = "month";
+  }
+  commitChange();
+}
+
+document.querySelector("#routine-date-prev").addEventListener("click", () => moveRoutinePeriod(-1));
+
+document.querySelector("#routine-date-next").addEventListener("click", () => moveRoutinePeriod(1));
+
+document.querySelector("#routine-toggle-view").addEventListener("click", () => {
+  rememberUndo();
+  state.routineTracker.viewMode = state.routineTracker.viewMode === "year" ? "month" : "year";
+  commitChange();
+});
+
+document.querySelector("#routine-month-input").addEventListener("change", (event) => {
+  if (!event.target.value) return;
+  rememberUndo();
+  const currentDay = String(state.routineTracker.selectedDate || todayISO()).slice(8, 10) || "01";
+  state.routineTracker.selectedDate = `${event.target.value}-${String(Math.min(Number(currentDay), daysInMonth(event.target.value))).padStart(2, "0")}`;
+  state.routineTracker.viewMode = "month";
+  commitChange();
+});
+
+document.querySelectorAll("[data-routine-expand]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const section = button.closest(".routine-section");
+    if (!section) {
+      const insights = button.closest(".routine-insights");
+      if (!insights) return;
+      insights.classList.toggle("expanded");
+      button.textContent = insights.classList.contains("expanded") ? "Fechar relatório" : "Ver relatório completo";
+      return;
+    }
+    section.classList.toggle("expanded");
+    button.textContent = section.classList.contains("expanded") ? "Mostrar menos" : "Ver todos";
+  });
+});
+
+document.querySelector("#home-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = document.querySelector("#home-title");
+  if (!input.value.trim()) return;
+  rememberUndo();
+  state.homeItems.push({ id: crypto.randomUUID(), title: input.value.trim(), done: false, photo: "" });
+  input.value = "";
+  commitChange();
+});
+
+document.querySelector("#wardrobe-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const name = document.querySelector("#wardrobe-name");
+  const photoInput = document.querySelector("#wardrobe-photo");
+  if (!name.value.trim()) return;
+  const file = photoInput.files?.[0];
+  const image = file ? await resizeImageFile(file, 640, 0.8) : "";
+  rememberUndo();
+  state.wardrobeItems.unshift({
+    id: crypto.randomUUID(),
+    name: name.value.trim(),
+    category: document.querySelector("#wardrobe-category").value,
+    color: document.querySelector("#wardrobe-color").value.trim(),
+    style: document.querySelector("#wardrobe-style").value.trim(),
+    notes: document.querySelector("#wardrobe-notes").value.trim(),
+    image,
+  });
+  event.currentTarget.reset();
+  commitChange();
+});
+
+["#wardrobe-filter-name", "#wardrobe-filter-category", "#wardrobe-filter-color"].forEach((selector) => {
+  document.querySelector(selector).addEventListener("input", renderWardrobe);
+  document.querySelector(selector).addEventListener("change", renderWardrobe);
+});
+
+document.querySelector("#wardrobe-favorites-only").addEventListener("change", renderWardrobe);
+
+document.querySelector("#wardrobe-clear-selection").addEventListener("click", () => {
+  rememberUndo();
+  state.wardrobeSelection = [];
+  commitChange();
+});
+
+document.addEventListener("change", (event) => {
+  const wardrobeSelect = event.target.dataset.wardrobeSelect;
+  if (!wardrobeSelect) return;
+  rememberUndo();
+  state.wardrobeSelection = event.target.checked
+    ? [...new Set([...state.wardrobeSelection, wardrobeSelect])]
+    : state.wardrobeSelection.filter((id) => id !== wardrobeSelect);
+  commitChange();
+});
+
+document.querySelector("#cnh-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#cnh-title");
+  const value = document.querySelector("#cnh-value");
+  const date = document.querySelector("#cnh-date");
+  if (!title.value.trim()) return;
+  rememberUndo();
+  state.cnh.steps.push({
+    id: crypto.randomUUID(),
+    title: title.value.trim(),
+    value: Number(value.value || 0),
+    dueDate: date.value || "",
+    done: false,
+  });
+  title.value = "";
+  value.value = "";
+  date.value = "";
+  commitChange();
+});
+
+document.querySelector("#finance-goal-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#finance-goal-title");
+  const target = document.querySelector("#finance-goal-target");
+  if (!title.value.trim()) return;
+  rememberUndo();
+  state.financeGoals.push({
+    id: crypto.randomUUID(),
+    title: title.value.trim(),
+    current: 0,
+    target: Number(target.value || 0),
+  });
+  title.value = "";
+  target.value = "";
+  document.querySelector(".finance-goals-panel").classList.remove("show-goal-form");
+  commitChange();
+});
+
+document.querySelector("#agenda-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#agenda-title");
+  const date = document.querySelector("#agenda-date");
+  const type = document.querySelector("#agenda-type");
+  if (!title.value.trim()) return;
+  rememberUndo();
+  state.agenda.push({
+    id: crypto.randomUUID(),
+    title: title.value.trim(),
+    date: date.value || todayISO(),
+    type: type.value,
+    done: false,
+  });
+  title.value = "";
+  date.value = "";
+  commitChange();
+});
+
+document.querySelector("#wins-date").value = todayISO();
+
+document.querySelector("#wins-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#wins-title");
+  const date = document.querySelector("#wins-date");
+  const photoInput = document.querySelector("#wins-photo");
+  const file = photoInput.files?.[0];
+  if (!title.value.trim() || !file) return;
+
+  const photo = await resizeImageFile(file);
+  rememberUndo();
+  state.wins.push({
+    id: crypto.randomUUID(),
+    title: title.value.trim(),
+    date: date.value || todayISO(),
+    photo,
+  });
+  title.value = "";
+  date.value = todayISO();
+  photoInput.value = "";
+  commitChange();
+});
+
+function moveAgendaMonth(direction) {
+  const [year, month] = (state.agendaPlan?.month || todayISO().slice(0, 7)).split("-").map(Number);
+  const target = new Date(year, month - 1 + direction, 1);
+  rememberUndo();
+  state.agendaPlan = {
+    ...state.agendaPlan,
+    month: `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}`,
+  };
+  commitChange();
+}
+
+document.querySelector("#agenda-month-prev").addEventListener("click", () => moveAgendaMonth(-1));
+document.querySelector("#agenda-month-next").addEventListener("click", () => moveAgendaMonth(1));
+document.querySelector("#agenda-calendar-grid").addEventListener("click", (event) => {
+  const day = event.target.closest("[data-agenda-day]");
+  if (!day) return;
+  document.querySelector("#agenda-date").value = day.dataset.agendaDay;
+  document.querySelector("#agenda-title").focus();
+});
+
+document.querySelector("#finance-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#finance-title");
+  const type = document.querySelector("#finance-type");
+  const category = document.querySelector("#finance-category");
+  const value = Number(document.querySelector("#finance-value").value || 0);
+  const dateMode = document.querySelector("#finance-date-mode");
+  const businessDay = Number(document.querySelector("#finance-business-day").value || 5);
+  const repeat = document.querySelector("#finance-repeat");
+  const repeatCount = Number(document.querySelector("#finance-repeat-count").value || 1);
+  if (!title.value.trim()) return;
+  rememberUndo();
+  const baseDate = getFinanceDueDateFromForm();
+  const normalizedRepeat = normalizeFinanceRepeat(repeat.value, repeatCount);
+  const count = normalizedRepeat === "once" ? 1 : Math.max(1, repeatCount);
+  const groupId = crypto.randomUUID();
+  const entries = Array.from({ length: count }, (_, index) => {
+    const dueDate = getFinanceOccurrenceDate(baseDate, index, dateMode.value, normalizedRepeat, businessDay);
+    return {
+      id: crypto.randomUUID(),
+      groupId,
+      title: count > 1 ? `${title.value.trim()} (${index + 1}/${count})` : title.value.trim(),
+      baseTitle: title.value.trim(),
+      type: type.value,
+      category: category.value,
+      value,
+      dueDate,
+      dateMode: dateMode.value,
+      businessDay,
+      repeat: normalizedRepeat,
+      repeatCount: count,
+      installment: index + 1,
+      done: false,
+      date: new Date().toLocaleDateString("pt-BR"),
+    };
+  });
+  state.finance.unshift(...entries);
+  title.value = "";
+  document.querySelector("#finance-due-date").value = "";
+  document.querySelector("#finance-value").value = "";
+  document.querySelector("#finance-repeat").value = "once";
+  document.querySelector("#finance-repeat-count").value = "1";
+  document.querySelector("#finance").classList.remove("show-entry-form");
+  commitChange();
+});
+
+document.querySelector("#finance-repeat").addEventListener("change", () => {
+  const repeat = document.querySelector("#finance-repeat").value;
+  const count = document.querySelector("#finance-repeat-count");
+  count.value = repeat === "monthly" ? "12" : repeat === "biweekly" ? "2" : "1";
+});
+
+document.querySelector("#finance-date-mode").addEventListener("change", () => {
+  const isBusiness = document.querySelector("#finance-date-mode").value === "business";
+  document.querySelector("#finance-due-date").hidden = isBusiness;
+  document.querySelector("#finance-business-day").hidden = !isBusiness;
+});
+
+document.querySelector("#finance-edit-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const id = document.querySelector("#finance-edit-id").value;
+  if (!id) return;
+  const original = state.finance.find((item) => item.id === id);
+  if (!original) return;
+  rememberUndo();
+  rebuildFinanceSeries(original, {
+    title: document.querySelector("#finance-edit-title").value.trim() || original.title,
+    type: document.querySelector("#finance-edit-type").value,
+    category: document.querySelector("#finance-edit-category").value,
+    dueDate: document.querySelector("#finance-edit-date").value || original.dueDate,
+    value: Number(document.querySelector("#finance-edit-value").value || 0),
+    repeat: document.querySelector("#finance-edit-repeat").value,
+    repeatCount: Number(document.querySelector("#finance-edit-repeat-count").value || 1),
+  });
+  document.querySelector("#finance-edit-panel").classList.remove("open");
+  document.querySelector("#finance-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#finance-edit-delete").addEventListener("click", () => {
+  const id = document.querySelector("#finance-edit-id").value;
+  if (!id || !window.confirm("Excluir este item?")) return;
+  rememberUndo();
+  state.finance = state.finance.filter((item) => item.id !== id);
+  document.querySelector("#finance-edit-panel").classList.remove("open");
+  document.querySelector("#finance-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#finance-edit-repeat").addEventListener("change", () => {
+  const repeat = document.querySelector("#finance-edit-repeat").value;
+  const count = document.querySelector("#finance-edit-repeat-count");
+  count.value = repeat === "monthly" ? "12" : repeat === "biweekly" ? "2" : "1";
+});
+
+document.querySelector("#finance-repeat-count").addEventListener("change", (event) => {
+  if (Number(event.target.value || 1) > 1 && document.querySelector("#finance-repeat").value === "once") {
+    document.querySelector("#finance-repeat").value = "monthly";
+  }
+});
+
+document.querySelector("#finance-edit-repeat-count").addEventListener("change", (event) => {
+  if (Number(event.target.value || 1) > 1 && document.querySelector("#finance-edit-repeat").value === "once") {
+    document.querySelector("#finance-edit-repeat").value = "monthly";
+  }
+});
+
+document.querySelector("#budget-edit-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const id = document.querySelector("#budget-edit-id").value;
+  const kind = document.querySelector("#budget-edit-kind").value;
+  const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+  if (!id || !key) return;
+
+  rememberUndo();
+  state[key] = state[key].map((item) => {
+    if (item.id !== id) return item;
+    const next = {
+      ...item,
+      title: document.querySelector("#budget-edit-title").value.trim() || item.title,
+      value: Number(document.querySelector("#budget-edit-value").value || 0),
+    };
+    if (kind === "fixed") {
+      next.dueDay = Math.min(31, Math.max(1, Number(document.querySelector("#budget-edit-day").value || 1)));
+    } else {
+      next.dueDate = document.querySelector("#budget-edit-date").value || item.dueDate;
+    }
+    return next;
+  });
+  document.querySelector("#budget-edit-panel").classList.remove("open");
+  document.querySelector("#budget-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#budget-edit-delete").addEventListener("click", () => {
+  const id = document.querySelector("#budget-edit-id").value;
+  const kind = document.querySelector("#budget-edit-kind").value;
+  const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+  if (!id || !key || !window.confirm("Excluir este item?")) return;
+  rememberUndo();
+  state[key] = state[key].filter((item) => item.id !== id);
+  document.querySelector("#budget-edit-panel").classList.remove("open");
+  document.querySelector("#budget-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#generic-edit-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const entity = document.querySelector("#generic-edit-entity").value;
+  const id = document.querySelector("#generic-edit-id").value;
+  const config = genericEditConfigs[entity];
+  if (!config || !id) return;
+
+  const values = {};
+  document.querySelectorAll("[data-generic-field]").forEach((input) => {
+    values[input.dataset.genericField] = input.value;
+  });
+
+  rememberUndo();
+  config.save(id, values);
+  document.querySelector("#generic-edit-panel").classList.remove("open");
+  document.querySelector("#generic-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#generic-edit-delete").addEventListener("click", () => {
+  const entity = document.querySelector("#generic-edit-entity").value;
+  const id = document.querySelector("#generic-edit-id").value;
+  if (!genericEditConfigs[entity] || !id || !window.confirm("Excluir este item?")) return;
+  rememberUndo();
+  deleteGenericItem(entity, id);
+  document.querySelector("#generic-edit-panel").classList.remove("open");
+  document.querySelector("#generic-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#finance-clear-filter").addEventListener("click", () => {
+  activeFinanceFilter = "all";
+  renderFinance();
+});
+
+document.querySelector("#finance-new-entry").addEventListener("click", () => {
+  document.querySelector("#finance").classList.toggle("show-entry-form");
+  document.querySelector("#finance-title").focus();
+});
+
+document.querySelector("#finance-toggle-view").addEventListener("click", () => {
+  rememberUndo();
+  state.financePlan.viewMode = state.financePlan.viewMode === "year" ? "month" : "year";
+  commitChange();
+});
+
+document.querySelector("#finance-inline-prev").addEventListener("click", () => {
+  if (state.financePlan.viewMode === "year") moveFinanceYear(-1);
+  else moveFinanceMonth(-1);
+});
+
+document.querySelector("#finance-inline-next").addEventListener("click", () => {
+  if (state.financePlan.viewMode === "year") moveFinanceYear(1);
+  else moveFinanceMonth(1);
+});
+
+document.querySelectorAll("[data-finance-bill-filter]").forEach((button) => {
+  button.addEventListener("click", () => {
+    financeBillFilter = button.dataset.financeBillFilter;
+    renderFinance();
+  });
+});
+
+document.querySelector("#finance-new-goal").addEventListener("click", () => {
+  document.querySelector(".finance-goals-panel").classList.toggle("show-goal-form");
+  document.querySelector("#finance-goal-title").focus();
+});
+
+document.querySelectorAll("[data-finance-show-details]").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelector("#finance").classList.toggle("show-details");
+  });
+});
+
+document.querySelector("[data-finance-new-subscription]").addEventListener("click", () => {
+  document.querySelector("#finance").classList.add("show-entry-form");
+  document.querySelector("#finance-type").value = "expense";
+  document.querySelector("#finance-category").value = "Outros";
+  document.querySelector("#finance-title").focus();
+});
+
+document.querySelector("#finance-month").addEventListener("change", () => {
+  rememberUndo();
+  state.financePlan = {
+    ...state.financePlan,
+    month: document.querySelector("#finance-month").value || todayISO().slice(0, 7),
+    year: Number((document.querySelector("#finance-month").value || todayISO()).slice(0, 4)),
+    viewMode: "month",
+  };
+  activeFinanceFilter = "all";
+  commitChange();
+});
+
+document.querySelector("#finance-view-mode").addEventListener("change", () => {
+  rememberUndo();
+  state.financePlan = {
+    ...state.financePlan,
+    viewMode: document.querySelector("#finance-view-mode").value,
+  };
+  activeFinanceFilter = "all";
+  commitChange();
+});
+
+document.querySelector("#finance-year").addEventListener("change", () => {
+  rememberUndo();
+  state.financePlan = {
+    ...state.financePlan,
+    year: Number(document.querySelector("#finance-year").value || todayISO().slice(0, 4)),
+    viewMode: "year",
+  };
+  activeFinanceFilter = "all";
+  commitChange();
+});
+
+function moveFinanceMonth(direction) {
+  rememberUndo();
+  const [year, month] = currentFinanceMonth().split("-").map(Number);
+  const target = new Date(year, month - 1 + direction, 1);
+  state.financePlan.month = `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}`;
+  state.financePlan.year = target.getFullYear();
+  state.financePlan.viewMode = "month";
+  activeFinanceFilter = "all";
+  commitChange();
+}
+
+function moveFinanceYear(direction) {
+  rememberUndo();
+  state.financePlan.year = Number(state.financePlan.year || todayISO().slice(0, 4)) + direction;
+  state.financePlan.viewMode = "year";
+  activeFinanceFilter = "all";
+  commitChange();
+}
+
+document.querySelector("#finance-month-prev").addEventListener("click", () => moveFinanceMonth(-1));
+document.querySelector("#finance-month-next").addEventListener("click", () => moveFinanceMonth(1));
+document.querySelector("#finance-year-prev").addEventListener("click", () => moveFinanceYear(-1));
+document.querySelector("#finance-year-next").addEventListener("click", () => moveFinanceYear(1));
+
+document.querySelector("#finance-reset-paid").addEventListener("click", () => {
+  rememberUndo();
+  state.fixedCosts = state.fixedCosts.map(clearBudgetPaidForCurrentMonth);
+  state.variableCosts = state.variableCosts.map(clearBudgetPaidForCurrentMonth);
+  commitChange();
+});
+
+document.querySelector("#fixed-add-btn").addEventListener("click", () => {
+  rememberUndo();
+  state.fixedCosts.push({ id: crypto.randomUUID(), title: "Novo custo fixo", value: 0, dueDay: 1, paidMonths: {}, paid: false });
+  commitChange();
+});
+
+document.querySelector("#variable-add-btn").addEventListener("click", () => {
+  rememberUndo();
+  state.variableCosts.push({ id: crypto.randomUUID(), title: "Novo custo variável", value: 0, dueDate: `${currentFinanceMonth()}-01`, paidMonths: {}, paid: false });
+  commitChange();
+});
+
+document.addEventListener("change", (event) => {
+  const marketShopQty = event.target.dataset.marketShopQty;
+  const marketShopPrice = event.target.dataset.marketShopPrice;
+  if (marketShopQty || marketShopPrice) {
+    rememberUndo();
+    state.market = state.market.map((item) => {
+      if (item.id !== (marketShopQty || marketShopPrice)) return item;
+      if (marketShopQty) return { ...item, shopQty: Math.max(1, Number(event.target.value || 1)) };
+      return { ...item, shopPrice: Number(event.target.value || 0) };
+    });
+    commitChange();
+    return;
+  }
+
+  const personalInfo = event.target.dataset.personalInfo;
+  if (personalInfo) {
+    rememberUndo();
+    state.personal.info = {
+      ...state.personal.info,
+      [personalInfo]: event.target.value.trim(),
+    };
+    saveState();
+    updateUndoButton();
+    return;
+  }
+
+  const titleTarget = event.target.dataset.budgetTitle;
+  const valueTarget = event.target.dataset.budgetValue;
+  const dueTarget = event.target.dataset.budgetDue;
+  const budgetDate = event.target.dataset.budgetDate;
+  const financeTitle = event.target.dataset.financeTitle;
+  const financeType = event.target.dataset.financeType;
+  const financeCategory = event.target.dataset.financeCategoryEdit;
+  const financeValue = event.target.dataset.financeValue;
+  const financeDue = event.target.dataset.financeDue;
+  if (!titleTarget && !valueTarget && !dueTarget && !budgetDate && !financeTitle && !financeType && !financeCategory && !financeValue && !financeDue) return;
+
+  rememberUndo();
+
+  if (financeDue) {
+    state.finance = state.finance.map((item) => item.id === financeDue ? { ...item, dueDate: event.target.value || item.dueDate, done: false } : item);
+    commitChange();
+    return;
+  }
+
+  if (financeTitle) {
+    state.finance = state.finance.map((item) => item.id === financeTitle ? { ...item, title: event.target.value.trim() || item.title } : item);
+  }
+
+  if (financeType) {
+    state.finance = state.finance.map((item) => item.id === financeType ? { ...item, type: event.target.value, done: false } : item);
+  }
+
+  if (financeCategory) {
+    state.finance = state.finance.map((item) => item.id === financeCategory ? { ...item, category: event.target.value } : item);
+  }
+
+  if (financeValue) {
+    const value = Number(event.target.value || 0);
+    state.finance = state.finance.map((item) => item.id === financeValue ? { ...item, value } : item);
+  }
+
+  if (titleTarget) {
+    const [kind, id] = titleTarget.split(":");
+    const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+    state[key] = state[key].map((item) => item.id === id ? { ...item, title: event.target.value.trim() || item.title } : item);
+  }
+
+  if (valueTarget) {
+    const [kind, id] = valueTarget.split(":");
+    const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+    const value = Number(event.target.value || 0);
+    state[key] = state[key].map((item) => item.id === id ? { ...item, value } : item);
+  }
+
+  if (dueTarget) {
+    const [kind, id] = dueTarget.split(":");
+    const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+    const value = Number(event.target.value || 1);
+    state[key] = state[key].map((item) => item.id === id ? { ...item, dueDay: Math.min(31, Math.max(1, value)) } : item);
+  }
+
+  if (budgetDate) {
+    const [kind, id] = budgetDate.split(":");
+    const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+    state[key] = state[key].map((item) => item.id === id ? { ...item, dueDate: event.target.value || item.dueDate } : item);
+  }
+
+  commitChange();
+});
+
+document.querySelector("#note-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = document.querySelector("#note-input");
+  if (!input.value.trim()) return;
+  rememberUndo();
+  state.notes.unshift({ id: crypto.randomUUID(), text: input.value.trim(), date: new Date().toLocaleDateString("pt-BR") });
+  input.value = "";
+  commitChange();
+});
+
+document.querySelector("#search-btn").addEventListener("click", () => {
+  renderSearch();
+  document.querySelector("#search-panel").classList.add("open");
+  document.querySelector("#search-panel").setAttribute("aria-hidden", "false");
+  document.querySelector("#global-search").focus();
+});
+
+document.querySelector("#global-search").addEventListener("input", (event) => renderSearch(event.target.value));
+
+document.addEventListener("click", (event) => {
+  const target = event.target;
+  const emojiPickerButton = target.closest("[data-emoji-picker-target]");
+  if (emojiPickerButton) {
+    const input = document.querySelector(`#${emojiPickerButton.dataset.emojiPickerTarget}`);
+    if (input) openEmojiPicker(input, emojiPickerButton);
+    return;
+  }
+  const emojiValue = target.closest("[data-emoji-value]");
+  if (emojiValue && activeEmojiInput) {
+    const input = activeEmojiInput;
+    input.value = emojiValue.dataset.emojiValue;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    closeEmojiPicker();
+    input.focus();
+    return;
+  }
+  if (!target.closest("#emoji-picker") && !target.closest("[data-emoji-picker-target]") && !document.querySelector("#emoji-picker").hidden) {
+    closeEmojiPicker();
+  }
+  const routineAddType = target.closest("[data-routine-add-type]");
+  if (routineAddType) {
+    const category = state.routineCategories.find((item) => item.id === routineAddType.dataset.routineAddType);
+    document.querySelector("#routine-add-habit-type").value = routineAddType.dataset.routineAddType;
+    document.querySelector("#routine-add-habit-title").textContent = `Novo hábito em ${category?.name || "Rotina"}`;
+    document.querySelector("#routine-add-habit-panel").classList.add("open");
+    document.querySelector("#routine-add-habit-panel").setAttribute("aria-hidden", "false");
+    document.querySelector("#routine-add-habit-name").focus();
+    return;
+  }
+  const routineDeleteCard = target.closest("[data-routine-delete-card]");
+  if (routineDeleteCard) {
+    const categoryId = routineDeleteCard.dataset.routineDeleteCard;
+    const category = state.routineCategories.find((item) => item.id === categoryId);
+    if (!category || category.locked || !window.confirm(`Excluir o card "${category.name}" e seus hábitos?`)) return;
+    rememberUndo();
+    state.routineCategories = state.routineCategories.filter((item) => item.id !== categoryId);
+    state.routineLayout = state.routineLayout.filter((item) => item !== categoryId);
+    state.routine = state.routine.filter((item) => item.type !== categoryId);
+    if (state.routineTracker.waterType === categoryId) state.routineTracker.waterType = "required";
+    commitChange();
+    return;
+  }
+  const routineWaterMore = target.closest("[data-routine-water-more]");
+  if (routineWaterMore) {
+    rememberUndo();
+    const selectedDate = state.routineTracker.selectedDate || todayISO();
+    if (selectedDate === todayISO()) {
+      state.routineTracker.waterMl = Math.min(state.routineTracker.waterGoalMl, state.routineTracker.waterMl + 500);
+    } else {
+      state.routineTracker.habitHistory[selectedDate] ||= {};
+      state.routineTracker.habitHistory[selectedDate].__water = true;
+      updateRoutineHistoryScoreForDate(selectedDate);
+    }
+    commitChange();
+    return;
+  }
+  const routineWaterLess = target.closest("[data-routine-water-less]");
+  if (routineWaterLess) {
+    rememberUndo();
+    const selectedDate = state.routineTracker.selectedDate || todayISO();
+    if (selectedDate === todayISO()) {
+      state.routineTracker.waterMl = Math.max(0, state.routineTracker.waterMl - 500);
+    } else {
+      state.routineTracker.habitHistory[selectedDate] ||= {};
+      state.routineTracker.habitHistory[selectedDate].__water = false;
+      updateRoutineHistoryScoreForDate(selectedDate);
+    }
+    commitChange();
+    return;
+  }
+  const routineCalendarDate = target.closest("[data-routine-calendar-date]");
+  if (routineCalendarDate) {
+    rememberUndo();
+    state.routineTracker.selectedDate = routineCalendarDate.dataset.routineCalendarDate;
+    state.routineTracker.viewMode = "day";
+    commitChange();
+    return;
+  }
+  const routineCalendarMonth = target.closest("[data-routine-calendar-month]");
+  if (routineCalendarMonth) {
+    rememberUndo();
+    const currentDay = String(state.routineTracker.selectedDate || todayISO()).slice(8, 10) || "01";
+    const monthKey = routineCalendarMonth.dataset.routineCalendarMonth;
+    state.routineTracker.selectedDate = `${monthKey}-${String(Math.min(Number(currentDay), daysInMonth(monthKey))).padStart(2, "0")}`;
+    state.routineTracker.viewMode = "month";
+    commitChange();
+    return;
+  }
+  const winPhoto = target.closest("[data-win-photo]");
+  if (winPhoto) {
+    document.querySelector("#wins-change-photo").dataset.winId = winPhoto.dataset.winPhoto;
+    document.querySelector("#wins-change-photo").click();
+    return;
+  }
+  const homePhoto = target.closest("[data-home-photo]");
+  if (homePhoto) {
+    document.querySelector("#home-change-photo").dataset.homeId = homePhoto.dataset.homePhoto;
+    document.querySelector("#home-change-photo").click();
+    return;
+  }
+  const wardrobePhoto = target.closest("[data-wardrobe-photo]");
+  if (wardrobePhoto) {
+    document.querySelector("#wardrobe-change-photo").dataset.wardrobeId = wardrobePhoto.dataset.wardrobePhoto;
+    document.querySelector("#wardrobe-change-photo").click();
+    return;
+  }
+  const wardrobeDelete = target.closest("[data-wardrobe-delete]");
+  if (wardrobeDelete) {
+    if (!window.confirm("Excluir esta roupa?")) return;
+    rememberUndo();
+    deleteGenericItem("wardrobe", wardrobeDelete.dataset.wardrobeDelete);
+    commitChange();
+    return;
+  }
+  const wardrobeSaveLook = target.closest("[data-wardrobe-save-look], [data-wardrobe-favorite-generated]");
+  if (wardrobeSaveLook) {
+    const index = Number(wardrobeSaveLook.dataset.wardrobeSaveLook ?? wardrobeSaveLook.dataset.wardrobeFavoriteGenerated);
+    const pieces = getGeneratedWardrobeLooks()[index];
+    if (!pieces) return;
+    rememberUndo();
+    state.wardrobeLooks.unshift({
+      id: crypto.randomUUID(),
+      name: `Look ${state.wardrobeLooks.length + 1}`,
+      pieces,
+      favorite: Boolean(wardrobeSaveLook.dataset.wardrobeFavoriteGenerated),
+      createdAt: new Date().toISOString(),
+    });
+    commitChange();
+    return;
+  }
+  const wardrobeFavoriteLook = target.closest("[data-wardrobe-favorite-look]");
+  if (wardrobeFavoriteLook) {
+    rememberUndo();
+    state.wardrobeLooks = state.wardrobeLooks.map((look) => look.id === wardrobeFavoriteLook.dataset.wardrobeFavoriteLook ? { ...look, favorite: !look.favorite } : look);
+    commitChange();
+    return;
+  }
+  const wardrobeDeleteLook = target.closest("[data-wardrobe-delete-look]");
+  if (wardrobeDeleteLook) {
+    rememberUndo();
+    state.wardrobeLooks = state.wardrobeLooks.filter((look) => look.id !== wardrobeDeleteLook.dataset.wardrobeDeleteLook);
+    commitChange();
+    return;
+  }
+  const wishlistCategoryJump = target.closest("[data-wishlist-category-jump]");
+  if (wishlistCategoryJump) {
+    document.querySelector(`#wishlist-category-${wishlistCategoryJump.dataset.wishlistCategoryJump}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  const closeOverlay = target.closest("[data-close-overlay]");
+  if (closeOverlay) {
+    if (closeOverlay.closest("#login-panel") && !currentUser) return;
+    closeOverlay.closest(".overlay-panel").classList.remove("open");
+    closeOverlay.closest(".overlay-panel").setAttribute("aria-hidden", "true");
+    return;
+  }
+  const overlayBackdrop = target.classList?.contains("overlay-panel") ? target : null;
+  if (overlayBackdrop) {
+    if (overlayBackdrop.id === "login-panel" && !currentUser) return;
+    overlayBackdrop.classList.remove("open");
+    overlayBackdrop.setAttribute("aria-hidden", "true");
+    return;
+  }
+  const searchOpen = target.closest("[data-search-open]");
+  if (searchOpen) {
+    document.querySelector("#search-panel").classList.remove("open");
+    document.querySelector("#search-panel").setAttribute("aria-hidden", "true");
+    openSection(searchOpen.dataset.searchOpen);
+    return;
+  }
+  const marketJumpButton = target.closest("[data-market-jump]");
+  if (marketJumpButton) {
+    document.querySelector(`#market-${marketJumpButton.dataset.marketJump}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  const financeFilterButton = target.closest("[data-finance-filter]");
+  if (financeFilterButton) {
+    activeFinanceFilter = financeFilterButton.dataset.financeFilter;
+    renderFinance();
+    return;
+  }
+  const financeEditButton = target.closest("[data-finance-edit]");
+  if (financeEditButton) {
+    openFinanceEdit(financeEditButton.dataset.financeEdit);
+    return;
+  }
+  const budgetEditButton = target.closest("[data-budget-edit]");
+  if (budgetEditButton) {
+    openBudgetEdit(budgetEditButton.dataset.budgetEdit);
+    return;
+  }
+  const genericEditButton = target.closest("[data-generic-edit]");
+  if (genericEditButton) {
+    const [entity, ...idParts] = genericEditButton.dataset.genericEdit.split(":");
+    const id = idParts.join(":");
+    openGenericEdit(entity, id);
+    return;
+  }
+
+  const taskCheck = target.dataset.taskCheck;
+  const taskDelete = target.dataset.taskDelete;
+  const marketCheck = target.dataset.marketCheck;
+  const marketShopPick = target.dataset.marketShopPick;
+  const marketDelete = target.dataset.marketDelete;
+  const routineCheck = target.dataset.routineCheck;
+  const routineDelete = target.dataset.routineDelete;
+  const wishlistCheck = target.dataset.wishlistCheck;
+  const wishlistDelete = target.dataset.wishlistDelete;
+  const cnhCheck = target.dataset.cnhCheck;
+  const cnhDelete = target.dataset.cnhDelete;
+  const noteDelete = target.dataset.noteDelete;
+  const agendaCheck = target.dataset.agendaCheck;
+  const agendaDelete = target.dataset.agendaDelete;
+  const winDelete = target.dataset.winDelete;
+  const homeCheck = target.dataset.homeCheck;
+  const homeDelete = target.dataset.homeDelete;
+  const personalGoalCheck = target.dataset.personalGoalCheck;
+  const personalGoalDelete = target.dataset.personalGoalDelete;
+  const personalDocCheck = target.dataset.personalDocCheck;
+  const personalDocDelete = target.dataset.personalDocDelete;
+  const financeDelete = target.dataset.financeDelete;
+  const financeDone = target.dataset.financeDone;
+  const financeDeleteGroup = target.dataset.financeDeleteGroup;
+  const financeDoneGroup = target.dataset.financeDoneGroup;
+  const budgetDelete = target.dataset.budgetDelete;
+  const budgetPaid = target.dataset.budgetPaid;
+  const pendingCheck = target.dataset.pendingCheck;
+  const pendingDelete = target.dataset.pendingDelete;
+  const pendingExpand = target.dataset.pendingExpand;
+  const subtaskCheck = target.dataset.subtaskCheck;
+  const subtaskDelete = target.dataset.subtaskDelete;
+
+  const willChange = taskCheck || taskDelete || pendingCheck || pendingDelete || subtaskCheck || subtaskDelete || marketCheck || marketShopPick || marketDelete || routineCheck || routineDelete || wishlistCheck || wishlistDelete || cnhCheck || cnhDelete || noteDelete || agendaCheck || agendaDelete || winDelete || homeCheck || homeDelete || personalGoalCheck || personalGoalDelete || personalDocCheck || personalDocDelete || financeDelete || financeDone || financeDeleteGroup || financeDoneGroup || budgetDelete || budgetPaid;
+  if (willChange) rememberUndo();
+
+  if (taskCheck) state.tasks = state.tasks.map((task) => task.id === taskCheck ? { ...task, done: !task.done } : task);
+  if (taskDelete) state.tasks = state.tasks.filter((task) => task.id !== taskDelete);
+  if (pendingCheck) state.pending = state.pending.map((task) => task.id === pendingCheck ? { ...task, done: !task.done } : task);
+  if (pendingDelete) state.pending = state.pending.filter((task) => task.id !== pendingDelete);
+  if (pendingExpand) {
+    if (expandedPending.has(pendingExpand)) {
+      expandedPending.delete(pendingExpand);
+    } else {
+      expandedPending.add(pendingExpand);
+    }
+    render();
+    return;
+  }
+  if (subtaskCheck) {
+    const [taskId, subtaskId] = subtaskCheck.split(":");
+    state.pending = state.pending.map((task) => task.id === taskId ? {
+      ...task,
+      subtasks: task.subtasks.map((subtask) => subtask.id === subtaskId ? { ...subtask, done: !subtask.done } : subtask),
+    } : task);
+  }
+  if (subtaskDelete) {
+    const [taskId, subtaskId] = subtaskDelete.split(":");
+    state.pending = state.pending.map((task) => task.id === taskId ? {
+      ...task,
+      subtasks: task.subtasks.filter((subtask) => subtask.id !== subtaskId),
+    } : task);
+  }
+  if (marketCheck) state.market = state.market.map((item) => item.id === marketCheck ? { ...item, bought: !item.bought, inCart: false } : item);
+  if (marketShopPick) state.market = state.market.map((item) => item.id === marketShopPick ? {
+    ...item,
+    shopQty: getMarketShopQty(item),
+    shopPrice: getMarketShopPrice(item),
+    inCart: !item.inCart,
+  } : item);
+  if (marketDelete) state.market = state.market.filter((item) => item.id !== marketDelete);
+  if (routineCheck) {
+    const selectedDate = state.routineTracker.selectedDate || todayISO();
+    if (selectedDate === todayISO()) {
+      state.routine = state.routine.map((item) => item.id === routineCheck ? { ...item, done: !item.done } : item);
+    } else {
+      state.routineTracker.habitHistory[selectedDate] ||= {};
+      state.routineTracker.habitHistory[selectedDate][routineCheck] = !state.routineTracker.habitHistory[selectedDate][routineCheck];
+      updateRoutineHistoryScoreForDate(selectedDate);
+    }
+  }
+  if (routineDelete) state.routine = state.routine.filter((item) => item.id !== routineDelete);
+  if (wishlistCheck) state.wishlist = state.wishlist.map((item) => item.id === wishlistCheck ? { ...item, bought: !item.bought } : item);
+  if (wishlistDelete) state.wishlist = state.wishlist.filter((item) => item.id !== wishlistDelete);
+  if (cnhCheck) state.cnh.steps = state.cnh.steps.map((item) => item.id === cnhCheck ? { ...item, done: !item.done } : item);
+  if (cnhDelete) state.cnh.steps = state.cnh.steps.filter((item) => item.id !== cnhDelete);
+  if (noteDelete) state.notes = state.notes.filter((item) => item.id !== noteDelete);
+  if (agendaCheck) state.agenda = state.agenda.map((item) => item.id === agendaCheck ? { ...item, done: !item.done } : item);
+  if (agendaDelete) state.agenda = state.agenda.filter((item) => item.id !== agendaDelete);
+  if (winDelete) state.wins = state.wins.filter((item) => item.id !== winDelete);
+  if (homeCheck) state.homeItems = state.homeItems.map((item) => item.id === homeCheck ? { ...item, done: !item.done } : item);
+  if (homeDelete) state.homeItems = state.homeItems.filter((item) => item.id !== homeDelete);
+  if (personalGoalCheck) state.personal.goals = state.personal.goals.map((item) => item.id === personalGoalCheck ? { ...item, done: !item.done } : item);
+  if (personalGoalDelete) state.personal.goals = state.personal.goals.filter((item) => item.id !== personalGoalDelete);
+  if (personalDocCheck) state.personal.docs = state.personal.docs.map((item) => item.id === personalDocCheck ? { ...item, done: !item.done } : item);
+  if (personalDocDelete) state.personal.docs = state.personal.docs.filter((item) => item.id !== personalDocDelete);
+  if (financeDone) state.finance = state.finance.map((item) => item.id === financeDone ? { ...item, done: !item.done } : item);
+  if (financeDelete) state.finance = state.finance.filter((item) => item.id !== financeDelete);
+  if (financeDoneGroup) {
+    const groupItems = state.finance.filter((item) => getFinanceYearGroupKey(item) === financeDoneGroup);
+    const nextDone = !groupItems.every((item) => item.done);
+    state.finance = state.finance.map((item) => getFinanceYearGroupKey(item) === financeDoneGroup ? { ...item, done: nextDone } : item);
+  }
+  if (financeDeleteGroup) state.finance = state.finance.filter((item) => getFinanceYearGroupKey(item) !== financeDeleteGroup);
+  if (budgetDelete) {
+    const [kind, id] = budgetDelete.split(":");
+    const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+    state[key] = state[key].filter((item) => item.id !== id);
+  }
+  if (budgetPaid) {
+    const [kind, id] = budgetPaid.split(":");
+    const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
+    state[key] = state[key].map((item) => item.id === id ? toggleBudgetPaid(item) : item);
+  }
+
+  if (willChange) {
+    commitChange();
+  }
+});
+
+document.querySelector("#wins-change-photo").addEventListener("change", async (event) => {
+  const file = event.target.files?.[0];
+  const winId = event.target.dataset.winId;
+  if (!file || !winId) return;
+  const photo = await resizeImageFile(file);
+  rememberUndo();
+  state.wins = state.wins.map((item) => item.id === winId ? { ...item, photo } : item);
+  event.target.value = "";
+  commitChange();
+});
+
+document.querySelector("#home-change-photo").addEventListener("change", async (event) => {
+  const file = event.target.files?.[0];
+  const homeId = event.target.dataset.homeId;
+  if (!file || !homeId) return;
+  const photo = await resizeImageFile(file, 520, 0.78);
+  rememberUndo();
+  state.homeItems = state.homeItems.map((item) => item.id === homeId ? { ...item, photo } : item);
+  event.target.value = "";
+  commitChange();
+});
+
+document.querySelector("#wardrobe-change-photo").addEventListener("change", async (event) => {
+  const file = event.target.files?.[0];
+  const wardrobeId = event.target.dataset.wardrobeId;
+  if (!file || !wardrobeId) return;
+  const image = await resizeImageFile(file, 640, 0.8);
+  rememberUndo();
+  state.wardrobeItems = state.wardrobeItems.map((item) => item.id === wardrobeId ? { ...item, image } : item);
+  event.target.value = "";
+  commitChange();
+});
+
+document.addEventListener("dragstart", (event) => {
+  const routineHabit = event.target.closest("[data-routine-habit-drag]");
+  if (routineHabit && !event.target.closest("button, input, select, textarea, a")) {
+    event.stopPropagation();
+    event.dataTransfer.setData("application/x-routine-habit", routineHabit.dataset.routineHabitDrag);
+    event.dataTransfer.effectAllowed = "move";
+    routineHabit.classList.add("routine-habit-dragging");
+    return;
+  }
+
+  const routineCard = event.target.closest("[data-routine-card]");
+  if (routineCard) {
+    if (event.target.closest("button, input, select, textarea, a")) {
+      event.preventDefault();
+      return;
+    }
+    event.dataTransfer.setData("application/x-routine-card", routineCard.dataset.routineCard);
+    event.dataTransfer.effectAllowed = "move";
+    routineCard.classList.add("routine-card-dragging");
+    return;
+  }
+
+  const financeCard = event.target.closest("[data-finance-summary-card], [data-finance-dashboard-card]");
+  if (financeCard) {
+    if (event.target.closest("button, input, select, textarea, a")) {
+      event.preventDefault();
+      return;
+    }
+    const group = financeCard.dataset.financeSummaryCard ? "summary" : "dashboard";
+    const key = financeCard.dataset.financeSummaryCard || financeCard.dataset.financeDashboardCard;
+    event.dataTransfer.setData("application/x-finance-card", `${group}:${key}`);
+    event.dataTransfer.effectAllowed = "move";
+    financeCard.classList.add("finance-card-dragging");
+    return;
+  }
+
+  const item = event.target.closest("[data-pending-drag]");
+  if (!item) return;
+  event.dataTransfer.setData("text/plain", item.dataset.pendingDrag);
+  event.dataTransfer.effectAllowed = "move";
+  item.classList.add("dragging");
+});
+
+document.addEventListener("dragend", (event) => {
+  event.target.closest("[data-routine-habit-drag]")?.classList.remove("routine-habit-dragging");
+  event.target.closest("[data-routine-card]")?.classList.remove("routine-card-dragging");
+  event.target.closest("[data-finance-summary-card], [data-finance-dashboard-card]")?.classList.remove("finance-card-dragging");
+  const item = event.target.closest("[data-pending-drag]");
+  item?.classList.remove("dragging");
+  document.querySelectorAll(".pending-list").forEach((list) => list.classList.remove("drag-over"));
+  document.querySelectorAll("[data-routine-card]").forEach((card) => card.classList.remove("routine-habit-drop-target"));
+});
+
+document.querySelector(".routine-board").addEventListener("dragover", (event) => {
+  if (Array.from(event.dataTransfer.types).includes("application/x-routine-habit")) {
+    const targetCard = event.target.closest("[data-routine-card]");
+    if (!targetCard) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    document.querySelectorAll("[data-routine-card]").forEach((card) => card.classList.toggle("routine-habit-drop-target", card === targetCard));
+    return;
+  }
+  if (!Array.from(event.dataTransfer.types).includes("application/x-routine-card")) return;
+  event.preventDefault();
+  const board = event.currentTarget;
+  const dragged = board.querySelector(".routine-card-dragging");
+  const target = event.target.closest("[data-routine-card]");
+  if (!dragged || !target || dragged === target) return;
+  const rect = target.getBoundingClientRect();
+  const placeAfter = event.clientY > rect.top + rect.height / 2
+    || event.clientX > rect.left + rect.width / 2;
+  board.insertBefore(dragged, placeAfter ? target.nextSibling : target);
+});
+
+document.querySelector(".routine-board").addEventListener("drop", (event) => {
+  const routineHabitId = event.dataTransfer.getData("application/x-routine-habit");
+  if (routineHabitId) {
+    const targetCard = event.target.closest("[data-routine-card]");
+    if (!targetCard) return;
+    event.preventDefault();
+    rememberUndo();
+    const targetType = targetCard.dataset.routineCard;
+    if (routineHabitId === "__water") {
+      state.routineTracker.waterType = targetType;
+    } else {
+      state.routine = state.routine.map((item) => item.id === routineHabitId ? { ...item, type: targetType } : item);
+    }
+    document.querySelectorAll("[data-routine-card]").forEach((card) => card.classList.remove("routine-habit-drop-target"));
+    commitChange();
+    return;
+  }
+  if (!event.dataTransfer.getData("application/x-routine-card")) return;
+  event.preventDefault();
+  state.routineLayout = [...event.currentTarget.querySelectorAll("[data-routine-card]")].map((card) => card.dataset.routineCard);
+  saveState();
+  render();
+});
+
+document.querySelectorAll(".finance-summary, .finance-dashboard-grid").forEach((container) => {
+  container.addEventListener("dragover", (event) => {
+    if (!Array.from(event.dataTransfer.types).includes("application/x-finance-card")) return;
+    event.preventDefault();
+    const group = container.classList.contains("finance-summary") ? "summary" : "dashboard";
+    const dragged = container.querySelector(".finance-card-dragging");
+    const selector = group === "summary" ? "[data-finance-summary-card]" : "[data-finance-dashboard-card]";
+    const target = event.target.closest(selector);
+    if (!dragged || !target || dragged === target || target.parentElement !== container) return;
+    const rect = target.getBoundingClientRect();
+    const placeAfter = event.clientY > rect.top + rect.height / 2
+      || event.clientX > rect.left + rect.width / 2;
+    container.insertBefore(dragged, placeAfter ? target.nextSibling : target);
+  });
+
+  container.addEventListener("drop", (event) => {
+    const transfer = event.dataTransfer.getData("application/x-finance-card");
+    if (!transfer) return;
+    event.preventDefault();
+    const group = container.classList.contains("finance-summary") ? "summary" : "dashboard";
+    const [sourceGroup] = transfer.split(":");
+    if (group !== sourceGroup) return;
+    const selector = group === "summary" ? "[data-finance-summary-card]" : "[data-finance-dashboard-card]";
+    state.financeLayout[group] = [...container.querySelectorAll(selector)].map((card) => (
+      group === "summary" ? card.dataset.financeSummaryCard : card.dataset.financeDashboardCard
+    ));
+    saveState();
+    render();
+  });
+});
+
+document.querySelectorAll("[data-pending-column]").forEach((column) => {
+  const list = column.querySelector(".pending-list");
+  column.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    list.classList.add("drag-over");
+  });
+  column.addEventListener("dragleave", (event) => {
+    if (!column.contains(event.relatedTarget)) list.classList.remove("drag-over");
+  });
+  column.addEventListener("drop", (event) => {
+    event.preventDefault();
+    list.classList.remove("drag-over");
+    const taskId = event.dataTransfer.getData("text/plain");
+    const nextType = column.dataset.pendingColumn;
+    if (!taskId || !nextType) return;
+    const currentTask = state.pending.find((task) => task.id === taskId);
+    if (currentTask?.type === nextType) return;
+    rememberUndo();
+    state.pending = state.pending.map((task) => task.id === taskId ? { ...task, type: nextType } : task);
+    commitChange();
+  });
+});
+
+applyTheme(localStorage.getItem(themeStorageKey));
+render();
+updateUndoButton();
+initAuth();
