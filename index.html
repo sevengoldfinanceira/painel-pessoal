@@ -60,6 +60,7 @@
           <button data-section="wins"><span>★</span>Conquistas</button>
         </nav>
         <div class="sidebar-footer">
+          <button class="icon-btn sidebar-edit" type="button" id="nav-edit-btn" title="Editar menu">Editar</button>
           <button class="icon-btn sidebar-logout" type="button" id="logout-btn" title="Sair" hidden>Sair</button>
         </div>
       </aside>
@@ -891,6 +892,21 @@
             <input id="global-search" type="search" placeholder="Pesquisar tarefas, notas, compras, agenda..." />
             <div class="search-results" id="search-results"></div>
           </div>
+        </section>
+
+        <section class="overlay-panel" id="nav-edit-panel" aria-hidden="true">
+          <form class="overlay-card nav-edit-card" id="nav-edit-form">
+            <div class="panel-header">
+              <h3>Editar menu</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <p class="nav-edit-copy">Mude nomes das categorias, nomes dos itens e ícones do menu lateral.</p>
+            <div class="nav-edit-list" id="nav-edit-list"></div>
+            <div class="overlay-actions">
+              <button class="danger-action" type="button" id="nav-edit-reset">Restaurar padrão</button>
+              <button class="primary-action" type="submit">Salvar menu</button>
+            </div>
+          </form>
         </section>
 
         <section class="overlay-panel" id="summary-panel" aria-hidden="true">

@@ -56,6 +56,24 @@ const defaultNavGroups = {
   finance: "personal",
   wardrobe: "personal",
 };
+const defaultNavMeta = {
+  dashboard: { icon: "⌂", label: "Visão geral" },
+  personal: { icon: "🏙", label: "Pessoal - Jonatã" },
+  "quick-notes": { icon: "📝", label: "Anotações rápidas" },
+  tasks: { icon: "📋", label: "Coisas a fazer" },
+  pending: { icon: "🚨", label: "Pendências/Tarefas" },
+  pc: { icon: "💻", label: "PC - Windows" },
+  diet: { icon: "🥬", label: "Dieta" },
+  wins: { icon: "★", label: "Conquistas" },
+  cnh: { icon: "🪪", label: "CNH - Processo" },
+  home: { icon: "🪑", label: "Mobília casa" },
+  agenda: { icon: "🗓", label: "Agenda" },
+  wishlist: { icon: "🛍", label: "Coisas a comprar" },
+  market: { icon: "🛒", label: "Lista de compras" },
+  routine: { icon: "💪", label: "Rotina" },
+  finance: { icon: "💰", label: "Financeiro" },
+  wardrobe: { icon: "👔", label: "Guarda-Roupa" },
+};
 const navGroupDefinitions = [
   { id: "featured", label: "" },
   { id: "general", label: "Geral" },
@@ -69,6 +87,9 @@ const defaultState = {
   navLayoutVersion: 2,
   navOrder: [...defaultNavOrder],
   navGroups: { ...defaultNavGroups },
+  navLabels: Object.fromEntries(Object.entries(defaultNavMeta).map(([section, meta]) => [section, meta.label])),
+  navIcons: Object.fromEntries(Object.entries(defaultNavMeta).map(([section, meta]) => [section, meta.icon])),
+  navGroupLabels: Object.fromEntries(navGroupDefinitions.map((group) => [group.id, group.label])),
   marketSeedVersion: 0,
   wishlistSeedVersion: 0,
   homePhotoSeedVersion: 1,
@@ -586,9 +607,30 @@ function loadState() {
     Object.keys(merged.navGroups).forEach((section) => {
       if (!availableNavSections.includes(section)) delete merged.navGroups[section];
     });
+    merged.navLabels = {
+      ...defaultState.navLabels,
+      ...(merged.navLabels || {}),
+    };
+    merged.navIcons = {
+      ...defaultState.navIcons,
+      ...(merged.navIcons || {}),
+    };
+    merged.navGroupLabels = {
+      ...defaultState.navGroupLabels,
+      ...(merged.navGroupLabels || {}),
+    };
+    Object.keys(merged.navLabels).forEach((section) => {
+      if (!availableNavSections.includes(section)) delete merged.navLabels[section];
+    });
+    Object.keys(merged.navIcons).forEach((section) => {
+      if (!availableNavSections.includes(section)) delete merged.navIcons[section];
+    });
     if (Number(saved?.navLayoutVersion || 0) < defaultState.navLayoutVersion) {
       merged.navOrder = defaultNavOrder.filter((section) => availableNavSections.includes(section));
       merged.navGroups = { ...defaultNavGroups };
+      merged.navLabels = { ...defaultState.navLabels };
+      merged.navIcons = { ...defaultState.navIcons };
+      merged.navGroupLabels = { ...defaultState.navGroupLabels };
       merged.navLayoutVersion = defaultState.navLayoutVersion;
       stateWasMigrated = true;
     }
@@ -1177,7 +1219,7 @@ function openSection(sectionId) {
   pages.forEach((page) => page.classList.toggle("active", page.id === realSection));
   navButtons.forEach((button) => button.classList.toggle("active", button.dataset.section === sectionId));
 
-  const navLabel = document.querySelector(`[data-section="${sectionId}"]`)?.textContent.trim() || "Painel";
+  const navLabel = state.navLabels?.[sectionId] || defaultNavMeta[sectionId]?.label || "Painel";
   pageTitle.textContent = sectionId === "dashboard" ? "Visão geral" : navLabel;
 
   if (realSection === "placeholder") {
@@ -1201,10 +1243,11 @@ function applyNavOrder() {
     group.className = `nav-group nav-group-${groupDefinition.id}`;
     group.dataset.navGroup = groupDefinition.id;
 
-    if (groupDefinition.label) {
+    const groupLabel = state.navGroupLabels?.[groupDefinition.id] ?? groupDefinition.label;
+    if (groupLabel) {
       const title = document.createElement("strong");
       title.className = "nav-group-title";
-      title.textContent = groupDefinition.label;
+      title.textContent = groupLabel;
       group.append(title);
     }
 
@@ -1220,7 +1263,58 @@ function applyNavOrder() {
     const button = buttonsBySection.get(section);
     const groupId = state.navGroups?.[section] || defaultNavGroups[section] || "personal";
     const groupList = groupLists.get(groupId) || groupLists.get("personal");
-    if (button) groupList.append(button);
+    if (button) {
+      const icon = state.navIcons?.[section] || defaultNavMeta[section]?.icon || "•";
+      const label = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
+      const iconNode = button.querySelector("span") || document.createElement("span");
+      iconNode.textContent = icon;
+      if (!iconNode.parentElement) button.prepend(iconNode);
+      [...button.childNodes].forEach((node) => {
+        if (node.nodeType === 3) node.remove();
+      });
+      button.append(document.createTextNode(label));
+      groupList.append(button);
+    }
+  });
+}
+
+function renderNavEditor() {
+  const list = document.querySelector("#nav-edit-list");
+  list.innerHTML = "";
+
+  navGroupDefinitions.forEach((groupDefinition) => {
+    const groupId = groupDefinition.id;
+    const card = document.createElement("article");
+    card.className = "nav-edit-group";
+    card.innerHTML = `
+      <label class="nav-edit-category">
+        <span>Categoria</span>
+        <input type="text" data-nav-group-label="${groupId}" value="${escapeHtml(state.navGroupLabels?.[groupId] ?? groupDefinition.label)}" ${groupId === "featured" ? "placeholder=\"Destaque\"" : ""} />
+      </label>
+      <div class="nav-edit-items"></div>
+    `;
+
+    const items = card.querySelector(".nav-edit-items");
+    state.navOrder
+      .filter((section) => (state.navGroups?.[section] || defaultNavGroups[section]) === groupId)
+      .forEach((section) => {
+        const row = document.createElement("div");
+        row.className = "nav-edit-item";
+        row.dataset.navEditSection = section;
+        row.innerHTML = `
+          <label>
+            <span>Ícone</span>
+            <input type="text" maxlength="4" data-nav-icon="${section}" value="${escapeHtml(state.navIcons?.[section] || defaultNavMeta[section]?.icon || "")}" />
+          </label>
+          <label>
+            <span>Nome</span>
+            <input type="text" data-nav-label="${section}" value="${escapeHtml(state.navLabels?.[section] || defaultNavMeta[section]?.label || section)}" />
+          </label>
+        `;
+        items.append(row);
+      });
+
+    list.append(card);
   });
 }
 
@@ -3367,6 +3461,11 @@ document.querySelectorAll("[data-section-shortcut]").forEach((button) => {
 
 document.querySelector(".menu-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
 document.querySelector("#theme-toggle").addEventListener("click", toggleTheme);
+document.querySelector("#nav-edit-btn").addEventListener("click", () => {
+  renderNavEditor();
+  document.querySelector("#nav-edit-panel").classList.add("open");
+  document.querySelector("#nav-edit-panel").setAttribute("aria-hidden", "false");
+});
 document.querySelector("#emoji-picker-grid").innerHTML = routineEmojiOptions
   .map((emoji) => `<button type="button" data-emoji-value="${emoji}" title="Usar ${emoji}">${emoji}</button>`)
   .join("");
@@ -3393,6 +3492,34 @@ document.querySelector("#login-use-other").addEventListener("click", async () =>
   document.querySelector("#login-password").value = "";
   document.querySelector("#login-email").focus();
   document.querySelector("#login-message").textContent = "Entre com outra conta para trocar o acesso.";
+});
+
+document.querySelector("#nav-edit-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  rememberUndo();
+  document.querySelectorAll("[data-nav-group-label]").forEach((input) => {
+    state.navGroupLabels[input.dataset.navGroupLabel] = input.value.trim();
+  });
+  document.querySelectorAll("[data-nav-icon]").forEach((input) => {
+    const section = input.dataset.navIcon;
+    state.navIcons[section] = input.value.trim() || defaultNavMeta[section]?.icon || "•";
+  });
+  document.querySelectorAll("[data-nav-label]").forEach((input) => {
+    const section = input.dataset.navLabel;
+    state.navLabels[section] = input.value.trim() || defaultNavMeta[section]?.label || section;
+  });
+  commitChange();
+  document.querySelector("#nav-edit-panel").classList.remove("open");
+  document.querySelector("#nav-edit-panel").setAttribute("aria-hidden", "true");
+});
+
+document.querySelector("#nav-edit-reset").addEventListener("click", () => {
+  rememberUndo();
+  state.navLabels = { ...defaultState.navLabels };
+  state.navIcons = { ...defaultState.navIcons };
+  state.navGroupLabels = { ...defaultState.navGroupLabels };
+  commitChange();
+  renderNavEditor();
 });
 
 document.querySelector("#logout-btn").addEventListener("click", async () => {
