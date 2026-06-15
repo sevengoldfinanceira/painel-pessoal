@@ -37,9 +37,38 @@ function openEmojiPicker(input, anchor) {
   picker.style.top = `${Math.max(12, top)}px`;
 }
 
+const defaultNavOrder = ["dashboard", "personal", "quick-notes", "tasks", "pending", "pc", "diet", "wins", "cnh", "home", "agenda", "wishlist", "market", "routine", "finance", "wardrobe"];
+const defaultNavGroups = {
+  dashboard: "featured",
+  personal: "general",
+  "quick-notes": "general",
+  tasks: "general",
+  pending: "general",
+  pc: "organization",
+  diet: "organization",
+  wins: "organization",
+  cnh: "organization",
+  home: "organization",
+  agenda: "organization",
+  wishlist: "shopping",
+  market: "shopping",
+  routine: "personal",
+  finance: "personal",
+  wardrobe: "personal",
+};
+const navGroupDefinitions = [
+  { id: "featured", label: "" },
+  { id: "general", label: "Geral" },
+  { id: "organization", label: "Organização" },
+  { id: "shopping", label: "Compras" },
+  { id: "personal", label: "Pessoal" },
+];
+
 const defaultState = {
   profilePhoto: "",
-  navOrder: ["dashboard", "quick-notes", "tasks", "pending", "routine", "personal", "market", "wishlist", "diet", "finance", "cnh", "agenda", "wardrobe", "pc", "home", "wins"],
+  navLayoutVersion: 2,
+  navOrder: [...defaultNavOrder],
+  navGroups: { ...defaultNavGroups },
   marketSeedVersion: 0,
   wishlistSeedVersion: 0,
   homePhotoSeedVersion: 1,
@@ -435,6 +464,7 @@ let expandedPending = new Set();
 let undoStack = [];
 let supabaseClient = null;
 let currentUser = null;
+let allowAuthAutoEnter = false;
 let onlineSaveTimer = null;
 let isLoadingRemoteState = false;
 let financeBillFilter = "all";
@@ -549,6 +579,19 @@ function loadState() {
       ...(merged.navOrder || []).filter((section) => availableNavSections.includes(section)),
       ...availableNavSections.filter((section) => !(merged.navOrder || []).includes(section)),
     ];
+    merged.navGroups = {
+      ...defaultNavGroups,
+      ...(merged.navGroups || {}),
+    };
+    Object.keys(merged.navGroups).forEach((section) => {
+      if (!availableNavSections.includes(section)) delete merged.navGroups[section];
+    });
+    if (Number(saved?.navLayoutVersion || 0) < defaultState.navLayoutVersion) {
+      merged.navOrder = defaultNavOrder.filter((section) => availableNavSections.includes(section));
+      merged.navGroups = { ...defaultNavGroups };
+      merged.navLayoutVersion = defaultState.navLayoutVersion;
+      stateWasMigrated = true;
+    }
     const normalizeName = (value) => String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -767,7 +810,8 @@ function setAuthGate(isLocked) {
 function openLoginPanel(message = "") {
   document.querySelector("#login-message").textContent = message;
   document.querySelector("#login-remember").checked = shouldRememberLogin();
-  setAuthGate(!currentUser);
+  updateSavedLoginCard();
+  setAuthGate(true);
   document.querySelector("#login-panel").classList.add("open");
   document.querySelector("#login-panel").setAttribute("aria-hidden", "false");
 }
@@ -782,6 +826,27 @@ function closeLoginPanel() {
 function updateAuthButtons() {
   document.querySelector("#login-btn").hidden = Boolean(currentUser);
   document.querySelector("#logout-btn").hidden = !currentUser;
+}
+
+function getCurrentUserProfile() {
+  const metadata = currentUser?.user_metadata || {};
+  return {
+    name: metadata.full_name || metadata.name || currentUser?.email?.split("@")[0] || "Jonatã",
+    email: currentUser?.email || "",
+    avatar: metadata.avatar_url || metadata.picture || state.profilePhoto || "assets/jonata.jpeg",
+  };
+}
+
+function updateSavedLoginCard() {
+  const savedLogin = document.querySelector("#saved-login");
+  if (!savedLogin) return;
+  savedLogin.hidden = !currentUser;
+  if (!currentUser) return;
+  const profile = getCurrentUserProfile();
+  document.querySelector("#login-saved-avatar").src = profile.avatar;
+  document.querySelector("#login-saved-name").textContent = profile.name;
+  document.querySelector("#login-saved-email").textContent = profile.email;
+  document.querySelector("#login-brand-avatar").textContent = profile.name.trim().charAt(0).toUpperCase() || "J";
 }
 
 function shouldRememberLogin() {
@@ -899,16 +964,13 @@ async function initAuth() {
   }
 
   const { data } = await supabaseClient.auth.getSession();
-  currentUser = shouldRememberLogin() ? data.session?.user || null : null;
-  if (!shouldRememberLogin() && data.session) {
-    await supabaseClient.auth.signOut();
-  }
+  currentUser = data.session?.user || null;
   updateAuthButtons();
+  updateSavedLoginCard();
 
   if (currentUser) {
-    setAuthGate(false);
-    closeLoginPanel();
     await loadRemoteState();
+    openLoginPanel("Escolha a conta salva para entrar ou use outra conta.");
   } else {
     setAuthGate(true);
     setSyncStatus("Sem login", "local");
@@ -918,10 +980,16 @@ async function initAuth() {
   supabaseClient.auth.onAuthStateChange(async (_event, session) => {
     currentUser = session?.user || null;
     updateAuthButtons();
+    updateSavedLoginCard();
     if (currentUser) {
-      setAuthGate(false);
-      closeLoginPanel();
-      await loadRemoteState();
+      if (allowAuthAutoEnter || !document.body.classList.contains("auth-locked")) {
+        allowAuthAutoEnter = false;
+        setAuthGate(false);
+        closeLoginPanel();
+        await loadRemoteState();
+      } else {
+        openLoginPanel("Escolha a conta salva para entrar ou use outra conta.");
+      }
     } else if (_event === "SIGNED_OUT") {
       setAuthGate(true);
       setSyncStatus("Local", "local");
@@ -1125,9 +1193,34 @@ function openSection(sectionId) {
 function applyNavOrder() {
   const nav = document.querySelector(".side-nav");
   const buttonsBySection = new Map([...navButtons].map((button) => [button.dataset.section, button]));
+  nav.innerHTML = "";
+  const groupLists = new Map();
+
+  navGroupDefinitions.forEach((groupDefinition) => {
+    const group = document.createElement("div");
+    group.className = `nav-group nav-group-${groupDefinition.id}`;
+    group.dataset.navGroup = groupDefinition.id;
+
+    if (groupDefinition.label) {
+      const title = document.createElement("strong");
+      title.className = "nav-group-title";
+      title.textContent = groupDefinition.label;
+      group.append(title);
+    }
+
+    const items = document.createElement("div");
+    items.className = "nav-items";
+    items.dataset.navGroupItems = groupDefinition.id;
+    group.append(items);
+    nav.append(group);
+    groupLists.set(groupDefinition.id, items);
+  });
+
   state.navOrder.forEach((section) => {
     const button = buttonsBySection.get(section);
-    if (button) nav.append(button);
+    const groupId = state.navGroups?.[section] || defaultNavGroups[section] || "personal";
+    const groupList = groupLists.get(groupId) || groupLists.get("personal");
+    if (button) groupList.append(button);
   });
 }
 
@@ -2698,11 +2791,12 @@ function buildSearchItems() {
   ];
 }
 
-function renderSearch(query = "") {
-  const results = document.querySelector("#search-results");
+function renderSearch(query = "", targetSelector = "#search-results", limit = 30) {
+  const results = document.querySelector(targetSelector);
   const normalized = query.trim().toLowerCase();
   const items = buildSearchItems().filter((item) => !normalized || `${item.label} ${item.detail}`.toLowerCase().includes(normalized));
 
+  if (!results) return;
   results.innerHTML = "";
   if (!items.length) {
     const empty = document.createElement("div");
@@ -2712,7 +2806,7 @@ function renderSearch(query = "") {
     return;
   }
 
-  items.slice(0, 30).forEach((item) => {
+  items.slice(0, limit).forEach((item) => {
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.searchOpen = item.section;
@@ -3129,10 +3223,49 @@ function renderRoutineDashboard() {
   document.querySelector("#routine-due-list").innerHTML = `<article><span>⏱</span><strong>B12 1 semana</strong><small>Sábado</small></article><article><span>▣</span><strong>Limpeza geral</strong><small>Domingo</small></article>`;
 }
 
-navButtons.forEach((button) => button.addEventListener("click", () => openSection(button.dataset.section)));
+let suppressNextNavClick = false;
+
+navButtons.forEach((button) => button.addEventListener("click", (event) => {
+  if (suppressNextNavClick) {
+    event.preventDefault();
+    return;
+  }
+  openSection(button.dataset.section);
+}));
 
 const sideNav = document.querySelector(".side-nav");
 let draggedNavButton = null;
+let pointerNavButton = null;
+let pointerNavStart = null;
+let pointerNavDragging = false;
+
+function readNavLayoutFromDom() {
+  state.navOrder = [...sideNav.querySelectorAll("button")].map((button) => button.dataset.section);
+  state.navGroups = [...sideNav.querySelectorAll(".nav-items")].reduce((groups, list) => {
+    list.querySelectorAll("button").forEach((button) => {
+      groups[button.dataset.section] = list.dataset.navGroupItems;
+    });
+    return groups;
+  }, {});
+}
+
+function moveNavButtonAtPoint(button, clientX, clientY) {
+  button.classList.add("nav-pointer-dragging");
+  const element = document.elementFromPoint(clientX, clientY);
+  button.classList.remove("nav-pointer-dragging");
+  const target = element?.closest?.(".side-nav button");
+  const targetList = target?.closest(".nav-items") || element?.closest?.(".nav-items");
+  if (!targetList) return;
+  document.querySelectorAll(".nav-items").forEach((list) => {
+    list.classList.toggle("nav-drop-target", list === targetList);
+  });
+  if (!target || target === button) {
+    targetList.append(button);
+    return;
+  }
+  const insertAfter = clientY > target.getBoundingClientRect().top + target.offsetHeight / 2;
+  targetList.insertBefore(button, insertAfter ? target.nextSibling : target);
+}
 
 navButtons.forEach((button) => {
   button.draggable = true;
@@ -3147,25 +3280,83 @@ navButtons.forEach((button) => {
   button.addEventListener("dragend", () => {
     draggedNavButton?.classList.remove("nav-dragging");
     sideNav.classList.remove("nav-drag-active");
+    document.querySelectorAll(".nav-items.nav-drop-target").forEach((list) => {
+      list.classList.remove("nav-drop-target");
+    });
     draggedNavButton = null;
   });
+
+  button.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" || event.button !== 0) return;
+    pointerNavButton = button;
+    pointerNavStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+    pointerNavDragging = false;
+    button.setPointerCapture?.(event.pointerId);
+  });
 });
+
+document.addEventListener("pointermove", (event) => {
+  if (!pointerNavButton || event.pointerId !== pointerNavStart?.pointerId) return;
+  const distance = Math.hypot(event.clientX - pointerNavStart.x, event.clientY - pointerNavStart.y);
+  if (!pointerNavDragging && distance < 8) return;
+  if (!pointerNavDragging) {
+    rememberUndo();
+    pointerNavDragging = true;
+    sideNav.classList.add("nav-drag-active");
+    pointerNavButton.classList.add("nav-dragging");
+  }
+  event.preventDefault();
+  moveNavButtonAtPoint(pointerNavButton, event.clientX, event.clientY);
+}, { passive: false });
+
+function finishPointerNavDrag(event) {
+  if (!pointerNavButton || event.pointerId !== pointerNavStart?.pointerId) return;
+  pointerNavButton.releasePointerCapture?.(event.pointerId);
+  pointerNavButton.classList.remove("nav-dragging", "nav-pointer-dragging");
+  document.querySelectorAll(".nav-items.nav-drop-target").forEach((list) => {
+    list.classList.remove("nav-drop-target");
+  });
+  sideNav.classList.remove("nav-drag-active");
+  if (pointerNavDragging) {
+    readNavLayoutFromDom();
+    saveState();
+    updateUndoButton();
+    suppressNextNavClick = true;
+    setTimeout(() => {
+      suppressNextNavClick = false;
+    }, 120);
+  }
+  pointerNavButton = null;
+  pointerNavStart = null;
+  pointerNavDragging = false;
+}
+
+document.addEventListener("pointerup", finishPointerNavDrag);
+document.addEventListener("pointercancel", finishPointerNavDrag);
 
 sideNav.addEventListener("dragover", (event) => {
   if (!draggedNavButton) return;
   event.preventDefault();
   sideNav.classList.add("nav-drag-active");
   const target = event.target.closest(".side-nav button");
-  if (!target || target === draggedNavButton) return;
+  const targetList = target?.closest(".nav-items") || event.target.closest(".nav-items");
+  if (!targetList) return;
+  document.querySelectorAll(".nav-items").forEach((list) => {
+    list.classList.toggle("nav-drop-target", list === targetList);
+  });
+  if (!target || target === draggedNavButton) {
+    targetList.append(draggedNavButton);
+    return;
+  }
   const insertAfter = event.clientY > target.getBoundingClientRect().top + target.offsetHeight / 2;
-  sideNav.insertBefore(draggedNavButton, insertAfter ? target.nextSibling : target);
+  targetList.insertBefore(draggedNavButton, insertAfter ? target.nextSibling : target);
 });
 
 sideNav.addEventListener("drop", (event) => {
   if (!draggedNavButton) return;
   event.preventDefault();
   rememberUndo();
-  state.navOrder = [...sideNav.querySelectorAll("button")].map((button) => button.dataset.section);
+  readNavLayoutFromDom();
   saveState();
   updateUndoButton();
 });
@@ -3187,6 +3378,21 @@ document.querySelector("#login-btn").addEventListener("click", () => {
     return;
   }
   openLoginPanel();
+});
+
+document.querySelector("#login-saved-user").addEventListener("click", async () => {
+  if (!currentUser) return;
+  allowAuthAutoEnter = true;
+  setAuthGate(false);
+  closeLoginPanel();
+  await loadRemoteState();
+});
+
+document.querySelector("#login-use-other").addEventListener("click", async () => {
+  document.querySelector("#login-email").value = "";
+  document.querySelector("#login-password").value = "";
+  document.querySelector("#login-email").focus();
+  document.querySelector("#login-message").textContent = "Entre com outra conta para trocar o acesso.";
 });
 
 document.querySelector("#logout-btn").addEventListener("click", async () => {
@@ -3213,6 +3419,7 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
   localStorage.setItem(authRememberKey, rememberLogin ? "true" : "false");
   message.textContent = "Entrando...";
 
+  allowAuthAutoEnter = true;
   let result = await supabaseClient.auth.signInWithPassword({ email, password });
 
   if (result.error) {
@@ -4118,6 +4325,21 @@ document.querySelector("#search-btn").addEventListener("click", () => {
 
 document.querySelector("#global-search").addEventListener("input", (event) => renderSearch(event.target.value));
 
+document.querySelector("#sidebar-global-search").addEventListener("input", (event) => {
+  const value = event.target.value;
+  const results = document.querySelector("#sidebar-search-results");
+  results.hidden = !value.trim();
+  renderSearch(value, "#sidebar-search-results", 8);
+});
+
+document.querySelector("#sidebar-global-search").addEventListener("focus", (event) => {
+  const results = document.querySelector("#sidebar-search-results");
+  if (event.target.value.trim()) {
+    results.hidden = false;
+    renderSearch(event.target.value, "#sidebar-search-results", 8);
+  }
+});
+
 document.addEventListener("click", (event) => {
   const target = event.target;
   const emojiPickerButton = target.closest("[data-emoji-picker-target]");
@@ -4286,6 +4508,8 @@ document.addEventListener("click", (event) => {
   if (searchOpen) {
     document.querySelector("#search-panel").classList.remove("open");
     document.querySelector("#search-panel").setAttribute("aria-hidden", "true");
+    document.querySelector("#sidebar-search-results").hidden = true;
+    document.querySelector("#sidebar-global-search").value = "";
     openSection(searchOpen.dataset.searchOpen);
     return;
   }

@@ -35,6 +35,11 @@
             <span>Painel pessoal</span>
           </div>
         </div>
+        <div class="sidebar-search">
+          <span>⌕</span>
+          <input id="sidebar-global-search" type="search" placeholder="Buscar no painel inteiro" autocomplete="off" />
+        </div>
+        <div class="sidebar-search-results" id="sidebar-search-results" hidden></div>
 
         <nav class="side-nav" aria-label="Areas do painel">
           <button class="active" data-section="dashboard"><span>⌂</span>Visão geral</button>
@@ -54,6 +59,9 @@
           <button data-section="home"><span>🪑</span>Mobília casa</button>
           <button data-section="wins"><span>★</span>Conquistas</button>
         </nav>
+        <div class="sidebar-footer">
+          <button class="icon-btn sidebar-logout" type="button" id="logout-btn" title="Sair" hidden>Sair</button>
+        </div>
       </aside>
 
       <main class="main-area">
@@ -67,7 +75,6 @@
             <button class="icon-btn theme-toggle" type="button" id="theme-toggle" title="Ativar modo claro" aria-label="Ativar modo claro">☀</button>
             <span class="sync-status" id="sync-status">Local</span>
             <button class="icon-btn" type="button" id="login-btn" title="Entrar">Entrar</button>
-            <button class="icon-btn" type="button" id="logout-btn" title="Sair" hidden>Sair</button>
             <button class="icon-btn" type="button" id="undo-btn" title="Desfazer última ação" disabled>↶</button>
             <button class="icon-btn" type="button" id="search-btn" title="Pesquisar">⌕</button>
             <button class="primary-action" type="button" data-section-shortcut="quick-notes">Nova nota</button>
@@ -948,12 +955,29 @@
         </section>
 
         <section class="overlay-panel" id="login-panel" aria-hidden="true">
+          <video class="login-bg-video" autoplay muted loop playsinline preload="metadata">
+            <source src="assets/spider-man-login.mp4" type="video/mp4" />
+          </video>
           <form class="overlay-card login-card" id="login-form">
-            <div class="panel-header">
-              <h3>Entrar no painel</h3>
+            <div class="panel-header login-card-head">
+              <div class="login-brand-avatar" id="login-brand-avatar">J</div>
+              <div>
+                <span>Sistema Pessoal</span>
+                <h3>Jonatã</h3>
+              </div>
               <button type="button" data-close-overlay>Fechar</button>
             </div>
-            <p class="login-copy">Use seu e-mail e senha para salvar tudo online no Supabase.</p>
+            <p class="login-copy">Escolha uma conta salva ou use seu e-mail e senha para acessar.</p>
+            <div class="saved-login" id="saved-login" hidden>
+              <button class="saved-login-user" type="button" id="login-saved-user">
+                <img id="login-saved-avatar" src="assets/jonata.jpeg" alt="Foto do usuário salvo" />
+                <span>
+                  <strong id="login-saved-name">Jonatã</strong>
+                  <small id="login-saved-email"></small>
+                </span>
+              </button>
+              <button class="saved-login-other" type="button" id="login-use-other">Usar outra conta</button>
+            </div>
             <label>
               <span>E-mail</span>
               <input id="login-email" type="email" autocomplete="email" required />

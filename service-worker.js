@@ -1,4 +1,4 @@
-const CACHE_NAME = "painel-seven-gold-v1";
+const CACHE_NAME = "painel-seven-gold-v3";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -35,6 +35,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
 
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
+  if (url.pathname.endsWith(".mp4")) return;
 
   if (request.mode === "navigate") {
     event.respondWith(
