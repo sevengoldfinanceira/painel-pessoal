@@ -868,6 +868,10 @@ function closeLoginPanel() {
 function updateAuthButtons() {
   document.querySelector("#login-btn").hidden = Boolean(currentUser);
   document.querySelector("#logout-btn").hidden = !currentUser;
+  const profileBlock = document.querySelector("#profile-block-dropdown");
+  if (profileBlock) {
+    profileBlock.style.display = currentUser ? "" : "none";
+  }
 }
 
 function getCurrentUserProfile() {
@@ -1368,6 +1372,10 @@ function render() {
   const nameSpan = document.querySelector(".profile-name-text");
   if (nameSpan) {
     nameSpan.textContent = displayName;
+  }
+  const roleSpan = document.querySelector(".profile-role-text");
+  if (roleSpan) {
+    roleSpan.textContent = currentUser ? "Administrador" : "Particular";
   }
   const dropdownName = document.querySelector(".dropdown-profile-name");
   if (dropdownName) {
