@@ -1,4 +1,4 @@
-const CACHE_NAME = "painel-seven-gold-v5";
+const CACHE_NAME = "painel-seven-gold-v6";
 const APP_SHELL = [
   "/",
   "/index.html",

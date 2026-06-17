@@ -20,64 +20,106 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=1.2" />
   </head>
   <body class="auth-locked">
     <div class="app-shell">
-      <aside class="sidebar">
-        <div class="profile-block">
-          <button class="avatar-button" type="button" id="avatar-button" title="Alterar foto">
-            <img class="avatar" id="profile-avatar" src="assets/jonata.jpeg" alt="Foto de Jonatã" />
-          </button>
-          <input id="avatar-input" type="file" accept="image/*" hidden />
-          <div>
-            <strong>Particular</strong>
-            <span>Painel pessoal</span>
+      <aside class="sidebar floating-navbar">
+        <div class="navbar-container">
+          <!-- Left Brand Section -->
+          <div class="navbar-brand">
+            <div class="brand-logo">
+              <span class="logo-icon">SG</span>
+            </div>
+            <div class="brand-text">
+              <span class="brand-name">SEVEN GOLD</span>
+              <span class="brand-sub">Particular</span>
+            </div>
           </div>
-        </div>
-        <div class="sidebar-search">
-          <span>⌕</span>
-          <input id="sidebar-global-search" type="search" placeholder="Buscar no painel inteiro" autocomplete="off" />
-        </div>
-        <div class="sidebar-search-results" id="sidebar-search-results" hidden></div>
 
-        <nav class="side-nav" aria-label="Areas do painel">
-          <button class="active" data-section="dashboard"><span>⌂</span>Visão geral</button>
-          <button data-section="quick-notes"><span>📝</span>Anotações rápidas</button>
-          <button data-section="tasks"><span>📋</span>Coisas a fazer</button>
-          <button data-section="pending"><span>🚨</span>Pendências/Tarefas</button>
-          <button data-section="routine"><span>💪</span>Rotina</button>
-          <button data-section="personal"><span>🏙</span>Pessoal - Jonatã</button>
-          <button data-section="market"><span>🛒</span>Lista de compras</button>
-          <button data-section="wishlist"><span>🛍</span>Coisas a comprar</button>
-          <button data-section="diet"><span>🥬</span>Dieta</button>
-          <button data-section="finance"><span>💰</span>Financeiro</button>
-          <button data-section="cnh"><span>🪪</span>CNH - Processo</button>
-          <button data-section="agenda"><span>🗓</span>Agenda</button>
-          <button data-section="wardrobe"><span>👔</span>Guarda-Roupa</button>
-          <button data-section="pc"><span>💻</span>PC - Windows</button>
-          <button data-section="home"><span>🪑</span>Mobília casa</button>
-          <button data-section="wins"><span>★</span>Conquistas</button>
-        </nav>
-        <div class="sidebar-footer">
-          <button class="icon-btn sidebar-edit" type="button" id="nav-edit-btn" title="Editar menu">Editar</button>
-          <button class="icon-btn sidebar-logout" type="button" id="logout-btn" title="Sair" hidden>Sair</button>
+          <!-- Middle Navigation Tabs Section -->
+          <nav class="side-nav horizontal-nav" aria-label="Areas do painel">
+            <button class="active" data-section="dashboard"><span>⌂</span>Visão geral</button>
+            <button data-section="quick-notes"><span>📝</span>Anotações rápidas</button>
+            <button data-section="tasks"><span>📋</span>Coisas a fazer</button>
+            <button data-section="pending"><span>🚨</span>Pendências/Tarefas</button>
+            <button data-section="routine"><span>💪</span>Rotina</button>
+            <button data-section="personal"><span>🏙</span>Pessoal - Jonatã</button>
+            <button data-section="market"><span>🛒</span>Lista de compras</button>
+            <button data-section="wishlist"><span>🛍</span>Coisas a comprar</button>
+            <button data-section="diet"><span>🥬</span>Dieta</button>
+            <button data-section="finance"><span>💰</span>Financeiro</button>
+            <button data-section="cnh"><span>🪪</span>CNH - Processo</button>
+            <button data-section="agenda"><span>🗓</span>Agenda</button>
+            <button data-section="wardrobe"><span>👔</span>Guarda-Roupa</button>
+            <button data-section="pc"><span>💻</span>PC - Windows</button>
+            <button data-section="home"><span>🪑</span>Mobília casa</button>
+            <button data-section="wins"><span>★</span>Conquistas</button>
+          </nav>
+
+          <!-- Right Action/Profile Section -->
+          <div class="navbar-actions">
+            <!-- Search bar -->
+            <div class="navbar-search">
+              <span class="search-icon">⌕</span>
+              <input id="sidebar-global-search" type="search" placeholder="Buscar..." autocomplete="off" />
+              <div class="sidebar-search-results" id="sidebar-search-results" hidden></div>
+            </div>
+
+            <!-- Sync status -->
+            <span class="sync-status" id="sync-status">Local</span>
+
+            <!-- Undo action -->
+            <button class="icon-btn" type="button" id="undo-btn" title="Desfazer última ação" disabled>↶</button>
+
+            <!-- Theme toggle action -->
+            <button class="icon-btn theme-toggle" type="button" id="theme-toggle" title="Ativar modo claro" aria-label="Ativar modo claro">☀</button>
+
+            <!-- Login action -->
+            <button class="icon-btn" type="button" id="login-btn" title="Entrar">Entrar</button>
+
+            <!-- Profile Block with Dropdown -->
+            <div class="profile-block-dropdown" id="profile-block-dropdown">
+              <button class="profile-trigger" type="button" id="profile-trigger-btn" title="Menu do perfil">
+                <img class="avatar" id="profile-avatar" src="assets/jonata.jpeg" alt="Foto de Jonatã" />
+                <span class="profile-name-text">Jonatã</span>
+                <span class="dropdown-chevron">⌄</span>
+              </button>
+              
+              <!-- Dropdown Menu -->
+              <div class="profile-menu-dropdown" id="profile-menu-dropdown" hidden>
+                <div class="profile-info-header">
+                  <strong class="dropdown-profile-name">Particular</strong>
+                  <span>Painel pessoal</span>
+                </div>
+                <hr />
+                <button type="button" id="dropdown-change-avatar" class="dropdown-item">
+                  <span>📷</span> Alterar foto
+                </button>
+                <input id="avatar-input" type="file" accept="image/*" hidden />
+                <button type="button" id="dropdown-edit-menu" class="dropdown-item">
+                  <span>⚙️</span> Editar abas
+                </button>
+                <button class="icon-btn sidebar-edit" type="button" id="nav-edit-btn" style="display: none;">Editar</button>
+                <button type="button" id="dropdown-logout" class="dropdown-item danger">
+                  <span>🚪</span> Sair
+                </button>
+                <button class="icon-btn sidebar-logout" type="button" id="logout-btn" style="display: none;">Sair</button>
+              </div>
+            </div>
+          </div>
         </div>
       </aside>
 
       <main class="main-area">
         <header class="topbar">
-          <button class="menu-toggle" type="button" aria-label="Abrir menu">☰</button>
+          <button class="menu-toggle" type="button" aria-label="Abrir menu" style="display: none;">☰</button>
           <div>
             <p class="today-label">Hoje</p>
             <h1 id="page-title">Visão geral</h1>
           </div>
           <div class="top-actions">
-            <button class="icon-btn theme-toggle" type="button" id="theme-toggle" title="Ativar modo claro" aria-label="Ativar modo claro">☀</button>
-            <span class="sync-status" id="sync-status">Local</span>
-            <button class="icon-btn" type="button" id="login-btn" title="Entrar">Entrar</button>
-            <button class="icon-btn" type="button" id="undo-btn" title="Desfazer última ação" disabled>↶</button>
-            <button class="icon-btn" type="button" id="search-btn" title="Pesquisar">⌕</button>
+            <button class="icon-btn" type="button" id="search-btn" title="Pesquisar" style="display: none;">⌕</button>
             <button class="primary-action" type="button" data-section-shortcut="quick-notes">Nova nota</button>
           </div>
         </header>
@@ -1100,6 +1142,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=1.1"></script>
   </body>
 </html>

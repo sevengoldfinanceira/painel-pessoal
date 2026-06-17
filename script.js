@@ -1363,7 +1363,20 @@ function render() {
   applyFinanceLayoutOrder();
   ensureRoutineCategoryCards();
   applyRoutineLayoutOrder();
-  document.querySelector("#profile-avatar").src = state.profilePhoto || "assets/jonata.jpeg";
+  const profile = currentUser ? getCurrentUserProfile() : null;
+  const displayName = profile ? profile.name : (state.personal?.info?.name || "Jonatã");
+  const nameSpan = document.querySelector(".profile-name-text");
+  if (nameSpan) {
+    nameSpan.textContent = displayName;
+  }
+  const dropdownName = document.querySelector(".dropdown-profile-name");
+  if (dropdownName) {
+    dropdownName.textContent = displayName;
+  }
+  const avatarImg = document.querySelector("#profile-avatar");
+  if (avatarImg) {
+    avatarImg.src = (profile?.avatar) || state.profilePhoto || "assets/jonata.jpeg";
+  }
   renderTasks();
   renderPending();
   renderMarket();
@@ -3578,7 +3591,8 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
   }
 });
 
-document.querySelector("#avatar-button").addEventListener("click", () => {
+const avatarBtn = document.querySelector("#avatar-button") || document.querySelector("#dropdown-change-avatar");
+if (avatarBtn) avatarBtn.addEventListener("click", () => {
   document.querySelector("#avatar-input").click();
 });
 
@@ -4978,6 +4992,41 @@ applyTheme(localStorage.getItem(themeStorageKey));
 render();
 updateUndoButton();
 initAuth();
+
+// Profile Dropdown Menu Toggle and Actions
+const profileTrigger = document.querySelector("#profile-trigger-btn");
+const profileMenu = document.querySelector("#profile-menu-dropdown");
+if (profileTrigger && profileMenu) {
+  profileTrigger.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isHidden = profileMenu.hidden;
+    profileMenu.hidden = !isHidden;
+    profileTrigger.setAttribute("aria-expanded", isHidden ? "true" : "false");
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!profileTrigger.contains(event.target) && !profileMenu.contains(event.target)) {
+      profileMenu.hidden = true;
+      profileTrigger.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+const dropdownEditMenu = document.querySelector("#dropdown-edit-menu");
+if (dropdownEditMenu) {
+  dropdownEditMenu.addEventListener("click", () => {
+    document.querySelector("#nav-edit-btn").click();
+    if (profileMenu) profileMenu.hidden = true;
+  });
+}
+
+const dropdownLogout = document.querySelector("#dropdown-logout");
+if (dropdownLogout) {
+  dropdownLogout.addEventListener("click", () => {
+    document.querySelector("#logout-btn").click();
+    if (profileMenu) profileMenu.hidden = true;
+  });
+}
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
