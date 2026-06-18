@@ -7136,17 +7136,37 @@ html[data-theme] .top-actions #logout-btn {
 
 body.auth-locked {
   overflow: hidden;
+  background: #000;
 }
 
 body.auth-locked .app-shell {
+  display: block;
+  min-height: 100vh;
   filter: none;
+  background: #000;
+}
+
+body.auth-locked .sidebar,
+body.auth-locked .global-search-bar,
+body.auth-locked .main-area > :not(#login-panel) {
+  display: none !important;
+}
+
+body.auth-locked .main-area {
+  min-height: 100vh;
+  padding: 0 !important;
+  background: #000;
 }
 
 body.auth-locked #login-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  background: #000;
 }
 
 body.auth-locked #login-panel::before {
