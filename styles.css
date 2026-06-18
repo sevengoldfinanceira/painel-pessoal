@@ -2988,13 +2988,13 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 62px;
   width: 100%;
   max-width: 100%;
   margin: 0;
   z-index: 1000;
   border-radius: 0 0 12px 12px;
-  padding: 0 24px;
+  padding: 0 12px;
   overflow: visible;
   display: flex;
   align-items: center;
@@ -3022,10 +3022,10 @@ html[data-theme="dark"] .sidebar.floating-navbar {
 .navbar-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   height: 100%;
-  gap: 16px;
+  gap: 0;
 }
 
 /* Brand Section */
@@ -7339,29 +7339,38 @@ html[data-theme="dark"] #routine .routine-section {
   box-shadow: var(--shadow-global), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
 }
 
-/* Ajuste final da barra superior: visual limpo igual ao painel administrativo. */
+/* Ajuste final da barra superior: limpa e sem icones coloridos. */
 html[data-theme] .sidebar.floating-navbar {
-  top: 10px;
-  left: 12px;
-  right: 12px;
-  width: calc(100% - 24px);
-  height: 70px;
-  max-width: none;
-  padding: 0 18px;
-  background: #101318 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 22px;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 62px;
+  max-width: 100%;
+  margin: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  overflow: hidden;
+  background: #111827 !important;
+  border: 0 !important;
+  border-radius: 0;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
+html[data-theme="light"] .sidebar.floating-navbar {
+  background: #151922 !important;
+}
+
 html[data-theme] .navbar-container {
-  gap: 22px;
+  gap: 18px;
 }
 
 html[data-theme] .navbar-brand {
-  min-width: 236px;
+  min-width: 210px;
 }
 
 html[data-theme] .brand-logo {
@@ -7390,37 +7399,45 @@ html[data-theme] .brand-sub {
   letter-spacing: 0.22em;
 }
 
-html[data-theme] .horizontal-nav {
-  gap: 10px;
-}
-
+html[data-theme] .horizontal-nav,
 html[data-theme] .horizontal-nav .nav-items {
   gap: 10px;
 }
 
 html[data-theme] .horizontal-nav button {
-  min-height: 42px !important;
-  padding: 0 14px !important;
+  min-height: 40px !important;
+  padding: 0 13px !important;
   color: #d9dee7 !important;
   font-size: 13px !important;
   font-weight: 750 !important;
+  border: 1px solid transparent !important;
   border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 html[data-theme] .horizontal-nav button span {
-  width: 24px !important;
-  height: 24px;
-  color: #aeb7c5;
+  display: none !important;
+}
+
+html[data-theme] .horizontal-nav button svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2;
+  color: #aeb7c5 !important;
 }
 
 html[data-theme] .horizontal-nav button.active {
   color: #ffffff !important;
-  background: rgba(245, 197, 66, 0.18) !important;
-  border-color: rgba(245, 197, 66, 0.55) !important;
+  background: rgba(245, 197, 66, 0.16) !important;
+  border-color: rgba(245, 197, 66, 0.5) !important;
 }
 
-html[data-theme] .horizontal-nav button.active span {
-  color: #f8c83e;
+html[data-theme] .horizontal-nav button.active svg {
+  color: #f8c83e !important;
 }
 
 html[data-theme] .navbar-search,
@@ -7434,7 +7451,7 @@ html[data-theme] .navbar-actions {
 }
 
 html[data-theme] .profile-trigger {
-  min-height: 48px;
+  min-height: 46px;
   padding: 4px 14px 4px 6px;
   color: #ffffff;
   background: #181c22;
@@ -7443,8 +7460,8 @@ html[data-theme] .profile-trigger {
 }
 
 html[data-theme] .profile-trigger .avatar {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
 }
 
 html[data-theme] .profile-name-text {
@@ -7480,17 +7497,13 @@ html[data-theme] .theme-toggle:hover {
 }
 
 html[data-theme] .main-area {
-  padding-top: 104px !important;
+  padding-top: 96px !important;
 }
 
 @media (max-width: 992px) {
   html[data-theme] .sidebar.floating-navbar {
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    width: calc(100% - 16px);
-    height: 60px;
-    padding: 0 12px;
+    height: 58px;
+    padding: 0 10px;
   }
 
   html[data-theme] .navbar-brand {

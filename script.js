@@ -876,8 +876,10 @@ function updateAuthButtons() {
 
 function getCurrentUserProfile() {
   const metadata = currentUser?.user_metadata || {};
+  const rawName = metadata.full_name || metadata.name || "";
+  const firstName = rawName.trim().split(" ")[0] || "Usuário";
   return {
-    name: metadata.full_name || metadata.name || currentUser?.email?.split("@")[0] || "Jonatã",
+    name: firstName,
     email: currentUser?.email || "",
     avatar: metadata.avatar_url || metadata.picture || state.profilePhoto || "assets/jonata.jpeg",
   };
@@ -1368,14 +1370,10 @@ function render() {
   ensureRoutineCategoryCards();
   applyRoutineLayoutOrder();
   const profile = currentUser ? getCurrentUserProfile() : null;
-  const displayName = profile ? profile.name : (state.personal?.info?.name || "Jonatã");
+  const displayName = profile ? profile.name : (state.personal?.info?.name?.split(" ")[0] || "Usuário");
   const nameSpan = document.querySelector(".profile-name-text");
   if (nameSpan) {
     nameSpan.textContent = displayName;
-  }
-  const roleSpan = document.querySelector(".profile-role-text");
-  if (roleSpan) {
-    roleSpan.textContent = currentUser ? "Administrador" : "Particular";
   }
   const dropdownName = document.querySelector(".dropdown-profile-name");
   if (dropdownName) {
