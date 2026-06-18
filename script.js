@@ -866,8 +866,10 @@ function closeLoginPanel() {
 }
 
 function updateAuthButtons() {
-  document.querySelector("#login-btn").hidden = Boolean(currentUser);
-  document.querySelector("#logout-btn").hidden = !currentUser;
+  const loginButton = document.querySelector("#login-btn");
+  const logoutButton = document.querySelector("#logout-btn");
+  if (loginButton) loginButton.hidden = Boolean(currentUser);
+  if (logoutButton) logoutButton.hidden = !currentUser;
   const profileBlock = document.querySelector("#profile-block-dropdown");
   if (profileBlock) {
     profileBlock.style.display = currentUser ? "" : "none";
@@ -3479,7 +3481,10 @@ document.querySelectorAll("[data-section-shortcut]").forEach((button) => {
 });
 
 document.querySelector(".menu-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
-document.querySelector("#theme-toggle").addEventListener("click", toggleTheme);
+const themeToggleButton = document.querySelector("#theme-toggle");
+if (themeToggleButton) {
+  themeToggleButton.addEventListener("click", toggleTheme);
+}
 document.querySelector("#nav-edit-btn").addEventListener("click", () => {
   renderNavEditor();
   document.querySelector("#nav-edit-panel").classList.add("open");
@@ -3490,13 +3495,16 @@ document.querySelector("#emoji-picker-grid").innerHTML = routineEmojiOptions
   .join("");
 document.querySelector("#emoji-picker-close").addEventListener("click", closeEmojiPicker);
 
-document.querySelector("#login-btn").addEventListener("click", () => {
-  if (!isSupabaseConfigured()) {
-    openLoginPanel("Configure o arquivo supabase-config.js com a URL e anon key do seu projeto.");
-    return;
-  }
-  openLoginPanel();
-});
+const loginButton = document.querySelector("#login-btn");
+if (loginButton) {
+  loginButton.addEventListener("click", () => {
+    if (!isSupabaseConfigured()) {
+      openLoginPanel("Configure o arquivo supabase-config.js com a URL e anon key do seu projeto.");
+      return;
+    }
+    openLoginPanel();
+  });
+}
 
 document.querySelector("#login-saved-user").addEventListener("click", async () => {
   if (!currentUser) return;
@@ -5029,7 +5037,7 @@ if (dropdownEditMenu) {
 const dropdownLogout = document.querySelector("#dropdown-logout");
 if (dropdownLogout) {
   dropdownLogout.addEventListener("click", () => {
-    document.querySelector("#logout-btn").click();
+    document.querySelector("#logout-btn")?.click();
     if (profileMenu) profileMenu.hidden = true;
   });
 }
