@@ -5049,3 +5049,87 @@ if ("serviceWorker" in navigator) {
     });
   });
 }
+
+/* ── Inline label editor ───────────────────────────────────────── */
+(function initNavInlineEditor() {
+  const editBtn = document.querySelector("#nav-inline-edit-btn");
+  if (!editBtn) return;
+  const HINT_CLASS = "nav-inline-edit-hint";
+  const LABEL_CLASS = "nav-edit-label";
+  let editing = false;
+  let hint = null;
+
+  function wrapTextNodes() {
+    const nav = document.querySelector(".horizontal-nav");
+    if (!nav) return;
+    nav.querySelectorAll("button").forEach((btn) => {
+      Array.from(btn.childNodes).forEach((node) => {
+        if (node.nodeType === 3 && node.textContent.trim()) {
+          const span = document.createElement("span");
+          span.className = LABEL_CLASS;
+          span.contentEditable = "true";
+          span.textContent = node.textContent;
+          node.replaceWith(span);
+        }
+      });
+    });
+  }
+
+  function unwrapTextNodes() {
+    const nav = document.querySelector(".horizontal-nav");
+    if (!nav) return;
+    nav.querySelectorAll(`span.${LABEL_CLASS}`).forEach((span) => {
+      const text = document.createTextNode(span.textContent);
+      span.replaceWith(text);
+    });
+  }
+
+  function saveLabels() {
+    const nav = document.querySelector(".horizontal-nav");
+    if (!nav) return;
+    nav.querySelectorAll("button").forEach((btn) => {
+      const section = btn.dataset.section;
+      if (!section) return;
+      const labelSpan = btn.querySelector(`span.${LABEL_CLASS}`);
+      if (labelSpan) {
+        const newLabel = labelSpan.textContent.trim();
+        if (newLabel && state.navLabels?.[section] !== newLabel) {
+          if (!state.navLabels) state.navLabels = {};
+          state.navLabels[section] = newLabel;
+        }
+      }
+    });
+  }
+
+  function enterEditMode() {
+    editing = true;
+    editBtn.classList.add("active");
+    const nav = document.querySelector(".horizontal-nav");
+    if (nav) nav.classList.add("horizontal-nav-nav-editing");
+    wrapTextNodes();
+    hint = document.createElement("span");
+    hint.className = HINT_CLASS;
+    hint.textContent = "Clique nos nomes para editar";
+    editBtn.parentElement?.insertBefore(hint, editBtn.nextSibling);
+  }
+
+  function exitEditMode() {
+    editing = false;
+    editBtn.classList.remove("active");
+    const nav = document.querySelector(".horizontal-nav");
+    if (nav) nav.classList.remove("horizontal-nav-nav-editing");
+    saveLabels();
+    unwrapTextNodes();
+    hint?.remove();
+    hint = null;
+    commitChange();
+  }
+
+  editBtn.addEventListener("click", () => {
+    if (editing) {
+      exitEditMode();
+    } else {
+      enterEditMode();
+    }
+  });
+})();
