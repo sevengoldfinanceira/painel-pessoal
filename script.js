@@ -5,10 +5,14 @@ const themeStorageKey = "theme";
 function applyTheme(theme) {
   const nextTheme = theme === "light" ? "light" : "dark";
   document.documentElement.dataset.theme = nextTheme;
-  const button = document.querySelector("#theme-toggle");
-  if (!button) return;
+  const sun = document.querySelector("#theme-sun");
+  const moon = document.querySelector("#theme-moon");
+  if (!sun || !moon) return;
   const isDark = nextTheme === "dark";
-  button.textContent = isDark ? "☀" : "☾";
+  sun.style.display = isDark ? "" : "none";
+  moon.style.display = isDark ? "none" : "";
+  const button = sun.closest("#theme-toggle");
+  if (!button) return;
   button.title = isDark ? "Ativar modo claro" : "Ativar modo escuro";
   button.setAttribute("aria-label", button.title);
 }
@@ -3637,7 +3641,8 @@ document.querySelector("#avatar-input").addEventListener("change", (event) => {
   reader.readAsDataURL(file);
 });
 
-document.querySelector("#undo-btn").addEventListener("click", () => {
+const undoBtn = document.querySelector("#undo-btn");
+if (undoBtn) undoBtn.addEventListener("click", () => {
   const previous = undoStack.pop();
   if (!previous) return;
   state = previous;
