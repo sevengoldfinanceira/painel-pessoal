@@ -1267,6 +1267,10 @@ function applyNavOrder() {
     groupLists.set(groupDefinition.id, items);
   });
 
+  if (navInlineEditing) {
+    nav.classList.add("horizontal-nav-nav-editing");
+  }
+
   state.navOrder.forEach((section) => {
     const button = buttonsBySection.get(section);
     const groupId = state.navGroups?.[section] || defaultNavGroups[section] || "personal";
@@ -1274,7 +1278,9 @@ function applyNavOrder() {
     if (button) {
       const icon = state.navIcons?.[section] || defaultNavMeta[section]?.icon || "•";
       const label = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-      const iconNode = button.querySelector("span") || document.createElement("span");
+      button.querySelectorAll("svg").forEach((svg) => svg.remove());
+      const iconNode = button.querySelector("span.nav-icon") || document.createElement("span");
+      iconNode.className = "nav-icon";
       iconNode.textContent = icon;
       if (!iconNode.parentElement) button.prepend(iconNode);
       [...button.childNodes].forEach((node) => {
@@ -1285,7 +1291,9 @@ function applyNavOrder() {
         labelSpan = document.createElement("span");
         labelSpan.className = "nav-label-text";
       }
-      labelSpan.textContent = label;
+      if (!navInlineEditing) {
+        labelSpan.textContent = label;
+      }
       button.append(labelSpan);
       groupList.append(button);
     }
@@ -5093,9 +5101,7 @@ function navInlineEnterEditMode() {
   navInlineHint.textContent = "Clique no nome para editar";
   sideNav.parentElement?.appendChild(navInlineHint);
 
-  sideNav.querySelectorAll("button").forEach((button) => {
-    const labelSpan = button.querySelector(".nav-label-text");
-    if (!labelSpan) return;
+  document.querySelectorAll(".side-nav button .nav-label-text").forEach((labelSpan) => {
     labelSpan.contentEditable = "true";
     labelSpan.spellcheck = false;
     labelSpan.addEventListener("blur", navInlineHandleBlur);
@@ -5117,19 +5123,17 @@ function navInlineExitEditMode(save) {
     navInlineHint = null;
   }
 
-  sideNav.querySelectorAll("button").forEach((button) => {
-    const labelSpan = button.querySelector(".nav-label-text");
-    if (!labelSpan) return;
+  document.querySelectorAll(".side-nav button .nav-label-text").forEach((labelSpan) => {
     labelSpan.contentEditable = "false";
 
     if (save) {
-      const section = button.dataset.section;
+      const section = labelSpan.closest("button")?.dataset.section;
       const newValue = labelSpan.textContent.trim();
       if (section && newValue) {
         state.navLabels[section] = newValue;
       }
     } else {
-      const section = button.dataset.section;
+      const section = labelSpan.closest("button")?.dataset.section;
       const original = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
       labelSpan.textContent = original;
     }
@@ -5141,13 +5145,19 @@ function navInlineExitEditMode(save) {
   if (save) commitChange();
 }
 
-const navInlineEditBtn = document.querySelector("#nav-inline-edit-btn");
-if (navInlineEditBtn) {
-  navInlineEditBtn.addEventListener("click", () => {
-    if (navInlineEditing) {
-      navInlineExitEditMode(true);
-    } else {
-      navInlineEnterEditMode();
-    }
-  });
+function navInlineToggleEditMode() {
+  if (navInlineEditing) {
+    navInlineExitEditMode(true);
+  } else {
+    navInlineEnterEditMode();
+  }
 }
+
+function initNavInlineEditor() {
+  const editBtn = document.querySelector("#nav-inline-edit-btn");
+  if (editBtn) {
+    editBtn.addEventListener("click", navInlineToggleEditMode);
+  }
+}
+
+initNavInlineEditor();
