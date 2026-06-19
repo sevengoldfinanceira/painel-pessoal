@@ -57,22 +57,22 @@ const defaultNavGroups = {
   wardrobe: "personal",
 };
 const defaultNavMeta = {
-  dashboard: { icon: "⌂", label: "Visão geral" },
-  personal: { icon: "🏙", label: "Pessoal - Jonatã" },
-  "quick-notes": { icon: "📝", label: "Anotações rápidas" },
+  dashboard: { icon: "⌂", label: "Painel" },
+  personal: { icon: "🏙", label: "Jonatã" },
+  "quick-notes": { icon: "📝", label: "Anotações" },
   tasks: { icon: "📋", label: "Coisas a fazer" },
-  pending: { icon: "🚨", label: "Pendências/Tarefas" },
-  pc: { icon: "💻", label: "PC - Windows" },
+  pending: { icon: "🚨", label: "Pendências" },
+  pc: { icon: "💻", label: "PC" },
   diet: { icon: "🥬", label: "Dieta" },
   wins: { icon: "★", label: "Conquistas" },
-  cnh: { icon: "🪪", label: "CNH - Processo" },
-  home: { icon: "🪑", label: "Mobília casa" },
+  cnh: { icon: "🪪", label: "CNH" },
+  home: { icon: "🪑", label: "Mobília" },
   agenda: { icon: "🗓", label: "Agenda" },
   wishlist: { icon: "🛍", label: "Coisas a comprar" },
-  market: { icon: "🛒", label: "Lista de compras" },
+  market: { icon: "🛒", label: "Mercado" },
   routine: { icon: "💪", label: "Rotina" },
-  finance: { icon: "💰", label: "Financeiro" },
-  wardrobe: { icon: "👔", label: "Guarda-Roupa" },
+  finance: { icon: "💰", label: "Finanças" },
+  wardrobe: { icon: "👔", label: "Guarda Roupa" },
 };
 const navGroupDefinitions = [
   { id: "featured", label: "" },
@@ -282,16 +282,16 @@ const defaultState = {
 };
 
 const placeholders = {
-  pending: ["Pendências/Tarefas", "Acompanhamento de pendências com prazos, status, responsáveis e alertas."],
-  personal: ["Pessoal - Jonatã", "Espaço para documentos, metas pessoais, dados importantes e planos."],
+  pending: ["Pendências", "Acompanhamento de pendências com prazos, status, responsáveis e alertas."],
+  personal: ["Jonatã", "Espaço para documentos, metas pessoais, dados importantes e planos."],
   wishlist: ["Coisas a comprar", "Lista de desejos com prioridade, preço esperado e link de compra."],
-  diet: ["Dieta - Reeducação alimentar", "Controle de refeições, metas, compras e acompanhamento alimentar."],
-  cnh: ["CNH - Processo", "Etapas, documentos, datas e pendências do processo de habilitação."],
-  pc: ["PC - Windows", "Configurações, programas, manutenções e histórico do computador."],
+  diet: ["Dieta", "Controle de refeições, metas, compras e acompanhamento alimentar."],
+  cnh: ["CNH", "Etapas, documentos, datas e pendências do processo de habilitação."],
+  pc: ["PC", "Configurações, programas, manutenções e histórico do computador."],
   mods: ["Modificações", "Ideias de mudanças, melhorias e projetos em andamento."],
   apps: ["Aplicativos", "Lista de ferramentas, contas, assinaturas e apps importantes."],
   specs: ["Especificações", "Dados técnicos, medidas, equipamentos e informações de referência."],
-  home: ["Mobília casa", "Planejamento de móveis, medidas, compras e prioridades da casa."],
+  home: ["Mobília", "Planejamento de móveis, medidas, compras e prioridades da casa."],
   wins: ["Conquistas", "Registro de vitórias, marcos e evolução pessoal."],
 };
 
