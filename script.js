@@ -5109,8 +5109,10 @@ if ("serviceWorker" in navigator) {
     wrapTextNodes();
     hint = document.createElement("span");
     hint.className = HINT_CLASS;
-    hint.textContent = "Clique nos nomes para editar";
+    hint.textContent = "Clique nos nomes para editar · Enter salva · Esc cancela";
     editBtn.parentElement?.insertBefore(hint, editBtn.nextSibling);
+    const first = document.querySelector(`span.${LABEL_CLASS}`);
+    if (first) { first.focus(); document.execCommand("selectAll", false, null); }
   }
 
   function exitEditMode() {
@@ -5132,4 +5134,16 @@ if ("serviceWorker" in navigator) {
       enterEditMode();
     }
   });
+
+  document.addEventListener("keydown", (e) => {
+    if (!editing) return;
+    if (e.key === "Enter") { e.preventDefault(); exitEditMode(); }
+    if (e.key === "Escape") { editing = false; exitEditMode(); }
+  });
+
+  document.addEventListener("blur", (e) => {
+    if (editing && e.target?.classList?.contains(LABEL_CLASS)) {
+      setTimeout(() => { if (editing) exitEditMode(); }, 150);
+    }
+  }, true);
 })();

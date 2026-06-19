@@ -7579,6 +7579,8 @@ html[data-theme] .main-area {
   border: 1px solid transparent;
   outline: none;
   min-width: 20px;
+  user-select: text;
+  -webkit-user-select: text;
   transition: border-color 0.15s, background 0.15s;
 }
 html[data-theme] .horizontal-nav button span.nav-edit-label {
@@ -7588,6 +7590,9 @@ html[data-theme] .horizontal-nav button span.nav-edit-label {
 }
 
 .horizontal-nav-nav-editing button {
+  pointer-events: none !important;
+}
+.horizontal-nav-nav-editing button span.nav-edit-label {
   pointer-events: auto !important;
 }
 .horizontal-nav-nav-editing button span.nav-edit-label:focus {
