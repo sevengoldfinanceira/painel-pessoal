@@ -144,18 +144,28 @@ html[data-theme="dark"] #routine h3 {
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg-main: #ffffff;
+  --bg-main: #f3f4f6;
+  --bg-soft: #eef0f4;
   --bg-sidebar: #f1f3f5;
-  --bg-card: #e9ecef;
-  --bg-card-soft: #dee2e6;
-  --bg-input: #dde1e6;
-  --bg-hover: #ced4da;
-  --text-main: #111111;
-  --text-muted-global: #495057;
-  --border-color-global: #adb5bd;
-  --shadow-global: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-strong-global: 0 10px 28px rgba(0, 0, 0, 0.12);
+  --bg-card: #ffffff;
+  --bg-card-soft: #f8fafc;
+  --bg-card-muted: #f1f5f9;
+  --bg-input: #ffffff;
+  --bg-hover: #f1f5f9;
+  --text-main: #111827;
+  --text-title: #0f172a;
+  --text-muted: #64748b;
+  --text-soft: #94a3b8;
+  --text-muted-global: #64748b;
+  --border-color-global: #e2e8f0;
+  --border-soft: rgba(15, 23, 42, 0.10);
+  --border-card: rgba(15, 23, 42, 0.08);
+  --shadow-global: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04);
+  --shadow-strong-global: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04);
   --accent: #d4af37;
+  --gold: #d4af37;
+  --gold-soft: rgba(212, 175, 55, 0.12);
   --bg: var(--bg-main);
   --surface: var(--bg-card);
   --surface-2: var(--bg-card);
@@ -7558,4 +7568,884 @@ html[data-theme] .main-area {
   html[data-theme] .dropdown-chevron {
     display: none;
   }
+}
+
+/* ============================================================
+   MODO CLARO — Overrides completos para data-theme="light"
+   ============================================================ */
+
+/* --- Body e Fundo Geral --- */
+html[data-theme="light"] body,
+html[data-theme="light"] .app-shell,
+html[data-theme="light"] .main-area {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef0f4 100%) !important;
+  color: #111827 !important;
+}
+
+/* --- Textos Globais --- */
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] .today-label,
+html[data-theme="light"] .section-head h2,
+html[data-theme="light"] .routine-page-head h2,
+html[data-theme="light"] .finance-page-head h2,
+html[data-theme="light"] .wardrobe-head h2,
+html[data-theme="light"] .panel-header h3 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] p,
+html[data-theme="light"] span,
+html[data-theme="light"] .section-head p,
+html[data-theme="light"] .routine-hero-copy p,
+html[data-theme="light"] small {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .section-kicker,
+html[data-theme="light"] .finance-title-icon {
+  color: #d4af37 !important;
+}
+
+html[data-theme="light"] .metrics-grid article span,
+html[data-theme="light"] .finance-summary article span,
+html[data-theme="light"] .routine-summary article span,
+html[data-theme="light"] .wardrobe-metrics article span,
+html[data-theme="light"] .cnh-summary article span,
+html[data-theme="light"] .home-summary article span,
+html[data-theme="light"] .wishlist-summary article span {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .metrics-grid article strong,
+html[data-theme="light"] .finance-summary article strong,
+html[data-theme="light"] .routine-summary article strong,
+html[data-theme="light"] .wardrobe-metrics article strong,
+html[data-theme="light"] .cnh-summary article strong {
+  color: #0f172a !important;
+}
+
+/* --- Cards e Painéis --- */
+html[data-theme="light"] .panel,
+html[data-theme="light"] .metrics-grid article,
+html[data-theme="light"] .focus-card,
+html[data-theme="light"] .notes-grid article,
+html[data-theme="light"] .table-panel,
+html[data-theme="light"] .table-row,
+html[data-theme="light"] .task-column,
+html[data-theme="light"] .pending-item,
+html[data-theme="light"] .market-section,
+html[data-theme="light"] .market-item-row,
+html[data-theme="light"] .wishlist-section,
+html[data-theme="light"] .wishlist-row,
+html[data-theme="light"] .personal-row,
+html[data-theme="light"] .timeline article,
+html[data-theme="light"] .agenda-calendar,
+html[data-theme="light"] .cnh-progress-card,
+html[data-theme="light"] .win-card,
+html[data-theme="light"] .home-card,
+html[data-theme="light"] .overlay-card,
+html[data-theme="light"] .empty-state,
+html[data-theme="light"] .dashboard-grid .panel,
+html[data-theme="light"] .composer,
+html[data-theme="light"] .module-preview article {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+  border-radius: 16px !important;
+}
+
+/* --- Dashboard Grid --- */
+html[data-theme="light"] .dashboard-grid {
+  gap: 16px;
+}
+
+html[data-theme="light"] .dashboard-grid section {
+  border-radius: 20px !important;
+}
+
+/* --- List Headers --- */
+html[data-theme="light"] .simple-list li,
+html[data-theme="light"] .table-head,
+html[data-theme="light"] .task-column-head,
+html[data-theme="light"] .market-section-head,
+html[data-theme="light"] .wishlist-section-head,
+html[data-theme="light"] .personal-list {
+  background: #f8fafc !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .simple-list li span,
+html[data-theme="light"] .table-head span {
+  color: #64748b !important;
+}
+
+/* --- Botões secundários --- */
+html[data-theme="light"] .icon-btn,
+html[data-theme="light"] .panel-header button,
+html[data-theme="light"] .focus-card button,
+html[data-theme="light"] .edit-btn,
+html[data-theme="light"] .check-btn,
+html[data-theme="light"] .delete-btn,
+html[data-theme="light"] .mini-edit,
+html[data-theme="light"] .period-arrow,
+html[data-theme="light"] .finance-status,
+html[data-theme="light"] .finance-bill-tabs button,
+html[data-theme="light"] .finance-panel-action {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .icon-btn:hover,
+html[data-theme="light"] .panel-header button:hover,
+html[data-theme="light"] .edit-btn:hover,
+html[data-theme="light"] .check-btn:hover,
+html[data-theme="light"] .period-arrow:hover {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+html[data-theme="light"] .delete-btn,
+html[data-theme="light"] .delete-btn:hover {
+  color: #dc2626 !important;
+  background: rgba(220, 38, 38, 0.06) !important;
+  border-color: rgba(220, 38, 38, 0.2) !important;
+}
+
+/* --- Botão primário --- */
+html[data-theme="light"] .primary-action {
+  background: linear-gradient(180deg, #f4cf5d, #d4af37) !important;
+  color: #111827 !important;
+  border: none !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25) !important;
+  border-radius: 10px !important;
+}
+
+html[data-theme="light"] .primary-action:hover {
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35) !important;
+  transform: translateY(-1px);
+}
+
+html[data-theme="light"] .danger-action {
+  color: #dc2626 !important;
+  background: rgba(220, 38, 38, 0.06) !important;
+  border: 1px solid rgba(220, 38, 38, 0.2) !important;
+}
+
+/* --- Inputs e Selects --- */
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+}
+
+html[data-theme="light"] input:focus,
+html[data-theme="light"] select:focus,
+html[data-theme="light"] textarea:focus {
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12) !important;
+  outline: none;
+}
+
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* --- Search Bar --- */
+html[data-theme="light"] .global-search-bar {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
+}
+
+html[data-theme="light"] .global-search-bar:focus-within {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  box-shadow: 0 2px 12px rgba(212, 175, 55, 0.1) !important;
+}
+
+html[data-theme="light"] .global-search-bar .global-search-icon {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="light"] .global-search-bar input {
+  color: #111827 !important;
+}
+
+html[data-theme="light"] .global-search-bar input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* --- Navbar mantém escura --- */
+html[data-theme="light"] .sidebar.floating-navbar {
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+}
+
+html[data-theme="light"] .horizontal-nav button {
+  color: #d9dee7 !important;
+}
+
+html[data-theme="light"] .horizontal-nav button:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+html[data-theme="light"] .horizontal-nav button.active {
+  color: #ffffff !important;
+  background: rgba(245, 197, 66, 0.16) !important;
+  border-color: rgba(245, 197, 66, 0.5) !important;
+}
+
+html[data-theme="light"] .horizontal-nav button.active svg {
+  color: #f8c83e !important;
+}
+
+html[data-theme="light"] .horizontal-nav button svg {
+  color: #aeb7c5 !important;
+}
+
+/* --- Finance — sobrescrever tema roxo escuro --- */
+html[data-theme="light"] #finance {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef0f4 100%) !important;
+  color: #111827 !important;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #f1f5f9;
+  --line: #e2e8f0;
+  --muted: #64748b;
+  --text: #111827;
+}
+
+html[data-theme="light"] #finance .panel,
+html[data-theme="light"] #finance .finance-summary article,
+html[data-theme="light"] #finance .finance-year-summary article,
+html[data-theme="light"] #finance .finance-category-card,
+html[data-theme="light"] #finance .finance-planner,
+html[data-theme="light"] #finance .finance-form,
+html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+  border-radius: 16px !important;
+}
+
+html[data-theme="light"] #finance .finance-row,
+html[data-theme="light"] #finance .budget-row,
+html[data-theme="light"] #finance .finance-alert,
+html[data-theme="light"] #finance .finance-subsection,
+html[data-theme="light"] #finance .finance-goals-list article,
+html[data-theme="light"] #finance .finance-category-breakdown article,
+html[data-theme="light"] #finance .finance-distribution-footer,
+html[data-theme="light"] #finance .finance-recent-list article {
+  background: #f8fafc !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance .finance-summary article {
+  border-radius: 16px !important;
+}
+
+html[data-theme="light"] #finance .finance-summary article::before {
+  display: none !important;
+}
+
+html[data-theme="light"] #finance .finance-summary strong,
+html[data-theme="light"] #finance .finance-summary .money-income {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #finance .finance-summary .money-expense {
+  color: #dc2626 !important;
+}
+
+html[data-theme="light"] #finance .finance-summary .finance-summary-icon {
+  background: #fef3c7 !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+html[data-theme="light"] #finance .finance-summary .income-icon {
+  background: #dcfce7 !important;
+  color: #16a34a !important;
+}
+
+html[data-theme="light"] #finance .finance-summary .payable-icon {
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
+}
+
+html[data-theme="light"] #finance .finance-summary .expected-icon {
+  background: #ede9fe !important;
+  color: #7c3aed !important;
+}
+
+html[data-theme="light"] #finance .finance-summary .free-icon {
+  background: #fef3c7 !important;
+  color: #d97706 !important;
+}
+
+html[data-theme="light"] #finance .finance-donut {
+  background: transparent;
+}
+
+html[data-theme="light"] #finance .finance-donut::after {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance .finance-period-inline strong,
+html[data-theme="light"] #finance .finance-period-inline button {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance input,
+html[data-theme="light"] #finance select,
+html[data-theme="light"] #finance textarea {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance button:not(.primary-action):not(.check-btn):not(.delete-btn) {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance .finance-status {
+  color: #d97706 !important;
+  background: rgba(217, 119, 6, 0.08) !important;
+  border-color: rgba(217, 119, 6, 0.25) !important;
+}
+
+html[data-theme="light"] #finance .finance-status.paid {
+  color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+  border-color: rgba(22, 163, 74, 0.25) !important;
+}
+
+html[data-theme="light"] #finance .finance-page-head h2 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #finance .panel-header h3 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #finance .finance-bar {
+  background: #e2e8f0;
+}
+
+html[data-theme="light"] #finance .finance-bar .income { background: #16a34a; }
+html[data-theme="light"] #finance .finance-bar .fixed { background: #dc2626; }
+html[data-theme="light"] #finance .finance-bar .variable { background: #d97706; }
+html[data-theme="light"] #finance .finance-bar .free { background: #7c3aed; }
+
+html[data-theme="light"] #finance .finance-brand-icon,
+html[data-theme="light"] #finance .finance-avatar {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #d4af37 !important;
+}
+
+html[data-theme="light"] #finance .finance-distribution-bars article {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance .finance-goal-head {
+  color: #111827 !important;
+}
+
+html[data-theme="light"] #finance .finance-goal-head span,
+html[data-theme="light"] #finance .finance-goals-list small {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] #finance .finance-category-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+html[data-theme="light"] #finance .finance-recent-columns {
+  background: #f8fafc !important;
+  color: #64748b !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #finance .finance-recent-date {
+  color: #111827 !important;
+}
+
+/* --- Routine — sobrescrever tema roxo escuro --- */
+html[data-theme="light"] #routine {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef0f4 100%) !important;
+  color: #111827 !important;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #f1f5f9;
+  --line: #e2e8f0;
+  --muted: #64748b;
+  --text: #111827;
+}
+
+html[data-theme="light"] #routine .panel,
+html[data-theme="light"] #routine .routine-section,
+html[data-theme="light"] #routine .routine-summary article,
+html[data-theme="light"] #routine .routine-hero,
+html[data-theme="light"] .routine-add-card,
+html[data-theme="light"] .routine-streak-card,
+html[data-theme="light"] .routine-calendar-panel,
+html[data-theme="light"] .routine-insights,
+html[data-theme="light"] .routine-consistency-card,
+html[data-theme="light"] .routine-due-card {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+  border-radius: 16px !important;
+}
+
+html[data-theme="light"] #routine .routine-item {
+  background: #f8fafc !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #routine .routine-hero {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-theme="light"] #routine .routine-progress-ring {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #routine .routine-progress-ring::before {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #routine .routine-progress-ring strong {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #routine .routine-hero-copy span {
+  color: #d4af37 !important;
+}
+
+html[data-theme="light"] #routine .routine-hero-copy h2 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #routine .routine-hero-copy p {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] #routine .routine-progress-track {
+  background: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #routine .routine-streak-card span {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] #routine .routine-streak-card strong {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #routine .routine-summary strong {
+  color: #16a34a !important;
+}
+
+html[data-theme="light"] #routine .routine-calendar-weekdays {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] #routine .routine-calendar-grid span {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+}
+
+html[data-theme="light"] #routine .routine-calendar-grid span.complete {
+  color: #ffffff !important;
+  background: #16a34a !important;
+}
+
+html[data-theme="light"] #routine .routine-calendar-grid span.partial {
+  color: #ffffff !important;
+  background: #d97706 !important;
+}
+
+html[data-theme="light"] #routine .routine-calendar-grid span.missed {
+  color: #991b1b !important;
+  background: rgba(220, 38, 38, 0.15) !important;
+}
+
+html[data-theme="light"] #routine input,
+html[data-theme="light"] #routine select {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #routine button:not(.primary-action):not(.check-btn):not(.delete-btn) {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] #routine .routine-page-head h2 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #routine h3 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] #routine .routine-period-label,
+html[data-theme="light"] #routine .routine-date-controls button {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .routine-period-label strong {
+  background: transparent !important;
+}
+
+/* --- Theme Toggle Button --- */
+html[data-theme="light"] .theme-toggle {
+  color: #111827 !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-theme="light"] .theme-toggle:hover {
+  border-color: #d4af37 !important;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15) !important;
+}
+
+/* --- Sync Status --- */
+html[data-theme="light"] .sync-status {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Sidebar (não-floating) --- */
+html[data-theme="light"] .sidebar:not(.floating-navbar) {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-right: 1px solid #e2e8f0 !important;
+}
+
+html[data-theme="light"] .sidebar:not(.floating-navbar) .side-nav button {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .sidebar:not(.floating-navbar) .side-nav button:hover {
+  color: #111827 !important;
+  background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .sidebar:not(.floating-navbar) .side-nav button.active {
+  color: #d4af37 !important;
+  background: rgba(212, 175, 55, 0.08) !important;
+}
+
+/* --- Search Results Dropdown --- */
+html[data-theme="light"] .sidebar-search-results {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1) !important;
+}
+
+html[data-theme="light"] .sidebar-search-results button {
+  color: #111827 !important;
+}
+
+html[data-theme="light"] .sidebar-search-results button:hover {
+  background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .sidebar-search-results span {
+  color: #64748b !important;
+}
+
+/* --- Overlay Panel --- */
+html[data-theme="light"] .overlay-panel {
+  background: rgba(15, 23, 42, 0.5) !important;
+}
+
+html[data-theme="light"] .overlay-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* --- Login Panel --- */
+html[data-theme="light"] body.auth-locked #login-panel {
+  background: #f3f4f6 !important;
+}
+
+/* --- Topbar / Header --- */
+html[data-theme="light"] .topbar {
+  background: transparent;
+}
+
+html[data-theme="light"] .today-label {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .top-actions .primary-action {
+  background: linear-gradient(180deg, #f4cf5d, #d4af37) !important;
+  color: #111827 !important;
+}
+
+/* --- Notificações e Cards internos --- */
+html[data-theme="light"] .pending-item {
+  background: #f8fafc !important;
+  border-radius: 12px !important;
+}
+
+html[data-theme="light"] .pending-item:hover {
+  background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .market-item-row {
+  background: #f8fafc !important;
+  border-radius: 10px !important;
+}
+
+html[data-theme="light"] .wishlist-row {
+  background: #f8fafc !important;
+  border-radius: 10px !important;
+}
+
+/* --- CNH --- */
+html[data-theme="light"] .cnh-progress-track {
+  background: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .cnh-progress-bar {
+  background: linear-gradient(90deg, #d4af37, #f4cf5d) !important;
+}
+
+html[data-theme="light"] .cnh-progress-meta {
+  color: #64748b !important;
+}
+
+/* --- Guarda-Roupa --- */
+html[data-theme="light"] .wardrobe-head span {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .wardrobe-head h2 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .wardrobe-form {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .wardrobe-grid article {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .wardrobe-section-head h3 {
+  color: #0f172a !important;
+}
+
+/* --- Agenda --- */
+html[data-theme="light"] .agenda-calendar-header h3 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .agenda-weekdays span {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .agenda-calendar-grid span {
+  color: #111827 !important;
+}
+
+html[data-theme="light"] .agenda-list-heading h3 {
+  color: #0f172a !important;
+}
+
+/* --- Conquistas --- */
+html[data-theme="light"] .wins-timeline article {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Mobília --- */
+html[data-theme="light"] .home-grid article {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Coisas a Comprar (wishlist) --- */
+html[data-theme="light"] .wishlist-categories button {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .wishlist-categories button.active {
+  background: rgba(212, 175, 55, 0.1) !important;
+  color: #d4af37 !important;
+  border-color: rgba(212, 175, 55, 0.35) !important;
+}
+
+/* --- Mercado --- */
+html[data-theme="light"] .category-grid button {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .category-grid button.active {
+  background: rgba(212, 175, 55, 0.1) !important;
+  color: #d4af37 !important;
+  border-color: rgba(212, 175, 55, 0.35) !important;
+}
+
+html[data-theme="light"] .market-section-head {
+  background: #f8fafc !important;
+  color: #111827 !important;
+}
+
+html[data-theme="light"] .market-shop-toolbar {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .market-shop-panel {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Anotações --- */
+html[data-theme="light"] .notes-grid article {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Pendências --- */
+html[data-theme="light"] .pending-board {
+  gap: 16px;
+}
+
+html[data-theme="light"] .task-column {
+  border-radius: 16px !important;
+}
+
+html[data-theme="light"] .task-column-head {
+  background: #f8fafc !important;
+  color: #111827 !important;
+}
+
+html[data-theme="light"] .task-column-head h3 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .task-column-head p {
+  color: #64748b !important;
+}
+
+/* --- Tarefas --- */
+html[data-theme="light"] .task-column {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --- Scrollbar --- */
+html[data-theme="light"] ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* --- Shadow inset removido no light --- */
+html[data-theme="light"] .metrics-grid article,
+html[data-theme="light"] .panel,
+html[data-theme="light"] .table-panel,
+html[data-theme="light"] .task-column,
+html[data-theme="light"] .market-section,
+html[data-theme="light"] .wishlist-section,
+html[data-theme="light"] .agenda-calendar,
+html[data-theme="light"] .cnh-progress-card,
+html[data-theme="light"] .home-card,
+html[data-theme="light"] .win-card,
+html[data-theme="light"] #finance .finance-summary article,
+html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card],
+html[data-theme="light"] #routine .routine-hero,
+html[data-theme="light"] #routine .routine-summary article,
+html[data-theme="light"] #routine .routine-section {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* --- Personal / Jonatã --- */
+html[data-theme="light"] .personal-fields label span {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .personal-stats article span {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .personal-stats article strong {
+  color: #0f172a !important;
+}
+
+/* --- Rotina - Board Section Heads --- */
+html[data-theme="light"] .routine-section-head h3 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .routine-section-head strong {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .routine-add-card {
+  background: #f8fafc !important;
+  border: 2px dashed #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .routine-add-card:hover {
+  border-color: #d4af37 !important;
+  color: #d4af37 !important;
 }
