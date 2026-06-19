@@ -2985,16 +2985,16 @@ button {
 /* Floating Top Navbar */
 .sidebar.floating-navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 62px;
-  width: 100%;
-  max-width: 100%;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  height: 56px;
+  width: auto;
+  max-width: calc(100% - 24px);
   margin: 0;
   z-index: 1000;
-  border-radius: 0 0 12px 12px;
-  padding: 0 12px;
+  border-radius: 16px;
+  padding: 0 16px;
   overflow: visible;
   display: flex;
   align-items: center;
@@ -3555,18 +3555,19 @@ html[data-theme="dark"] .global-search-bar input::placeholder {
 
 .main-area {
   min-width: 0;
-  padding: 84px clamp(18px, 3vw, 42px) 46px !important;
+  padding: 86px clamp(18px, 3vw, 42px) 46px !important;
 }
 
 @media (max-width: 992px) {
   .sidebar.floating-navbar {
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 56px;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-width: calc(100% - 16px);
+    height: 50px;
     padding: 0 12px;
-    border-radius: 0 0 10px 10px;
+    border-radius: 14px;
   }
   
   .brand-text {
