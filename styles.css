@@ -3317,6 +3317,10 @@ html[data-theme="light"] .navbar-search input:focus {
 }
 
 /* Profile Dropdown Container */
+.navbar-actions {
+  display: none !important;
+}
+
 .profile-block-dropdown {
   position: relative;
 }
