@@ -3479,27 +3479,39 @@ html[data-theme="light"] .profile-role-text {
 /* Global Search Bar Below Header */
 .global-search-bar {
   position: fixed;
-  top: 72px;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 600px;
+  max-width: 520px;
   z-index: 999;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  padding: 0 14px;
-  height: 40px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0 16px;
+  height: 42px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: all 0.25s ease;
 }
 
+.global-search-bar:focus-within {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
+}
+
 html[data-theme="dark"] .global-search-bar {
-  background: #1e293b;
+  background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="dark"] .global-search-bar:focus-within {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
 }
 
 .global-search-bar .global-search-icon {
@@ -3555,7 +3567,7 @@ html[data-theme="dark"] .global-search-bar input::placeholder {
 
 .main-area {
   min-width: 0;
-  padding: 86px clamp(18px, 3vw, 42px) 46px !important;
+  padding: 92px clamp(18px, 3vw, 42px) 46px !important;
 }
 
 @media (max-width: 992px) {
