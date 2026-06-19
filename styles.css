@@ -3173,23 +3173,15 @@ html[data-theme="light"] .horizontal-nav button.active {
   border: 1px solid rgba(37, 99, 235, 0.2) !important;
 }
 
-.horizontal-nav button > span.nav-icon {
+.horizontal-nav button span {
   display: inline-grid;
   place-items: center;
   width: auto !important;
 }
 
-.horizontal-nav button span.nav-icon + span.nav-label-text {
+.horizontal-nav button svg + span,
+.horizontal-nav button span + span {
   margin-left: -4px;
-}
-
-.horizontal-nav button .nav-label-text {
-  display: inline !important;
-  width: auto;
-  cursor: default;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
 }
 
 /* Actions Section */
@@ -3256,89 +3248,6 @@ html[data-theme="light"] .navbar-actions .sync-status {
   background: rgba(0, 0, 0, 0.04);
   color: #64748b;
   border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-/* Inline Edit Button */
-.nav-inline-edit-btn {
-  width: 38px !important;
-  min-height: 38px !important;
-  padding: 0 !important;
-  display: inline-grid !important;
-  place-items: center;
-  border-radius: 10px !important;
-  color: #94a3b8 !important;
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.nav-inline-edit-btn svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-html[data-theme="dark"] .nav-inline-edit-btn:hover,
-html[data-theme="dark"] .nav-inline-edit-btn.active {
-  background: rgba(212, 175, 55, 0.16) !important;
-  color: #f5d76e !important;
-  border: 1px solid rgba(212, 175, 55, 0.35) !important;
-}
-
-html[data-theme="light"] .nav-inline-edit-btn:hover,
-html[data-theme="light"] .nav-inline-edit-btn.active {
-  background: rgba(37, 99, 235, 0.08) !important;
-  color: #2563eb !important;
-  border: 1px solid rgba(37, 99, 235, 0.2) !important;
-}
-
-.horizontal-nav-nav-editing button {
-  cursor: pointer;
-}
-
-.horizontal-nav-nav-editing button .nav-label-text {
-  cursor: text;
-  padding: 2px 6px;
-  border-radius: 4px;
-  transition: background 0.15s ease;
-}
-
-.horizontal-nav-nav-editing button:hover .nav-label-text {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-html[data-theme="light"] .horizontal-nav-nav-editing button:hover .nav-label-text {
-  background: rgba(0, 0, 0, 0.06);
-}
-
-.horizontal-nav-nav-editing button .nav-label-text:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-html[data-theme="light"] .horizontal-nav-nav-editing button .nav-label-text:focus {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.nav-inline-edit-hint {
-  font-size: 10px;
-  color: #f5d76e;
-  white-space: nowrap;
-  animation: fadeInHint 0.2s ease;
-}
-
-html[data-theme="light"] .nav-inline-edit-hint {
-  color: #2563eb;
-}
-
-@keyframes fadeInHint {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Compact Search Bar in Navbar */
@@ -7527,7 +7436,7 @@ html[data-theme] .horizontal-nav button {
   box-shadow: none !important;
 }
 
-html[data-theme] .horizontal-nav button span:not(.nav-label-text):not(.nav-icon) {
+html[data-theme] .horizontal-nav button span {
   display: none !important;
 }
 

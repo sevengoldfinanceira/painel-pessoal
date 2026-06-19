@@ -1,7 +1,9 @@
-const CACHE_NAME = "painel-pessoal-v10";
+const CACHE_NAME = "painel-pessoal-v8";
 const APP_SHELL = [
   "/",
   "/index.html",
+  "/styles.css",
+  "/script.js",
   "/supabase-config.js",
   "/manifest.json",
   "/assets/jonata.jpeg",
@@ -44,14 +46,6 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => caches.match("/index.html"))
-    );
-    return;
-  }
-
-  // Always fetch CSS and JS fresh from network — never cache
-  if (url.pathname.endsWith(".css") || url.pathname.endsWith(".js")) {
-    event.respondWith(
-      fetch(request).catch(() => caches.match(request))
     );
     return;
   }

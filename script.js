@@ -1267,10 +1267,6 @@ function applyNavOrder() {
     groupLists.set(groupDefinition.id, items);
   });
 
-  if (navInlineEditing) {
-    nav.classList.add("horizontal-nav-nav-editing");
-  }
-
   state.navOrder.forEach((section) => {
     const button = buttonsBySection.get(section);
     const groupId = state.navGroups?.[section] || defaultNavGroups[section] || "personal";
@@ -1278,23 +1274,13 @@ function applyNavOrder() {
     if (button) {
       const icon = state.navIcons?.[section] || defaultNavMeta[section]?.icon || "•";
       const label = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-      button.querySelectorAll("svg").forEach((svg) => svg.remove());
-      const iconNode = button.querySelector("span.nav-icon") || document.createElement("span");
-      iconNode.className = "nav-icon";
+      const iconNode = button.querySelector("span") || document.createElement("span");
       iconNode.textContent = icon;
       if (!iconNode.parentElement) button.prepend(iconNode);
       [...button.childNodes].forEach((node) => {
         if (node.nodeType === 3) node.remove();
       });
-      let labelSpan = button.querySelector(".nav-label-text");
-      if (!labelSpan) {
-        labelSpan = document.createElement("span");
-        labelSpan.className = "nav-label-text";
-      }
-      if (!navInlineEditing) {
-        labelSpan.textContent = label;
-      }
-      button.append(labelSpan);
+      button.append(document.createTextNode(label));
       groupList.append(button);
     }
   });
@@ -5056,115 +5042,10 @@ if (dropdownLogout) {
   });
 }
 
-// Service Worker desabilitado temporariamente (cache antigo causava bugs visuais)
-// Para reativar, descomente o bloco abaixo e limpe o cache do navegador
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", () => {
-//     navigator.serviceWorker.register("/service-worker.js", { updateViaCache: "none" }).catch((error) => {
-//       console.error("Falha ao registrar o service worker:", error);
-//     });
-//   });
-// }
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.getRegistrations().then((regs) => {
-    regs.forEach((reg) => reg.unregister());
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js").catch((error) => {
+      console.error("Falha ao registrar o service worker:", error);
+    });
   });
 }
-
-/* Inline Nav Label Editor */
-let navInlineEditing = false;
-let navInlineHint = null;
-
-function navInlineHandleBlur(event) {
-  const span = event.target;
-  const newValue = span.textContent.trim();
-  if (!newValue) {
-    const section = span.closest("button")?.dataset.section;
-    span.textContent = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-  }
-}
-
-function navInlineHandleKeydown(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    event.target.blur();
-  } else if (event.key === "Escape") {
-    event.preventDefault();
-    navInlineExitEditMode(false);
-  }
-}
-
-function navInlineEnterEditMode() {
-  const editBtn = document.querySelector("#nav-inline-edit-btn");
-  const sideNav = document.querySelector(".side-nav");
-  if (!editBtn || !sideNav) return;
-
-  navInlineEditing = true;
-  editBtn.classList.add("active");
-  sideNav.classList.add("horizontal-nav-nav-editing");
-
-  navInlineHint = document.createElement("span");
-  navInlineHint.className = "nav-inline-edit-hint";
-  navInlineHint.textContent = "Clique no nome para editar";
-  sideNav.parentElement?.appendChild(navInlineHint);
-
-  document.querySelectorAll(".side-nav button .nav-label-text").forEach((labelSpan) => {
-    labelSpan.contentEditable = "true";
-    labelSpan.spellcheck = false;
-    labelSpan.addEventListener("blur", navInlineHandleBlur);
-    labelSpan.addEventListener("keydown", navInlineHandleKeydown);
-  });
-}
-
-function navInlineExitEditMode(save) {
-  const editBtn = document.querySelector("#nav-inline-edit-btn");
-  const sideNav = document.querySelector(".side-nav");
-  if (!editBtn || !sideNav) return;
-
-  navInlineEditing = false;
-  editBtn.classList.remove("active");
-  sideNav.classList.remove("horizontal-nav-nav-editing");
-
-  if (navInlineHint) {
-    navInlineHint.remove();
-    navInlineHint = null;
-  }
-
-  document.querySelectorAll(".side-nav button .nav-label-text").forEach((labelSpan) => {
-    labelSpan.contentEditable = "false";
-
-    if (save) {
-      const section = labelSpan.closest("button")?.dataset.section;
-      const newValue = labelSpan.textContent.trim();
-      if (section && newValue) {
-        state.navLabels[section] = newValue;
-      }
-    } else {
-      const section = labelSpan.closest("button")?.dataset.section;
-      const original = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-      labelSpan.textContent = original;
-    }
-
-    labelSpan.removeEventListener("blur", navInlineHandleBlur);
-    labelSpan.removeEventListener("keydown", navInlineHandleKeydown);
-  });
-
-  if (save) commitChange();
-}
-
-function navInlineToggleEditMode() {
-  if (navInlineEditing) {
-    navInlineExitEditMode(true);
-  } else {
-    navInlineEnterEditMode();
-  }
-}
-
-function initNavInlineEditor() {
-  const editBtn = document.querySelector("#nav-inline-edit-btn");
-  if (editBtn) {
-    editBtn.addEventListener("click", navInlineToggleEditMode);
-  }
-}
-
-initNavInlineEditor();
