@@ -3291,7 +3291,11 @@ html[data-theme="light"] .nav-inline-edit-btn.active {
 
 /* Inline editing mode for nav buttons */
 .horizontal-nav button .nav-label-text {
+  display: inline !important;
   cursor: default;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 .horizontal-nav-nav-editing button {
