@@ -3480,12 +3480,12 @@ document.querySelectorAll("[data-section-shortcut]").forEach((button) => {
   button.addEventListener("click", () => openSection(button.dataset.sectionShortcut));
 });
 
-document.querySelector(".menu-toggle")?.addEventListener("click", () => sidebar.classList.toggle("open"));
+document.querySelector(".menu-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
 const themeToggleButton = document.querySelector("#theme-toggle");
 if (themeToggleButton) {
   themeToggleButton.addEventListener("click", toggleTheme);
 }
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#nav-edit-btn").addEventListener("click", () => {
   renderNavEditor();
   document.querySelector("#nav-edit-panel").classList.add("open");
   document.querySelector("#nav-edit-panel").setAttribute("aria-hidden", "false");
@@ -3493,7 +3493,7 @@ document.querySelector("")?.addEventListener("click", () => {
 document.querySelector("#emoji-picker-grid").innerHTML = routineEmojiOptions
   .map((emoji) => `<button type="button" data-emoji-value="${emoji}" title="Usar ${emoji}">${emoji}</button>`)
   .join("");
-document.querySelector("")?.addEventListener("click", closeEmojiPicker);
+document.querySelector("#emoji-picker-close").addEventListener("click", closeEmojiPicker);
 
 const loginButton = document.querySelector("#login-btn");
 if (loginButton) {
@@ -3506,7 +3506,7 @@ if (loginButton) {
   });
 }
 
-document.querySelector("")?.addEventListener("click", async () => {
+document.querySelector("#login-saved-user").addEventListener("click", async () => {
   if (!currentUser) return;
   allowAuthAutoEnter = true;
   setAuthGate(false);
@@ -3514,14 +3514,14 @@ document.querySelector("")?.addEventListener("click", async () => {
   await loadRemoteState();
 });
 
-document.querySelector("")?.addEventListener("click", async () => {
+document.querySelector("#login-use-other").addEventListener("click", async () => {
   document.querySelector("#login-email").value = "";
   document.querySelector("#login-password").value = "";
   document.querySelector("#login-email").focus();
   document.querySelector("#login-message").textContent = "Entre com outra conta para trocar o acesso.";
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#nav-edit-form").addEventListener("submit", (event) => {
   event.preventDefault();
   rememberUndo();
   document.querySelectorAll("[data-nav-group-label]").forEach((input) => {
@@ -3540,7 +3540,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   document.querySelector("#nav-edit-panel").setAttribute("aria-hidden", "true");
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#nav-edit-reset").addEventListener("click", () => {
   rememberUndo();
   state.navLabels = { ...defaultState.navLabels };
   state.navIcons = { ...defaultState.navIcons };
@@ -3549,7 +3549,7 @@ document.querySelector("")?.addEventListener("click", () => {
   renderNavEditor();
 });
 
-document.querySelector("")?.addEventListener("click", async () => {
+document.querySelector("#logout-btn").addEventListener("click", async () => {
   if (!supabaseClient) return;
   await supabaseClient.auth.signOut();
   currentUser = null;
@@ -3559,7 +3559,7 @@ document.querySelector("")?.addEventListener("click", async () => {
   openLoginPanel("Entre para acessar o painel online.");
 });
 
-document.querySelector("")?.addEventListener("submit", async (event) => {
+document.querySelector("#login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!initSupabaseClient()) {
     openLoginPanel("Configure o arquivo supabase-config.js antes de entrar.");
@@ -3610,7 +3610,7 @@ if (avatarBtn) avatarBtn.addEventListener("click", () => {
   document.querySelector("#avatar-input").click();
 });
 
-document.querySelector("")?.addEventListener("change", (event) => {
+document.querySelector("#avatar-input").addEventListener("change", (event) => {
   const file = event.target.files?.[0];
   if (!file || !file.type.startsWith("image/")) return;
 
@@ -3637,7 +3637,7 @@ document.querySelector("")?.addEventListener("change", (event) => {
   reader.readAsDataURL(file);
 });
 
-document.querySelector("#undo-btn")?.addEventListener("click", () => {
+document.querySelector("#undo-btn").addEventListener("click", () => {
   const previous = undoStack.pop();
   if (!previous) return;
   state = previous;
@@ -3646,7 +3646,7 @@ document.querySelector("#undo-btn")?.addEventListener("click", () => {
   updateUndoButton();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#task-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#task-input");
   const priority = document.querySelector("#task-priority");
@@ -3657,7 +3657,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#pending-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#pending-input");
   const type = document.querySelector("#pending-type");
@@ -3687,7 +3687,7 @@ document.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#market-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const name = document.querySelector("#market-name");
   const category = document.querySelector("#market-category");
@@ -3702,18 +3702,18 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#market-shop-toggle").addEventListener("click", () => {
   marketShopMode = !marketShopMode;
   renderMarket();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#market-shop-clear").addEventListener("click", () => {
   rememberUndo();
   state.market = state.market.map((item) => ({ ...item, inCart: false }));
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#market-shop-finish").addEventListener("click", () => {
   const pickedItems = state.market.filter((item) => item.inCart);
   if (!pickedItems.length) return;
   rememberUndo();
@@ -3727,7 +3727,7 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#personal-save-btn").addEventListener("click", () => {
   rememberUndo();
   state.personal.info = {
     name: document.querySelector("#personal-name").value.trim(),
@@ -3739,7 +3739,7 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#personal-goal-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#personal-goal-title");
   const area = document.querySelector("#personal-goal-area");
@@ -3755,7 +3755,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#personal-doc-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#personal-doc-title");
   const value = document.querySelector("#personal-doc-value");
@@ -3772,7 +3772,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#wishlist-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const name = document.querySelector("#wishlist-name");
   const category = document.querySelector("#wishlist-category");
@@ -3796,7 +3796,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#routine-add-habit-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#routine-add-habit-name");
   const emojiInput = document.querySelector("#routine-add-habit-emoji");
@@ -3811,7 +3811,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#routine-add-card-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#routine-add-card-name");
   const name = input.value.trim();
@@ -3826,7 +3826,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#routine-water-more").addEventListener("click", () => {
   rememberUndo();
   const selectedDate = state.routineTracker.selectedDate || todayISO();
   if (selectedDate === todayISO()) {
@@ -3839,7 +3839,7 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#routine-water-less").addEventListener("click", () => {
   rememberUndo();
   const selectedDate = state.routineTracker.selectedDate || todayISO();
   if (selectedDate === todayISO()) {
@@ -3852,13 +3852,13 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#routine-new-item").addEventListener("click", () => {
   document.querySelector("#routine-add-card-panel").classList.add("open");
   document.querySelector("#routine-add-card-panel").setAttribute("aria-hidden", "false");
   document.querySelector("#routine-add-card-name").focus();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#routine-add-card").addEventListener("click", () => {
   document.querySelector("#routine-add-card-panel").classList.add("open");
   document.querySelector("#routine-add-card-panel").setAttribute("aria-hidden", "false");
   document.querySelector("#routine-add-card-name").focus();
@@ -3878,17 +3878,17 @@ function moveRoutinePeriod(direction) {
   commitChange();
 }
 
-document.querySelector("")?.addEventListener("click", () => moveRoutinePeriod(-1));
+document.querySelector("#routine-date-prev").addEventListener("click", () => moveRoutinePeriod(-1));
 
-document.querySelector("")?.addEventListener("click", () => moveRoutinePeriod(1));
+document.querySelector("#routine-date-next").addEventListener("click", () => moveRoutinePeriod(1));
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#routine-toggle-view").addEventListener("click", () => {
   rememberUndo();
   state.routineTracker.viewMode = state.routineTracker.viewMode === "year" ? "month" : "year";
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", (event) => {
+document.querySelector("#routine-month-input").addEventListener("change", (event) => {
   if (!event.target.value) return;
   rememberUndo();
   const currentDay = String(state.routineTracker.selectedDate || todayISO()).slice(8, 10) || "01";
@@ -3912,7 +3912,7 @@ document.querySelectorAll("[data-routine-expand]").forEach((button) => {
   });
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#home-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#home-title");
   if (!input.value.trim()) return;
@@ -3922,7 +3922,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", async (event) => {
+document.querySelector("#wardrobe-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const name = document.querySelector("#wardrobe-name");
   const photoInput = document.querySelector("#wardrobe-photo");
@@ -3944,13 +3944,13 @@ document.querySelector("")?.addEventListener("submit", async (event) => {
 });
 
 ["#wardrobe-filter-name", "#wardrobe-filter-category", "#wardrobe-filter-color"].forEach((selector) => {
-document.querySelector(selector)?.addEventListener("input", renderWardrobe);
-  document.querySelector(selector)?.addEventListener("change", renderWardrobe);
+  document.querySelector(selector).addEventListener("input", renderWardrobe);
+  document.querySelector(selector).addEventListener("change", renderWardrobe);
 });
 
-document.querySelector("")?.addEventListener("change", renderWardrobe);
+document.querySelector("#wardrobe-favorites-only").addEventListener("change", renderWardrobe);
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#wardrobe-clear-selection").addEventListener("click", () => {
   rememberUndo();
   state.wardrobeSelection = [];
   commitChange();
@@ -3966,7 +3966,7 @@ document.addEventListener("change", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#cnh-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#cnh-title");
   const value = document.querySelector("#cnh-value");
@@ -3986,7 +3986,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#finance-goal-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#finance-goal-title");
   const target = document.querySelector("#finance-goal-target");
@@ -4004,7 +4004,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#agenda-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#agenda-title");
   const date = document.querySelector("#agenda-date");
@@ -4025,7 +4025,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
 
 document.querySelector("#wins-date").value = todayISO();
 
-document.querySelector("")?.addEventListener("submit", async (event) => {
+document.querySelector("#wins-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const title = document.querySelector("#wins-title");
   const date = document.querySelector("#wins-date");
@@ -4058,16 +4058,16 @@ function moveAgendaMonth(direction) {
   commitChange();
 }
 
-document.querySelector("")?.addEventListener("click", () => moveAgendaMonth(-1));
-document.querySelector("")?.addEventListener("click", () => moveAgendaMonth(1));
-document.querySelector("")?.addEventListener("click", (event) => {
+document.querySelector("#agenda-month-prev").addEventListener("click", () => moveAgendaMonth(-1));
+document.querySelector("#agenda-month-next").addEventListener("click", () => moveAgendaMonth(1));
+document.querySelector("#agenda-calendar-grid").addEventListener("click", (event) => {
   const day = event.target.closest("[data-agenda-day]");
   if (!day) return;
   document.querySelector("#agenda-date").value = day.dataset.agendaDay;
   document.querySelector("#agenda-title").focus();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#finance-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#finance-title");
   const type = document.querySelector("#finance-type");
@@ -4113,19 +4113,19 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", () => {
+document.querySelector("#finance-repeat").addEventListener("change", () => {
   const repeat = document.querySelector("#finance-repeat").value;
   const count = document.querySelector("#finance-repeat-count");
   count.value = repeat === "monthly" ? "12" : repeat === "biweekly" ? "2" : "1";
 });
 
-document.querySelector("")?.addEventListener("change", () => {
+document.querySelector("#finance-date-mode").addEventListener("change", () => {
   const isBusiness = document.querySelector("#finance-date-mode").value === "business";
   document.querySelector("#finance-due-date").hidden = isBusiness;
   document.querySelector("#finance-business-day").hidden = !isBusiness;
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#finance-edit-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const id = document.querySelector("#finance-edit-id").value;
   if (!id) return;
@@ -4146,7 +4146,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-edit-delete").addEventListener("click", () => {
   const id = document.querySelector("#finance-edit-id").value;
   if (!id || !window.confirm("Excluir este item?")) return;
   rememberUndo();
@@ -4156,25 +4156,25 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", () => {
+document.querySelector("#finance-edit-repeat").addEventListener("change", () => {
   const repeat = document.querySelector("#finance-edit-repeat").value;
   const count = document.querySelector("#finance-edit-repeat-count");
   count.value = repeat === "monthly" ? "12" : repeat === "biweekly" ? "2" : "1";
 });
 
-document.querySelector("")?.addEventListener("change", (event) => {
+document.querySelector("#finance-repeat-count").addEventListener("change", (event) => {
   if (Number(event.target.value || 1) > 1 && document.querySelector("#finance-repeat").value === "once") {
     document.querySelector("#finance-repeat").value = "monthly";
   }
 });
 
-document.querySelector("")?.addEventListener("change", (event) => {
+document.querySelector("#finance-edit-repeat-count").addEventListener("change", (event) => {
   if (Number(event.target.value || 1) > 1 && document.querySelector("#finance-edit-repeat").value === "once") {
     document.querySelector("#finance-edit-repeat").value = "monthly";
   }
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#budget-edit-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const id = document.querySelector("#budget-edit-id").value;
   const kind = document.querySelector("#budget-edit-kind").value;
@@ -4201,7 +4201,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#budget-edit-delete").addEventListener("click", () => {
   const id = document.querySelector("#budget-edit-id").value;
   const kind = document.querySelector("#budget-edit-kind").value;
   const key = kind === "fixed" ? "fixedCosts" : "variableCosts";
@@ -4213,7 +4213,7 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#generic-edit-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const entity = document.querySelector("#generic-edit-entity").value;
   const id = document.querySelector("#generic-edit-id").value;
@@ -4232,7 +4232,7 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#generic-edit-delete").addEventListener("click", () => {
   const entity = document.querySelector("#generic-edit-entity").value;
   const id = document.querySelector("#generic-edit-id").value;
   if (!genericEditConfigs[entity] || !id || !window.confirm("Excluir este item?")) return;
@@ -4243,28 +4243,28 @@ document.querySelector("")?.addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-clear-filter").addEventListener("click", () => {
   activeFinanceFilter = "all";
   renderFinance();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-new-entry").addEventListener("click", () => {
   document.querySelector("#finance").classList.toggle("show-entry-form");
   document.querySelector("#finance-title").focus();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-toggle-view").addEventListener("click", () => {
   rememberUndo();
   state.financePlan.viewMode = state.financePlan.viewMode === "year" ? "month" : "year";
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-inline-prev").addEventListener("click", () => {
   if (state.financePlan.viewMode === "year") moveFinanceYear(-1);
   else moveFinanceMonth(-1);
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-inline-next").addEventListener("click", () => {
   if (state.financePlan.viewMode === "year") moveFinanceYear(1);
   else moveFinanceMonth(1);
 });
@@ -4276,7 +4276,7 @@ document.querySelectorAll("[data-finance-bill-filter]").forEach((button) => {
   });
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-new-goal").addEventListener("click", () => {
   document.querySelector(".finance-goals-panel").classList.toggle("show-goal-form");
   document.querySelector("#finance-goal-title").focus();
 });
@@ -4287,14 +4287,14 @@ document.querySelectorAll("[data-finance-show-details]").forEach((button) => {
   });
 });
 
-document.querySelector("[data-finance-new-subscription]")?.addEventListener("click", () => {
+document.querySelector("[data-finance-new-subscription]").addEventListener("click", () => {
   document.querySelector("#finance").classList.add("show-entry-form");
   document.querySelector("#finance-type").value = "expense";
   document.querySelector("#finance-category").value = "Outros";
   document.querySelector("#finance-title").focus();
 });
 
-document.querySelector("")?.addEventListener("change", () => {
+document.querySelector("#finance-month").addEventListener("change", () => {
   rememberUndo();
   state.financePlan = {
     ...state.financePlan,
@@ -4306,7 +4306,7 @@ document.querySelector("")?.addEventListener("change", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", () => {
+document.querySelector("#finance-view-mode").addEventListener("change", () => {
   rememberUndo();
   state.financePlan = {
     ...state.financePlan,
@@ -4316,7 +4316,7 @@ document.querySelector("")?.addEventListener("change", () => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", () => {
+document.querySelector("#finance-year").addEventListener("change", () => {
   rememberUndo();
   state.financePlan = {
     ...state.financePlan,
@@ -4346,25 +4346,25 @@ function moveFinanceYear(direction) {
   commitChange();
 }
 
-document.querySelector("")?.addEventListener("click", () => moveFinanceMonth(-1));
-document.querySelector("")?.addEventListener("click", () => moveFinanceMonth(1));
-document.querySelector("")?.addEventListener("click", () => moveFinanceYear(-1));
-document.querySelector("")?.addEventListener("click", () => moveFinanceYear(1));
+document.querySelector("#finance-month-prev").addEventListener("click", () => moveFinanceMonth(-1));
+document.querySelector("#finance-month-next").addEventListener("click", () => moveFinanceMonth(1));
+document.querySelector("#finance-year-prev").addEventListener("click", () => moveFinanceYear(-1));
+document.querySelector("#finance-year-next").addEventListener("click", () => moveFinanceYear(1));
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#finance-reset-paid").addEventListener("click", () => {
   rememberUndo();
   state.fixedCosts = state.fixedCosts.map(clearBudgetPaidForCurrentMonth);
   state.variableCosts = state.variableCosts.map(clearBudgetPaidForCurrentMonth);
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#fixed-add-btn").addEventListener("click", () => {
   rememberUndo();
   state.fixedCosts.push({ id: crypto.randomUUID(), title: "Novo custo fixo", value: 0, dueDay: 1, paidMonths: {}, paid: false });
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#variable-add-btn").addEventListener("click", () => {
   rememberUndo();
   state.variableCosts.push({ id: crypto.randomUUID(), title: "Novo custo variável", value: 0, dueDate: `${currentFinanceMonth()}-01`, paidMonths: {}, paid: false });
   commitChange();
@@ -4461,7 +4461,7 @@ document.addEventListener("change", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("submit", (event) => {
+document.querySelector("#note-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#note-input");
   if (!input.value.trim()) return;
@@ -4471,23 +4471,23 @@ document.querySelector("")?.addEventListener("submit", (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("click", () => {
+document.querySelector("#search-btn").addEventListener("click", () => {
   renderSearch();
   document.querySelector("#search-panel").classList.add("open");
   document.querySelector("#search-panel").setAttribute("aria-hidden", "false");
   document.querySelector("#global-search").focus();
 });
 
-document.querySelector("")?.addEventListener("input", (event) => renderSearch(event.target.value));
+document.querySelector("#global-search").addEventListener("input", (event) => renderSearch(event.target.value));
 
-document.querySelector("")?.addEventListener("input", (event) => {
+document.querySelector("#sidebar-global-search").addEventListener("input", (event) => {
   const value = event.target.value;
   const results = document.querySelector("#sidebar-search-results");
   results.hidden = !value.trim();
   renderSearch(value, "#sidebar-search-results", 8);
 });
 
-document.querySelector("")?.addEventListener("focus", (event) => {
+document.querySelector("#sidebar-global-search").addEventListener("focus", (event) => {
   const results = document.querySelector("#sidebar-search-results");
   if (event.target.value.trim()) {
     results.hidden = false;
@@ -4817,7 +4817,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-document.querySelector("")?.addEventListener("change", async (event) => {
+document.querySelector("#wins-change-photo").addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
   const winId = event.target.dataset.winId;
   if (!file || !winId) return;
@@ -4828,7 +4828,7 @@ document.querySelector("")?.addEventListener("change", async (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", async (event) => {
+document.querySelector("#home-change-photo").addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
   const homeId = event.target.dataset.homeId;
   if (!file || !homeId) return;
@@ -4839,7 +4839,7 @@ document.querySelector("")?.addEventListener("change", async (event) => {
   commitChange();
 });
 
-document.querySelector("")?.addEventListener("change", async (event) => {
+document.querySelector("#wardrobe-change-photo").addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
   const wardrobeId = event.target.dataset.wardrobeId;
   if (!file || !wardrobeId) return;
@@ -4903,7 +4903,7 @@ document.addEventListener("dragend", (event) => {
   document.querySelectorAll("[data-routine-card]").forEach((card) => card.classList.remove("routine-habit-drop-target"));
 });
 
-document.querySelector(".routine-board")?.addEventListener("dragover", (event) => {
+document.querySelector(".routine-board").addEventListener("dragover", (event) => {
   if (Array.from(event.dataTransfer.types).includes("application/x-routine-habit")) {
     const targetCard = event.target.closest("[data-routine-card]");
     if (!targetCard) return;
@@ -4924,7 +4924,7 @@ document.querySelector(".routine-board")?.addEventListener("dragover", (event) =
   board.insertBefore(dragged, placeAfter ? target.nextSibling : target);
 });
 
-document.querySelector(".routine-board")?.addEventListener("drop", (event) => {
+document.querySelector(".routine-board").addEventListener("drop", (event) => {
   const routineHabitId = event.dataTransfer.getData("application/x-routine-habit");
   if (routineHabitId) {
     const targetCard = event.target.closest("[data-routine-card]");
@@ -5049,111 +5049,3 @@ if ("serviceWorker" in navigator) {
     });
   });
 }
-
-/* ── Inline label editor ───────────────────────────────────────── */
-(function initNavInlineEditor() {
-  function setup() {
-    const editBtn = document.querySelector("#nav-inline-edit-btn");
-    if (!editBtn) return;
-    const LABEL_CLASS = "nav-edit-label";
-    let editing = false;
-    let hint = null;
-    const savedLabels = {};
-
-    function wrapTextNodes() {
-      const nav = document.querySelector(".side-nav");
-      if (!nav) return;
-      nav.querySelectorAll("button").forEach((btn) => {
-        const section = btn.dataset.section;
-        if (!section) return;
-        const nodes = [...btn.childNodes];
-        nodes.forEach((node) => {
-          if (node.nodeType === 3 && node.textContent.trim()) {
-            const val = node.textContent;
-            savedLabels[section] = val;
-            const input = document.createElement("input");
-            input.type = "text";
-            input.className = LABEL_CLASS;
-            input.value = val;
-            input.style.cssText = "width:" + (val.length * 8 + 16) + "px;";
-            node.replaceWith(input);
-          }
-        });
-      });
-    }
-
-    function unwrapTextNodes() {
-      const nav = document.querySelector(".side-nav");
-      if (!nav) return;
-      nav.querySelectorAll(`input.${LABEL_CLASS}`).forEach((input) => {
-        const text = document.createTextNode(input.value || input.defaultValue);
-        input.replaceWith(text);
-      });
-    }
-
-    function saveLabels() {
-      const nav = document.querySelector(".side-nav");
-      if (!nav) return;
-      nav.querySelectorAll("button").forEach((btn) => {
-        const section = btn.dataset.section;
-        if (!section) return;
-        const input = btn.querySelector(`input.${LABEL_CLASS}`);
-        if (input) {
-          const newLabel = input.value.trim();
-          if (newLabel && newLabel !== savedLabels[section]) {
-            if (!state.navLabels) state.navLabels = {};
-            state.navLabels[section] = newLabel;
-          }
-        }
-      });
-    }
-
-    function enterEditMode() {
-      editing = true;
-      editBtn.classList.add("active");
-      const nav = document.querySelector(".side-nav");
-      if (nav) nav.classList.add("horizontal-nav-nav-editing");
-      wrapTextNodes();
-      hint = document.createElement("span");
-      hint.className = "nav-inline-edit-hint";
-      hint.textContent = "Edite os nomes · Enter salva · Esc cancela";
-      editBtn.parentElement?.insertBefore(hint, editBtn.nextSibling);
-      const first = document.querySelector(`input.${LABEL_CLASS}`);
-      if (first) { first.focus(); first.select(); }
-    }
-
-    function exitEditMode() {
-      editing = false;
-      editBtn.classList.remove("active");
-      const nav = document.querySelector(".side-nav");
-      if (nav) nav.classList.remove("horizontal-nav-nav-editing");
-      saveLabels();
-      unwrapTextNodes();
-      hint?.remove();
-      hint = null;
-      Object.keys(savedLabels).forEach((k) => delete savedLabels[k]);
-      commitChange();
-    }
-
-    editBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (editing) {
-        exitEditMode();
-      } else {
-        enterEditMode();
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (!editing) return;
-      if (e.key === "Enter") { e.preventDefault(); exitEditMode(); }
-      if (e.key === "Escape") { editing = false; exitEditMode(); }
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setup);
-  } else {
-    setup();
-  }
-})();
