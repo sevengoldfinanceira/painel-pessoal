@@ -7527,7 +7527,7 @@ html[data-theme] .horizontal-nav button {
   box-shadow: none !important;
 }
 
-html[data-theme] .horizontal-nav button span {
+html[data-theme] .horizontal-nav button span:not(.nav-label-text):not(.nav-icon) {
   display: none !important;
 }
 
