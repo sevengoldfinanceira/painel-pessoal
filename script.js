@@ -1280,7 +1280,13 @@ function applyNavOrder() {
       [...button.childNodes].forEach((node) => {
         if (node.nodeType === 3) node.remove();
       });
-      button.append(document.createTextNode(label));
+      let labelSpan = button.querySelector(".nav-label-text");
+      if (!labelSpan) {
+        labelSpan = document.createElement("span");
+        labelSpan.className = "nav-label-text";
+      }
+      labelSpan.textContent = label;
+      button.append(labelSpan);
       groupList.append(button);
     }
   });
@@ -5049,3 +5055,95 @@ if ("serviceWorker" in navigator) {
     });
   });
 }
+
+/* Inline Nav Label Editor */
+(() => {
+  const editBtn = document.querySelector("#nav-inline-edit-btn");
+  const sideNav = document.querySelector(".side-nav");
+  if (!editBtn || !sideNav) return;
+
+  let editing = false;
+  let hintEl = null;
+
+  function enterEditMode() {
+    editing = true;
+    editBtn.classList.add("active");
+    sideNav.classList.add("horizontal-nav-nav-editing");
+
+    hintEl = document.createElement("span");
+    hintEl.className = "nav-inline-edit-hint";
+    hintEl.textContent = "Clique no nome para editar";
+    sideNav.parentElement?.appendChild(hintEl);
+
+    sideNav.querySelectorAll("button").forEach((button) => {
+      const labelSpan = button.querySelector(".nav-label-text");
+      if (!labelSpan) return;
+      labelSpan.contentEditable = "true";
+      labelSpan.spellcheck = false;
+
+      labelSpan.addEventListener("blur", handleBlur);
+      labelSpan.addEventListener("keydown", handleKeydown);
+    });
+  }
+
+  function exitEditMode(save) {
+    editing = false;
+    editBtn.classList.remove("active");
+    sideNav.classList.remove("horizontal-nav-nav-editing");
+
+    if (hintEl) {
+      hintEl.remove();
+      hintEl = null;
+    }
+
+    sideNav.querySelectorAll("button").forEach((button) => {
+      const labelSpan = button.querySelector(".nav-label-text");
+      if (!labelSpan) return;
+      labelSpan.contentEditable = "false";
+
+      if (save) {
+        const section = button.dataset.section;
+        const newValue = labelSpan.textContent.trim();
+        if (section && newValue) {
+          state.navLabels[section] = newValue;
+        }
+      } else {
+        const section = button.dataset.section;
+        const original = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
+        labelSpan.textContent = original;
+      }
+
+      labelSpan.removeEventListener("blur", handleBlur);
+      labelSpan.removeEventListener("keydown", handleKeydown);
+    });
+
+    if (save) commitChange();
+  }
+
+  function handleBlur(event) {
+    const span = event.target;
+    const newValue = span.textContent.trim();
+    if (!newValue) {
+      const section = span.closest("button")?.dataset.section;
+      span.textContent = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
+    }
+  }
+
+  function handleKeydown(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.target.blur();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      exitEditMode(false);
+    }
+  }
+
+  editBtn.addEventListener("click", () => {
+    if (editing) {
+      exitEditMode(true);
+    } else {
+      enterEditMode();
+    }
+  });
+})();
