@@ -3089,6 +3089,7 @@ html[data-theme="light"] .brand-sub {
   display: flex !important;
   flex-direction: row !important;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   flex-grow: 1;
   overflow-x: auto;
