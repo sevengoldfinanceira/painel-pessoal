@@ -6984,15 +6984,7 @@ html[data-theme] .side-nav button {
 }
 
 html[data-theme] .side-nav button::after {
-  content: "›";
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1;
-  transform: translateY(-52%);
+  content: none;
 }
 
 html[data-theme] .side-nav button span {
