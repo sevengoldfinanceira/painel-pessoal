@@ -1,4 +1,4 @@
-const CACHE_NAME = "painel-pessoal-v11";
+const CACHE_NAME = "painel-pessoal-v12";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -46,6 +46,19 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => caches.match("/index.html"))
+    );
+    return;
+  }
+
+  if (url.pathname.endsWith(".css")) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          return response;
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }
