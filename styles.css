@@ -3487,31 +3487,31 @@ html[data-theme="light"] .profile-role-text {
   z-index: 999;
   display: flex;
   align-items: center;
-  background: rgba(10, 10, 15, 0.85);
+  background: transparent;
   border: 1px solid rgba(212, 175, 55, 0.25);
   border-radius: 20px;
   padding: 0 18px;
   height: 44px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(212, 175, 55, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transition: all 0.25s ease;
 }
 
 .global-search-bar:focus-within {
   border-color: rgba(212, 175, 55, 0.55);
-  box-shadow: 0 4px 28px rgba(212, 175, 55, 0.15), 0 0 0 1px rgba(212, 175, 55, 0.12);
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .global-search-bar {
-  background: rgba(10, 10, 15, 0.85);
+  background: transparent;
   border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(212, 175, 55, 0.08);
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .global-search-bar:focus-within {
   border-color: rgba(212, 175, 55, 0.55);
-  box-shadow: 0 4px 28px rgba(212, 175, 55, 0.15), 0 0 0 1px rgba(212, 175, 55, 0.12);
+  box-shadow: none;
 }
 
 .global-search-bar .global-search-icon {
