@@ -84,7 +84,7 @@ const navGroupDefinitions = [
 
 const defaultState = {
   profilePhoto: "",
-  navLayoutVersion: 2,
+  navLayoutVersion: 3,
   navOrder: [...defaultNavOrder],
   navGroups: { ...defaultNavGroups },
   navLabels: Object.fromEntries(Object.entries(defaultNavMeta).map(([section, meta]) => [section, meta.label])),
