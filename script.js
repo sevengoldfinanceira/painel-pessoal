@@ -5057,93 +5057,97 @@ if ("serviceWorker" in navigator) {
 }
 
 /* Inline Nav Label Editor */
-(() => {
+let navInlineEditing = false;
+let navInlineHint = null;
+
+function navInlineHandleBlur(event) {
+  const span = event.target;
+  const newValue = span.textContent.trim();
+  if (!newValue) {
+    const section = span.closest("button")?.dataset.section;
+    span.textContent = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
+  }
+}
+
+function navInlineHandleKeydown(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    event.target.blur();
+  } else if (event.key === "Escape") {
+    event.preventDefault();
+    navInlineExitEditMode(false);
+  }
+}
+
+function navInlineEnterEditMode() {
   const editBtn = document.querySelector("#nav-inline-edit-btn");
   const sideNav = document.querySelector(".side-nav");
   if (!editBtn || !sideNav) return;
 
-  let editing = false;
-  let hintEl = null;
+  navInlineEditing = true;
+  editBtn.classList.add("active");
+  sideNav.classList.add("horizontal-nav-nav-editing");
 
-  function enterEditMode() {
-    editing = true;
-    editBtn.classList.add("active");
-    sideNav.classList.add("horizontal-nav-nav-editing");
+  navInlineHint = document.createElement("span");
+  navInlineHint.className = "nav-inline-edit-hint";
+  navInlineHint.textContent = "Clique no nome para editar";
+  sideNav.parentElement?.appendChild(navInlineHint);
 
-    hintEl = document.createElement("span");
-    hintEl.className = "nav-inline-edit-hint";
-    hintEl.textContent = "Clique no nome para editar";
-    sideNav.parentElement?.appendChild(hintEl);
+  sideNav.querySelectorAll("button").forEach((button) => {
+    const labelSpan = button.querySelector(".nav-label-text");
+    if (!labelSpan) return;
+    labelSpan.contentEditable = "true";
+    labelSpan.spellcheck = false;
+    labelSpan.addEventListener("blur", navInlineHandleBlur);
+    labelSpan.addEventListener("keydown", navInlineHandleKeydown);
+  });
+}
 
-    sideNav.querySelectorAll("button").forEach((button) => {
-      const labelSpan = button.querySelector(".nav-label-text");
-      if (!labelSpan) return;
-      labelSpan.contentEditable = "true";
-      labelSpan.spellcheck = false;
+function navInlineExitEditMode(save) {
+  const editBtn = document.querySelector("#nav-inline-edit-btn");
+  const sideNav = document.querySelector(".side-nav");
+  if (!editBtn || !sideNav) return;
 
-      labelSpan.addEventListener("blur", handleBlur);
-      labelSpan.addEventListener("keydown", handleKeydown);
-    });
+  navInlineEditing = false;
+  editBtn.classList.remove("active");
+  sideNav.classList.remove("horizontal-nav-nav-editing");
+
+  if (navInlineHint) {
+    navInlineHint.remove();
+    navInlineHint = null;
   }
 
-  function exitEditMode(save) {
-    editing = false;
-    editBtn.classList.remove("active");
-    sideNav.classList.remove("horizontal-nav-nav-editing");
+  sideNav.querySelectorAll("button").forEach((button) => {
+    const labelSpan = button.querySelector(".nav-label-text");
+    if (!labelSpan) return;
+    labelSpan.contentEditable = "false";
 
-    if (hintEl) {
-      hintEl.remove();
-      hintEl = null;
-    }
-
-    sideNav.querySelectorAll("button").forEach((button) => {
-      const labelSpan = button.querySelector(".nav-label-text");
-      if (!labelSpan) return;
-      labelSpan.contentEditable = "false";
-
-      if (save) {
-        const section = button.dataset.section;
-        const newValue = labelSpan.textContent.trim();
-        if (section && newValue) {
-          state.navLabels[section] = newValue;
-        }
-      } else {
-        const section = button.dataset.section;
-        const original = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-        labelSpan.textContent = original;
+    if (save) {
+      const section = button.dataset.section;
+      const newValue = labelSpan.textContent.trim();
+      if (section && newValue) {
+        state.navLabels[section] = newValue;
       }
-
-      labelSpan.removeEventListener("blur", handleBlur);
-      labelSpan.removeEventListener("keydown", handleKeydown);
-    });
-
-    if (save) commitChange();
-  }
-
-  function handleBlur(event) {
-    const span = event.target;
-    const newValue = span.textContent.trim();
-    if (!newValue) {
-      const section = span.closest("button")?.dataset.section;
-      span.textContent = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-    }
-  }
-
-  function handleKeydown(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      event.target.blur();
-    } else if (event.key === "Escape") {
-      event.preventDefault();
-      exitEditMode(false);
-    }
-  }
-
-  editBtn.addEventListener("click", () => {
-    if (editing) {
-      exitEditMode(true);
     } else {
-      enterEditMode();
+      const section = button.dataset.section;
+      const original = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
+      labelSpan.textContent = original;
+    }
+
+    labelSpan.removeEventListener("blur", navInlineHandleBlur);
+    labelSpan.removeEventListener("keydown", navInlineHandleKeydown);
+  });
+
+  if (save) commitChange();
+}
+
+const navInlineEditBtn = document.querySelector("#nav-inline-edit-btn");
+if (navInlineEditBtn) {
+  navInlineEditBtn.addEventListener("click", () => {
+    if (navInlineEditing) {
+      navInlineExitEditMode(true);
+    } else {
+      navInlineEnterEditMode();
     }
   });
-})();
+}
