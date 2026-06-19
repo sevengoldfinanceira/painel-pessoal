@@ -5056,18 +5056,18 @@ if (dropdownLogout) {
   });
 }
 
+// Service Worker desabilitado temporariamente (cache antigo causava bugs visuais)
+// Para reativar, descomente o bloco abaixo e limpe o cache do navegador
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", () => {
+//     navigator.serviceWorker.register("/service-worker.js", { updateViaCache: "none" }).catch((error) => {
+//       console.error("Falha ao registrar o service worker:", error);
+//     });
+//   });
+// }
 if ("serviceWorker" in navigator) {
-  let swRefreshing = false;
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
-    if (!swRefreshing) {
-      swRefreshing = true;
-      window.location.reload();
-    }
-  });
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js", { updateViaCache: "none" }).catch((error) => {
-      console.error("Falha ao registrar o service worker:", error);
-    });
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((reg) => reg.unregister());
   });
 }
 
