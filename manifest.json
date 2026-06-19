@@ -1,6 +1,6 @@
 {
-  "name": "Painel Seven Gold",
-  "short_name": "Seven Gold",
+  "name": "Painel Pessoal",
+  "short_name": "Painel Pessoal",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
