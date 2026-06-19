@@ -7443,6 +7443,10 @@ html[data-theme] .horizontal-nav button span {
 html[data-theme] .horizontal-nav button span.nav-edit-label {
   display: inline !important;
 }
+html[data-theme] .horizontal-nav button input.nav-edit-label,
+html[data-theme] .side-nav button input.nav-edit-label {
+  display: inline !important;
+}
 
 html[data-theme] .horizontal-nav button svg {
   width: 15px;
@@ -7571,7 +7575,8 @@ html[data-theme] .main-area {
   box-shadow: 0 0 0 2px rgba(245,197,66,0.3);
 }
 
-.horizontal-nav button span.nav-edit-label {
+.horizontal-nav button input.nav-edit-label,
+.side-nav button input.nav-edit-label {
   display: inline !important;
   cursor: text;
   padding: 2px 6px;
@@ -7583,19 +7588,21 @@ html[data-theme] .main-area {
   -webkit-user-select: text;
   transition: border-color 0.15s, background 0.15s;
 }
-html[data-theme] .horizontal-nav button span.nav-edit-label {
+html[data-theme] .horizontal-nav button input.nav-edit-label,
+html[data-theme] .side-nav button input.nav-edit-label {
   color: #d9dee7 !important;
   font-size: 13px !important;
   font-weight: 750 !important;
+  background: rgba(255,255,255,0.08) !important;
 }
 
 .horizontal-nav-nav-editing button {
   pointer-events: none !important;
 }
-.horizontal-nav-nav-editing button span.nav-edit-label {
+.horizontal-nav-nav-editing button input.nav-edit-label {
   pointer-events: auto !important;
 }
-.horizontal-nav-nav-editing button span.nav-edit-label:focus {
+.horizontal-nav-nav-editing button input.nav-edit-label:focus {
   border-color: #f5c542;
   background: rgba(245,197,66,0.1);
 }
