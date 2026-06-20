@@ -1852,7 +1852,7 @@ function renderFinance() {
     if (ltitle.includes('itaú') || ltitle.includes('itau')) return `<img src="https://cdn.simpleicons.org/itau/EC7000" class="${className}" style="padding: 6px; background: rgba(236, 112, 0, 0.1);" alt="Itaú" />`;
     if (ltitle.includes('santander')) return `<img src="https://cdn.simpleicons.org/santander/EC0000" class="${className}" style="padding: 6px; background: rgba(236, 0, 0, 0.1);" alt="Santander" />`;
     if (ltitle.includes('mercado livre') || ltitle.includes('mercado pago')) return `<img src="https://cdn.simpleicons.org/mercadolibre/FFE600" class="${className}" style="padding: 6px; background: rgba(255, 230, 0, 0.1);" alt="Mercado Livre" />`;
-    if (ltitle.includes('claro')) return `<img src="https://cdn.simpleicons.org/claro/DA291C" class="${className}" style="padding: 6px; background: rgba(218, 41, 28, 0.1);" alt="Claro" />`;
+    if (ltitle.includes('claro')) return `<div class="${className}" style="background: rgba(218, 41, 28, 0.15); color: #DA291C; font-weight: bold; font-size: 11px; letter-spacing: -0.5px;">Claro</div>`;
     if (ltitle.includes('vivo')) return `<img src="https://cdn.simpleicons.org/vivo/CC0066" class="${className}" style="padding: 6px; background: rgba(204, 0, 102, 0.1);" alt="Vivo" />`;
     if (ltitle.includes('tim')) return `<img src="https://cdn.simpleicons.org/tim/003DA5" class="${className}" style="padding: 6px; background: rgba(0, 61, 165, 0.1);" alt="TIM" />`;
 
