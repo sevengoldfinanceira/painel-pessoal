@@ -1857,6 +1857,12 @@ function renderFinance() {
     if (ltitle.includes('tim')) return `<img src="https://cdn.simpleicons.org/tim/003DA5" class="${className}" style="padding: 6px; background: rgba(0, 61, 165, 0.1);" alt="TIM" />`;
 
     // General categories with colored background and emoji
+    if (ltitle.includes('barbeiro') || ltitle.includes('barbearia') || ltitle.includes('cabelereiro')) {
+      return `<div class="${className}" style="background: rgba(139, 92, 246, 0.15); font-size: 16px;">✂️</div>`;
+    }
+    if (ltitle.includes('mei')) {
+      return `<div class="${className}" style="background: rgba(244, 67, 54, 0.15); font-size: 16px;">📄</div>`;
+    }
     if (ltitle.includes('aluguel') || ltitle.includes('casa') || ltitle.includes('condomínio') || ltitle.includes('moradia')) {
       return `<div class="${className}" style="background: rgba(156, 39, 176, 0.15); font-size: 16px;">🏠</div>`;
     }
