@@ -5876,6 +5876,7 @@ if (document.readyState === 'loading') {
   initFinanceInteractions();
 }
 
+
 /* ===================== JONATHAN - DOCUMENTOS ===================== */
 (function() {
   const BUCKET = 'documentos';
@@ -5890,16 +5891,16 @@ if (document.readyState === 'loading') {
     outros: 'rgba(107,114,128,0.12)',
   };
   const DEFAULT_DOCS = [
-    { id: 'rg_cpf', name: 'RG / CPF', desc: 'Registro Geral e Cadastro de Pessoa FÃ­sica', icon: 'ðŸªª', cat: 'identificacao' },
-    { id: 'comprovante_res', name: 'Comprovante de ResidÃªncia', desc: 'Comprovante de ResidÃªncia', icon: 'ðŸ ', cat: 'pessoais' },
-    { id: 'reservista', name: 'Certificado Reservista', desc: 'Certificado de ServiÃ§o Militar', icon: 'ðŸŽ–ï¸', cat: 'identificacao' },
-    { id: 'titulo_eleitor', name: 'TÃ­tulo de Eleitor', desc: 'TÃ­tulo de Eleitor', icon: 'ðŸ—³ï¸', cat: 'identificacao' },
-    { id: 'certidao_nasc', name: 'CertidÃ£o de Nascimento', desc: 'CertidÃ£o de Nascimento', icon: 'ðŸ‘¶', cat: 'identificacao' },
-    { id: 'certidao_MEI', name: 'Certificado MEI', desc: 'Certificado de Microempreendedor Individual', icon: 'ðŸ¢', cat: 'financeiros' },
-    { id: 'cnh', name: 'CNH', desc: 'Carteira Nacional de HabilitaÃ§Ã£o', icon: 'ðŸš—', cat: 'veiculos' },
-    { id: 'passaporte', name: 'Passaporte', desc: 'Passaporte Brasileiro', icon: 'âœˆï¸', cat: 'identificacao' },
-    { id: 'antec_sp', name: 'Antecedentes Criminais SP', desc: 'Antecedentes Criminais â€” Estado de SP', icon: 'ðŸ”', cat: 'pessoais' },
-    { id: 'antec_nacional', name: 'Antecedentes Criminais Nacional', desc: 'Antecedentes Criminais â€” Ã‚mbito Nacional', icon: 'ðŸ”', cat: 'pessoais' },
+    { id: 'rg_cpf', name: 'RG / CPF', desc: 'Registro Geral e Cadastro de Pessoa F\u00edsica', icon: '\uD83E\uDEAA', cat: 'identificacao' },
+    { id: 'comprovante_res', name: 'Comprovante de Resid\u00eancia', desc: 'Comprovante de Resid\u00eancia', icon: '\uD83C\uDFE0', cat: 'pessoais' },
+    { id: 'reservista', name: 'Certificado Reservista', desc: 'Certificado de Servi\u00e7o Militar', icon: '\uD83C\uDF96\uFE0F', cat: 'identificacao' },
+    { id: 'titulo_eleitor', name: 'T\u00edtulo de Eleitor', desc: 'T\u00edtulo de Eleitor', icon: '\uD83D\uDDF3\uFE0F', cat: 'identificacao' },
+    { id: 'certidao_nasc', name: 'Certid\u00e3o de Nascimento', desc: 'Certid\u00e3o de Nascimento', icon: '\uD83D\uDC76', cat: 'identificacao' },
+    { id: 'certidao_MEI', name: 'Certificado MEI', desc: 'Certificado de Microempreendedor Individual', icon: '\uD83C\uDFE2', cat: 'financeiros' },
+    { id: 'cnh', name: 'CNH', desc: 'Carteira Nacional de Habilita\u00e7\u00e3o', icon: '\uD83D\uDE97', cat: 'veiculos' },
+    { id: 'passaporte', name: 'Passaporte', desc: 'Passaporte Brasileiro', icon: '\u2708\uFE0F', cat: 'identificacao' },
+    { id: 'antec_sp', name: 'Antecedentes Criminais SP', desc: 'Antecedentes Criminais \u2014 Estado de SP', icon: '\uD83D\uDD0D', cat: 'pessoais' },
+    { id: 'antec_nacional', name: 'Antecedentes Criminais Nacional', desc: 'Antecedentes Criminais \u2014 \u00c2mbito Nacional', icon: '\uD83D\uDD0D', cat: 'pessoais' },
   ];
   function getSupabase() { return window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null); }
   function loadDocsData() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; } }
@@ -5907,168 +5908,181 @@ if (document.readyState === 'loading') {
   function getAllDocs() {
     const saved = loadDocsData();
     return [...DEFAULT_DOCS, ...(saved.customDocs || [])].map(d => ({
-      ...d, favorite: saved[d.id]?.favorite || false, updated_at: saved[d.id]?.updated_at || null,
+      ...d, favorite: saved[d.id] ? !!saved[d.id].favorite : false, updated_at: saved[d.id] ? saved[d.id].updated_at || null : null,
     }));
   }
-  function fmtDate(iso) { if (!iso) return 'â€”'; return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+  function fmtDate(iso) { if (!iso) return '\u2014'; return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
   function fmtSize(b) { if (!b) return ''; if (b < 1024) return b+' B'; if (b < 1048576) return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
-  async function getUserId() { const sb = getSupabase(); if (!sb) return null; const s = await sb.auth.getSession(); return s?.data?.session?.user?.id || null; }
+  async function getUserId() { var sb = getSupabase(); if (!sb) return null; var s = await sb.auth.getSession(); return s && s.data && s.data.session ? s.data.session.user.id : null; }
   async function listUserFiles() {
-    const sb = getSupabase(); if (!sb) return {}; const userId = await getUserId(); if (!userId) return {};
-    const { data, error } = await sb.storage.from(BUCKET).list(userId, { limit: 100 });
-    if (error || !data) return {}; const files = {};
-    data.forEach(f => {
-      const bn = f.name.split('.')[0], ld = bn.lastIndexOf('-');
-      if (ld > 0) { const did = bn.substring(0, ld), st = bn.substring(ld + 1);
-        if (['pdf','img'].includes(st)) { if (!files[did]) files[did] = { pdf:null, img:null };
-          files[did][st] = { path: userId+'/'+f.name, name:f.name, size:f.metadata?.size||0, type:f.metadata?.mimetype||'', created_at:f.created_at||f.updated_at||null }; } }
+    var sb = getSupabase(); if (!sb) return {}; var userId = await getUserId(); if (!userId) return {};
+    var result = await sb.storage.from(BUCKET).list(userId, { limit: 100 });
+    var data = result.data, error = result.error;
+    if (error || !data) return {}; var files = {};
+    data.forEach(function(f) {
+      var bn = f.name.split('.')[0], ld = bn.lastIndexOf('-');
+      if (ld > 0) { var did = bn.substring(0, ld), st = bn.substring(ld + 1);
+        if (st === 'pdf' || st === 'img') { if (!files[did]) files[did] = { pdf: null, img: null };
+          files[did][st] = { path: userId+'/'+f.name, name:f.name, size:(f.metadata&&f.metadata.size)||0, type:(f.metadata&&f.metadata.mimetype)||'', created_at:f.created_at||f.updated_at||null }; } }
     }); return files;
   }
   async function uploadFile(docId, slotType, file) {
-    const sb = getSupabase(); if (!sb) { alert('Supabase nÃ£o conectado.'); return null; }
-    if (!ACCEPTED.includes(file.type)) { alert('Tipo nÃ£o aceito.'); return null; }
-    if (file.size > MAX_SIZE) { alert('MÃ¡x. 10MB.'); return null; }
-    const userId = await getUserId(); if (!userId) { alert('FaÃ§a login.'); return null; }
-    const ext = file.name.split('.').pop(), path = userId+'/'+docId+'-'+slotType+'.'+ext;
-    const { error } = await sb.storage.from(BUCKET).upload(path, file, { contentType: file.type, upsert: true });
-    if (error) { alert('Erro: '+error.message); return null; }
-    const saved = loadDocsData(); if (!saved[docId]) saved[docId] = {};
-    saved[docId].updated_at = new Date().toISOString(); saveDocsData(saved); return { path };
+    var sb = getSupabase(); if (!sb) { alert('Supabase n\u00e3o conectado.'); return null; }
+    if (ACCEPTED.indexOf(file.type) === -1) { alert('Tipo n\u00e3o aceito.'); return null; }
+    if (file.size > MAX_SIZE) { alert('M\u00e1x. 10MB.'); return null; }
+    var userId = await getUserId(); if (!userId) { alert('Fa\u00e7a login.'); return null; }
+    var ext = file.name.split('.').pop(), path = userId+'/'+docId+'-'+slotType+'.'+ext;
+    var result = await sb.storage.from(BUCKET).upload(path, file, { contentType: file.type, upsert: true });
+    if (result.error) { alert('Erro: '+result.error.message); return null; }
+    var saved = loadDocsData(); if (!saved[docId]) saved[docId] = {};
+    saved[docId].updated_at = new Date().toISOString(); saveDocsData(saved); return { path: path };
   }
-  async function dlFile(path) { const sb = getSupabase(); if (!sb) return; const {data,error} = await sb.storage.from(BUCKET).download(path);
-    if (error) { alert('Erro: '+error.message); return; } const url = URL.createObjectURL(data);
-    const a = document.createElement('a'); a.href=url; a.download=path.split('/').pop();
+  async function dlFile(path) { var sb = getSupabase(); if (!sb) return; var result = await sb.storage.from(BUCKET).download(path);
+    if (result.error) { alert('Erro: '+result.error.message); return; } var url = URL.createObjectURL(result.data);
+    var a = document.createElement('a'); a.href=url; a.download=path.split('/').pop();
     document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }
-  async function viewFile(path) { const sb = getSupabase(); if (!sb) return; const {data,error} = await sb.storage.from(BUCKET).download(path);
-    if (error) { alert('Erro: '+error.message); return; } if (data) window.open(URL.createObjectURL(data),'_blank'); }
-  async function delFile(path) { const sb = getSupabase(); if (!sb) return; const {error} = await sb.storage.from(BUCKET).remove([path]); if (error) alert('Erro: '+error.message); }
+  async function viewFile(path) { var sb = getSupabase(); if (!sb) return; var result = await sb.storage.from(BUCKET).download(path);
+    if (result.error) { alert('Erro: '+result.error.message); return; } if (result.data) window.open(URL.createObjectURL(result.data),'_blank'); }
+  async function delFile(path) { var sb = getSupabase(); if (!sb) return; var result = await sb.storage.from(BUCKET).remove([path]); if (result.error) alert('Erro: '+result.error.message); }
 
-  let curFilter='all', curSort='recent', curView='grid', searchQ='', allFiles={};
+  var curFilter='all', curSort='recent', curView='grid', searchQ='', allFiles={};
   function getFiltered(docs) {
-    let f = docs;
-    if (curFilter!=='all') f = f.filter(d => d.cat===curFilter);
-    if (searchQ) { const q=searchQ.toLowerCase(); f = f.filter(d => d.name.toLowerCase().includes(q)||d.desc.toLowerCase().includes(q)); }
-    if (curSort==='recent') f.sort((a,b) => (b.updated_at||allFiles[b.id]?.pdf?.created_at||allFiles[b.id]?.img?.created_at||'').localeCompare(a.updated_at||allFiles[a.id]?.pdf?.created_at||allFiles[a.id]?.img?.created_at||''));
-    else if (curSort==='name') f.sort((a,b) => a.name.localeCompare(b.name));
-    else if (curSort==='oldest') f.sort((a,b) => (a.updated_at||'').localeCompare(b.updated_at||''));
+    var f = docs.slice();
+    if (curFilter!=='all') f = f.filter(function(d){return d.cat===curFilter;});
+    if (searchQ) { var q=searchQ.toLowerCase(); f = f.filter(function(d){return d.name.toLowerCase().indexOf(q)!==-1||d.desc.toLowerCase().indexOf(q)!==-1;}); }
+    if (curSort==='recent') f.sort(function(a,b){ return (b.updated_at||'').localeCompare(a.updated_at||''); });
+    else if (curSort==='name') f.sort(function(a,b){ return a.name.localeCompare(b.name); });
+    else if (curSort==='oldest') f.sort(function(a,b){ return (a.updated_at||'').localeCompare(b.updated_at||''); });
     return f;
   }
   function renderCards(docs) {
-    const grid = document.getElementById('jd-grid'), empty = document.getElementById('jd-empty');
+    var grid = document.getElementById('jd-grid'), empty = document.getElementById('jd-empty');
     if (!grid) return; grid.innerHTML = ''; grid.className = 'jd-grid'+(curView==='list'?' list-view':'');
     if (!docs.length) { grid.style.display='none'; if(empty) empty.style.display=''; return; }
     if (empty) empty.style.display='none'; grid.style.display='';
-    docs.forEach(doc => {
-      const pdf=allFiles[doc.id]?.pdf||null, img=allFiles[doc.id]?.img||null;
-      const bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros, upd=doc.updated_at||pdf?.created_at||img?.created_at;
-      const card=document.createElement('div'); card.className='jd-card';
-      card.innerHTML=`<div class="jd-card-top"><div class="jd-card-icon" style="background:${bg}">${doc.icon}</div><button class="jd-card-star ${doc.favorite?'active':''}" data-fav="${doc.id}">â˜…</button></div>
-        <h3 class="jd-card-name">${doc.name}</h3><p class="jd-card-desc">${doc.desc}</p>
-        <div class="jd-card-date">${upd?'Atualizado em '+fmtDate(upd):'Sem atualizaÃ§Ã£o'}</div>
-        <div class="jd-card-actions"><button class="jd-card-btn primary" data-open="${doc.id}">ðŸ“‹ Abrir</button><button class="jd-card-btn" data-dl="${doc.id}">â¬‡ Baixar</button>
-        <div class="jd-card-menu"><button class="jd-card-menu-btn" data-menu="${doc.id}">â‹®</button><div class="jd-card-dropdown" id="dd-${doc.id}"><button data-edit="${doc.id}">âœï¸ Editar</button><button class="danger" data-del-doc="${doc.id}">ðŸ—‘ Excluir</button></div></div></div>`;
+    docs.forEach(function(doc) {
+      var pdf=allFiles[doc.id]?allFiles[doc.id].pdf:null, img=allFiles[doc.id]?allFiles[doc.id].img:null;
+      var bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros, upd=doc.updated_at||(pdf?pdf.created_at:null)||(img?img.created_at:null);
+      var card=document.createElement('div'); card.className='jd-card';
+      card.innerHTML='<div class="jd-card-top"><div class="jd-card-icon" style="background:'+bg+'">'+doc.icon+'</div><button class="jd-card-star '+(doc.favorite?'active':'')+'" data-fav="'+doc.id+'">\u2605</button></div>'
+        +'<h3 class="jd-card-name">'+doc.name+'</h3><p class="jd-card-desc">'+doc.desc+'</p>'
+        +'<div class="jd-card-date">'+(upd?'Atualizado em '+fmtDate(upd):'Sem atualiza\u00e7\u00e3o')+'</div>'
+        +'<div class="jd-card-actions"><button class="jd-card-btn primary" data-open="'+doc.id+'">Abrir</button><button class="jd-card-btn" data-dl="'+doc.id+'">Baixar</button>'
+        +'<div class="jd-card-menu"><button class="jd-card-menu-btn" data-menu="'+doc.id+'">\u22EE</button><div class="jd-card-dropdown" id="dd-'+doc.id+'"><button data-edit="'+doc.id+'">Editar</button><button class="danger" data-del-doc="'+doc.id+'">Excluir</button></div></div></div>';
       grid.appendChild(card);
     });
   }
   function renderStats(docs) {
-    const st=document.getElementById('jd-stats'); if(!st) return;
-    const favs=docs.filter(d=>d.favorite).length, cats=new Set(docs.map(d=>d.cat)).size;
-    const wa=new Date(Date.now()-7*864e5).toISOString(), recent=docs.filter(d=>d.updated_at&&d.updated_at>wa).length;
-    st.innerHTML=`<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(59,130,246,0.12)">ðŸ“</div><div class="jd-stat-info"><div class="jd-stat-value">${docs.length}</div><div class="jd-stat-label">documentos salvos</div></div></div>
-      <div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(250,204,21,0.12)">â­</div><div class="jd-stat-info"><div class="jd-stat-value">${favs}</div><div class="jd-stat-label">marcados como favoritos</div></div></div>
-      <div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(168,85,247,0.12)">ðŸ“‚</div><div class="jd-stat-info"><div class="jd-stat-value">${cats}</div><div class="jd-stat-label">categorias diferentes</div></div></div>
-      <div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(34,197,94,0.12)">ðŸ•</div><div class="jd-stat-info"><div class="jd-stat-value">${recent}</div><div class="jd-stat-label">atualizados esta semana</div></div></div>`;
+    var st=document.getElementById('jd-stats'); if(!st) return;
+    var favs=docs.filter(function(d){return d.favorite;}).length, cats={};
+    docs.forEach(function(d){cats[d.cat]=1;});
+    var catCount=Object.keys(cats).length;
+    var wa=new Date(Date.now()-7*864e5).toISOString(), recent=docs.filter(function(d){return d.updated_at&&d.updated_at>wa;}).length;
+    st.innerHTML='<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(59,130,246,0.12)">\uD83D\uDCC1</div><div class="jd-stat-info"><div class="jd-stat-value">'+docs.length+'</div><div class="jd-stat-label">documentos salvos</div></div></div>'
+      +'<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(250,204,21,0.12)">\u2B50</div><div class="jd-stat-info"><div class="jd-stat-value">'+favs+'</div><div class="jd-stat-label">marcados como favoritos</div></div></div>'
+      +'<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(168,85,247,0.12)">\uD83D\uDCC2</div><div class="jd-stat-info"><div class="jd-stat-value">'+catCount+'</div><div class="jd-stat-label">categorias diferentes</div></div></div>'
+      +'<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(34,197,94,0.12)">\uD83D\uDD50</div><div class="jd-stat-info"><div class="jd-stat-value">'+recent+'</div><div class="jd-stat-label">atualizados esta semana</div></div></div>';
   }
-  const CAT_LABELS = {pessoais:'Pessoais',identificacao:'IdentificaÃ§Ã£o',veiculos:'VeÃ­culos',financeiros:'Financeiros',profissionais:'Profissionais',saude:'SaÃºde',outros:'Outros'};
+  var CAT_LABELS = {pessoais:'Pessoais',identificacao:'Identifica\u00e7\u00e3o',veiculos:'Ve\u00edculos',financeiros:'Financeiros',profissionais:'Profissionais',saude:'Sa\u00fade',outros:'Outros'};
   function openDetail(docId) {
-    const docs=getAllDocs(), doc=docs.find(d=>d.id===docId); if(!doc) return;
-    const ov=document.getElementById('jd-detail-overlay'), pn=document.getElementById('jd-detail-panel');
+    var docs=getAllDocs(), doc=null; for(var i=0;i<docs.length;i++){if(docs[i].id===docId){doc=docs[i];break;}} if(!doc) return;
+    var ov=document.getElementById('jd-detail-overlay'), pn=document.getElementById('jd-detail-panel');
     if(!ov||!pn) return;
-    const pdf=allFiles[doc.id]?.pdf||null, img=allFiles[doc.id]?.img||null, bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros;
-    pn.innerHTML=`<button class="jd-detail-back" id="jd-detail-back">â† Voltar</button>
-      <div class="jd-detail-head"><div class="jd-detail-icon" style="background:${bg}">${doc.icon}</div><div><h3 class="jd-detail-name">${doc.name}</h3><p class="jd-detail-desc">${doc.desc}</p></div></div>
-      <div class="jd-detail-meta"><span>ðŸ“‚ ${CAT_LABELS[doc.cat]||'Outros'}</span><span>ðŸ“… ${doc.updated_at?fmtDate(doc.updated_at):'Sem atualizaÃ§Ã£o'}</span></div>
-      <div class="jd-detail-files">
-      ${pdf?`<div class="jd-detail-file"><div class="jd-detail-file-header"><span class="jd-detail-file-icon">ðŸ“„</span><span class="jd-detail-file-name">PDF</span><span class="jd-detail-file-size">${fmtSize(pdf.size)}</span></div><div class="jd-detail-file-actions"><button onclick="window.jdView('${pdf.path}')">ðŸ‘ Abrir</button><button onclick="window.jdDownload('${pdf.path}')">â¬‡ Baixar</button><button onclick="window.jdUpload('${doc.id}','pdf')">ðŸ”„ Substituir</button><button class="danger" onclick="window.jdRemoveFile('${doc.id}','pdf','${pdf.path}')">ðŸ—‘ Remover</button></div></div>`:`<div class="jd-detail-file-empty" onclick="window.jdUpload('${doc.id}','pdf')"><p>ðŸ“„ Clique para enviar PDF</p></div>`}
-      ${img?`<div class="jd-detail-file"><div class="jd-detail-file-header"><span class="jd-detail-file-icon">ðŸ–¼ï¸</span><span class="jd-detail-file-name">Imagem</span><span class="jd-detail-file-size">${fmtSize(img.size)}</span></div><div class="jd-detail-file-actions"><button onclick="window.jdView('${img.path}')">ðŸ‘ Abrir</button><button onclick="window.jdDownload('${img.path}')">â¬‡ Baixar</button><button onclick="window.jdUpload('${doc.id}','img')">ðŸ”„ Substituir</button><button class="danger" onclick="window.jdRemoveFile('${doc.id}','img','${img.path}')">ðŸ—‘ Remover</button></div></div>`:`<div class="jd-detail-file-empty" onclick="window.jdUpload('${doc.id}','img')"><p>ðŸ–¼ï¸ Clique para enviar imagem</p></div>`}
-      </div>`;
+    var pdf=allFiles[doc.id]?allFiles[doc.id].pdf:null, img=allFiles[doc.id]?allFiles[doc.id].img:null, bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros;
+    pn.innerHTML='<button class="jd-detail-back" id="jd-detail-back">\u2190 Voltar</button>'
+      +'<div class="jd-detail-head"><div class="jd-detail-icon" style="background:'+bg+'">'+doc.icon+'</div><div><h3 class="jd-detail-name">'+doc.name+'</h3><p class="jd-detail-desc">'+doc.desc+'</p></div></div>'
+      +'<div class="jd-detail-meta"><span>\uD83D\uDCC2 '+(CAT_LABELS[doc.cat]||'Outros')+'</span><span>\uD83D\uDCC5 '+(doc.updated_at?fmtDate(doc.updated_at):'Sem atualiza\u00e7\u00e3o')+'</span></div>'
+      +'<div class="jd-detail-files">'
+      +(pdf?'<div class="jd-detail-file"><div class="jd-detail-file-header"><span class="jd-detail-file-icon">\uD83D\uDCC4</span><span class="jd-detail-file-name">PDF</span><span class="jd-detail-file-size">'+fmtSize(pdf.size)+'</span></div><div class="jd-detail-file-actions"><button onclick="window.jdView(\''+pdf.path+'\')">Abrir</button><button onclick="window.jdDownload(\''+pdf.path+'\')">Baixar</button><button onclick="window.jdUpload(\''+doc.id+'\',\'pdf\')">Substituir</button><button class="danger" onclick="window.jdRemoveFile(\''+doc.id+'\',\'pdf\',\''+pdf.path+'\')">Remover</button></div></div>':'<div class="jd-detail-file-empty" onclick="window.jdUpload(\''+doc.id+'\',\'pdf\')"><p>\uD83D\uDCC4 Clique para enviar PDF</p></div>')
+      +(img?'<div class="jd-detail-file"><div class="jd-detail-file-header"><span class="jd-detail-file-icon">\uD83D\uDDBC\uFE0F</span><span class="jd-detail-file-name">Imagem</span><span class="jd-detail-file-size">'+fmtSize(img.size)+'</span></div><div class="jd-detail-file-actions"><button onclick="window.jdView(\''+img.path+'\')">Abrir</button><button onclick="window.jdDownload(\''+img.path+'\')">Baixar</button><button onclick="window.jdUpload(\''+doc.id+'\',\'img\')">Substituir</button><button class="danger" onclick="window.jdRemoveFile(\''+doc.id+'\',\'img\',\''+img.path+'\')">Remover</button></div></div>':'<div class="jd-detail-file-empty" onclick="window.jdUpload(\''+doc.id+'\',\'img\')"><p>\uD83D\uDDBC\uFE0F Clique para enviar imagem</p></div>')
+      +'</div>';
     ov.style.display='';
-    pn.querySelector('#jd-detail-back').addEventListener('click',()=>{ov.style.display='none';refreshAll();});
-    ov.addEventListener('click',(e)=>{if(e.target===ov){ov.style.display='none';refreshAll();}});
+    pn.querySelector('#jd-detail-back').addEventListener('click',function(){ov.style.display='none';refreshAll();});
+    ov.addEventListener('click',function(e){if(e.target===ov){ov.style.display='none';refreshAll();}});
   }
   function openAddModal() {
-    const ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
+    var ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
     if(!ov||!md) return;
-    md.innerHTML=`<h3>Adicionar documento</h3>
-      <div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" placeholder="Ex: CartÃ£o de vacinaÃ§Ã£o" /></div>
-      <div class="jd-modal-field"><label>DescriÃ§Ã£o</label><input id="jd-m-desc" placeholder="DescriÃ§Ã£o curta" /></div>
-      <div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">${Object.entries(CAT_LABELS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
-      <div class="jd-modal-field"><label>Ãcone (emoji)</label><input id="jd-m-icon" placeholder="Ex: ðŸ“‹" maxlength="4" /></div>
-      <div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>`;
+    var catOpts=''; Object.keys(CAT_LABELS).forEach(function(k){catOpts+='<option value="'+k+'">'+CAT_LABELS[k]+'</option>';});
+    md.innerHTML='<h3>Adicionar documento</h3>'
+      +'<div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" placeholder="Ex: Cart\u00e3o de vacina\u00e7\u00e3o" /></div>'
+      +'<div class="jd-modal-field"><label>Descri\u00e7\u00e3o</label><input id="jd-m-desc" placeholder="Descri\u00e7\u00e3o curta" /></div>'
+      +'<div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">'+catOpts+'</select></div>'
+      +'<div class="jd-modal-field"><label>\u00cdcone (emoji)</label><input id="jd-m-icon" placeholder="Ex: \uD83D\uDCCB" maxlength="4" /></div>'
+      +'<div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>';
     ov.style.display='';
-    md.querySelector('#jd-m-cancel').addEventListener('click',()=>{ov.style.display='none';});
-    md.querySelector('#jd-m-save').addEventListener('click',()=>{
-      const n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
-      const c=md.querySelector('#jd-m-cat').value, i=md.querySelector('#jd-m-icon').value.trim()||'ðŸ“„';
+    md.querySelector('#jd-m-cancel').addEventListener('click',function(){ov.style.display='none';});
+    md.querySelector('#jd-m-save').addEventListener('click',function(){
+      var n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
+      var c=md.querySelector('#jd-m-cat').value, ic=md.querySelector('#jd-m-icon').value.trim()||'\uD83D\uDCCB';
       if(!n){alert('Digite o nome.');return;}
-      const saved=loadDocsData(); if(!saved.customDocs) saved.customDocs=[];
-      saved.customDocs.push({id:'custom_'+Date.now(),name:n,desc:d,icon:i,cat:c});
+      var saved=loadDocsData(); if(!saved.customDocs) saved.customDocs=[];
+      saved.customDocs.push({id:'custom_'+Date.now(),name:n,desc:d,icon:ic,cat:c});
       saveDocsData(saved); ov.style.display='none'; refreshAll();
     });
-    ov.addEventListener('click',(e)=>{if(e.target===ov) ov.style.display='none';});
+    ov.addEventListener('click',function(e){if(e.target===ov) ov.style.display='none';});
   }
   function openEditModal(doc) {
-    const ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
+    var ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
     if(!ov||!md) return;
-    md.innerHTML=`<h3>Editar documento</h3>
-      <div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" value="${doc.name}" /></div>
-      <div class="jd-modal-field"><label>DescriÃ§Ã£o</label><input id="jd-m-desc" value="${doc.desc}" /></div>
-      <div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">${Object.entries(CAT_LABELS).map(([k,v])=>`<option value="${k}" ${doc.cat===k?'selected':''}>${v}</option>`).join('')}</select></div>
-      <div class="jd-modal-field"><label>Ãcone (emoji)</label><input id="jd-m-icon" value="${doc.icon}" maxlength="4" /></div>
-      <div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>`;
+    var catOpts=''; Object.keys(CAT_LABELS).forEach(function(k){catOpts+='<option value="'+k+'"'+(doc.cat===k?' selected':'')+'>'+CAT_LABELS[k]+'</option>';});
+    md.innerHTML='<h3>Editar documento</h3>'
+      +'<div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" value="'+doc.name+'" /></div>'
+      +'<div class="jd-modal-field"><label>Descri\u00e7\u00e3o</label><input id="jd-m-desc" value="'+doc.desc+'" /></div>'
+      +'<div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">'+catOpts+'</select></div>'
+      +'<div class="jd-modal-field"><label>\u00cdcone (emoji)</label><input id="jd-m-icon" value="'+doc.icon+'" maxlength="4" /></div>'
+      +'<div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>';
     ov.style.display='';
-    md.querySelector('#jd-m-cancel').addEventListener('click',()=>{ov.style.display='none';});
-    md.querySelector('#jd-m-save').addEventListener('click',()=>{
-      const n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
-      const c=md.querySelector('#jd-m-cat').value, i=md.querySelector('#jd-m-icon').value.trim()||'ðŸ“„';
+    md.querySelector('#jd-m-cancel').addEventListener('click',function(){ov.style.display='none';});
+    md.querySelector('#jd-m-save').addEventListener('click',function(){
+      var n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
+      var c=md.querySelector('#jd-m-cat').value, ic=md.querySelector('#jd-m-icon').value.trim()||'\uD83D\uDCCB';
       if(!n){alert('Digite o nome.');return;}
-      const saved=loadDocsData(); const isDef=DEFAULT_DOCS.some(dd=>dd.id===doc.id);
-      if(isDef){if(!saved[doc.id]) saved[doc.id]={}; Object.assign(saved[doc.id],{name:n,desc:d,cat:c,icon:i});}
-      else{const cu=(saved.customDocs||[]).find(dd=>dd.id===doc.id); if(cu) Object.assign(cu,{name:n,desc:d,cat:c,icon:i});}
+      var saved=loadDocsData(); var isDef=false;
+      for(var i=0;i<DEFAULT_DOCS.length;i++){if(DEFAULT_DOCS[i].id===doc.id){isDef=true;break;}}
+      if(isDef){if(!saved[doc.id]) saved[doc.id]={}; saved[doc.id].name=n; saved[doc.id].desc=d; saved[doc.id].cat=c; saved[doc.id].icon=ic;}
+      else{var cus=saved.customDocs||[]; for(var j=0;j<cus.length;j++){if(cus[j].id===doc.id){cus[j].name=n;cus[j].desc=d;cus[j].cat=c;cus[j].icon=ic;break;}}}
       saveDocsData(saved); ov.style.display='none'; refreshAll();
     });
-    ov.addEventListener('click',(e)=>{if(e.target===ov) ov.style.display='none';});
+    ov.addEventListener('click',function(e){if(e.target===ov) ov.style.display='none';});
   }
-  async function refreshAll() { allFiles=await listUserFiles(); const docs=getAllDocs(); renderCards(getFiltered(docs)); renderStats(docs); }
-  window.jdView = async(p)=>{await viewFile(p);};
-  window.jdDownload = async(p)=>{await dlFile(p);};
-  window.jdUpload = (docId,st)=>{const i=document.createElement('input');i.type='file';i.accept=st==='pdf'?'.pdf':'.jpg,.jpeg,.png,.webp';
-    i.addEventListener('change',async()=>{if(!i.files.length)return;await uploadFile(docId,st,i.files[0]);openDetail(docId);});i.click();};
-  window.jdRemoveFile = async(docId,st,path)=>{if(!confirm('Remover este arquivo?'))return;await delFile(path);
-    const s=loadDocsData();if(s[docId]){s[docId].updated_at=new Date().toISOString();saveDocsData(s);}openDetail(docId);};
+  async function refreshAll() { allFiles=await listUserFiles(); var docs=getAllDocs(); renderCards(getFiltered(docs)); renderStats(docs); }
+  window.jdView = function(p){viewFile(p);};
+  window.jdDownload = function(p){dlFile(p);};
+  window.jdUpload = function(docId,st){var inp=document.createElement('input');inp.type='file';inp.accept=st==='pdf'?'.pdf':'.jpg,.jpeg,.png,.webp';
+    inp.addEventListener('change',function(){if(!inp.files.length)return;uploadFile(docId,st,inp.files[0]).then(function(){openDetail(docId);});});inp.click();};
+  window.jdRemoveFile = function(docId,st,path){if(!confirm('Remover este arquivo?'))return;delFile(path).then(function(){
+    var s=loadDocsData();if(s[docId]){s[docId].updated_at=new Date().toISOString();saveDocsData(s);}openDetail(docId);});};
 
   function initJD() {
-    document.getElementById('jd-header-date').textContent = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
-    document.getElementById('jd-search-input')?.addEventListener('input',(e)=>{searchQ=e.target.value;refreshAll();});
-    document.querySelectorAll('.jd-filter').forEach(b=>b.addEventListener('click',()=>{
-      document.querySelectorAll('.jd-filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');curFilter=b.dataset.cat;refreshAll();}));
-    document.getElementById('jd-sort')?.addEventListener('change',(e)=>{curSort=e.target.value;refreshAll();});
-    document.getElementById('jd-view-grid')?.addEventListener('click',()=>{curView='grid';document.getElementById('jd-view-grid').classList.add('active');document.getElementById('jd-view-list').classList.remove('active');refreshAll();});
-    document.getElementById('jd-view-list')?.addEventListener('click',()=>{curView='list';document.getElementById('jd-view-list').classList.add('active');document.getElementById('jd-view-grid').classList.remove('active');refreshAll();});
-    document.getElementById('jd-add-btn')?.addEventListener('click',openAddModal);
-    document.getElementById('jd-grid')?.addEventListener('click',async(e)=>{
-      const fb=e.target.closest('[data-fav]');if(fb){e.stopPropagation();const did=fb.dataset.fav;const s=loadDocsData();if(!s[did])s[did]={};s[did].favorite=!s[did].favorite;saveDocsData(s);refreshAll();return;}
-      const ob=e.target.closest('[data-open]');if(ob){openDetail(ob.dataset.open);return;}
-      const db=e.target.closest('[data-dl]');if(db){e.stopPropagation();const did=db.dataset.dl;const p=allFiles[did]?.pdf,img=allFiles[did]?.img;
-        if(p&&img){const dd=document.getElementById('dd-'+did);if(dd)dd.classList.toggle('open');}else if(p)await dlFile(p.path);else if(img)await dlFile(img.path);return;}
-      const mb=e.target.closest('[data-menu]');if(mb){e.stopPropagation();const dd=document.getElementById('dd-'+mb.dataset.menu);
-        document.querySelectorAll('.jd-card-dropdown.open').forEach(d=>{if(d!==dd)d.classList.remove('open');});if(dd)dd.classList.toggle('open');return;}
-      const eb=e.target.closest('[data-edit]');if(eb){e.stopPropagation();const doc=getAllDocs().find(d=>d.id===eb.dataset.edit);if(doc)openEditModal(doc);return;}
-      const xb=e.target.closest('[data-del-doc]');if(xb){e.stopPropagation();if(!confirm('Excluir este documento e seus arquivos?'))return;const did=xb.dataset.delDoc;
-        const p=allFiles[did]?.pdf,img=allFiles[did]?.img;if(p)await delFile(p.path);if(img)await delFile(img.path);
-        const s=loadDocsData();delete s[did];s.customDocs=(s.customDocs||[]).filter(d=>d.id!==did);saveDocsData(s);refreshAll();return;}
+    var dateEl = document.getElementById('jd-header-date');
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
+    var searchEl = document.getElementById('jd-search-input');
+    if (searchEl) searchEl.addEventListener('input',function(e){searchQ=e.target.value;refreshAll();});
+    document.querySelectorAll('.jd-filter').forEach(function(b){b.addEventListener('click',function(){
+      document.querySelectorAll('.jd-filter').forEach(function(x){x.classList.remove('active');});b.classList.add('active');curFilter=b.dataset.cat;refreshAll();});});
+    var sortEl = document.getElementById('jd-sort');
+    if (sortEl) sortEl.addEventListener('change',function(e){curSort=e.target.value;refreshAll();});
+    var gridBtn = document.getElementById('jd-view-grid');
+    if (gridBtn) gridBtn.addEventListener('click',function(){curView='grid';gridBtn.classList.add('active');document.getElementById('jd-view-list').classList.remove('active');refreshAll();});
+    var listBtn = document.getElementById('jd-view-list');
+    if (listBtn) listBtn.addEventListener('click',function(){curView='list';listBtn.classList.add('active');document.getElementById('jd-view-grid').classList.remove('active');refreshAll();});
+    var addBtn = document.getElementById('jd-add-btn');
+    if (addBtn) addBtn.addEventListener('click',openAddModal);
+    var gridEl = document.getElementById('jd-grid');
+    if (gridEl) gridEl.addEventListener('click',function(e){
+      var fb=e.target.closest('[data-fav]');if(fb){e.stopPropagation();var did=fb.dataset.fav;var s=loadDocsData();if(!s[did])s[did]={};s[did].favorite=!s[did].favorite;saveDocsData(s);refreshAll();return;}
+      var ob=e.target.closest('[data-open]');if(ob){openDetail(ob.dataset.open);return;}
+      var db=e.target.closest('[data-dl]');if(db){e.stopPropagation();var did2=db.dataset.dl;var p=allFiles[did2]?allFiles[did2].pdf:null,im=allFiles[did2]?allFiles[did2].img:null;
+        if(p&&im){var dd=document.getElementById('dd-'+did2);if(dd)dd.classList.toggle('open');}else if(p)dlFile(p.path);else if(im)dlFile(im.path);return;}
+      var mb=e.target.closest('[data-menu]');if(mb){e.stopPropagation();var dd2=document.getElementById('dd-'+mb.dataset.menu);
+        document.querySelectorAll('.jd-card-dropdown.open').forEach(function(d){if(d!==dd2)d.classList.remove('open');});if(dd2)dd2.classList.toggle('open');return;}
+      var eb=e.target.closest('[data-edit]');if(eb){e.stopPropagation();var docs=getAllDocs();for(var i=0;i<docs.length;i++){if(docs[i].id===eb.dataset.edit){openEditModal(docs[i]);break;}}return;}
+      var xb=e.target.closest('[data-del-doc]');if(xb){e.stopPropagation();if(!confirm('Excluir este documento e seus arquivos?'))return;var did3=xb.dataset.delDoc;
+        var p2=allFiles[did3]?allFiles[did3].pdf:null,im2=allFiles[did3]?allFiles[did3].img:null;if(p2)delFile(p2.path);if(im2)delFile(im2.path);
+        var s2=loadDocsData();delete s2[did3];s2.customDocs=(s2.customDocs||[]).filter(function(d){return d.id!==did3;});saveDocsData(s2);refreshAll();return;}
     });
-    document.addEventListener('click',(e)=>{if(!e.target.closest('.jd-card-menu'))document.querySelectorAll('.jd-card-dropdown.open').forEach(d=>d.classList.remove('open'));});
+    document.addEventListener('click',function(e){if(!e.target.closest('.jd-card-menu'))document.querySelectorAll('.jd-card-dropdown.open').forEach(function(d){d.classList.remove('open');});});
     refreshAll();
   }
   document.addEventListener('DOMContentLoaded', initJD);
