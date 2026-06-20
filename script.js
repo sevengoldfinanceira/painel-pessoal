@@ -2066,9 +2066,10 @@ function renderFinance() {
         return dt.startsWith(monthKey);
       }).reduce((s, item) => s + (item.value || 0), 0);
 
+      const currentMonthKey = (state.financePlan.month || todayISO().slice(0, 7));
       const monthFixed = state.fixedCosts.filter(item => {
-        if (!item.createdAt) return true;
-        return item.createdAt <= monthKey;
+        const created = item.createdAt || currentMonthKey;
+        return created <= monthKey;
       }).reduce((s, item) => s + (item.value || 0), 0);
 
       const monthPaid = monthFixed + monthVariable + monthExpenseExtra;
