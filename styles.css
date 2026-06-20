@@ -8840,11 +8840,14 @@ html[data-theme="light"] .routine-add-card:hover {
   background: rgba(255, 255, 255, 0.06);
 }
 .finance-internal-nav button.active {
-  color: #FEF3C7;
-  font-weight: 700;
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 14px;
   background: var(--accent, #d4af37);
-  border: 1px solid var(--accent, #d4af37);
-  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+  border: 2px solid var(--accent, #d4af37);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.45);
+  transform: scale(1.05);
+  letter-spacing: 0.3px;
 }
 
 .topbar-finance-controls {
@@ -9495,9 +9498,12 @@ html[data-theme="light"] .finance-internal-nav button:hover {
 html[data-theme="light"] .finance-internal-nav button.active {
   background: var(--accent, #d4af37) !important;
   color: #FFFFFF !important;
-  border: 1px solid var(--accent, #d4af37) !important;
-  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3) !important;
-  font-weight: 700 !important;
+  border: 2px solid var(--accent, #d4af37) !important;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.45) !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  transform: scale(1.05) !important;
+  letter-spacing: 0.3px !important;
 }
 
 /* Contraste dos Textos Internos e Rótulos */
