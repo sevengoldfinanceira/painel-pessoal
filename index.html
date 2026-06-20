@@ -618,10 +618,11 @@
             </article>
           </div>
 
-          <div class="finance-row-2">
+          <div class="finance-row-2" id="finance-row-2">
             <!-- Section Resumo -->
-            <section class="panel" id="section-resumo">
+            <section class="panel draggable-card" id="section-resumo" draggable="true">
               <div class="panel-header">
+                <span class="drag-handle" title="Arrastar para reordenar">⠿</span>
                 <h3>Próximos compromissos</h3>
                 <div class="panel-header-actions" style="display: flex; gap: 12px;">
                   <button type="button" class="finance-link-btn" id="btn-add-compromisso">+ Adicionar</button>
@@ -632,8 +633,9 @@
             </section>
 
             <!-- Section Receber -->
-            <section class="panel" id="section-receber">
+            <section class="panel draggable-card" id="section-receber" draggable="true">
               <div class="panel-header">
+                <span class="drag-handle" title="Arrastar para reordenar">⠿</span>
                 <h3>A receber</h3>
                 <div class="panel-header-actions" style="display: flex; gap: 12px;">
                   <button type="button" class="finance-link-btn" id="btn-add-conta-receber">+ Adicionar</button>
@@ -644,8 +646,9 @@
             </section>
 
             <!-- Section Pagar -->
-            <section class="panel" id="section-pagar">
+            <section class="panel draggable-card" id="section-pagar" draggable="true">
               <div class="panel-header">
+                <span class="drag-handle" title="Arrastar para reordenar">⠿</span>
                 <h3>Contas a pagar</h3>
                 <div class="panel-header-actions" style="display: flex; gap: 12px;">
                   <button type="button" class="finance-link-btn" id="btn-add-conta-pagar">+ Adicionar</button>
@@ -656,10 +659,23 @@
             </section>
           </div>
 
-          <div class="finance-row-3">
+          <div class="finance-year-calendar" id="finance-year-calendar">
+            <div class="finance-year-cal-grid-icon">⋮⋮</div>
+            <div class="finance-year-calendar-header">
+              <strong id="finance-year-cal-label">2026</strong>
+              <div class="finance-year-cal-nav">
+                <button type="button" class="finance-month-year-btn" id="finance-year-cal-prev">‹</button>
+                <button type="button" class="finance-month-year-btn" id="finance-year-cal-next">›</button>
+              </div>
+            </div>
+            <div class="finance-year-month-grid" id="finance-year-month-grid"></div>
+          </div>
+
+          <div class="finance-row-3" id="finance-row-3">
             <!-- Section Assinaturas -->
-            <section class="panel" id="section-assinaturas">
+            <section class="panel draggable-card" id="section-assinaturas" draggable="true">
               <div class="panel-header">
+                <span class="drag-handle" title="Arrastar para reordenar">⠿</span>
                 <h3>Assinaturas</h3>
                 <div class="panel-header-actions" style="display: flex; gap: 12px;">
                   <button type="button" class="finance-link-btn" id="btn-add-assinatura">+ Adicionar</button>
@@ -671,8 +687,9 @@
             </section>
 
             <!-- Section Contas Fixas -->
-            <section class="panel" id="section-fixas">
+            <section class="panel draggable-card" id="section-fixas" draggable="true">
               <div class="panel-header">
+                <span class="drag-handle" title="Arrastar para reordenar">⠿</span>
                 <h3>Contas fixas</h3>
                 <div class="panel-header-actions" style="display: flex; gap: 12px;">
                   <button type="button" class="finance-link-btn" id="btn-add-conta-fixa">+ Adicionar</button>

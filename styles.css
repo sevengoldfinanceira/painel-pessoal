@@ -8873,6 +8873,84 @@ html[data-theme="light"] .routine-add-card:hover {
   background: var(--hover-bg);
 }
 
+.finance-year-calendar {
+  background: var(--surface);
+  border: 1px solid var(--line, var(--border-color-global));
+  border-radius: 12px;
+  padding: 14px;
+  display: inline-flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  width: 240px;
+}
+.finance-year-cal-grid-icon {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.finance-year-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.finance-year-calendar-header strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.finance-year-cal-nav {
+  display: flex;
+  gap: 4px;
+}
+.finance-year-cal-nav button {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--line, var(--border-color-global));
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.finance-year-cal-nav button:hover {
+  background: var(--bg-hover);
+}
+.finance-year-month-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+.finance-year-month-grid button {
+  padding: 8px 2px;
+  border-radius: 6px;
+  border: 1px solid var(--line, var(--border-color-global));
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.finance-year-month-grid button:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.finance-year-month-grid button.active {
+  background: var(--accent, #d4af37);
+  color: #fff;
+  font-weight: 700;
+  border-color: var(--accent, #d4af37);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
 .finance-month-bar {
   display: flex;
   align-items: center;
@@ -8991,7 +9069,41 @@ html[data-theme="light"] .routine-add-card:hover {
   border-color: transparent;
 }
 
-.finance-row-2,
+.drag-handle {
+  cursor: grab;
+  font-size: 18px;
+  color: var(--text-muted);
+  opacity: 0.4;
+  transition: opacity 0.2s;
+  user-select: none;
+  margin-right: 6px;
+  line-height: 1;
+}
+.drag-handle:hover {
+  opacity: 1;
+}
+.draggable-card {
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+.draggable-card.dragging {
+  opacity: 0.4;
+  transform: scale(0.97);
+}
+.draggable-card.drag-over {
+  box-shadow: 0 0 0 2px var(--accent, #d4af37);
+}
+.draggable-card .panel-header {
+  display: flex;
+  align-items: center;
+}
+
+.finance-row-2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
 .finance-row-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

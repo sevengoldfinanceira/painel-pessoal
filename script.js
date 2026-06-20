@@ -5394,9 +5394,11 @@ function initFinanceInteractions() {
   function setMonth(y, m) {
     const d = new Date(y, m - 1, 1);
     state.financePlan.month = d.toISOString().slice(0,7);
+    calendarYear = d.getFullYear();
     saveState();
     renderFinance();
     updateMonthBarUI();
+    renderYearCalendar();
   }
 
   function updateMonthBarUI() {
@@ -5463,6 +5465,37 @@ function initFinanceInteractions() {
 
   updateMonthBarUI();
 
+  // 2b. Year calendar card (4x3 grid)
+  let calendarYear = getCurrentMonthParts()[0];
+  const calendarMonthNames = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+
+  function renderYearCalendar() {
+    const [curY, curM] = getCurrentMonthParts();
+    const yearLabel = document.getElementById('finance-year-cal-label');
+    const grid = document.getElementById('finance-year-month-grid');
+    if (!yearLabel || !grid) return;
+    yearLabel.textContent = calendarYear;
+    grid.innerHTML = '';
+    calendarMonthNames.forEach((name, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = name;
+      if (calendarYear === curY && (i + 1) === curM) btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        setMonth(calendarYear, i + 1);
+        renderYearCalendar();
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  const calPrev = document.getElementById('finance-year-cal-prev');
+  const calNext = document.getElementById('finance-year-cal-next');
+  if (calPrev) calPrev.addEventListener('click', () => { calendarYear--; renderYearCalendar(); });
+  if (calNext) calNext.addEventListener('click', () => { calendarYear++; renderYearCalendar(); });
+
+  renderYearCalendar();
+
   // 3. Tab navigation for internal finance sections
   const initFinanceTabs = () => {
     const tabs = document.querySelectorAll('[data-finance-tab]');
@@ -5488,6 +5521,7 @@ function initFinanceInteractions() {
         const r2 = document.querySelector('.finance-row-2');
         const r3 = document.querySelector('.finance-row-3');
         const r4 = document.querySelector('.finance-row-4');
+        const yearCal = document.getElementById('finance-year-calendar');
 
         if (target === 'section-resumo') {
           financeSections.forEach(secId => {
@@ -5500,6 +5534,7 @@ function initFinanceInteractions() {
           if (r2) r2.style.display = '';
           if (r3) r3.style.display = '';
           if (r4) r4.style.display = '';
+          if (yearCal) yearCal.style.display = '';
         } else {
           financeSections.forEach(secId => {
             const sec = document.getElementById(secId);
@@ -5517,6 +5552,7 @@ function initFinanceInteractions() {
           if (r2) r2.style.display = isRow2 ? 'grid' : 'none';
           if (r3) r3.style.display = !isRow2 ? 'grid' : 'none';
           if (r4) r4.style.display = 'none';
+          if (yearCal) yearCal.style.display = 'none';
         }
       });
     });
@@ -5747,6 +5783,91 @@ function initFinanceInteractions() {
       }
     }
   });
+
+  // 10. Drag-and-drop to reorder cards
+  function initDragAndDrop() {
+    const STORAGE_KEY = 'painel-pessoal-card-order';
+    let draggedCard = null;
+
+    function saveOrder() {
+      const order = {};
+      ['finance-row-2', 'finance-row-3'].forEach(rowId => {
+        const row = document.getElementById(rowId);
+        if (!row) return;
+        order[rowId] = Array.from(row.children)
+          .filter(el => el.id)
+          .map(el => el.id);
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+    }
+
+    function restoreOrder() {
+      try {
+        const order = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!order) return;
+        Object.keys(order).forEach(rowId => {
+          const row = document.getElementById(rowId);
+          if (!row) return;
+          order[rowId].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) row.appendChild(el);
+          });
+        });
+      } catch(e) {}
+    }
+
+    function initRow(rowId) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      row.addEventListener('dragstart', (e) => {
+        const card = e.target.closest('.draggable-card');
+        if (!card) return;
+        draggedCard = card;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      row.addEventListener('dragend', (e) => {
+        const card = e.target.closest('.draggable-card');
+        if (card) card.classList.remove('dragging');
+        row.querySelectorAll('.draggable-card').forEach(c => c.classList.remove('drag-over'));
+        draggedCard = null;
+      });
+      row.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const target = e.target.closest('.draggable-card');
+        if (target && target !== draggedCard) {
+          row.querySelectorAll('.draggable-card').forEach(c => c.classList.remove('drag-over'));
+          target.classList.add('drag-over');
+        }
+      });
+      row.addEventListener('dragleave', (e) => {
+        const target = e.target.closest('.draggable-card');
+        if (target) target.classList.remove('drag-over');
+      });
+      row.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const target = e.target.closest('.draggable-card');
+        if (!target || !draggedCard || target === draggedCard) return;
+        const cards = Array.from(row.querySelectorAll('.draggable-card'));
+        const fromIdx = cards.indexOf(draggedCard);
+        const toIdx = cards.indexOf(target);
+        if (fromIdx < toIdx) {
+          row.insertBefore(draggedCard, target.nextSibling);
+        } else {
+          row.insertBefore(draggedCard, target);
+        }
+        target.classList.remove('drag-over');
+        saveOrder();
+      });
+    }
+
+    restoreOrder();
+    initRow('finance-row-2');
+    initRow('finance-row-3');
+  }
+
+  initDragAndDrop();
 }
 
 if (document.readyState === 'loading') {
