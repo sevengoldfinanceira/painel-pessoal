@@ -9723,18 +9723,16 @@ html[data-theme="dark"] textarea:hover {
 .jd-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-1px); }
 .jd-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .jd-card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.jd-card-star { background: none; border: none; cursor: pointer; font-size: 18px; padding: 0; line-height: 1; color: var(--muted); transition: color 0.15s; }
-.jd-card-star.active { color: #facc15; }
 .jd-card-name { font-size: 15px; font-weight: 700; color: var(--text); margin: 0; }
 .jd-card-desc { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.4; }
 .jd-card-date { font-size: 11px; color: var(--muted); }
 .jd-card-actions { display: flex; gap: 6px; align-items: center; margin-top: auto; }
-.jd-card-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; }
+.jd-card-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 30px; box-sizing: border-box; }
 .jd-card-btn:hover { color: var(--text); background: var(--surface-3); }
 .jd-card-btn.primary { color: var(--accent, #22c55e); border-color: var(--accent, #22c55e); }
 .jd-card-btn.primary:hover { background: rgba(34,197,94,0.08); }
 .jd-card-menu { position: relative; margin-left: auto; }
-.jd-card-menu-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.15s; }
+.jd-card-menu-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.15s; box-sizing: border-box; }
 .jd-card-menu-btn:hover { background: var(--surface-3); color: var(--text); }
 .jd-card-dropdown { position: absolute; right: 0; top: 34px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 10; min-width: 150px; padding: 4px; display: none; }
 .jd-card-dropdown.open { display: block; }
@@ -9744,7 +9742,7 @@ html[data-theme="dark"] textarea:hover {
 .jd-empty { text-align: center; padding: 48px 16px; color: var(--muted); }
 .jd-empty svg { margin-bottom: 12px; opacity: 0.3; }
 .jd-empty p { font-size: 14px; color: var(--muted); }
-.jd-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 4px; }
+.jd-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 4px; }
 .jd-stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 14px; }
 .jd-stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
 .jd-stat-info { flex: 1; }

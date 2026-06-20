@@ -5964,7 +5964,7 @@ if (document.readyState === 'loading') {
       var pdf=allFiles[doc.id]?allFiles[doc.id].pdf:null, img=allFiles[doc.id]?allFiles[doc.id].img:null;
       var bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros, upd=doc.updated_at||(pdf?pdf.created_at:null)||(img?img.created_at:null);
       var card=document.createElement('div'); card.className='jd-card';
-      card.innerHTML='<div class="jd-card-top"><div class="jd-card-icon" style="background:'+bg+'">'+doc.icon+'</div><button class="jd-card-star '+(doc.favorite?'active':'')+'" data-fav="'+doc.id+'">\u2605</button></div>'
+      card.innerHTML='<div class="jd-card-top"><div class="jd-card-icon" style="background:'+bg+'">'+doc.icon+'</div></div>'
         +'<h3 class="jd-card-name">'+doc.name+'</h3><p class="jd-card-desc">'+doc.desc+'</p>'
         +'<div class="jd-card-date">'+(upd?'Atualizado em '+fmtDate(upd):'Sem atualiza\u00e7\u00e3o')+'</div>'
         +'<div class="jd-card-actions"><button class="jd-card-btn primary" data-open="'+doc.id+'">Abrir</button><button class="jd-card-btn" data-dl="'+doc.id+'">Baixar</button>'
@@ -5974,12 +5974,9 @@ if (document.readyState === 'loading') {
   }
   function renderStats(docs) {
     var st=document.getElementById('jd-stats'); if(!st) return;
-    var favs=docs.filter(function(d){return d.favorite;}).length, cats={};
-    docs.forEach(function(d){cats[d.cat]=1;});
-    var catCount=Object.keys(cats).length;
+    var cats={}; docs.forEach(function(d){cats[d.cat]=1;}); var catCount=Object.keys(cats).length;
     var wa=new Date(Date.now()-7*864e5).toISOString(), recent=docs.filter(function(d){return d.updated_at&&d.updated_at>wa;}).length;
     st.innerHTML='<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(59,130,246,0.12)">\uD83D\uDCC1</div><div class="jd-stat-info"><div class="jd-stat-value">'+docs.length+'</div><div class="jd-stat-label">documentos salvos</div></div></div>'
-      +'<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(250,204,21,0.12)">\u2B50</div><div class="jd-stat-info"><div class="jd-stat-value">'+favs+'</div><div class="jd-stat-label">marcados como favoritos</div></div></div>'
       +'<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(168,85,247,0.12)">\uD83D\uDCC2</div><div class="jd-stat-info"><div class="jd-stat-value">'+catCount+'</div><div class="jd-stat-label">categorias diferentes</div></div></div>'
       +'<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(34,197,94,0.12)">\uD83D\uDD50</div><div class="jd-stat-info"><div class="jd-stat-value">'+recent+'</div><div class="jd-stat-label">atualizados esta semana</div></div></div>';
   }
@@ -6071,7 +6068,6 @@ if (document.readyState === 'loading') {
     if (addBtn) addBtn.addEventListener('click',openAddModal);
     var gridEl = document.getElementById('jd-grid');
     if (gridEl) gridEl.addEventListener('click',function(e){
-      var fb=e.target.closest('[data-fav]');if(fb){e.stopPropagation();var did=fb.dataset.fav;var s=loadDocsData();if(!s[did])s[did]={};s[did].favorite=!s[did].favorite;saveDocsData(s);refreshAll();return;}
       var ob=e.target.closest('[data-open]');if(ob){var did4=ob.dataset.open;var f=allFiles[did4];if(f&&f.pdf){viewFile(f.pdf.path);}else{openDetail(did4);}return;}
       var db=e.target.closest('[data-dl]');if(db){e.stopPropagation();var did2=db.dataset.dl;var f2=allFiles[did2];if(f2&&f2.pdf){dlFile(f2.pdf.path);}else if(f2&&f2.img){dlFile(f2.img.path);}return;}
       var mb=e.target.closest('[data-menu]');if(mb){e.stopPropagation();openDetail(mb.dataset.menu);return;}
