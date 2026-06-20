@@ -6004,8 +6004,10 @@ if (document.readyState === 'loading') {
   function renderDocGrid(files) {
     const grid = document.getElementById('jonathan-docs-grid');
     const empty = document.getElementById('jonathan-empty');
+    const detailPanel = document.getElementById('jonathan-detail-panel');
     if (!grid) return;
     grid.innerHTML = '';
+    if (detailPanel) detailPanel.style.display = 'none';
 
     const STORAGE_KEY = 'painel-pessoal-docs-order';
 
@@ -6038,6 +6040,98 @@ if (document.readyState === 'loading') {
       return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
+    function openDetail(doc) {
+      if (!detailPanel) return;
+      const pdfFile = files[doc.id]?.pdf || null;
+      const imgFile = files[doc.id]?.img || null;
+
+      document.getElementById('jonathan-detail-icon').textContent = doc.icon;
+      document.getElementById('jonathan-detail-name').textContent = doc.name;
+      document.getElementById('jonathan-detail-desc').textContent = doc.desc;
+
+      const slotsEl = document.getElementById('jonathan-detail-slots');
+      slotsEl.innerHTML = '';
+
+      const pdfSlot = document.createElement('div');
+      pdfSlot.className = 'jonathan-detail-slot' + (pdfFile ? ' has-file' : '');
+      pdfSlot.innerHTML = `
+        <input type="file" accept=".pdf" />
+        <div class="jonathan-detail-slot-label">PDF</div>
+        <span class="jonathan-detail-slot-icon">📄</span>
+        <span class="jonathan-detail-slot-text">${pdfFile ? formatSize(pdfFile.size) : 'Clique para enviar PDF'}</span>
+        ${pdfFile ? `<div class="jonathan-detail-slot-actions">
+          <button class="jonathan-dl-btn" data-path="${pdfFile.path}">⬇ Baixar</button>
+          <button class="jonathan-del-btn delete-btn" data-path="${pdfFile.path}" data-doc="${doc.id}" data-slot="pdf">🗑 Excluir</button>
+        </div>` : ''}
+      `;
+      if (!pdfFile) {
+        pdfSlot.addEventListener('click', () => pdfSlot.querySelector('input').click());
+        pdfSlot.querySelector('input').addEventListener('change', async (e) => {
+          if (!e.target.files.length) return;
+          await uploadFile(doc.id, 'pdf', e.target.files[0]);
+          openDetail(doc);
+        });
+      }
+      slotsEl.appendChild(pdfSlot);
+
+      const imgSlot = document.createElement('div');
+      imgSlot.className = 'jonathan-detail-slot' + (imgFile ? ' has-file' : '');
+      imgSlot.innerHTML = `
+        <input type="file" accept=".jpg,.jpeg,.png,.webp" />
+        <div class="jonathan-detail-slot-label">Imagem</div>
+        <span class="jonathan-detail-slot-icon">🖼️</span>
+        <span class="jonathan-detail-slot-text">${imgFile ? formatSize(imgFile.size) : 'Clique para enviar imagem'}</span>
+        ${imgFile ? `<div class="jonathan-detail-slot-actions">
+          <button class="jonathan-dl-btn" data-path="${imgFile.path}">⬇ Baixar</button>
+          <button class="jonathan-del-btn delete-btn" data-path="${imgFile.path}" data-doc="${doc.id}" data-slot="img">🗑 Excluir</button>
+        </div>` : ''}
+      `;
+      if (!imgFile) {
+        imgSlot.addEventListener('click', () => imgSlot.querySelector('input').click());
+        imgSlot.querySelector('input').addEventListener('change', async (e) => {
+          if (!e.target.files.length) return;
+          await uploadFile(doc.id, 'img', e.target.files[0]);
+          openDetail(doc);
+        });
+      }
+      slotsEl.appendChild(imgSlot);
+
+      slotsEl.querySelectorAll('.jonathan-dl-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); downloadFile(btn.dataset.path); });
+      });
+      slotsEl.querySelectorAll('.jonathan-del-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          if (confirm('Excluir este arquivo?')) {
+            await deleteFile(btn.dataset.path);
+            refreshGrid();
+          }
+        });
+      });
+
+      const dateEl = document.getElementById('jonathan-detail-date');
+      const dates = [];
+      if (pdfFile?.created_at) dates.push('📄 PDF: ' + formatDate(pdfFile.created_at));
+      if (imgFile?.created_at) dates.push('🖼️ Img: ' + formatDate(imgFile.created_at));
+      dateEl.textContent = dates.join('  ·  ');
+      dateEl.style.display = dates.length ? '' : 'none';
+
+      detailPanel.style.display = '';
+      grid.style.display = 'none';
+      if (empty) empty.style.display = 'none';
+    }
+
+    function refreshGrid() {
+      initJonathan();
+    }
+
+    document.getElementById('jonathan-detail-back')?.addEventListener('click', () => {
+      if (detailPanel) detailPanel.style.display = 'none';
+      grid.style.display = '';
+      if (hasAnyFile && empty) empty.style.display = 'none';
+      refreshGrid();
+    });
+
     orderedDocs.forEach(doc => {
       const pdfFile = files[doc.id]?.pdf || null;
       const imgFile = files[doc.id]?.img || null;
@@ -6047,85 +6141,23 @@ if (document.readyState === 'loading') {
       card.draggable = true;
       card.dataset.docId = doc.id;
       card.innerHTML = `
-        <div class="jonathan-doc-top">
-          <span class="jonathan-doc-drag-handle" title="Arrastar">⠿</span>
-          <div class="jonathan-doc-icon">${doc.icon}</div>
-          <div class="jonathan-doc-info">
-            <h3 class="jonathan-doc-name">${doc.name}</h3>
-            <p class="jonathan-doc-desc">${doc.desc}</p>
-          </div>
+        <span class="jonathan-doc-drag-handle" title="Arrastar">⠿</span>
+        <div class="jonathan-doc-icon">${doc.icon}</div>
+        <div class="jonathan-doc-info">
+          <h3 class="jonathan-doc-name">${doc.name}</h3>
+          <p class="jonathan-doc-desc">${doc.desc}</p>
         </div>
-        <div class="jonathan-doc-slots">
-          <div class="jonathan-doc-slot-col">
-            <div class="jonathan-doc-slot ${pdfFile ? 'has-file' : ''}" data-doc="${doc.id}" data-slot="pdf">
-              <input type="file" accept=".pdf" />
-              <div class="jonathan-doc-slot-label">PDF</div>
-              <span class="jonathan-doc-slot-icon">📄</span>
-              <span class="jonathan-doc-slot-text">${pdfFile ? formatSize(pdfFile.size) : 'Enviar PDF'}</span>
-            </div>
-            ${pdfFile ? `<div class="jonathan-doc-slot-btns">
-              <button class="jonathan-doc-dl" data-path="${pdfFile.path}">⬇</button>
-              <button class="jonathan-doc-del delete-btn" data-path="${pdfFile.path}" data-doc="${doc.id}" data-slot="pdf">×</button>
-            </div>` : ''}
-          </div>
-          <div class="jonathan-doc-slot-col">
-            <div class="jonathan-doc-slot ${imgFile ? 'has-file' : ''}" data-doc="${doc.id}" data-slot="img">
-              <input type="file" accept=".jpg,.jpeg,.png,.webp" />
-              <div class="jonathan-doc-slot-label">Imagem</div>
-              <span class="jonathan-doc-slot-icon">🖼️</span>
-              <span class="jonathan-doc-slot-text">${imgFile ? formatSize(imgFile.size) : 'Enviar imagem'}</span>
-            </div>
-            ${imgFile ? `<div class="jonathan-doc-slot-btns">
-              <button class="jonathan-doc-dl" data-path="${imgFile.path}">⬇</button>
-              <button class="jonathan-doc-del delete-btn" data-path="${imgFile.path}" data-doc="${doc.id}" data-slot="img">×</button>
-            </div>` : ''}
-          </div>
+        <div class="jonathan-doc-status">
+          <span class="jonathan-doc-status-badge ${pdfFile ? 'has-pdf' : ''}" title="PDF"></span>
+          <span class="jonathan-doc-status-badge ${imgFile ? 'has-img' : ''}" title="Imagem"></span>
         </div>
-        ${(pdfFile?.created_at || imgFile?.created_at) ? `<div class="jonathan-doc-date">${pdfFile?.created_at ? '📄 ' + formatDate(pdfFile.created_at) : ''}${pdfFile?.created_at && imgFile?.created_at ? ' · ' : ''}${imgFile?.created_at ? '🖼️ ' + formatDate(imgFile.created_at) : ''}</div>` : ''}
+        <span class="jonathan-doc-arrow">›</span>
       `;
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.jonathan-doc-drag-handle')) return;
+        openDetail(doc);
+      });
       grid.appendChild(card);
-    });
-
-    grid.querySelectorAll('.jonathan-doc-slot').forEach(slot => {
-      slot.addEventListener('click', async () => {
-        const docId = slot.dataset.doc;
-        const slotType = slot.dataset.slot;
-        const fileData = slotType === 'pdf' ? files[docId]?.pdf : files[docId]?.img;
-        if (fileData) {
-          await viewFile(fileData.path);
-          return;
-        }
-        const input = slot.querySelector('input[type="file"]');
-        if (input) input.click();
-      });
-      const input = slot.querySelector('input[type="file"]');
-      if (input) {
-        input.addEventListener('change', async () => {
-          if (!input.files.length) return;
-          const docId = slot.dataset.doc;
-          const slotType = slot.dataset.slot;
-          await uploadFile(docId, slotType, input.files[0]);
-          input.value = '';
-          initJonathan();
-        });
-      }
-    });
-
-    grid.querySelectorAll('.jonathan-doc-dl').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        downloadFile(btn.dataset.path);
-      });
-    });
-
-    grid.querySelectorAll('.jonathan-doc-del').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        if (confirm('Excluir este arquivo?')) {
-          await deleteFile(btn.dataset.path);
-          initJonathan();
-        }
-      });
     });
 
     let draggedCard = null;

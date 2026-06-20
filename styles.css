@@ -9698,32 +9698,36 @@ html[data-theme="dark"] textarea:hover {
   color: var(--muted);
   margin: 0;
 }
-
 .jonathan-docs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .jonathan-doc-card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: box-shadow 0.2s, border-color 0.2s;
-}
-.jonathan-doc-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.jonathan-doc-top {
+  padding: 12px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.15s;
 }
+.jonathan-doc-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  background: var(--surface-2, var(--surface));
+}
+.jonathan-doc-card.dragging {
+  opacity: 0.4;
+  transform: scale(0.98);
+}
+.jonathan-doc-card.drag-over-card {
+  border-color: var(--accent, #22c55e);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
 .jonathan-doc-drag-handle {
   cursor: grab;
   color: var(--muted);
@@ -9731,20 +9735,14 @@ html[data-theme="dark"] textarea:hover {
   line-height: 1;
   user-select: none;
   padding: 2px;
-  opacity: 0.5;
+  opacity: 0.4;
   transition: opacity 0.15s;
+  flex-shrink: 0;
 }
 .jonathan-doc-drag-handle:hover {
   opacity: 1;
 }
-.jonathan-doc-card.dragging {
-  opacity: 0.4;
-  transform: scale(0.97);
-}
-.jonathan-doc-card.drag-over-card {
-  border-color: var(--accent, #22c55e);
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-}
+
 .jonathan-doc-icon {
   width: 36px;
   height: 36px;
@@ -9756,6 +9754,7 @@ html[data-theme="dark"] textarea:hover {
   font-size: 18px;
   flex-shrink: 0;
 }
+
 .jonathan-doc-info {
   flex: 1;
   min-width: 0;
@@ -9772,85 +9771,166 @@ html[data-theme="dark"] textarea:hover {
   margin: 0;
 }
 
-.jonathan-doc-slots {
+.jonathan-doc-status {
   display: flex;
-  gap: 8px;
+  gap: 4px;
+  flex-shrink: 0;
 }
-.jonathan-doc-slot-col {
-  flex: 1;
+.jonathan-doc-status-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.jonathan-doc-status-badge.has-pdf {
+  background: #ef4444;
+}
+.jonathan-doc-status-badge.has-img {
+  background: #3b82f6;
+}
+
+.jonathan-doc-arrow {
+  color: var(--muted);
+  font-size: 14px;
+  flex-shrink: 0;
+  opacity: 0.4;
+}
+
+/* Detail Panel */
+.jonathan-detail-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 12px;
+}
+.jonathan-detail-header {
+  margin-bottom: 20px;
+}
+.jonathan-detail-back {
+  background: none;
+  border: none;
+  color: var(--accent, #22c55e);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+}
+.jonathan-detail-back:hover {
+  text-decoration: underline;
+}
+.jonathan-detail-title {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 12px;
 }
-.jonathan-doc-slot {
-  flex: 1;
+.jonathan-detail-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.jonathan-detail-title h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+.jonathan-detail-title p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 2px 0 0;
+}
+
+.jonathan-detail-slots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.jonathan-detail-slot {
   border: 1.5px dashed var(--line);
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 16px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
-  overflow: hidden;
 }
-.jonathan-doc-slot:hover {
+.jonathan-detail-slot:hover {
   border-color: var(--accent);
   background: rgba(34, 197, 94, 0.04);
 }
-.jonathan-doc-slot.has-file {
+.jonathan-detail-slot.has-file {
   border-style: solid;
   border-color: var(--accent, #22c55e);
   background: rgba(34, 197, 94, 0.06);
-  cursor: pointer;
+  cursor: default;
 }
-.jonathan-doc-slot input[type="file"] {
+.jonathan-detail-slot input[type="file"] {
   display: none;
 }
-.jonathan-doc-slot-label {
-  font-size: 10px;
+.jonathan-detail-slot-label {
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--muted);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
-.jonathan-doc-slot-icon {
-  font-size: 20px;
-  margin-bottom: 2px;
+.jonathan-detail-slot-icon {
+  font-size: 28px;
   display: block;
+  margin-bottom: 6px;
 }
-.jonathan-doc-slot-text {
-  font-size: 11px;
+.jonathan-detail-slot-text {
+  font-size: 12px;
   color: var(--muted);
 }
-.jonathan-doc-slot.has-file .jonathan-doc-slot-text {
-  color: var(--accent, #22c55e);
-  font-weight: 600;
+.jonathan-detail-slot.has-file .jonathan-detail-slot-text {
+  color: var(--text);
+  font-weight: 500;
 }
 
-.jonathan-doc-slot-btns {
+.jonathan-detail-slot-actions {
   display: flex;
-  gap: 4px;
+  gap: 6px;
+  margin-top: 10px;
+  justify-content: center;
 }
-.jonathan-doc-slot-btns button {
-  flex: 1;
-  padding: 5px;
-  border-radius: 5px;
+.jonathan-detail-slot-actions button {
+  padding: 7px 14px;
+  border-radius: 6px;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
 }
-.jonathan-doc-slot-btns button:hover {
+.jonathan-detail-slot-actions button:hover {
   color: var(--text);
   background: var(--surface-3);
 }
-.jonathan-doc-slot-btns .delete-btn:hover {
+.jonathan-detail-slot-actions .delete-btn:hover {
   color: #ef4444;
   background: rgba(239, 68, 68, 0.1);
+}
+
+.jonathan-detail-date {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  opacity: 0.7;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
 }
 .jonathan-doc-date {
   font-size: 10px;
