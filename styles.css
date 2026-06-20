@@ -8840,10 +8840,11 @@ html[data-theme="light"] .routine-add-card:hover {
   background: rgba(255, 255, 255, 0.06);
 }
 .finance-internal-nav button.active {
-  color: #B45309;
-  font-weight: 600;
-  background: rgba(234, 179, 8, 0.12);
-  border: 1px solid rgba(234, 179, 8, 0.3);
+  color: #FEF3C7;
+  font-weight: 700;
+  background: var(--accent, #d4af37);
+  border: 1px solid var(--accent, #d4af37);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
 .topbar-finance-controls {
@@ -8882,7 +8883,7 @@ html[data-theme="light"] .routine-add-card:hover {
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line, var(--border-color-global));
   background: var(--surface);
   color: var(--text);
   font-size: 18px;
@@ -8900,7 +8901,7 @@ html[data-theme="light"] .routine-add-card:hover {
   align-items: center;
   gap: 8px;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line, var(--border-color-global));
   border-radius: 8px;
   padding: 0 16px;
   min-height: 42px;
@@ -9492,9 +9493,11 @@ html[data-theme="light"] .finance-internal-nav button:hover {
   background: rgba(0, 0, 0, 0.04) !important;
 }
 html[data-theme="light"] .finance-internal-nav button.active {
-  background: #FEF3C7 !important;
-  color: #B45309 !important;
-  border: 1px solid #FACC15 !important;
+  background: var(--accent, #d4af37) !important;
+  color: #FFFFFF !important;
+  border: 1px solid var(--accent, #d4af37) !important;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3) !important;
+  font-weight: 700 !important;
 }
 
 /* Contraste dos Textos Internos e Rótulos */
