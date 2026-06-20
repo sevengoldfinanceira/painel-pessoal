@@ -8813,32 +8813,37 @@ html[data-theme="light"] .routine-add-card:hover {
 
 .finance-internal-nav {
   display: flex;
-  gap: 20px;
-  margin-bottom: 24px;
+  gap: 4px;
+  margin-bottom: 16px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 0;
+  background: var(--bg-hover, rgba(255,255,255,0.04));
+  padding: 4px;
+  border-radius: 10px;
+  border-bottom: none;
+  width: fit-content;
 }
 .finance-internal-nav button {
   background: transparent;
   color: var(--text-muted);
-  border: none;
-  border-bottom: 3px solid transparent;
-  padding: 8px 4px 12px 4px;
-  font-size: 14px;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
-  border-radius: 0;
+  border-radius: 8px;
+  border-bottom: none;
 }
 .finance-internal-nav button:hover {
   color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
 }
 .finance-internal-nav button.active {
-  color: var(--text);
+  color: #B45309;
   font-weight: 600;
-  border-bottom-color: var(--gold);
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.3);
 }
 
 .topbar-finance-controls {
@@ -9477,23 +9482,10 @@ html[data-theme="light"] #section-historico table td {
 
 /* Navegação Interna (Abas) */
 html[data-theme="light"] .finance-internal-nav {
-  border-bottom: 1px solid #E5E7EB !important;
   background: #E5E7EB !important;
-  padding: 4px !important;
-  border-radius: 10px !important;
-  gap: 4px !important;
-  width: fit-content !important;
 }
 html[data-theme="light"] .finance-internal-nav button {
-  background: transparent !important;
   color: #64748b !important;
-  border: 1px solid transparent !important;
-  padding: 6px 12px !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease !important;
-  border-bottom: none !important;
 }
 html[data-theme="light"] .finance-internal-nav button:hover {
   color: #111827 !important;
@@ -9503,7 +9495,6 @@ html[data-theme="light"] .finance-internal-nav button.active {
   background: #FEF3C7 !important;
   color: #B45309 !important;
   border: 1px solid #FACC15 !important;
-  font-weight: 600 !important;
 }
 
 /* Contraste dos Textos Internos e Rótulos */
