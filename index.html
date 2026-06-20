@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=2.2" />
+    <link rel="stylesheet" href="styles.css?v=3.6" />
   </head>
   <body class="auth-locked">
     <div class="app-shell">
@@ -147,6 +147,24 @@
           <div class="top-actions">
             <button class="icon-btn" type="button" id="search-btn" title="Pesquisar" style="display: none;">⌕</button>
             <button class="primary-action" type="button" data-section-shortcut="quick-notes">Nova nota</button>
+            <button class="primary-action warning-bg" id="btn-novo-lancamento" style="display: none;">+ Novo lançamento</button>
+            <div class="finance-month-bar" style="display: none;">
+              <button class="finance-month-arrow" type="button" title="Mês anterior" id="finance-month-prev-btn">‹</button>
+              <button class="finance-month-trigger" type="button" id="finance-month-trigger">
+                <span class="finance-month-trigger-icon">📅</span>
+                <span class="finance-month-trigger-label" id="finance-month-trigger-label">Junho/2026</span>
+                <span class="finance-month-trigger-chevron">▾</span>
+              </button>
+              <button class="finance-month-arrow" type="button" title="Próximo mês" id="finance-month-next-btn">›</button>
+              <div class="finance-month-dropdown-panel" id="finance-month-dropdown-panel">
+                <div class="finance-month-dropdown-header">
+                  <button type="button" class="finance-month-year-btn" id="finance-month-year-prev">‹</button>
+                  <strong id="finance-month-year-label">2026</strong>
+                  <button type="button" class="finance-month-year-btn" id="finance-month-year-next">›</button>
+                </div>
+                <div class="finance-month-grid" id="finance-month-grid"></div>
+              </div>
+            </div>
           </div>
         </header>
 
@@ -522,273 +540,169 @@
         </section>
 
         <section class="page" id="finance">
-          <div class="section-head">
-            <span class="section-kicker">Vida financeira</span>
-            <h2>Finanças</h2>
-            <p>Controle renda do mês, custos fixos, variáveis, lançamentos extras e o que sobra livre.</p>
+          <nav class="finance-internal-nav">
+            <button class="active" type="button" data-finance-tab="section-resumo">Resumo</button>
+            <button type="button" data-finance-tab="section-receber">A Receber</button>
+            <button type="button" data-finance-tab="section-pagar">A Pagar</button>
+            <button type="button" data-finance-tab="section-assinaturas">Assinaturas</button>
+            <button type="button" data-finance-tab="section-fixas">Contas Fixas</button>
+            <button type="button" data-finance-tab="section-historico">Histórico</button>
+          </nav>
+
+          <!-- Hidden legacy inputs to prevent JS load errors if any exist -->
+          <div style="display: none;">
+            <select id="finance-view-mode"><option value="month" selected>Mês</option></select>
+            <input id="finance-month" type="month" />
+            <input id="finance-year" type="number" />
+            <button id="finance-month-prev"></button>
+            <button id="finance-month-next"></button>
+            <button id="finance-year-prev"></button>
+            <button id="finance-year-next"></button>
+            <button id="finance-reset-paid"></button>
+            <button id="finance-clear-filter"></button>
+            <button id="fixed-add-btn"></button>
+            <button id="variable-add-btn"></button>
           </div>
 
-          <div class="finance-page-head">
-            <div>
-              <h2><span class="finance-title-icon">↗</span> Finanças</h2>
-              <p>Visão geral das suas finanças</p>
-            </div>
-            <div class="finance-period-inline">
-              <button class="period-arrow" type="button" id="finance-inline-prev" title="Período anterior">‹</button>
-              <strong><span class="finance-calendar-icon">▣</span><span id="finance-period-label">Mês</span><span class="finance-period-caret">⌄</span></strong>
-              <button class="period-arrow" type="button" id="finance-inline-next" title="Próximo período">›</button>
-            </div>
-            <div class="finance-head-actions">
-              <button type="button" id="finance-toggle-view">Ver ano</button>
-              <button class="primary-action" type="button" id="finance-new-entry">+ Novo lançamento</button>
-            </div>
-          </div>
+          <div class="finance-overview-grid">
+            <article class="finance-card">
+              <div class="finance-card-icon receive-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              </div>
+              <div class="finance-card-content">
+                <span>A RECEBER</span>
+                <strong class="money-income" id="finance-received-total">R$ 0,00</strong>
+                <small id="finance-received-count">• 0 lançamentos</small>
+              </div>
+            </article>
 
-          <div class="finance-planner">
-            <label>
-              <span>Visualização</span>
-              <select id="finance-view-mode">
-                <option value="month">Mês</option>
-                <option value="year">Ano</option>
-              </select>
-            </label>
-            <label class="finance-period-control" id="finance-month-wrap">
-              <span class="finance-period-heading">
-                <button class="period-arrow" type="button" id="finance-month-prev" title="Mês anterior">‹</button>
-                <span>Mês</span>
-                <button class="period-arrow" type="button" id="finance-month-next" title="Próximo mês">›</button>
-              </span>
-              <input id="finance-month" type="month" />
-            </label>
-            <label class="finance-period-control" id="finance-year-wrap">
-              <span class="finance-period-heading">
-                <button class="period-arrow" type="button" id="finance-year-prev" title="Ano anterior">‹</button>
-                <span>Ano</span>
-                <button class="period-arrow" type="button" id="finance-year-next" title="Próximo ano">›</button>
-              </span>
-              <input id="finance-year" type="number" min="2000" max="2200" step="1" />
-            </label>
-          </div>
+            <article class="finance-card">
+              <div class="finance-card-icon pay-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+              </div>
+              <div class="finance-card-content">
+                <span>A PAGAR</span>
+                <strong class="money-expense" id="finance-payable-total">R$ 0,00</strong>
+                <small id="finance-payable-count">• 0 lançamentos</small>
+              </div>
+            </article>
 
-          <div class="finance-summary">
-            <article data-finance-summary-card="received" draggable="true">
-              <span>Custo mensal</span>
-              <span class="finance-summary-icon income-icon">＄</span>
-              <strong class="money-income" id="finance-received">R$ 0,00</strong>
-              <small id="finance-received-note">Confirmado no período</small>
+            <article class="finance-card">
+              <div class="finance-card-icon balance-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M12 6v14"/></svg>
+              </div>
+              <div class="finance-card-content">
+                <span>SALDO PREVISTO</span>
+                <strong class="money-blue" id="finance-balance-total">R$ 0,00</strong>
+                <small>Receber - Pagar</small>
+              </div>
             </article>
-            <article data-finance-summary-card="payable" draggable="true">
-              <span>Variáveis</span>
-              <span class="finance-summary-icon payable-icon">▤</span>
-              <strong class="money-expense" id="finance-payable">R$ 0,00</strong>
-              <small id="finance-payable-note">Contas pendentes</small>
-            </article>
-            <article data-finance-summary-card="expected" draggable="true">
-              <span>Total de custos</span>
-              <span class="finance-summary-icon expected-icon">▥</span>
-              <strong id="finance-income">R$ 0,00</strong>
-              <small id="finance-expected-note">Total esperado</small>
-              <div class="finance-summary-progress"><span id="finance-expected-progress"></span></div>
-            </article>
-            <article data-finance-summary-card="free" draggable="true">
-              <span>Entradas</span>
-              <span class="finance-summary-icon free-icon">♜</span>
-              <strong id="finance-balance">R$ 0,00</strong>
-              <small>Disponível após contas</small>
-            </article>
-            <article>
-              <span>Saldo livre</span>
-              <strong id="finance-commission-expected">R$ 0,00</strong>
-            </article>
-          </div>
 
-          <div class="finance-legacy-metrics" hidden>
-            <span id="finance-fixed"></span>
-            <span id="finance-variable"></span>
-            <span id="finance-cost-total"></span>
-          </div>
-
-          <div class="finance-year-summary" id="finance-year-summary" hidden>
-            <article>
-              <span>Total vendido</span>
-              <strong id="finance-year-sold-total">R$ 0,00</strong>
-            </article>
-            <article>
-              <span>Média vendida</span>
-              <strong id="finance-year-sold-average">R$ 0,00</strong>
-            </article>
-            <article>
-              <span>Total comissão</span>
-              <strong id="finance-year-commission-total">R$ 0,00</strong>
-            </article>
-            <article>
-              <span>Média comissão</span>
-              <strong id="finance-year-commission-average">R$ 0,00</strong>
+            <article class="finance-card">
+              <div class="finance-card-icon reserve-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="finance-card-content">
+                <span>RESERVA FINANCEIRA</span>
+                <strong class="money-gold" id="finance-reserve-current">R$ 0,00</strong>
+                <div class="reserve-progress-wrapper" style="display: flex; flex-direction: column; gap: 4px; width: 100%;">
+                  <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+                    <small id="finance-reserve-goal">Meta: R$ 0,00</small>
+                    <small id="finance-reserve-percent" class="reserve-percent">0%</small>
+                  </div>
+                  <div class="reserve-bar" style="height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; width: 100%;">
+                    <div id="finance-reserve-bar" style="width: 0%; height: 100%; background: var(--gold); border-radius: 3px;"></div>
+                  </div>
+                </div>
+              </div>
             </article>
           </div>
 
-          <form class="inline-form finance-form" id="finance-form">
-            <input id="finance-title" type="text" placeholder="Descrição" />
-            <select id="finance-type">
-              <option value="income">Entrada</option>
-              <option value="expense">Saída</option>
-            </select>
-            <select id="finance-category">
-              <option>Salário</option>
-              <option>Casa</option>
-              <option>Mercado</option>
-              <option>Transporte</option>
-              <option>Lazer</option>
-              <option>Saúde</option>
-              <option>Outros</option>
-            </select>
-            <select id="finance-date-mode" aria-label="Tipo de data">
-              <option value="date">Data exata</option>
-              <option value="business">Dia útil do mês</option>
-            </select>
-            <input id="finance-due-date" type="date" aria-label="Data prevista" />
-            <input id="finance-business-day" type="number" min="1" max="23" step="1" value="5" aria-label="Dia útil" hidden />
-            <select id="finance-repeat" aria-label="Recorrência">
-              <option value="once">Uma vez</option>
-              <option value="monthly">Todo mês</option>
-              <option value="biweekly">A cada 15 dias</option>
-            </select>
-            <input id="finance-repeat-count" type="number" min="1" max="120" step="1" value="1" aria-label="Quantidade de vezes" />
-            <input id="finance-value" type="number" min="0" step="0.01" placeholder="Valor" />
-            <button class="primary-action" type="submit">Adicionar</button>
-          </form>
-
-          <div class="finance-dashboard-grid">
-            <section class="panel finance-overview-panel" data-finance-dashboard-card="bills" draggable="true">
+          <div class="finance-row-2">
+            <!-- Section Resumo -->
+            <section class="panel" id="section-resumo">
               <div class="panel-header">
-                <h3>Contas do período</h3>
+                <h3>Próximos compromissos</h3>
+                <div class="panel-header-actions" style="display: flex; gap: 12px;">
+                  <button type="button" class="finance-link-btn" id="btn-add-compromisso">+ Adicionar</button>
+                  <button type="button" class="finance-link-btn" data-go-to-tab="section-resumo">Ver todos</button>
+                </div>
               </div>
-              <div class="finance-bill-tabs">
-                <button class="active" type="button" data-finance-bill-filter="all">Todas</button>
-                <button type="button" data-finance-bill-filter="fixed">Fixas</button>
-                <button type="button" data-finance-bill-filter="variable">Variáveis</button>
-              </div>
-              <div class="finance-overview-list" id="finance-overview-bills"></div>
-              <button class="finance-panel-action" type="button" data-finance-show-details>Ver todas as contas</button>
+              <div class="finance-list-mock"></div>
             </section>
 
-            <section class="panel finance-distribution-panel" data-finance-dashboard-card="distribution" draggable="true">
+            <!-- Section Receber -->
+            <section class="panel" id="section-receber">
               <div class="panel-header">
-                <h3>Distribuição do período</h3>
+                <h3>A receber</h3>
+                <div class="panel-header-actions" style="display: flex; gap: 12px;">
+                  <button type="button" class="finance-link-btn" id="btn-add-conta-receber">+ Adicionar</button>
+                  <button type="button" class="finance-link-btn" data-go-to-tab="section-receber">Ver todos</button>
+                </div>
               </div>
-              <div class="finance-donut" id="finance-donut"></div>
-              <div class="finance-distribution-bars" id="finance-distribution"></div>
-              <div class="finance-distribution-footer">
-                <article><span>Total previsto</span><strong id="finance-distribution-expected">R$ 0,00</strong></article>
-                <article><span>Total realizado</span><strong id="finance-distribution-realized">R$ 0,00</strong></article>
-                <article><span>Diferença</span><strong id="finance-distribution-difference">R$ 0,00</strong></article>
-                <span id="finance-distribution-expenses" hidden></span>
-                <span id="finance-distribution-percent" hidden></span>
-              </div>
+              <div class="finance-list-mock"></div>
             </section>
 
-            <section class="panel finance-subscriptions-panel" data-finance-dashboard-card="subscriptions" draggable="true">
+            <!-- Section Pagar -->
+            <section class="panel" id="section-pagar">
+              <div class="panel-header">
+                <h3>Contas a pagar</h3>
+                <div class="panel-header-actions" style="display: flex; gap: 12px;">
+                  <button type="button" class="finance-link-btn" id="btn-add-conta-pagar">+ Adicionar</button>
+                  <button type="button" class="finance-link-btn" data-go-to-tab="section-pagar">Ver todas</button>
+                </div>
+              </div>
+              <div class="finance-list-mock"></div>
+            </section>
+          </div>
+
+          <div class="finance-row-3">
+            <!-- Section Assinaturas -->
+            <section class="panel" id="section-assinaturas">
               <div class="panel-header">
                 <h3>Assinaturas</h3>
-                <strong id="finance-subscriptions-total">R$ 0,00</strong>
-              </div>
-              <div class="finance-compact-list" id="finance-subscriptions"></div>
-              <button class="finance-panel-action" type="button" data-finance-new-subscription>Gerenciar assinaturas</button>
-            </section>
-
-            <section class="panel finance-commissions-panel" data-finance-dashboard-card="commissions" draggable="true">
-              <div class="panel-header">
-                <h3>Comissões previstas</h3>
-                <strong id="finance-commissions-total">R$ 0,00</strong>
-              </div>
-              <div class="finance-compact-list" id="finance-commissions"></div>
-              <button class="finance-panel-action" type="button" data-finance-show-details>Ver todas</button>
-            </section>
-
-            <section class="panel finance-goals-panel" data-finance-dashboard-card="goals" draggable="true">
-              <div class="panel-header">
-                <h3>Metas financeiras</h3>
-              </div>
-              <form class="finance-goal-form" id="finance-goal-form">
-                <input id="finance-goal-title" type="text" placeholder="Nova meta" />
-                <input id="finance-goal-target" type="number" min="0" step="0.01" placeholder="Valor alvo" />
-                <button class="primary-action" type="submit">Adicionar</button>
-              </form>
-              <div class="finance-goals-list" id="finance-goals-list"></div>
-              <button class="finance-panel-action" type="button" id="finance-new-goal">Nova meta</button>
-            </section>
-
-            <section class="panel finance-recent-panel" data-finance-dashboard-card="recent" draggable="true">
-              <div class="panel-header">
-                <h3>Lançamentos recentes</h3>
-                <button class="finance-panel-action" type="button" data-finance-show-details>Ver todos</button>
-              </div>
-              <div class="finance-recent-columns" aria-hidden="true"><span>Data</span><span>Descrição</span><span>Categoria</span><span>Tipo</span><span>Valor</span></div>
-              <div class="finance-recent-list" id="finance-recent-list"></div>
-            </section>
-
-            <section class="panel finance-categories-panel" data-finance-dashboard-card="categories" draggable="true">
-              <div class="panel-header">
-                <h3>Gastos por categoria</h3>
-                <button class="finance-panel-action" type="button" data-finance-show-details>Ver relatório</button>
-              </div>
-              <div class="finance-category-breakdown" id="finance-category-breakdown"></div>
-            </section>
-          </div>
-
-          <section class="panel finance-today-panel">
-            <div class="panel-header">
-              <h3>Hoje no financeiro</h3>
-              <button type="button" data-section-shortcut="finance">Ver lançamentos</button>
-            </div>
-            <div class="finance-today-list" id="finance-today-list"></div>
-          </section>
-
-          <div class="finance-main-columns">
-            <section class="panel finance-column income-column">
-              <div class="panel-header">
-                <h3>Recebimentos</h3>
-                <button type="button" id="finance-clear-filter">Todos</button>
-              </div>
-              <div class="finance-list" id="finance-income-list"></div>
-            </section>
-
-            <section class="panel finance-column expense-column">
-              <div class="panel-header">
-                <h3>Gastos</h3>
-                <div class="panel-actions">
-                  <button type="button" id="finance-reset-paid">Desmarcar pagos</button>
+                <div class="panel-header-actions" style="display: flex; gap: 12px;">
+                  <button type="button" class="finance-link-btn" id="btn-add-assinatura">+ Adicionar</button>
+                  <button type="button" class="finance-link-btn" data-go-to-tab="section-assinaturas">Ver todas</button>
                 </div>
               </div>
-              <div class="finance-subsection">
-                <div class="finance-subsection-head">
-                  <h4>Custos fixos</h4>
-                  <button type="button" id="fixed-add-btn">Adicionar</button>
+              <div class="finance-horizontal-list"></div>
+              <div class="finance-panel-total">Total mensal: <strong class="money-expense">R$ 0,00</strong></div>
+            </section>
+
+            <!-- Section Contas Fixas -->
+            <section class="panel" id="section-fixas">
+              <div class="panel-header">
+                <h3>Contas fixas</h3>
+                <div class="panel-header-actions" style="display: flex; gap: 12px;">
+                  <button type="button" class="finance-link-btn" id="btn-add-conta-fixa">+ Adicionar</button>
+                  <button type="button" class="finance-link-btn" data-go-to-tab="section-fixas">Ver todas</button>
                 </div>
-                <div class="budget-list" id="fixed-cost-list"></div>
               </div>
-              <div class="finance-subsection">
-                <div class="finance-subsection-head">
-                  <h4>Custos variáveis</h4>
-                  <button type="button" id="variable-add-btn">Adicionar</button>
-                </div>
-                <div class="budget-list" id="variable-cost-list"></div>
+              <div class="finance-horizontal-list"></div>
+              <div class="finance-panel-total">Total mensal: <strong class="money-expense">R$ 0,00</strong></div>
+            </section>
+
+            <!-- Section Historico -->
+            <section class="panel" id="section-historico">
+              <div class="panel-header">
+                <h3>Histórico mensal</h3>
               </div>
-              <div class="finance-subsection">
-                <div class="finance-subsection-head">
-                  <h4>Saídas extras</h4>
-                </div>
-                <div class="finance-list" id="finance-expense-list"></div>
+              <div class="finance-list-mock">
+                <table class="finance-history-table" style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+                  <thead>
+                    <tr style="text-align: left; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 12px;">
+                      <th style="padding: 8px 12px;">MÊS</th>
+                      <th style="padding: 8px 12px;">RECEBIDO</th>
+                      <th style="padding: 8px 12px;">PAGO</th>
+                      <th style="padding: 8px 12px;">SALDO</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
               </div>
             </section>
           </div>
-
-          <section class="panel finance-bottom">
-            <div class="panel-header">
-              <h3>Categorias</h3>
-            </div>
-            <div class="finance-categories" id="finance-categories"></div>
-          </section>
         </section>
 
         <section class="page" id="cnh">
@@ -987,6 +901,83 @@
           </div>
         </section>
 
+        <section class="overlay-panel" id="finance-add-panel" aria-hidden="true">
+          <form class="overlay-card finance-edit-card" id="finance-add-form">
+            <div class="panel-header">
+              <h3>Novo Lançamento</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <div class="finance-edit-grid">
+              <label>
+                <span>Descrição</span>
+                <input id="finance-add-title" type="text" placeholder="Ex: Salário, Receber, Aluguel" required />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="finance-add-type" required>
+                  <option value="">Selecione</option>
+                  <option value="income">Entrada (Receber)</option>
+                  <option value="expense">Saída (Pagar)</option>
+                </select>
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="finance-add-category" required>
+                  <option value="Outros">Outros</option>
+                  <option value="Alimentação">Alimentação</option>
+                  <option value="Moradia">Moradia</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Lazer">Lazer</option>
+                  <option value="Saúde">Saúde</option>
+                  <option value="Educação">Educação</option>
+                </select>
+              </label>
+              <label>
+                <span>Data</span>
+                <input id="finance-add-date" type="date" required />
+              </label>
+              <label>
+                <span>Valor</span>
+                <input id="finance-add-value" type="number" min="0.01" step="0.01" placeholder="R$ 0,00" required />
+              </label>
+            </div>
+            <div class="overlay-actions" style="justify-content: flex-end;">
+              <button class="primary-action" type="submit">Adicionar ⊕</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="overlay-panel" id="budget-add-panel" aria-hidden="true">
+          <form class="overlay-card finance-edit-card" id="budget-add-form">
+            <div class="panel-header">
+              <h3 id="budget-add-title-text">Novo Custo Fixo</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <input id="budget-add-kind" type="hidden" value="fixed" />
+            <div class="finance-edit-grid">
+              <label>
+                <span>Nome</span>
+                <input id="budget-add-title" type="text" placeholder="Ex: Netflix, Internet, Aluguel" required />
+              </label>
+              <label>
+                <span>Valor</span>
+                <input id="budget-add-value" type="number" min="0.01" step="0.01" placeholder="R$ 0,00" required />
+              </label>
+              <label id="budget-add-day-label">
+                <span>Dia do Vencimento</span>
+                <input id="budget-add-day" type="number" min="1" max="31" value="5" />
+              </label>
+              <label id="budget-add-date-label" style="display: none;">
+                <span>Data do Vencimento</span>
+                <input id="budget-add-date" type="date" />
+              </label>
+            </div>
+            <div class="overlay-actions" style="justify-content: flex-end;">
+              <button class="primary-action" type="submit">Adicionar ⊕</button>
+            </div>
+          </form>
+        </section>
+
         <section class="overlay-panel" id="finance-edit-panel" aria-hidden="true">
           <form class="overlay-card finance-edit-card" id="finance-edit-form">
             <div class="panel-header">
@@ -1173,6 +1164,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="script.js?v=1.2"></script>
+    <script src="script.js?v=2.2"></script>
   </body>
 </html>
