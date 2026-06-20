@@ -1,4 +1,4 @@
-const storageKey = "painel-pessoal-v1";
+﻿const storageKey = "painel-pessoal-v1";
 const authRememberKey = "painel-pessoal-manter-login";
 const themeStorageKey = "theme";
 
@@ -61,27 +61,27 @@ const defaultNavGroups = {
   wardrobe: "personal",
 };
 const defaultNavMeta = {
-  dashboard: { icon: "⌂", label: "Painel" },
-  "quick-notes": { icon: "📝", label: "Anotações" },
-  tasks: { icon: "📋", label: "Coisas a fazer" },
-  pending: { icon: "🚨", label: "Pendências" },
-  pc: { icon: "💻", label: "PC" },
-  diet: { icon: "🥬", label: "Dieta" },
-  wins: { icon: "★", label: "Conquistas" },
-  cnh: { icon: "🪪", label: "CNH" },
-  home: { icon: "🪑", label: "Mobília" },
-  agenda: { icon: "🗓", label: "Agenda" },
-  wishlist: { icon: "🛍", label: "Coisas a comprar" },
-  market: { icon: "🛒", label: "Mercado" },
-  routine: { icon: "💪", label: "Rotina" },
-  jonathan: { icon: "📄", label: "Docs" },
-  finance: { icon: "💰", label: "Finanças" },
-  wardrobe: { icon: "👔", label: "Guarda Roupa" },
+  dashboard: { icon: "âŒ‚", label: "Painel" },
+  "quick-notes": { icon: "ðŸ“", label: "AnotaÃ§Ãµes" },
+  tasks: { icon: "ðŸ“‹", label: "Coisas a fazer" },
+  pending: { icon: "ðŸš¨", label: "PendÃªncias" },
+  pc: { icon: "ðŸ’»", label: "PC" },
+  diet: { icon: "ðŸ¥¬", label: "Dieta" },
+  wins: { icon: "â˜…", label: "Conquistas" },
+  cnh: { icon: "ðŸªª", label: "CNH" },
+  home: { icon: "ðŸª‘", label: "MobÃ­lia" },
+  agenda: { icon: "ðŸ—“", label: "Agenda" },
+  wishlist: { icon: "ðŸ›", label: "Coisas a comprar" },
+  market: { icon: "ðŸ›’", label: "Mercado" },
+  routine: { icon: "ðŸ’ª", label: "Rotina" },
+  jonathan: { icon: "ðŸ“„", label: "Docs" },
+  finance: { icon: "ðŸ’°", label: "FinanÃ§as" },
+  wardrobe: { icon: "ðŸ‘”", label: "Guarda Roupa" },
 };
 const navGroupDefinitions = [
   { id: "featured", label: "" },
   { id: "general", label: "Geral" },
-  { id: "organization", label: "Organização" },
+  { id: "organization", label: "OrganizaÃ§Ã£o" },
   { id: "shopping", label: "Compras" },
   { id: "personal", label: "Pessoal" },
 ];
@@ -99,25 +99,25 @@ const defaultState = {
   homePhotoSeedVersion: 1,
   tasks: [
     { id: crypto.randomUUID(), title: "Organizar primeiro painel pessoal", priority: "Alta", done: false },
-    { id: crypto.randomUUID(), title: "Definir subdomínio do app", priority: "Média", done: false },
-    { id: crypto.randomUUID(), title: "Separar módulos que terão login e banco", priority: "Média", done: false },
+    { id: crypto.randomUUID(), title: "Definir subdomÃ­nio do app", priority: "MÃ©dia", done: false },
+    { id: crypto.randomUUID(), title: "Separar mÃ³dulos que terÃ£o login e banco", priority: "MÃ©dia", done: false },
   ],
   market: [
-    { id: crypto.randomUUID(), name: "Sucrilhos para açaí", category: "food", qty: 1, price: 0, bought: false },
-    { id: crypto.randomUUID(), name: "Pão sovado", category: "food", qty: 1, price: 0, bought: true },
-    { id: crypto.randomUUID(), name: "Macarrão 500g", category: "food", qty: 1, price: 0, bought: true },
-    { id: crypto.randomUUID(), name: "Pão italiano", category: "food", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "Sucrilhos para aÃ§aÃ­", category: "food", qty: 1, price: 0, bought: false },
+    { id: crypto.randomUUID(), name: "PÃ£o sovado", category: "food", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "MacarrÃ£o 500g", category: "food", qty: 1, price: 0, bought: true },
+    { id: crypto.randomUUID(), name: "PÃ£o italiano", category: "food", qty: 1, price: 0, bought: true },
     { id: crypto.randomUUID(), name: "Ketchup", category: "seasoning", qty: 1, price: 0, bought: true },
     { id: crypto.randomUUID(), name: "Detergente", category: "cleaning", qty: 1, price: 0, bought: false },
     { id: crypto.randomUUID(), name: "Sabonete", category: "hygiene", qty: 3, price: 0, bought: false },
     { id: crypto.randomUUID(), name: "Frango", category: "mix", qty: 2, price: 18.5, bought: false },
-    { id: crypto.randomUUID(), name: "Maçã", category: "fruit", qty: 6, price: 0, bought: false },
+    { id: crypto.randomUUID(), name: "MaÃ§Ã£", category: "fruit", qty: 6, price: 0, bought: false },
     { id: crypto.randomUUID(), name: "Leite condensado", category: "dessert", qty: 1, price: 0, bought: true },
   ],
   wishlist: [
     { id: crypto.randomUUID(), name: "Cuecas novas", priority: "Alta", price: 0, link: "", bought: false },
-    { id: crypto.randomUUID(), name: "Bateria do notebook", priority: "Média", price: 0, link: "", bought: false },
-    { id: crypto.randomUUID(), name: "Bateria do iPhone", priority: "Média", price: 0, link: "Santa Efigênia", bought: false },
+    { id: crypto.randomUUID(), name: "Bateria do notebook", priority: "MÃ©dia", price: 0, link: "", bought: false },
+    { id: crypto.randomUUID(), name: "Bateria do iPhone", priority: "MÃ©dia", price: 0, link: "Santa EfigÃªnia", bought: false },
   ],
   agenda: [
     { id: crypto.randomUUID(), title: "Revisar prioridades do dia", date: new Date().toISOString().slice(0, 10), type: "reminder", done: false },
@@ -130,16 +130,16 @@ const defaultState = {
     endDate: "2027-04-29",
     steps: [
       { id: crypto.randomUUID(), title: "Iniciar", value: 0, dueDate: "2026-04-29", done: true },
-      { id: crypto.randomUUID(), title: "Curso teórico", value: 0, dueDate: "", done: true },
-      { id: crypto.randomUUID(), title: "Coleta biométrica (foto + digital)", value: 0, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Exame médico", value: 90, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Psicotécnico", value: 90, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Taxa prova teórica", value: 52.83, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Agendar prova teórica", value: 0, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Aulas práticas (auto escola)", value: 0, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Aulas práticas", value: 0, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Prova prática", value: 52.83, dueDate: "", done: false },
-      { id: crypto.randomUUID(), title: "Agendar prova prática", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Curso teÃ³rico", value: 0, dueDate: "", done: true },
+      { id: crypto.randomUUID(), title: "Coleta biomÃ©trica (foto + digital)", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Exame mÃ©dico", value: 90, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "PsicotÃ©cnico", value: 90, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Taxa prova teÃ³rica", value: 52.83, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Agendar prova teÃ³rica", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Aulas prÃ¡ticas (auto escola)", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Aulas prÃ¡ticas", value: 0, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Prova prÃ¡tica", value: 52.83, dueDate: "", done: false },
+      { id: crypto.randomUUID(), title: "Agendar prova prÃ¡tica", value: 0, dueDate: "", done: false },
       { id: crypto.randomUUID(), title: "Emitir CNH", value: 137.79, dueDate: "2027-04-29", done: false },
     ],
   },
@@ -158,7 +158,7 @@ const defaultState = {
     { id: crypto.randomUUID(), title: "Liquidificador", done: true, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Vitamix_Blender.jpg/500px-Vitamix_Blender.jpg" },
     { id: crypto.randomUUID(), title: "Ventilador", done: true, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Hatari_18_inch_fan.jpg/500px-Hatari_18_inch_fan.jpg" },
     { id: crypto.randomUUID(), title: "Geladeira", done: false, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/A_Samsung_Refrigerator.jpg/500px-A_Samsung_Refrigerator.jpg" },
-    { id: crypto.randomUUID(), title: "Máquina de lava e seca", done: false, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg/500px-LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg" },
+    { id: crypto.randomUUID(), title: "MÃ¡quina de lava e seca", done: false, photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg/500px-LG_%EB%93%9C%EB%9F%BC%EC%84%B8%ED%83%81%EA%B8%B0%EC%99%80_%EC%8B%9D%EA%B8%B0%EC%84%B8%EC%B2%99%EA%B8%B0%2C_%EC%98%81%EA%B5%AD%EC%84%9C_%EB%AC%BC%EC%82%AC%EC%9A%A9_%ED%9A%A8%EC%9C%A8_%EC%B5%9C%EC%9A%B0%EC%88%98_%EC%A0%9C%ED%92%88_%EC%88%98%EC%83%81.jpg" },
     { id: crypto.randomUUID(), title: "Chuveiro ducha", done: false, photo: "https://whitehauscollection.com/cdn/shop/products/WHOSA28SQ-8_PolishedChrome.jpg?v=1602014810&width=900" },
   ],
   wardrobeItems: [],
@@ -166,7 +166,7 @@ const defaultState = {
   wardrobeLooks: [],
   personal: {
     info: {
-      name: "Jonatã",
+      name: "JonatÃ£",
       phone: "",
       email: "",
       address: "",
@@ -174,7 +174,7 @@ const defaultState = {
     },
     goals: [
       { id: crypto.randomUUID(), title: "Organizar documentos pessoais", area: "Vida", done: false },
-      { id: crypto.randomUUID(), title: "Definir metas do mês", area: "Dinheiro", done: false },
+      { id: crypto.randomUUID(), title: "Definir metas do mÃªs", area: "Dinheiro", done: false },
     ],
     docs: [
       { id: crypto.randomUUID(), title: "CNH", value: "Acompanhar processo", done: false },
@@ -182,10 +182,10 @@ const defaultState = {
     ],
   },
   notes: [
-    { id: crypto.randomUUID(), text: "Ideia: transformar cada área do Notion em um módulo real do app.", date: new Date().toLocaleDateString("pt-BR") },
+    { id: crypto.randomUUID(), text: "Ideia: transformar cada Ã¡rea do Notion em um mÃ³dulo real do app.", date: new Date().toLocaleDateString("pt-BR") },
   ],
   finance: [
-    { id: crypto.randomUUID(), title: "Salário", type: "income", category: "Salário", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
+    { id: crypto.randomUUID(), title: "SalÃ¡rio", type: "income", category: "SalÃ¡rio", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
     { id: crypto.randomUUID(), title: "Mercado", type: "expense", category: "Mercado", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
   ],
   financePlan: {
@@ -200,18 +200,18 @@ const defaultState = {
     dashboard: ["distribution", "bills", "subscriptions", "commissions", "goals", "categories", "recent"],
   },
   financeGoals: [
-    { id: crypto.randomUUID(), title: "Reserva de emergência", current: 0, target: 10000 },
+    { id: crypto.randomUUID(), title: "Reserva de emergÃªncia", current: 0, target: 10000 },
   ],
   fixedCosts: [
     { id: crypto.randomUUID(), title: "Aluguel", value: 0, dueDay: 10, paid: false },
-    { id: crypto.randomUUID(), title: "Água", value: 0, dueDay: 10, paid: false },
+    { id: crypto.randomUUID(), title: "Ãgua", value: 0, dueDay: 10, paid: false },
     { id: crypto.randomUUID(), title: "Energia", value: 0, dueDay: 10, paid: false },
     { id: crypto.randomUUID(), title: "Conta de celular", value: 0, dueDay: 15, paid: false },
     { id: crypto.randomUUID(), title: "Internet", value: 0, dueDay: 15, paid: false },
   ],
   variableCosts: [
     { id: crypto.randomUUID(), title: "Lazer", value: 0, dueDate: todayISO(), paid: false },
-    { id: crypto.randomUUID(), title: "Educação", value: 0, dueDate: todayISO(), paid: false },
+    { id: crypto.randomUUID(), title: "EducaÃ§Ã£o", value: 0, dueDate: todayISO(), paid: false },
     { id: crypto.randomUUID(), title: "Sair", value: 0, dueDate: todayISO(), paid: false },
     { id: crypto.randomUUID(), title: "Comprar coisas", value: 0, dueDate: todayISO(), paid: false },
     { id: crypto.randomUUID(), title: "Mercado extra", value: 0, dueDate: todayISO(), paid: false },
@@ -219,29 +219,29 @@ const defaultState = {
   pending: [
     {
       id: crypto.randomUUID(),
-      title: "Organização pessoal",
+      title: "OrganizaÃ§Ã£o pessoal",
       type: "daily",
       done: false,
       subtasks: [
         { id: crypto.randomUUID(), title: "Revisar prioridades do dia", done: false },
-        { id: crypto.randomUUID(), title: "Organizar pendências abertas", done: false },
+        { id: crypto.randomUUID(), title: "Organizar pendÃªncias abertas", done: false },
         { id: crypto.randomUUID(), title: "Separar tarefas importantes", done: false },
       ],
     },
     { id: crypto.randomUUID(), title: "Comprar cueca", type: "daily", done: false, subtasks: [] },
     {
       id: crypto.randomUUID(),
-      title: "Revisão semanal",
+      title: "RevisÃ£o semanal",
       type: "weekly",
       done: false,
       subtasks: [
         { id: crypto.randomUUID(), title: "Revisar tarefas da semana", done: false },
-        { id: crypto.randomUUID(), title: "Atualizar agenda e finanças", done: false },
+        { id: crypto.randomUUID(), title: "Atualizar agenda e finanÃ§as", done: false },
       ],
     },
-    { id: crypto.randomUUID(), title: "Trocar bateria iPhone Santa Efigênia", type: "backlog", done: false, subtasks: [] },
+    { id: crypto.randomUUID(), title: "Trocar bateria iPhone Santa EfigÃªnia", type: "backlog", done: false, subtasks: [] },
     { id: crypto.randomUUID(), title: "Trocar bateria notebook", type: "backlog", done: false, subtasks: [] },
-    { id: crypto.randomUUID(), title: "Revisar planejamento do mês", type: "monthly", done: false, subtasks: [] },
+    { id: crypto.randomUUID(), title: "Revisar planejamento do mÃªs", type: "monthly", done: false, subtasks: [] },
   ],
   routineTracker: {
     date: todayISO(),
@@ -256,26 +256,26 @@ const defaultState = {
     bestStreak: 0,
   },
   routineCategories: [
-    { id: "required", name: "Essenciais (Diário)", locked: true },
-    { id: "endday", name: "Saúde", locked: true },
+    { id: "required", name: "Essenciais (DiÃ¡rio)", locked: true },
+    { id: "endday", name: "SaÃºde", locked: true },
     { id: "day", name: "Produtividade", locked: true },
     { id: "weekly", name: "Semanais", locked: true },
     { id: "extras", name: "Extras", locked: true },
   ],
   routineLayout: ["required", "endday", "day", "weekly", "extras"],
   routine: [
-    { id: crypto.randomUUID(), title: "Café da manhã", type: "required", done: false },
-    { id: crypto.randomUUID(), title: "Almoço", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "CafÃ© da manhÃ£", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "AlmoÃ§o", type: "required", done: false },
     { id: crypto.randomUUID(), title: "Lanche da tarde", type: "required", done: false },
     { id: crypto.randomUUID(), title: "Janta", type: "required", done: false },
     { id: crypto.randomUUID(), title: "Sobremesa", type: "required", done: false },
     { id: crypto.randomUUID(), title: "Fruta", type: "required", done: false },
-    { id: crypto.randomUUID(), title: "1L de água", type: "required", done: false },
-    { id: crypto.randomUUID(), title: "1L de água", type: "required", done: false },
-    { id: crypto.randomUUID(), title: "1L de água", type: "required", done: false },
-    { id: crypto.randomUUID(), title: "3L de água", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "1L de Ã¡gua", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "1L de Ã¡gua", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "1L de Ã¡gua", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "3L de Ã¡gua", type: "required", done: false },
     { id: crypto.randomUUID(), title: "30m de sol", type: "required", done: false },
-    { id: crypto.randomUUID(), title: "Remédios", type: "required", done: false },
+    { id: crypto.randomUUID(), title: "RemÃ©dios", type: "required", done: false },
     { id: crypto.randomUUID(), title: "Academia", type: "endday", done: false },
     { id: crypto.randomUUID(), title: "Correr", type: "endday", done: false },
     { id: crypto.randomUUID(), title: "Luta", type: "endday", done: false },
@@ -286,38 +286,38 @@ const defaultState = {
 };
 
 const placeholders = {
-  pending: ["Pendências", "Acompanhamento de pendências com prazos, status, responsáveis e alertas."],
-  personal: ["Jonatã", "Espaço para documentos, metas pessoais, dados importantes e planos."],
-  wishlist: ["Coisas a comprar", "Lista de desejos com prioridade, preço esperado e link de compra."],
-  diet: ["Dieta", "Controle de refeições, metas, compras e acompanhamento alimentar."],
-  cnh: ["CNH", "Etapas, documentos, datas e pendências do processo de habilitação."],
-  pc: ["PC", "Configurações, programas, manutenções e histórico do computador."],
-  mods: ["Modificações", "Ideias de mudanças, melhorias e projetos em andamento."],
+  pending: ["PendÃªncias", "Acompanhamento de pendÃªncias com prazos, status, responsÃ¡veis e alertas."],
+  personal: ["JonatÃ£", "EspaÃ§o para documentos, metas pessoais, dados importantes e planos."],
+  wishlist: ["Coisas a comprar", "Lista de desejos com prioridade, preÃ§o esperado e link de compra."],
+  diet: ["Dieta", "Controle de refeiÃ§Ãµes, metas, compras e acompanhamento alimentar."],
+  cnh: ["CNH", "Etapas, documentos, datas e pendÃªncias do processo de habilitaÃ§Ã£o."],
+  pc: ["PC", "ConfiguraÃ§Ãµes, programas, manutenÃ§Ãµes e histÃ³rico do computador."],
+  mods: ["ModificaÃ§Ãµes", "Ideias de mudanÃ§as, melhorias e projetos em andamento."],
   apps: ["Aplicativos", "Lista de ferramentas, contas, assinaturas e apps importantes."],
-  specs: ["Especificações", "Dados técnicos, medidas, equipamentos e informações de referência."],
-  home: ["Mobília", "Planejamento de móveis, medidas, compras e prioridades da casa."],
-  wins: ["Conquistas", "Registro de vitórias, marcos e evolução pessoal."],
+  specs: ["EspecificaÃ§Ãµes", "Dados tÃ©cnicos, medidas, equipamentos e informaÃ§Ãµes de referÃªncia."],
+  home: ["MobÃ­lia", "Planejamento de mÃ³veis, medidas, compras e prioridades da casa."],
+  wins: ["Conquistas", "Registro de vitÃ³rias, marcos e evoluÃ§Ã£o pessoal."],
 };
 
 let activeFinanceFilter = "all";
 let marketShopMode = false;
 
-const financeCategories = ["Salário", "Casa", "Mercado", "Transporte", "Lazer", "Saúde", "Outros"];
+const financeCategories = ["SalÃ¡rio", "Casa", "Mercado", "Transporte", "Lazer", "SaÃºde", "Outros"];
 
 const wardrobeCategories = [
   { id: "coat", label: "Casaco/Jaqueta", optional: true },
   { id: "top", label: "Parte de cima", optional: false },
   { id: "bottom", label: "Parte de baixo", optional: false },
-  { id: "shoes", label: "Calçado", optional: false },
-  { id: "accessory", label: "Acessório", optional: true },
+  { id: "shoes", label: "CalÃ§ado", optional: false },
+  { id: "accessory", label: "AcessÃ³rio", optional: true },
 ];
 
 const routineEmojiOptions = [
-  "☕", "🍽️", "🍛", "🍎", "🍌", "🥗", "💧", "💊",
-  "🏋️", "🏃", "🥊", "🚴", "⚽", "☀️", "🌙", "🛌",
-  "🧘", "🧹", "🧼", "🚿", "🪥", "💼", "📚", "✍️",
-  "💻", "📱", "💡", "🎯", "✅", "🔥", "⭐", "🏆",
-  "💰", "🛒", "🚶", "🚗", "🎵", "🎮", "❤️", "🙏",
+  "â˜•", "ðŸ½ï¸", "ðŸ›", "ðŸŽ", "ðŸŒ", "ðŸ¥—", "ðŸ’§", "ðŸ’Š",
+  "ðŸ‹ï¸", "ðŸƒ", "ðŸ¥Š", "ðŸš´", "âš½", "â˜€ï¸", "ðŸŒ™", "ðŸ›Œ",
+  "ðŸ§˜", "ðŸ§¹", "ðŸ§¼", "ðŸš¿", "ðŸª¥", "ðŸ’¼", "ðŸ“š", "âœï¸",
+  "ðŸ’»", "ðŸ“±", "ðŸ’¡", "ðŸŽ¯", "âœ…", "ðŸ”¥", "â­", "ðŸ†",
+  "ðŸ’°", "ðŸ›’", "ðŸš¶", "ðŸš—", "ðŸŽµ", "ðŸŽ®", "â¤ï¸", "ðŸ™",
 ];
 let activeEmojiInput = null;
 
@@ -326,39 +326,39 @@ function wardrobeCategoryLabel(category) {
 }
 
 function inferRoutineEmoji(title) {
-  return /café|cafe/i.test(title) ? "☕"
-    : /almoço/i.test(title) ? "🍽️"
-      : /janta|lanche|sobremesa/i.test(title) ? "🍛"
-        : /fruta/i.test(title) ? "🍎"
-          : /academia/i.test(title) ? "🏋️"
-            : /correr/i.test(title) ? "🏃"
-              : /luta/i.test(title) ? "🥊"
-                : /sol/i.test(title) ? "☀️"
-                  : /medit/i.test(title) ? "🧘"
-                    : /trabalh/i.test(title) ? "💼"
-                      : /estud|ler|leitura/i.test(title) ? "📚"
-                        : /projeto/i.test(title) ? "💡"
-                          : /b12|remédio|remedio/i.test(title) ? "💊"
-                            : /limpeza/i.test(title) ? "🧹"
-                              : /sair/i.test(title) ? "🚶"
-                                : "✅";
+  return /cafÃ©|cafe/i.test(title) ? "â˜•"
+    : /almoÃ§o/i.test(title) ? "ðŸ½ï¸"
+      : /janta|lanche|sobremesa/i.test(title) ? "ðŸ›"
+        : /fruta/i.test(title) ? "ðŸŽ"
+          : /academia/i.test(title) ? "ðŸ‹ï¸"
+            : /correr/i.test(title) ? "ðŸƒ"
+              : /luta/i.test(title) ? "ðŸ¥Š"
+                : /sol/i.test(title) ? "â˜€ï¸"
+                  : /medit/i.test(title) ? "ðŸ§˜"
+                    : /trabalh/i.test(title) ? "ðŸ’¼"
+                      : /estud|ler|leitura/i.test(title) ? "ðŸ“š"
+                        : /projeto/i.test(title) ? "ðŸ’¡"
+                          : /b12|remÃ©dio|remedio/i.test(title) ? "ðŸ’Š"
+                            : /limpeza/i.test(title) ? "ðŸ§¹"
+                              : /sair/i.test(title) ? "ðŸš¶"
+                                : "âœ…";
 }
 
 const marketCategories = [
-  { id: "food", icon: "🍽", label: "Comida" },
-  { id: "seasoning", icon: "🔥", label: "Temperos" },
-  { id: "cleaning", icon: "🧹", label: "Limpeza" },
-  { id: "hygiene", icon: "🧴", label: "Higiene pessoal" },
-  { id: "mix", icon: "🍖", label: "Mistura" },
-  { id: "fruit", icon: "🍎", label: "Frutas" },
-  { id: "dessert", icon: "🍫", label: "Sobremesas" },
+  { id: "food", icon: "ðŸ½", label: "Comida" },
+  { id: "seasoning", icon: "ðŸ”¥", label: "Temperos" },
+  { id: "cleaning", icon: "ðŸ§¹", label: "Limpeza" },
+  { id: "hygiene", icon: "ðŸ§´", label: "Higiene pessoal" },
+  { id: "mix", icon: "ðŸ–", label: "Mistura" },
+  { id: "fruit", icon: "ðŸŽ", label: "Frutas" },
+  { id: "dessert", icon: "ðŸ«", label: "Sobremesas" },
 ];
 
 const marketSeedItems = [
-  { name: "Sucrilhos para Açaí", category: "food" },
-  { name: "Pão Sovado", category: "food" },
-  { name: "Macarrão 500g 1 Pacote", category: "food" },
-  { name: "Pão Italiano", category: "food" },
+  { name: "Sucrilhos para AÃ§aÃ­", category: "food" },
+  { name: "PÃ£o Sovado", category: "food" },
+  { name: "MacarrÃ£o 500g 1 Pacote", category: "food" },
+  { name: "PÃ£o Italiano", category: "food" },
   { name: "Miojo", category: "food" },
   { name: "Ketchup 1", category: "food" },
   { name: "Suco de Pacote 10", category: "food" },
@@ -376,15 +376,15 @@ const marketSeedItems = [
   { name: "Toddy 1 Pote", category: "food" },
   { name: "Gelatina 4", category: "food" },
   { name: "Molho de Tomate 3", category: "food" },
-  { name: "Feijão 1 KG", category: "food" },
-  { name: "Óleo 6", category: "food" },
+  { name: "FeijÃ£o 1 KG", category: "food" },
+  { name: "Ã“leo 6", category: "food" },
   { name: "Sal 1 KG", category: "seasoning" },
   { name: "Azeite", category: "seasoning" },
   { name: "Vinagre", category: "seasoning" },
   { name: "Bom Ar em Spray", category: "cleaning" },
-  { name: "Bom Ar Automático de Banheiro", category: "cleaning" },
+  { name: "Bom Ar AutomÃ¡tico de Banheiro", category: "cleaning" },
   { name: "Saco de Lixo Grande", category: "cleaning" },
-  { name: "Sabão em Pó 2 KG", category: "cleaning" },
+  { name: "SabÃ£o em PÃ³ 2 KG", category: "cleaning" },
   { name: "Detergente 5L", category: "cleaning" },
   { name: "Amaciante 5L", category: "cleaning" },
   { name: "Enxaguante Bucal", category: "hygiene" },
@@ -394,77 +394,77 @@ const marketSeedItems = [
   { name: "Pasta de Dente", category: "hygiene" },
   { name: "Sabonete", category: "hygiene" },
   { name: "Shampoo", category: "hygiene" },
-  { name: "Papel higiênico", category: "hygiene" },
-  { name: "Soro Fisiológico", category: "hygiene" },
+  { name: "Papel higiÃªnico", category: "hygiene" },
+  { name: "Soro FisiolÃ³gico", category: "hygiene" },
   { name: "Lasanha", category: "mix" },
-  { name: "Peixe - Tilápia e Salmão", category: "mix" },
+  { name: "Peixe - TilÃ¡pia e SalmÃ£o", category: "mix" },
   { name: "Coxinha da Asa", category: "mix" },
-  { name: "Filé de Frango 2 KG", category: "mix" },
+  { name: "FilÃ© de Frango 2 KG", category: "mix" },
   { name: "Cartela de Ovos 12", category: "mix" },
-  { name: "Maçã 1kg", category: "fruit" },
+  { name: "MaÃ§Ã£ 1kg", category: "fruit" },
   { name: "Banana 5", category: "fruit" },
   { name: "Manga", category: "fruit" },
   { name: "Morango", category: "fruit" },
   { name: "Uva", category: "fruit" },
   { name: "Pera", category: "fruit" },
   { name: "Melancia", category: "fruit" },
-  { name: "Limão", category: "fruit" },
-  { name: "AÇAÍ 2L", category: "dessert" },
+  { name: "LimÃ£o", category: "fruit" },
+  { name: "AÃ‡AÃ 2L", category: "dessert" },
   { name: "Barra de Chocolate", category: "dessert" },
 ];
 
 const wishlistCategories = [
-  { id: "technology", icon: "▣", label: "Tecnologia" },
-  { id: "bedroom", icon: "⌁", label: "Quarto" },
-  { id: "kitchen", icon: "⌂", label: "Cozinha" },
-  { id: "cleaning", icon: "⌁", label: "Limpeza" },
-  { id: "clothing", icon: "◇", label: "Roupas e acessórios" },
+  { id: "technology", icon: "â–£", label: "Tecnologia" },
+  { id: "bedroom", icon: "âŒ", label: "Quarto" },
+  { id: "kitchen", icon: "âŒ‚", label: "Cozinha" },
+  { id: "cleaning", icon: "âŒ", label: "Limpeza" },
+  { id: "clothing", icon: "â—‡", label: "Roupas e acessÃ³rios" },
 ];
 
 const wishlistSeedItems = [
-  { name: "Televisão", category: "technology" },
+  { name: "TelevisÃ£o", category: "technology" },
   { name: "Cabo de carregador Tipo C para Iphone", category: "technology" },
   { name: "Teclado Gamer", category: "technology", link: "Link" },
   { name: "Base para Notebook com Cooler", category: "technology" },
-  { name: "Sensor de Presença/Movimento para ligar luz.", category: "technology" },
+  { name: "Sensor de PresenÃ§a/Movimento para ligar luz.", category: "technology" },
   { name: "Luz de Led HDMI para Tv e Monitor", category: "technology" },
   { name: "Carregador Sem Fio Iphone", category: "technology" },
   { name: "Tomada Inteligente", category: "technology" },
   { name: "Tomada com cabo de carregador e USB", category: "technology" },
   { name: "Teclado Macro de Atalhos", category: "technology" },
   { name: "HDMI sem FIO", category: "technology" },
-  { name: "Bateria Portátil Iphone - Baseus", category: "technology" },
+  { name: "Bateria PortÃ¡til Iphone - Baseus", category: "technology" },
   { name: "Travesseiro Grande", category: "bedroom" },
   { name: "3 Fronha de Travesseiro", category: "bedroom" },
-  { name: "2 Lençóis Cama de Casal", category: "bedroom" },
+  { name: "2 LenÃ§Ã³is Cama de Casal", category: "bedroom" },
   { name: "2 Protetor de Cama de Casal", category: "bedroom" },
   { name: "Cabides Normal e de Ternos", category: "bedroom" },
   { name: "Micro-ondas", category: "kitchen" },
   { name: "Panela de Arroz", category: "kitchen" },
-  { name: "Lancheira ou Bolsa Térmica", category: "kitchen" },
+  { name: "Lancheira ou Bolsa TÃ©rmica", category: "kitchen" },
   { name: "Faca de Cortar Carnes Amolada", category: "kitchen" },
-  { name: "Pote para Batata Balha e Macarrão", category: "kitchen" },
+  { name: "Pote para Batata Balha e MacarrÃ£o", category: "kitchen" },
   { name: "Copo de Vidro Grosso", category: "kitchen" },
-  { name: "Copo de Plástico", category: "kitchen" },
+  { name: "Copo de PlÃ¡stico", category: "kitchen" },
   { name: "Pincel para Temperar Carne e Untar Forno", category: "kitchen" },
   { name: "Pano de Prato", category: "kitchen" },
-  { name: "Máquina de Lavar", category: "cleaning" },
+  { name: "MÃ¡quina de Lavar", category: "cleaning" },
   { name: "Toalha de Rosto", category: "cleaning" },
   { name: "Rodo e Cabo", category: "cleaning" },
   { name: "Cabo de Vassoura", category: "cleaning" },
-  { name: "Pá", category: "cleaning" },
+  { name: "PÃ¡", category: "cleaning" },
   { name: "Cueca", category: "clothing", link: "Link" },
-  { name: "Multivitamínicos", category: "clothing" },
-  { name: "Óculos Colorido de Role", category: "clothing", link: "Loja Insta e Net" },
-  { name: "Relógio", category: "clothing", link: "Loja Insta e Net" },
+  { name: "MultivitamÃ­nicos", category: "clothing" },
+  { name: "Ã“culos Colorido de Role", category: "clothing", link: "Loja Insta e Net" },
+  { name: "RelÃ³gio", category: "clothing", link: "Loja Insta e Net" },
   { name: "Sapato Social Preto", category: "clothing", link: "Loja Insta e Net" },
   { name: "Corrente", category: "clothing", link: "Loja Insta e Net" },
   { name: "Minoxidil", category: "clothing" },
   { name: "Perfume para trabalho", category: "clothing" },
   { name: "Perfume para sair", category: "clothing" },
-  { name: "Palmilha Tênis Puma", category: "clothing" },
-  { name: "Cadarço Preto Tênis Puma", category: "clothing" },
-  { name: "Cadarço Marrom Sapato Marrom", category: "clothing" },
+  { name: "Palmilha TÃªnis Puma", category: "clothing" },
+  { name: "CadarÃ§o Preto TÃªnis Puma", category: "clothing" },
+  { name: "CadarÃ§o Marrom Sapato Marrom", category: "clothing" },
   { name: "Cinto", category: "clothing" },
   { name: "Dixavador", category: "clothing" },
   { name: "Maquina de Cortar Barba e Aparador de Pelos", category: "clothing" },
@@ -536,7 +536,7 @@ function loadState() {
     merged.pending = merged.pending.map((task) => ({ ...task, subtasks: task.subtasks || [] }));
     merged.wardrobeItems = (merged.wardrobeItems || []).map((item) => ({
       ...item,
-      name: item.name || "Peça sem nome",
+      name: item.name || "PeÃ§a sem nome",
       category: item.category || "top",
       color: item.color || "",
       style: item.style || "",
@@ -575,7 +575,7 @@ function loadState() {
       ...availableRoutineCategories.filter((key) => !savedRoutineLayout.includes(key)),
     ];
     if (merged.routineTracker.date !== todayISO()) {
-      const previousHabits = merged.routine.filter((item) => !/água|agua/i.test(item.title));
+      const previousHabits = merged.routine.filter((item) => !/Ã¡gua|agua/i.test(item.title));
       const previousDone = previousHabits.filter((item) => item.done).length;
       const previousTotal = previousHabits.length + 1;
       const waterDone = merged.routineTracker.waterMl >= merged.routineTracker.waterGoalMl ? 1 : 0;
@@ -666,7 +666,7 @@ function loadState() {
     }
     merged.wishlist = merged.wishlist.map((item) => {
       const name = String(item.name || "").toLowerCase();
-      const inferredCategory = /cueca|roupa|sapato|tênis|tenis|perfume|óculos|oculos|relógio|relogio|cinto|corrente/.test(name)
+      const inferredCategory = /cueca|roupa|sapato|tÃªnis|tenis|perfume|Ã³culos|oculos|relÃ³gio|relogio|cinto|corrente/.test(name)
         ? "clothing"
         : /bateria|notebook|iphone|carregador|teclado|monitor|hdmi|tomada|sensor|televis/.test(name)
           ? "technology"
@@ -674,7 +674,7 @@ function loadState() {
       return {
         ...item,
         category: item.category || inferredCategory,
-        priority: item.priority || "Média",
+        priority: item.priority || "MÃ©dia",
         price: Number(item.price || 0),
         link: item.link || "",
         bought: Boolean(item.bought),
@@ -688,7 +688,7 @@ function loadState() {
           id: crypto.randomUUID(),
           name: item.name,
           category: item.category,
-          priority: "Média",
+          priority: "MÃ©dia",
           price: 0,
           link: item.link || "",
           bought: false,
@@ -810,7 +810,7 @@ function recordRoutineHabitHistoryFor(tracker, routine, date = todayISO()) {
   tracker.habitHistory ||= {};
   tracker.habitHistory[date] ||= {};
   routine
-    .filter((item) => !/água|agua/i.test(item.title))
+    .filter((item) => !/Ã¡gua|agua/i.test(item.title))
     .forEach((item) => {
       tracker.habitHistory[date][item.id] = Boolean(item.done);
     });
@@ -822,7 +822,7 @@ function recordRoutineHabitHistory() {
 }
 
 function getRoutineHabits() {
-  return state.routine.filter((item) => !/água|agua/i.test(item.title));
+  return state.routine.filter((item) => !/Ã¡gua|agua/i.test(item.title));
 }
 
 function ensureRoutineDayRecord(date = todayISO()) {
@@ -845,7 +845,7 @@ function ensureRoutineDayRecord(date = todayISO()) {
 
 function syncTodayRoutineFromRecord() {
   const record = ensureRoutineDayRecord(todayISO());
-  state.routine = state.routine.map((item) => /água|agua/i.test(item.title)
+  state.routine = state.routine.map((item) => /Ã¡gua|agua/i.test(item.title)
     ? item
     : { ...item, done: Boolean(record[item.id]) });
 }
@@ -946,7 +946,7 @@ function updateAuthButtons() {
 function getCurrentUserProfile() {
   const metadata = currentUser?.user_metadata || {};
   const rawName = metadata.full_name || metadata.name || "";
-  const firstName = rawName.trim().split(" ")[0] || "Usuário";
+  const firstName = rawName.trim().split(" ")[0] || "UsuÃ¡rio";
   return {
     name: firstName,
     email: currentUser?.email || "",
@@ -1206,7 +1206,7 @@ function getFixedCostDueDate(item) {
 
 function getFixedCostDueLabel(item) {
   const dueDate = getFixedCostDueDate(item);
-  return `Dia ${item.dueDay || 1} • ${formatDate(dueDate)}`;
+  return `Dia ${item.dueDay || 1} â€¢ ${formatDate(dueDate)}`;
 }
 
 function getFinanceDueDateFromForm() {
@@ -1296,7 +1296,7 @@ function openSection(sectionId) {
   navButtons.forEach((button) => button.classList.toggle("active", button.dataset.section === sectionId));
 
   const navLabel = state.navLabels?.[sectionId] || defaultNavMeta[sectionId]?.label || "Painel";
-  pageTitle.textContent = sectionId === "dashboard" ? "Visão geral" : navLabel;
+  pageTitle.textContent = sectionId === "dashboard" ? "VisÃ£o geral" : navLabel;
 
   const novoLancBtn = document.querySelector('#btn-novo-lancamento');
   if (novoLancBtn) {
@@ -1319,10 +1319,10 @@ function openSection(sectionId) {
   }
 
   if (realSection === "placeholder") {
-    const [title, copy] = placeholders[sectionId] || ["Área em construção", "Esse módulo está reservado para evoluir depois."];
+    const [title, copy] = placeholders[sectionId] || ["Ãrea em construÃ§Ã£o", "Esse mÃ³dulo estÃ¡ reservado para evoluir depois."];
     document.querySelector("#placeholder-title").textContent = title;
     document.querySelector("#placeholder-copy").textContent = copy;
-    document.querySelector("#placeholder-kicker").textContent = "Módulo reservado";
+    document.querySelector("#placeholder-kicker").textContent = "MÃ³dulo reservado";
   }
 
   sidebar.classList.remove("open");
@@ -1360,7 +1360,7 @@ function applyNavOrder() {
     const groupId = state.navGroups?.[section] || defaultNavGroups[section] || "personal";
     const groupList = groupLists.get(groupId) || groupLists.get("personal");
     if (button) {
-      const icon = state.navIcons?.[section] || defaultNavMeta[section]?.icon || "•";
+      const icon = state.navIcons?.[section] || defaultNavMeta[section]?.icon || "â€¢";
       const label = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
       const iconNode = button.querySelector("span") || document.createElement("span");
       iconNode.textContent = icon;
@@ -1399,7 +1399,7 @@ function renderNavEditor() {
         row.dataset.navEditSection = section;
         row.innerHTML = `
           <label>
-            <span>Ícone</span>
+            <span>Ãcone</span>
             <input type="text" maxlength="4" data-nav-icon="${section}" value="${escapeHtml(state.navIcons?.[section] || defaultNavMeta[section]?.icon || "")}" />
           </label>
           <label>
@@ -1439,7 +1439,7 @@ function ensureRoutineCategoryCards() {
       card.className = "routine-section";
       card.dataset.routineCard = category.id;
       card.draggable = true;
-      card.innerHTML = `<div class="routine-section-head"><h3></h3><div><button type="button" data-routine-add-type="${category.id}" title="Adicionar hábito">＋</button><button class="routine-card-delete" type="button" data-routine-delete-card="${category.id}" title="Excluir card">×</button><strong id="routine-${category.id}-progress">0/0</strong></div></div><div class="routine-list" id="routine-${category.id}"></div>`;
+      card.innerHTML = `<div class="routine-section-head"><h3></h3><div><button type="button" data-routine-add-type="${category.id}" title="Adicionar hÃ¡bito">ï¼‹</button><button class="routine-card-delete" type="button" data-routine-delete-card="${category.id}" title="Excluir card">Ã—</button><strong id="routine-${category.id}-progress">0/0</strong></div></div><div class="routine-list" id="routine-${category.id}"></div>`;
       board.insertBefore(card, addCard);
     }
     card.querySelector("h3").textContent = category.name;
@@ -1460,7 +1460,7 @@ function render() {
   ensureRoutineCategoryCards();
   applyRoutineLayoutOrder();
   const profile = currentUser ? getCurrentUserProfile() : null;
-  const displayName = profile ? profile.name : (state.personal?.info?.name?.split(" ")[0] || "Usuário");
+  const displayName = profile ? profile.name : (state.personal?.info?.name?.split(" ")[0] || "UsuÃ¡rio");
   const nameSpan = document.querySelector(".profile-name-text");
   if (nameSpan) {
     nameSpan.textContent = displayName;
@@ -1538,7 +1538,7 @@ function groupFinanceYearItems(items) {
 }
 
 function isCommissionItem(item) {
-  return /comiss|comissão|comissao/i.test(`${item.title || ""} ${item.category || ""}`);
+  return /comiss|comissÃ£o|comissao/i.test(`${item.title || ""} ${item.category || ""}`);
 }
 
 function getActiveMonthCount(items) {
@@ -1572,7 +1572,7 @@ function isSubscriptionItem(item) {
 function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, variableTotal, expense, income, balance) {
   const isYear = state.financePlan.viewMode === "year";
   document.querySelector(".finance-overview-panel h3").textContent = "Contas a pagar";
-  document.querySelector(".finance-distribution-panel h3").textContent = isYear ? "Fluxo do ano" : "Fluxo do mês";
+  document.querySelector(".finance-distribution-panel h3").textContent = isYear ? "Fluxo do ano" : "Fluxo do mÃªs";
   const received = periodFinance
     .filter((item) => item.type === "income" && item.done)
     .reduce((sum, item) => sum + Number(item.value || 0), 0);
@@ -1587,20 +1587,20 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
     : periodVariableCosts.filter((item) => !isBudgetPaid(item)).reduce((sum, item) => sum + Number(item.value || 0), 0);
   const payable = pendingFixed + pendingVariable + pendingExtraExpenses;
   const commissionItems = periodFinance.filter((item) => {
-    const isSalary = /sal[aá]rio/i.test(`${item.title || ""} ${item.category || ""}`);
+    const isSalary = /sal[aÃ¡]rio/i.test(`${item.title || ""} ${item.category || ""}`);
     return item.type === "income" && !item.done && (isCommissionItem(item) || !isSalary);
   });
   const commissionExpected = commissionItems.reduce((sum, item) => sum + Number(item.value || 0), 0);
 
   const summaryLabels = document.querySelectorAll(".finance-summary [data-finance-summary-card] > span:not(.finance-summary-icon)");
-  ["Recebido", "A pagar", "Previsto", "Sobra do período", "Comissões previstas"].forEach((label, index) => {
+  ["Recebido", "A pagar", "Previsto", "Sobra do perÃ­odo", "ComissÃµes previstas"].forEach((label, index) => {
     if (summaryLabels[index]) summaryLabels[index].textContent = label;
   });
   document.querySelector("#finance-received").textContent = formatMoney(received);
   document.querySelector("#finance-payable").textContent = formatMoney(payable);
   document.querySelector("#finance-commission-expected").textContent = formatMoney(commissionExpected);
-  const periodWord = isYear ? "ANO" : "MÊS";
-  [`RECEBIDO NO ${periodWord}`, "A PAGAR", `PREVISTO NO ${periodWord}`, `SOBRA DO ${periodWord}`, "COMISSÕES PREVISTAS"].forEach((label, index) => {
+  const periodWord = isYear ? "ANO" : "MÃŠS";
+  [`RECEBIDO NO ${periodWord}`, "A PAGAR", `PREVISTO NO ${periodWord}`, `SOBRA DO ${periodWord}`, "COMISSÃ•ES PREVISTAS"].forEach((label, index) => {
     if (summaryLabels[index]) summaryLabels[index].textContent = label;
   });
   const previousPeriod = isYear
@@ -1611,7 +1611,7 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
     .reduce((sum, item) => sum + Number(item.value || 0), 0);
   const receivedChange = previousReceived > 0 ? Math.round(((received - previousReceived) / previousReceived) * 100) : 0;
   const receivedNote = document.querySelector("#finance-received-note");
-  receivedNote.textContent = `${receivedChange >= 0 ? "↑" : "↓"} ${Math.abs(receivedChange)}% vs ${isYear ? "ano" : "mês"} anterior`;
+  receivedNote.textContent = `${receivedChange >= 0 ? "â†‘" : "â†“"} ${Math.abs(receivedChange)}% vs ${isYear ? "ano" : "mÃªs"} anterior`;
   receivedNote.className = receivedChange >= 0 ? "positive-note" : "negative-note";
   const pendingBillsCount = state.fixedCosts.filter((item) => !isBudgetPaid(item)).length
     + periodVariableCosts.filter((item) => !isBudgetPaid(item)).length
@@ -1638,7 +1638,7 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
     : billItems.filter((item) => financeBillFilter === "variable" ? item.kind !== "fixed" : item.kind === "fixed");
   document.querySelectorAll("[data-finance-bill-filter]").forEach((button) => button.classList.toggle("active", button.dataset.financeBillFilter === financeBillFilter));
   const billsList = document.querySelector("#finance-overview-bills");
-  billsList.innerHTML = billItems.length ? "" : `<div class="empty-state">Nenhuma conta neste período.</div>`;
+  billsList.innerHTML = billItems.length ? "" : `<div class="empty-state">Nenhuma conta neste perÃ­odo.</div>`;
   filteredBillItems.slice(0, 8).forEach((item) => {
     const row = document.createElement("article");
     const actionData = item.kind === "fixed" || item.kind === "variable"
@@ -1646,8 +1646,8 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
       : `data-finance-done="${item.id}"`;
     row.className = item.done ? "done" : "";
     row.innerHTML = `
-      <button class="check-btn ${item.done ? "active" : ""}" type="button" ${actionData}>✓</button>
-      <div><strong>${escapeHtml(item.title)} <small class="finance-bill-kind">${item.kind === "fixed" ? "Fixa" : "Variável"}</small></strong><span>${item.done ? "Pago em" : "Vence em"} ${formatDate(item.dueDate)}</span></div>
+      <button class="check-btn ${item.done ? "active" : ""}" type="button" ${actionData}>âœ“</button>
+      <div><strong>${escapeHtml(item.title)} <small class="finance-bill-kind">${item.kind === "fixed" ? "Fixa" : "VariÃ¡vel"}</small></strong><span>${item.done ? "Pago em" : "Vence em"} ${formatDate(item.dueDate)}</span></div>
       <strong class="${item.done ? "money-income" : "money-expense"}">${formatMoney(item.value)}</strong>
       <button class="finance-status ${item.done ? "paid" : ""}" type="button" ${actionData}>${item.done ? "Pago" : "Pagar"}</button>
     `;
@@ -1666,13 +1666,13 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
   const subscriptionsList = document.querySelector("#finance-subscriptions");
   subscriptionsList.innerHTML = subscriptions.length ? "" : `<div class="empty-state">Cadastre Netflix, Spotify ou outra assinatura.</div>`;
   subscriptions.slice(0, 6).forEach((item) => {
-    const brand = /netflix/i.test(item.title) ? "N" : /spotify/i.test(item.title) ? "S" : /chatgpt/i.test(item.title) ? "AI" : /icloud/i.test(item.title) ? "☁" : "◆";
+    const brand = /netflix/i.test(item.title) ? "N" : /spotify/i.test(item.title) ? "S" : /chatgpt/i.test(item.title) ? "AI" : /icloud/i.test(item.title) ? "â˜" : "â—†";
     subscriptionsList.innerHTML += `<article><span class="finance-brand-icon">${brand}</span><div><strong>${escapeHtml(item.title)}</strong><span>${formatDate(item.dueDate)}</span></div><strong>${formatMoney(item.value)}</strong></article>`;
   });
 
   document.querySelector("#finance-commissions-total").textContent = formatMoney(commissionExpected);
   const commissionsList = document.querySelector("#finance-commissions");
-  commissionsList.innerHTML = commissionItems.length ? "" : `<div class="empty-state">Nenhuma comissão prevista.</div>`;
+  commissionsList.innerHTML = commissionItems.length ? "" : `<div class="empty-state">Nenhuma comissÃ£o prevista.</div>`;
   commissionItems.slice(0, 6).forEach((item) => {
     const name = getFinanceBaseTitle(item);
     commissionsList.innerHTML += `<article><span class="finance-avatar">${escapeHtml(name.slice(0, 1).toUpperCase())}</span><div><strong>${escapeHtml(name)}</strong><span>Previsto ${formatDate(item.dueDate)}</span></div><strong class="money-income">${formatMoney(item.value)}</strong></article>`;
@@ -1681,7 +1681,7 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
   const distributionItems = [
     { label: "Receitas", value: income, className: "income" },
     { label: "Custos fixos", value: fixedTotal, className: "fixed" },
-    { label: "Variáveis", value: variableTotal + expense, className: "variable" },
+    { label: "VariÃ¡veis", value: variableTotal + expense, className: "variable" },
     { label: "Livre", value: Math.max(0, balance), className: "free" },
   ];
   const distributionMax = Math.max(1, ...distributionItems.map((item) => item.value));
@@ -1712,24 +1712,24 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
     goalsList.innerHTML += `
       <article>
         <div class="finance-goal-head">
-          <span class="finance-goal-icon">${/reserva|emerg/i.test(goal.title) ? "♜" : /viagem/i.test(goal.title) ? "✈" : "★"}</span>
+          <span class="finance-goal-icon">${/reserva|emerg/i.test(goal.title) ? "â™œ" : /viagem/i.test(goal.title) ? "âœˆ" : "â˜…"}</span>
           <div><strong>${escapeHtml(goal.title)}</strong><span>${formatMoney(goal.current)} de ${formatMoney(goal.target)}</span></div>
           <button class="edit-btn" type="button" data-generic-edit="financeGoal:${goal.id}">Editar</button>
         </div>
         <div class="finance-bar"><span class="free" style="width:${Math.max(2, percent)}%"></span></div>
-        <small>${percent}% concluído</small>
+        <small>${percent}% concluÃ­do</small>
       </article>
     `;
   });
   const recentList = document.querySelector("#finance-recent-list");
   const recentItems = [...periodFinance].sort((a, b) => String(b.dueDate).localeCompare(String(a.dueDate))).slice(0, 6);
-  recentList.innerHTML = recentItems.length ? "" : `<div class="empty-state">Nenhum lançamento neste período.</div>`;
+  recentList.innerHTML = recentItems.length ? "" : `<div class="empty-state">Nenhum lanÃ§amento neste perÃ­odo.</div>`;
   recentItems.forEach((item) => {
     recentList.innerHTML += `
       <article>
         <span class="finance-recent-date">${String(item.dueDate || "").slice(8, 10)}<small>${formatFinanceMonthShort(item.dueDate)}</small></span>
         <div><strong>${item.type === "income" ? "Recebimento" : "Pagamento"} - ${escapeHtml(getFinanceBaseTitle(item))}</strong><span>${escapeHtml(item.category)}</span></div>
-        <span class="finance-recent-type ${item.type === "income" ? "money-income" : "money-expense"}">${item.type === "income" ? "Entrada" : "Saída"}</span>
+        <span class="finance-recent-type ${item.type === "income" ? "money-income" : "money-expense"}">${item.type === "income" ? "Entrada" : "SaÃ­da"}</span>
         <strong class="${item.type === "income" ? "money-income" : "money-expense"}">${item.type === "income" ? "+" : "-"} ${formatMoney(item.value)}</strong>
       </article>
     `;
@@ -1737,19 +1737,19 @@ function renderFinanceDashboard(periodFinance, periodVariableCosts, fixedTotal, 
 
   const categoryExpenses = {};
   state.fixedCosts.forEach((item) => { categoryExpenses.Casa = (categoryExpenses.Casa || 0) + Number(item.value || 0) * (isYear ? 12 : 1); });
-  periodVariableCosts.forEach((item) => { categoryExpenses[item.title || "Variáveis"] = (categoryExpenses[item.title || "Variáveis"] || 0) + Number(item.value || 0); });
+  periodVariableCosts.forEach((item) => { categoryExpenses[item.title || "VariÃ¡veis"] = (categoryExpenses[item.title || "VariÃ¡veis"] || 0) + Number(item.value || 0); });
   periodFinance.filter((item) => item.type === "expense").forEach((item) => {
     categoryExpenses[item.category || "Outros"] = (categoryExpenses[item.category || "Outros"] || 0) + Number(item.value || 0);
   });
   const categoryTotal = Math.max(1, Object.values(categoryExpenses).reduce((sum, value) => sum + value, 0));
-  const categoryIcons = { Casa: "⌂", Mercado: "▦", Transporte: "◆", Lazer: "★", Saúde: "+", Outros: "●" };
+  const categoryIcons = { Casa: "âŒ‚", Mercado: "â–¦", Transporte: "â—†", Lazer: "â˜…", SaÃºde: "+", Outros: "â—" };
   const categoryColors = ["green", "red", "yellow", "purple", "blue"];
   document.querySelector("#finance-category-breakdown").innerHTML = Object.entries(categoryExpenses)
     .sort((a, b) => b[1] - a[1])
     .map(([category, value], index) => {
       const percent = Math.round((value / categoryTotal) * 100);
       const color = categoryColors[index % categoryColors.length];
-      return `<article><span class="finance-category-icon ${color}">${categoryIcons[category] || "●"}</span><div><div><strong>${escapeHtml(category)}</strong><span>${formatMoney(value)} · ${percent}%</span></div><div class="finance-bar"><span class="${color}" style="width:${percent}%"></span></div></div></article>`;
+      return `<article><span class="finance-category-icon ${color}">${categoryIcons[category] || "â—"}</span><div><div><strong>${escapeHtml(category)}</strong><span>${formatMoney(value)} Â· ${percent}%</span></div><div class="finance-bar"><span class="${color}" style="width:${percent}%"></span></div></div></article>`;
     }).join("") || `<div class="empty-state">Nenhum gasto categorizado.</div>`;
 }
 
@@ -1770,7 +1770,7 @@ function renderFinance() {
   const balance = income - costTotal;
   const today = todayISO();
 
-  // 1. HEADER CONTROLS — update month bar label
+  // 1. HEADER CONTROLS â€” update month bar label
   const monthNamesShort = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
   const [y, m] = (state.financePlan.month || todayISO().slice(0, 7)).split('-');
   const triggerLabel = document.getElementById('finance-month-trigger-label');
@@ -1785,11 +1785,11 @@ function renderFinance() {
     if (cards.length >= 4) {
       // A Receber
       cards[0].querySelector('.money-income').textContent = formatMoney(income);
-      cards[0].querySelector('small').textContent = '• ' + incomeItems.length + ' lançamentos';
+      cards[0].querySelector('small').textContent = 'â€¢ ' + incomeItems.length + ' lanÃ§amentos';
       
       // A Pagar
       cards[1].querySelector('.money-expense').textContent = formatMoney(costTotal);
-      cards[1].querySelector('small').textContent = '• ' + totalExpenseItemsCount + ' lançamentos';
+      cards[1].querySelector('small').textContent = 'â€¢ ' + totalExpenseItemsCount + ' lanÃ§amentos';
       
       // Saldo Previsto
       cards[2].querySelector('strong').textContent = formatMoney(balance);
@@ -1799,7 +1799,7 @@ function renderFinance() {
       const reserveGoal = (state.financeGoals && state.financeGoals[0]) ? state.financeGoals[0] : { current: 0, target: 10000 };
       const reservePercent = reserveGoal.target > 0 ? Math.round((reserveGoal.current / reserveGoal.target) * 100) : 0;
       cards[3].querySelector('strong').textContent = formatMoney(reserveGoal.current);
-      cards[3].querySelector('small').textContent = 'Meta: ' + formatMoney(reserveGoal.target) + ' · ' + reservePercent + '%';
+      cards[3].querySelector('small').textContent = 'Meta: ' + formatMoney(reserveGoal.target) + ' Â· ' + reservePercent + '%';
       
       cards[3].style.cursor = 'pointer';
       cards[3].onclick = () => {
@@ -1848,7 +1848,7 @@ function renderFinance() {
     if (ltitle.includes('uber')) return `<img src="https://cdn.simpleicons.org/uber/000000" class="${className}" style="padding: 6px; background: #276EF1; border-radius: 50%; filter: brightness(0) invert(1);" alt="Uber" />`;
     if (ltitle.includes('nubank')) return `<img src="https://cdn.simpleicons.org/nubank/820AD9" class="${className}" style="padding: 6px; background: #820AD9; border-radius: 50%; filter: brightness(0) invert(1);" alt="Nubank" />`;
     if (ltitle.includes('bradesco')) return `<img src="https://cdn.simpleicons.org/bradesco/CC092F" class="${className}" style="padding: 6px; background: #CC092F; border-radius: 50%; filter: brightness(0) invert(1);" alt="Bradesco" />`;
-    if (ltitle.includes('itaú') || ltitle.includes('itau')) return `<img src="https://cdn.simpleicons.org/itau/EC7000" class="${className}" style="padding: 6px; background: #EC7000; border-radius: 50%; filter: brightness(0) invert(1);" alt="Itaú" />`;
+    if (ltitle.includes('itaÃº') || ltitle.includes('itau')) return `<img src="https://cdn.simpleicons.org/itau/EC7000" class="${className}" style="padding: 6px; background: #EC7000; border-radius: 50%; filter: brightness(0) invert(1);" alt="ItaÃº" />`;
     if (ltitle.includes('santander')) return `<img src="https://cdn.simpleicons.org/santander/EC0000" class="${className}" style="padding: 6px; background: #EC0000; border-radius: 50%; filter: brightness(0) invert(1);" alt="Santander" />`;
     if (ltitle.includes('mercado livre') || ltitle.includes('mercado pago')) return `<img src="https://cdn.simpleicons.org/mercadolibre/FFE600" class="${className}" style="padding: 6px; background: #FFE600; border-radius: 50%; filter: brightness(0) invert(1);" alt="Mercado Livre" />`;
     if (ltitle.includes('claro')) return `<div class="${className}" style="background: #DA291C; color: #fff; font-weight: bold; font-size: 11px; letter-spacing: -0.5px;">Claro</div>`;
@@ -1857,41 +1857,41 @@ function renderFinance() {
 
     // General categories with colored background and emoji
     if (ltitle.includes('barbeiro') || ltitle.includes('barbearia') || ltitle.includes('cabelereiro')) {
-      return `<div class="${className}" style="background: #8b5cf6; color: #fff; font-size: 16px;">✂️</div>`;
+      return `<div class="${className}" style="background: #8b5cf6; color: #fff; font-size: 16px;">âœ‚ï¸</div>`;
     }
     if (ltitle.includes('mei')) {
-      return `<div class="${className}" style="background: #ef4444; color: #fff; font-size: 16px;">📄</div>`;
+      return `<div class="${className}" style="background: #ef4444; color: #fff; font-size: 16px;">ðŸ“„</div>`;
     }
-    if (ltitle.includes('aluguel') || ltitle.includes('casa') || ltitle.includes('condomínio') || ltitle.includes('moradia')) {
-      return `<div class="${className}" style="background: #9c27b0; color: #fff; font-size: 16px;">🏠</div>`;
+    if (ltitle.includes('aluguel') || ltitle.includes('casa') || ltitle.includes('condomÃ­nio') || ltitle.includes('moradia')) {
+      return `<div class="${className}" style="background: #9c27b0; color: #fff; font-size: 16px;">ðŸ </div>`;
     }
     if (ltitle.includes('internet') || ltitle.includes('wifi')) {
-      return `<div class="${className}" style="background: #4caf50; color: #fff; font-size: 16px;">📶</div>`;
+      return `<div class="${className}" style="background: #4caf50; color: #fff; font-size: 16px;">ðŸ“¶</div>`;
     }
     if (ltitle.includes('energia') || ltitle.includes('luz') || ltitle.includes('enel') || ltitle.includes('cpfl')) {
-      return `<div class="${className}" style="background: #ff9800; color: #fff; font-size: 16px;">⚡</div>`;
+      return `<div class="${className}" style="background: #ff9800; color: #fff; font-size: 16px;">âš¡</div>`;
     }
-    if (ltitle.includes('água') || ltitle.includes('sabesp') || ltitle.includes('copasa')) {
-      return `<div class="${className}" style="background: #2196f3; color: #fff; font-size: 16px;">💧</div>`;
+    if (ltitle.includes('Ã¡gua') || ltitle.includes('sabesp') || ltitle.includes('copasa')) {
+      return `<div class="${className}" style="background: #2196f3; color: #fff; font-size: 16px;">ðŸ’§</div>`;
     }
-    if (ltitle.includes('salário') || ltitle.includes('trabalho') || ltitle.includes('job') || ltitle.includes('pagamento')) {
-      return `<div class="${className}" style="background: #2e7d32; color: #fff; font-size: 16px;">💼</div>`;
+    if (ltitle.includes('salÃ¡rio') || ltitle.includes('trabalho') || ltitle.includes('job') || ltitle.includes('pagamento')) {
+      return `<div class="${className}" style="background: #2e7d32; color: #fff; font-size: 16px;">ðŸ’¼</div>`;
     }
-    if (ltitle.includes('mercado') || ltitle.includes('alimentação') || ltitle.includes('comida') || ltitle.includes('ifood') || ltitle.includes('feira')) {
-      return `<div class="${className}" style="background: #f44336; color: #fff; font-size: 16px;">🛒</div>`;
+    if (ltitle.includes('mercado') || ltitle.includes('alimentaÃ§Ã£o') || ltitle.includes('comida') || ltitle.includes('ifood') || ltitle.includes('feira')) {
+      return `<div class="${className}" style="background: #f44336; color: #fff; font-size: 16px;">ðŸ›’</div>`;
     }
-    if (ltitle.includes('academia') || ltitle.includes('saúde') || ltitle.includes('médico') || ltitle.includes('treino') || ltitle.includes('farmácia')) {
-      return `<div class="${className}" style="background: #00bcd4; color: #fff; font-size: 16px;">💪</div>`;
+    if (ltitle.includes('academia') || ltitle.includes('saÃºde') || ltitle.includes('mÃ©dico') || ltitle.includes('treino') || ltitle.includes('farmÃ¡cia')) {
+      return `<div class="${className}" style="background: #00bcd4; color: #fff; font-size: 16px;">ðŸ’ª</div>`;
     }
     
     // Default fallback arrows
     if (t === 'income') {
-      return `<div class="${className}" style="background: #22c55e; color: #fff; font-weight: bold; font-size: 14px;">↗</div>`;
+      return `<div class="${className}" style="background: #22c55e; color: #fff; font-weight: bold; font-size: 14px;">â†—</div>`;
     }
     if (t === 'fixed' || t === 'expense' || t === 'variable') {
-      return `<div class="${className}" style="background: #ef4444; color: #fff; font-weight: bold; font-size: 14px;">↘</div>`;
+      return `<div class="${className}" style="background: #ef4444; color: #fff; font-weight: bold; font-size: 14px;">â†˜</div>`;
     }
-    return `<div class="${className}" style="background: #6b7280; color: #fff; font-size: 16px;">👤</div>`;
+    return `<div class="${className}" style="background: #6b7280; color: #fff; font-size: 16px;">ðŸ‘¤</div>`;
   };
 
   // Build All Items for Month
@@ -1908,7 +1908,7 @@ function renderFinance() {
   // Sort by date
   allMonthItems.sort((a,b) => (a.dueDate || '').localeCompare(b.dueDate || ''));
 
-  // ROW 2: Próximos compromissos
+  // ROW 2: PrÃ³ximos compromissos
   const compromissosList = document.querySelector('#section-resumo .finance-list-mock');
   if (compromissosList) {
     const upcoming = allMonthItems.filter(i => (i.dueDate || '') >= today).slice(0, 5);
@@ -1920,7 +1920,7 @@ function renderFinance() {
       const descLabel = isIncome ? 'Recebimento' : 'Conta';
       return `
         <article class="finance-list-item ${i.done ? 'done-item' : ''}">
-          <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="${isIncome ? "Marcar recebido" : "Marcar pago"}">✓</button>
+          <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="${isIncome ? "Marcar recebido" : "Marcar pago"}">âœ“</button>
           <div class="finance-list-date"><strong>${date.d}</strong><span>${date.m}</span></div>
           ${getIconHTML(i, i.realType, true)}
           <div class="finance-list-info">
@@ -1932,7 +1932,7 @@ function renderFinance() {
             <span class="${cssColor}">${typeLabel}</span>
           </div>
           <button class="edit-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-edit="${i.realType}:${i.id}"` : `data-finance-edit="${i.id}"`}>Editar</button>
-          <button class="delete-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-delete="${i.realType}:${i.id}"` : `data-finance-delete="${i.id}"`}>×</button>
+          <button class="delete-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-delete="${i.realType}:${i.id}"` : `data-finance-delete="${i.id}"`}>Ã—</button>
         </article>`;
     }).join('');
     if(upcoming.length === 0) compromissosList.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Nenhum compromisso pendente.</p>';
@@ -1946,7 +1946,7 @@ function renderFinance() {
     pagarList.innerHTML = pagarItems.map(i => {
       return `
         <article class="finance-list-item ${i.done ? 'done-item' : ''}">
-          <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="Marcar como pago">✓</button>
+          <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="Marcar como pago">âœ“</button>
           ${getIconHTML(i, i.realType, true)}
           <div class="finance-list-info">
             <strong>${i.title}</strong>
@@ -1956,7 +1956,7 @@ function renderFinance() {
             <strong class="money-expense">${formatMoney(i.value)}</strong>
           </div>
           <button class="edit-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-edit="${i.realType}:${i.id}"` : `data-finance-edit="${i.id}"`}>Editar</button>
-          <button class="delete-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-delete="${i.realType}:${i.id}"` : `data-finance-delete="${i.id}"`}>×</button>
+          <button class="delete-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-delete="${i.realType}:${i.id}"` : `data-finance-delete="${i.id}"`}>Ã—</button>
         </article>`;
     }).join('');
     if (pagarItems.length > 0) {
@@ -1974,7 +1974,7 @@ function renderFinance() {
     receberList.innerHTML = receberItems.map(i => {
       return `
         <article class="finance-list-item ${i.done ? 'done-item' : ''}">
-          <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="Marcar como recebido">✓</button>
+          <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="Marcar como recebido">âœ“</button>
           ${getIconHTML(i, i.realType, true)}
           <div class="finance-list-info">
             <strong>${i.title}</strong>
@@ -1985,13 +1985,13 @@ function renderFinance() {
             <span class="money-income">A receber</span>
           </div>
           <button class="edit-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-edit="${i.realType}:${i.id}"` : `data-finance-edit="${i.id}"`}>Editar</button>
-          <button class="delete-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-delete="${i.realType}:${i.id}"` : `data-finance-delete="${i.id}"`}>×</button>
+          <button class="delete-btn" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-delete="${i.realType}:${i.id}"` : `data-finance-delete="${i.id}"`}>Ã—</button>
         </article>`;
     }).join('');
     if (receberItems.length > 0) {
       receberList.innerHTML += `<div class="finance-panel-total">Total mensal: <strong class="money-income">${formatMoney(receberTotal)}</strong></div>`;
     } else {
-      receberList.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Nada a receber neste mês.</p>';
+      receberList.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Nada a receber neste mÃªs.</p>';
     }
   }
 
@@ -2004,7 +2004,7 @@ function renderFinance() {
     assinaturasList.innerHTML = subs.map(i => {
       return `
         <article class="finance-horizontal-item ${i.done ? 'done-item' : ''}">
-          <button class="check-btn ${i.done ? 'active' : ''}" type="button" data-budget-paid="fixed:${i.id}" title="Marcar como pago">✓</button>
+          <button class="check-btn ${i.done ? 'active' : ''}" type="button" data-budget-paid="fixed:${i.id}" title="Marcar como pago">âœ“</button>
           ${getIconHTML(i, 'fixed', false)}
           <div class="finance-item-text">
             <strong>${i.title}</strong>
@@ -2012,7 +2012,7 @@ function renderFinance() {
           </div>
           <strong class="finance-item-price">${formatMoney(i.value)}</strong>
           <button class="edit-btn" type="button" data-budget-edit="fixed:${i.id}">Editar</button>
-          <button class="delete-btn" type="button" data-budget-delete="fixed:${i.id}">×</button>
+          <button class="delete-btn" type="button" data-budget-delete="fixed:${i.id}">Ã—</button>
         </article>`;
     }).join('');
     const subsTotal = subs.reduce((a,b)=>a+b.value, 0);
@@ -2027,7 +2027,7 @@ function renderFinance() {
     fixasList.innerHTML = nonSubs.map(i => {
       return `
         <article class="finance-horizontal-item ${i.done ? 'done-item' : ''}">
-          <button class="check-btn ${i.done ? 'active' : ''}" type="button" data-budget-paid="fixed:${i.id}" title="Marcar como pago">✓</button>
+          <button class="check-btn ${i.done ? 'active' : ''}" type="button" data-budget-paid="fixed:${i.id}" title="Marcar como pago">âœ“</button>
           ${getIconHTML(i, 'fixed', false)}
           <div class="finance-item-text">
             <strong>${i.title}</strong>
@@ -2035,7 +2035,7 @@ function renderFinance() {
           </div>
           <strong class="finance-item-price">${formatMoney(i.value)}</strong>
           <button class="edit-btn" type="button" data-budget-edit="fixed:${i.id}">Editar</button>
-          <button class="delete-btn" type="button" data-budget-delete="fixed:${i.id}">×</button>
+          <button class="delete-btn" type="button" data-budget-delete="fixed:${i.id}">Ã—</button>
         </article>`;
     }).join('');
     const fixasTotal = nonSubs.reduce((a,b)=>a+b.value, 0);
@@ -2044,7 +2044,7 @@ function renderFinance() {
     if(nonSubs.length === 0) fixasList.innerHTML = '<p style="color:var(--text-muted);font-size:13px;padding-top:8px;">Nenhuma conta fixa.</p>';
   }
 
-  // ROW 3: Visão mensal — 3 meses antes e 3 depois do mês selecionado
+  // ROW 3: VisÃ£o mensal â€” 3 meses antes e 3 depois do mÃªs selecionado
   const histTbody = document.querySelector('#section-historico tbody');
   if (histTbody) {
     const monthNamesShort = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
@@ -2118,7 +2118,7 @@ function renderFinanceToday(items) {
     row.innerHTML = `
       <div>
         <strong>${actionLabel}: ${escapeHtml(item.title)}</strong>
-        <span>${formatMoney(item.value)} • ${escapeHtml(item.category || (isFixed ? "Custo fixo" : "Custo variável"))} • ${formatDate(item.dueDate)}</span>
+        <span>${formatMoney(item.value)} â€¢ ${escapeHtml(item.category || (isFixed ? "Custo fixo" : "Custo variÃ¡vel"))} â€¢ ${formatDate(item.dueDate)}</span>
       </div>
       <button class="primary-action" type="button" ${actionData}>${doneLabel}</button>
     `;
@@ -2199,18 +2199,18 @@ const genericEditConfigs = {
     find: (id) => state.tasks.find((item) => item.id === id),
     fields: [
       { key: "title", label: "Tarefa", type: "text" },
-      { key: "priority", label: "Prioridade", type: "select", options: ["Alta", "Média", "Baixa"] },
+      { key: "priority", label: "Prioridade", type: "select", options: ["Alta", "MÃ©dia", "Baixa"] },
     ],
     save: (id, values) => {
       state.tasks = state.tasks.map((item) => item.id === id ? { ...item, title: values.title || item.title, priority: values.priority } : item);
     },
   },
   pending: {
-    title: "Editar pendência",
+    title: "Editar pendÃªncia",
     find: (id) => state.pending.find((item) => item.id === id),
     fields: [
       { key: "title", label: "Nome", type: "text" },
-      { key: "type", label: "Tipo", type: "select", options: [["daily", "Diária/imediata"], ["backlog", "Sem prazo"], ["weekly", "Semanal"], ["monthly", "Mensal"]] },
+      { key: "type", label: "Tipo", type: "select", options: [["daily", "DiÃ¡ria/imediata"], ["backlog", "Sem prazo"], ["weekly", "Semanal"], ["monthly", "Mensal"]] },
     ],
     save: (id, values) => {
       state.pending = state.pending.map((item) => item.id === id ? { ...item, title: values.title || item.title, type: values.type } : item);
@@ -2238,7 +2238,7 @@ const genericEditConfigs = {
       { key: "name", label: "Item", type: "text" },
       { key: "category", label: "Categoria", type: "select", options: marketCategories.map((category) => [category.id, category.label]) },
       { key: "qty", label: "Quantidade", type: "number" },
-      { key: "price", label: "Preço", type: "number" },
+      { key: "price", label: "PreÃ§o", type: "number" },
     ],
     save: (id, values) => {
       state.market = state.market.map((item) => item.id === id ? {
@@ -2258,7 +2258,7 @@ const genericEditConfigs = {
     fields: [
       { key: "name", label: "Item", type: "text" },
       { key: "category", label: "Categoria", type: "select", options: wishlistCategories.map((category) => [category.id, category.label]) },
-      { key: "priority", label: "Prioridade", type: "select", options: ["Alta", "Média", "Baixa"] },
+      { key: "priority", label: "Prioridade", type: "select", options: ["Alta", "MÃ©dia", "Baixa"] },
       { key: "price", label: "Valor previsto", type: "number" },
       { key: "link", label: "Loja ou link", type: "text" },
     ],
@@ -2325,9 +2325,9 @@ const genericEditConfigs = {
     },
   },
   note: {
-    title: "Editar anotação",
+    title: "Editar anotaÃ§Ã£o",
     find: (id) => state.notes.find((item) => item.id === id),
-    fields: [{ key: "text", label: "Anotação", type: "textarea" }],
+    fields: [{ key: "text", label: "AnotaÃ§Ã£o", type: "textarea" }],
     save: (id, values) => {
       state.notes = state.notes.map((item) => item.id === id ? { ...item, text: values.text || item.text } : item);
     },
@@ -2337,7 +2337,7 @@ const genericEditConfigs = {
     find: (id) => state.personal.goals.find((item) => item.id === id),
     fields: [
       { key: "title", label: "Meta", type: "text" },
-      { key: "area", label: "Área", type: "text" },
+      { key: "area", label: "Ãrea", type: "text" },
     ],
     save: (id, values) => {
       state.personal.goals = state.personal.goals.map((item) => item.id === id ? { ...item, title: values.title || item.title, area: values.area || item.area } : item);
@@ -2373,7 +2373,7 @@ const genericEditConfigs = {
       { key: "category", label: "Categoria", type: "select", options: wardrobeCategories.map((category) => [category.id, category.label]) },
       { key: "color", label: "Cor", type: "text" },
       { key: "style", label: "Estilo", type: "text" },
-      { key: "notes", label: "Observações", type: "textarea" },
+      { key: "notes", label: "ObservaÃ§Ãµes", type: "textarea" },
     ],
     save: (id, values) => {
       state.wardrobeItems = state.wardrobeItems.map((item) => item.id === id ? {
@@ -2432,7 +2432,7 @@ function openGenericEdit(entity, id) {
       emojiButton.type = "button";
       emojiButton.dataset.emojiPickerTarget = input.id;
       emojiButton.title = "Escolher emoji";
-      emojiButton.textContent = "☺";
+      emojiButton.textContent = "â˜º";
       wrap.append(input, emojiButton);
       label.append(wrap);
     } else {
@@ -2486,13 +2486,13 @@ function renderBudgetList(elementId, items, kind) {
       <span class="finance-date">${formatDate(dueDate)}</span>
       <div class="finance-row-main">
         <strong>${escapeHtml(item.title)}</strong>
-        <small>${kind === "fixed" ? "Custo fixo" : "Custo variável"} • ${statusText}</small>
+        <small>${kind === "fixed" ? "Custo fixo" : "Custo variÃ¡vel"} â€¢ ${statusText}</small>
       </div>
       <strong class="money-expense">- ${formatMoney(item.value)}</strong>
       <div class="finance-row-actions">
-        <button class="check-btn ${paid ? "active" : ""}" type="button" data-budget-paid="${kind}:${item.id}" title="Marcar como pago">✓</button>
+        <button class="check-btn ${paid ? "active" : ""}" type="button" data-budget-paid="${kind}:${item.id}" title="Marcar como pago">âœ“</button>
         <button class="edit-btn" type="button" data-budget-edit="${kind}:${item.id}">Editar</button>
-        <button class="delete-btn" type="button" data-budget-delete="${kind}:${item.id}">×</button>
+        <button class="delete-btn" type="button" data-budget-delete="${kind}:${item.id}">Ã—</button>
       </div>
     `;
     list.append(row);
@@ -2545,7 +2545,7 @@ function renderPending() {
   const types = ["daily", "backlog", "weekly", "monthly"];
   const emptyText = {
     daily: "Nada imediato por aqui. Quando aparecer algo para hoje, coloque nesta coluna.",
-    backlog: "Sem pendências soltas registradas.",
+    backlog: "Sem pendÃªncias soltas registradas.",
     weekly: "Nenhuma tarefa semanal cadastrada.",
     monthly: "Nenhuma tarefa mensal cadastrada.",
   };
@@ -2573,24 +2573,24 @@ function renderPending() {
       row.dataset.pendingDrag = task.id;
       row.innerHTML = `
         <div class="pending-main">
-          <button class="check-btn ${task.done ? "active" : ""}" type="button" data-pending-check="${task.id}">✓</button>
+          <button class="check-btn ${task.done ? "active" : ""}" type="button" data-pending-check="${task.id}">âœ“</button>
           <div>
             <strong>${task.title}</strong>
             <small>${progress}</small>
           </div>
-          <button class="expand-btn ${isOpen ? "open" : ""}" type="button" data-pending-expand="${task.id}" title="Abrir subtarefas">${isOpen ? "−" : "+"}</button>
-          <button class="drag-handle" type="button" title="Arrastar tarefa">⋮⋮</button>
+          <button class="expand-btn ${isOpen ? "open" : ""}" type="button" data-pending-expand="${task.id}" title="Abrir subtarefas">${isOpen ? "âˆ’" : "+"}</button>
+          <button class="drag-handle" type="button" title="Arrastar tarefa">â‹®â‹®</button>
           <button class="edit-btn" type="button" data-generic-edit="pending:${task.id}">Editar</button>
-          <button class="delete-btn" type="button" data-pending-delete="${task.id}">×</button>
+          <button class="delete-btn" type="button" data-pending-delete="${task.id}">Ã—</button>
         </div>
         <div class="subtasks ${isOpen ? "" : "collapsed"}">
           <ul>
             ${task.subtasks.map((subtask) => `
               <li class="${subtask.done ? "done" : ""}">
-                <button class="mini-check ${subtask.done ? "active" : ""}" type="button" data-subtask-check="${task.id}:${subtask.id}">✓</button>
+                <button class="mini-check ${subtask.done ? "active" : ""}" type="button" data-subtask-check="${task.id}:${subtask.id}">âœ“</button>
                 <span>${subtask.title}</span>
                 <button class="mini-edit" type="button" data-generic-edit="subtask:${task.id}:${subtask.id}">Editar</button>
-                <button class="mini-delete" type="button" data-subtask-delete="${task.id}:${subtask.id}">×</button>
+                <button class="mini-delete" type="button" data-subtask-delete="${task.id}:${subtask.id}">Ã—</button>
               </li>
             `).join("")}
           </ul>
@@ -2612,11 +2612,11 @@ function renderTasks() {
     const row = document.createElement("div");
     row.className = `table-row ${task.done ? "done" : ""}`;
     row.innerHTML = `
-      <span><button class="check-btn ${task.done ? "active" : ""}" type="button" data-task-check="${task.id}">✓</button></span>
+      <span><button class="check-btn ${task.done ? "active" : ""}" type="button" data-task-check="${task.id}">âœ“</button></span>
       <strong>${task.title}</strong>
       <span class="pill ${task.priority}">${task.priority}</span>
       <button class="edit-btn" type="button" data-generic-edit="task:${task.id}">Editar</button>
-      <button class="delete-btn" type="button" data-task-delete="${task.id}">×</button>
+      <button class="delete-btn" type="button" data-task-delete="${task.id}">Ã—</button>
     `;
     list.append(row);
   });
@@ -2674,13 +2674,13 @@ function renderMarket() {
       const row = document.createElement("div");
       row.className = `market-item-row ${item.bought ? "done" : ""}`;
       row.innerHTML = `
-        <button class="check-btn ${item.bought ? "active" : ""}" type="button" data-market-check="${item.id}">✓</button>
+        <button class="check-btn ${item.bought ? "active" : ""}" type="button" data-market-check="${item.id}">âœ“</button>
         <strong>${item.name}</strong>
         <span class="market-value-cell"><small>Quantidade</small>${item.qty}</span>
-        <span class="market-value-cell"><small>Unitário</small>${formatMoney(item.price)}</span>
+        <span class="market-value-cell"><small>UnitÃ¡rio</small>${formatMoney(item.price)}</span>
         <span class="market-value-cell"><small>Total</small>${formatMoney(total)}</span>
         <button class="edit-btn" type="button" data-generic-edit="market:${item.id}">Editar</button>
-        <button class="delete-btn" type="button" data-market-delete="${item.id}">×</button>
+        <button class="delete-btn" type="button" data-market-delete="${item.id}">Ã—</button>
       `;
       section.append(row);
     });
@@ -2740,14 +2740,14 @@ function renderMarketShop() {
       const row = document.createElement("article");
       row.className = `market-shop-row ${item.inCart ? "picked" : ""}`;
       row.innerHTML = `
-        <button class="check-btn ${item.inCart ? "active" : ""}" type="button" data-market-shop-pick="${item.id}" title="Marcar como pego">✓</button>
+        <button class="check-btn ${item.inCart ? "active" : ""}" type="button" data-market-shop-pick="${item.id}" title="Marcar como pego">âœ“</button>
         <strong>${escapeHtml(item.name)}</strong>
         <label>
           <span>Qtd</span>
           <input type="number" min="1" step="1" value="${qty}" data-market-shop-qty="${item.id}" />
         </label>
         <label>
-          <span>Preço</span>
+          <span>PreÃ§o</span>
           <input type="number" min="0" step="0.01" value="${price || ""}" data-market-shop-price="${item.id}" />
         </label>
         <span class="market-shop-row-total">${formatMoney(rowTotal)}</span>
@@ -2787,13 +2787,13 @@ function renderPersonal() {
     const row = document.createElement("article");
     row.className = `personal-row ${goal.done ? "done" : ""}`;
     row.innerHTML = `
-      <button class="check-btn ${goal.done ? "active" : ""}" type="button" data-personal-goal-check="${goal.id}">✓</button>
+      <button class="check-btn ${goal.done ? "active" : ""}" type="button" data-personal-goal-check="${goal.id}">âœ“</button>
       <div>
         <strong>${escapeHtml(goal.title)}</strong>
         <small>${escapeHtml(goal.area)}</small>
       </div>
       <button class="edit-btn" type="button" data-generic-edit="personalGoal:${goal.id}">Editar</button>
-      <button class="delete-btn" type="button" data-personal-goal-delete="${goal.id}">×</button>
+      <button class="delete-btn" type="button" data-personal-goal-delete="${goal.id}">Ã—</button>
     `;
     goalsList.append(row);
   });
@@ -2811,13 +2811,13 @@ function renderPersonal() {
     const row = document.createElement("article");
     row.className = `personal-row ${doc.done ? "done" : ""}`;
     row.innerHTML = `
-      <button class="check-btn ${doc.done ? "active" : ""}" type="button" data-personal-doc-check="${doc.id}">✓</button>
+      <button class="check-btn ${doc.done ? "active" : ""}" type="button" data-personal-doc-check="${doc.id}">âœ“</button>
       <div>
         <strong>${escapeHtml(doc.title)}</strong>
         <small>${escapeHtml(doc.value || "Sem detalhe")}</small>
       </div>
       <button class="edit-btn" type="button" data-generic-edit="personalDoc:${doc.id}">Editar</button>
-      <button class="delete-btn" type="button" data-personal-doc-delete="${doc.id}">×</button>
+      <button class="delete-btn" type="button" data-personal-doc-delete="${doc.id}">Ã—</button>
     `;
     docsList.append(row);
   });
@@ -2880,7 +2880,7 @@ function renderWishlist() {
       const row = document.createElement("article");
       row.className = `wishlist-row ${item.bought ? "done" : ""}`;
       row.innerHTML = `
-        <button class="check-btn ${item.bought ? "active" : ""}" type="button" data-wishlist-check="${item.id}" title="Marcar como comprado">✓</button>
+        <button class="check-btn ${item.bought ? "active" : ""}" type="button" data-wishlist-check="${item.id}" title="Marcar como comprado">âœ“</button>
         <div>
           <strong>${escapeHtml(item.name)}</strong>
           ${
@@ -2892,7 +2892,7 @@ function renderWishlist() {
         <span class="pill ${escapeHtml(item.priority)}">${escapeHtml(item.priority)}</span>
         <strong>${formatMoney(item.price)}</strong>
         <button class="edit-btn" type="button" data-generic-edit="wishlist:${item.id}">Editar</button>
-        <button class="delete-btn" type="button" data-wishlist-delete="${item.id}">×</button>
+        <button class="delete-btn" type="button" data-wishlist-delete="${item.id}">Ã—</button>
       `;
       sectionList.append(row);
     });
@@ -2969,14 +2969,14 @@ function renderAgenda() {
     const row = document.createElement("article");
     row.className = item.done ? "done" : "";
     row.innerHTML = `
-      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-agenda-check="${item.id}">✓</button>
+      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-agenda-check="${item.id}">âœ“</button>
       <b>${formatDate(item.date)}</b>
       <div>
         <strong>${escapeHtml(item.title)}</strong>
         <span>${typeLabels[item.type] || "Lembrete"}</span>
       </div>
       <button class="edit-btn" type="button" data-generic-edit="agenda:${item.id}">Editar</button>
-      <button class="delete-btn" type="button" data-agenda-delete="${item.id}">×</button>
+      <button class="delete-btn" type="button" data-agenda-delete="${item.id}">Ã—</button>
     `;
     list.append(row);
   });
@@ -2999,8 +2999,8 @@ function renderCnh() {
   document.querySelector("#cnh-progress-text").textContent = `${progress}%`;
   document.querySelector("#cnh-progress-bar").style.width = `${progress}%`;
   document.querySelector("#cnh-step-count").textContent = `${completed.length} de ${steps.length} etapas`;
-  document.querySelector("#cnh-next-step").textContent = nextStep ? `Próxima etapa: ${nextStep.title}` : "Processo concluído";
-  document.querySelector("#cnh-date-range").textContent = `${formatDate(state.cnh?.startDate)} até ${formatDate(state.cnh?.endDate)}`;
+  document.querySelector("#cnh-next-step").textContent = nextStep ? `PrÃ³xima etapa: ${nextStep.title}` : "Processo concluÃ­do";
+  document.querySelector("#cnh-date-range").textContent = `${formatDate(state.cnh?.startDate)} atÃ© ${formatDate(state.cnh?.endDate)}`;
 
   list.innerHTML = "";
   if (!steps.length) {
@@ -3012,16 +3012,16 @@ function renderCnh() {
     const row = document.createElement("article");
     row.className = `cnh-step ${item.done ? "done" : ""}`;
     row.innerHTML = `
-      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-cnh-check="${item.id}" title="Marcar etapa como concluída">✓</button>
+      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-cnh-check="${item.id}" title="Marcar etapa como concluÃ­da">âœ“</button>
       <div class="cnh-step-index">${String(index + 1).padStart(2, "0")}</div>
       <div class="cnh-step-main">
         <strong>${escapeHtml(item.title)}</strong>
         <span>${item.dueDate ? formatDate(item.dueDate) : "Sem data definida"}</span>
       </div>
       <strong class="cnh-step-value">${formatMoney(item.value)}</strong>
-      <span class="pill ${item.done ? "Baixa" : "Média"}">${item.done ? "Concluído" : "Pendente"}</span>
+      <span class="pill ${item.done ? "Baixa" : "MÃ©dia"}">${item.done ? "ConcluÃ­do" : "Pendente"}</span>
       <button class="edit-btn" type="button" data-generic-edit="cnh:${item.id}">Editar</button>
-      <button class="delete-btn" type="button" data-cnh-delete="${item.id}">×</button>
+      <button class="delete-btn" type="button" data-cnh-delete="${item.id}">Ã—</button>
     `;
     list.append(row);
   });
@@ -3073,7 +3073,7 @@ function renderWins() {
             <span>${formatDate(item.date)}</span>
             <strong>${escapeHtml(item.title)}</strong>
             <button class="edit-btn" type="button" data-generic-edit="win:${item.id}">Editar</button>
-            <button class="delete-btn" type="button" data-win-delete="${item.id}" title="Apagar conquista">×</button>
+            <button class="delete-btn" type="button" data-win-delete="${item.id}" title="Apagar conquista">Ã—</button>
           </div>
         `;
         grid.append(card);
@@ -3102,10 +3102,10 @@ function renderHomeItems() {
         ${item.photo ? `<img src="${item.photo}" alt="${escapeHtml(item.title)}" />` : "<span>Foto</span>"}
       </button>
       <div class="home-card-body">
-        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-home-check="${item.id}" title="Marcar como comprado">✓</button>
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-home-check="${item.id}" title="Marcar como comprado">âœ“</button>
         <strong>${escapeHtml(item.title)}</strong>
         <span>${item.done ? "Tenho" : "Pendente"}</span>
-        <button class="delete-btn" type="button" data-home-delete="${item.id}">×</button>
+        <button class="delete-btn" type="button" data-home-delete="${item.id}">Ã—</button>
       </div>
     `;
     list.append(card);
@@ -3133,7 +3133,7 @@ function getGeneratedWardrobeLooks() {
 
 function wardrobePieceVisual(item, compact = false) {
   return `<article class="wardrobe-look-piece ${compact ? "compact" : ""}">
-    <div>${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" />` : `<span>👕</span>`}</div>
+    <div>${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" />` : `<span>ðŸ‘•</span>`}</div>
     <strong>${escapeHtml(item.name)}</strong>
     <small>${escapeHtml(item.color || "Sem cor")}</small>
   </article>`;
@@ -3157,28 +3157,28 @@ function renderWardrobe() {
   ));
   list.innerHTML = filtered.length ? filtered.map((item) => `<article class="wardrobe-item-card">
     <button class="wardrobe-item-photo" type="button" data-wardrobe-photo="${item.id}" title="Adicionar ou trocar foto">${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" />` : `<span>Adicionar foto</span>`}</button>
-    <div class="wardrobe-item-body"><span>${escapeHtml(wardrobeCategoryLabel(item.category))}</span><h4>${escapeHtml(item.name)}</h4><p><i style="--piece-color:${escapeHtml(item.color)}"></i>${escapeHtml(item.color || "Sem cor")}</p><small>${escapeHtml(item.style || "Sem estilo definido")}</small><div><button type="button" data-generic-edit="wardrobe:${item.id}">Editar</button><button class="delete-btn" type="button" data-wardrobe-delete="${item.id}">×</button></div></div>
+    <div class="wardrobe-item-body"><span>${escapeHtml(wardrobeCategoryLabel(item.category))}</span><h4>${escapeHtml(item.name)}</h4><p><i style="--piece-color:${escapeHtml(item.color)}"></i>${escapeHtml(item.color || "Sem cor")}</p><small>${escapeHtml(item.style || "Sem estilo definido")}</small><div><button type="button" data-generic-edit="wardrobe:${item.id}">Editar</button><button class="delete-btn" type="button" data-wardrobe-delete="${item.id}">Ã—</button></div></div>
   </article>`).join("") : `<div class="empty-state">Nenhuma roupa encontrada.</div>`;
 
   const groups = document.querySelector("#wardrobe-selection-groups");
   groups.innerHTML = wardrobeCategories.map((category) => {
     const items = state.wardrobeItems.filter((item) => item.category === category.id);
-    return `<section><div><h4>${category.label}</h4><span>${category.optional ? "Opcional" : "Obrigatório"}</span></div><div>${items.length ? items.map((item) => `<label class="wardrobe-select-piece"><input type="checkbox" data-wardrobe-select="${item.id}" ${state.wardrobeSelection.includes(item.id) ? "checked" : ""} /><span>${item.image ? `<img src="${item.image}" alt="" />` : "👕"}</span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.color)}</small></label>`).join("") : `<p>Nenhuma peça cadastrada.</p>`}</div></section>`;
+    return `<section><div><h4>${category.label}</h4><span>${category.optional ? "Opcional" : "ObrigatÃ³rio"}</span></div><div>${items.length ? items.map((item) => `<label class="wardrobe-select-piece"><input type="checkbox" data-wardrobe-select="${item.id}" ${state.wardrobeSelection.includes(item.id) ? "checked" : ""} /><span>${item.image ? `<img src="${item.image}" alt="" />` : "ðŸ‘•"}</span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.color)}</small></label>`).join("") : `<p>Nenhuma peÃ§a cadastrada.</p>`}</div></section>`;
   }).join("");
 
   const generated = getGeneratedWardrobeLooks();
   document.querySelector("#wardrobe-item-count").textContent = state.wardrobeItems.length;
   document.querySelector("#wardrobe-look-count").textContent = generated.length;
   document.querySelector("#wardrobe-saved-count").textContent = state.wardrobeLooks.length;
-  document.querySelector("#wardrobe-generated-total").textContent = `${generated.length} ${generated.length === 1 ? "combinação" : "combinações"}`;
+  document.querySelector("#wardrobe-generated-total").textContent = `${generated.length} ${generated.length === 1 ? "combinaÃ§Ã£o" : "combinaÃ§Ãµes"}`;
   document.querySelector("#wardrobe-generated-looks").innerHTML = generated.length
-    ? generated.map((pieceIds, index) => wardrobeLookCard(pieceIds.map((id) => state.wardrobeItems.find((item) => item.id === id)).filter(Boolean), `<button type="button" data-wardrobe-save-look="${index}">Salvar look</button><button type="button" data-wardrobe-favorite-generated="${index}">☆ Favoritar</button>`)).join("")
-    : `<div class="empty-state">Selecione pelo menos uma parte de cima, uma parte de baixo e um calçado.</div>`;
+    ? generated.map((pieceIds, index) => wardrobeLookCard(pieceIds.map((id) => state.wardrobeItems.find((item) => item.id === id)).filter(Boolean), `<button type="button" data-wardrobe-save-look="${index}">Salvar look</button><button type="button" data-wardrobe-favorite-generated="${index}">â˜† Favoritar</button>`)).join("")
+    : `<div class="empty-state">Selecione pelo menos uma parte de cima, uma parte de baixo e um calÃ§ado.</div>`;
 
   const favoritesOnly = document.querySelector("#wardrobe-favorites-only").checked;
   const savedLooks = state.wardrobeLooks.filter((look) => !favoritesOnly || look.favorite);
   document.querySelector("#wardrobe-saved-looks").innerHTML = savedLooks.length
-    ? savedLooks.map((look) => wardrobeLookCard(look.pieces.map((id) => state.wardrobeItems.find((item) => item.id === id)).filter(Boolean), `<button type="button" data-wardrobe-favorite-look="${look.id}">${look.favorite ? "★ Favorito" : "☆ Favoritar"}</button><button class="delete-btn" type="button" data-wardrobe-delete-look="${look.id}">×</button>`)).join("")
+    ? savedLooks.map((look) => wardrobeLookCard(look.pieces.map((id) => state.wardrobeItems.find((item) => item.id === id)).filter(Boolean), `<button type="button" data-wardrobe-favorite-look="${look.id}">${look.favorite ? "â˜… Favorito" : "â˜† Favoritar"}</button><button class="delete-btn" type="button" data-wardrobe-delete-look="${look.id}">Ã—</button>`)).join("")
     : `<div class="empty-state">Nenhum look salvo.</div>`;
 }
 
@@ -3208,17 +3208,17 @@ function resizeImageFile(file, size = 720, quality = 0.8) {
 
 function buildSearchItems() {
   return [
-    ...state.tasks.map((item) => ({ section: "tasks", label: item.title, detail: `Tarefa • ${item.priority}` })),
-    ...state.pending.map((item) => ({ section: "pending", label: item.title, detail: `Pendência • ${item.type}` })),
-    ...state.market.map((item) => ({ section: "market", label: item.name, detail: `Mercado • ${item.bought ? "comprado" : "pendente"}` })),
-    ...state.personal.goals.map((item) => ({ section: "personal", label: item.title, detail: `Meta pessoal • ${item.area}` })),
-    ...state.personal.docs.map((item) => ({ section: "personal", label: item.title, detail: `Documento/link • ${item.value || "sem detalhe"}` })),
-    ...state.wishlist.map((item) => ({ section: "wishlist", label: item.name, detail: `Compra futura • ${item.priority}` })),
-    ...state.agenda.map((item) => ({ section: "agenda", label: item.title, detail: `Agenda • ${formatDate(item.date)}` })),
-    ...state.wins.map((item) => ({ section: "wins", label: item.title, detail: `Conquista • ${formatDate(item.date)}` })),
-    ...state.wardrobeItems.map((item) => ({ section: "wardrobe", label: item.name, detail: `Guarda-Roupa • ${wardrobeCategoryLabel(item.category)} • ${item.color}` })),
-    ...state.notes.map((item) => ({ section: "quick-notes", label: item.text, detail: `Nota • ${item.date}` })),
-    ...state.finance.map((item) => ({ section: "finance", label: item.title, detail: `Financeiro • ${item.category} • ${formatDate(item.dueDate)}` })),
+    ...state.tasks.map((item) => ({ section: "tasks", label: item.title, detail: `Tarefa â€¢ ${item.priority}` })),
+    ...state.pending.map((item) => ({ section: "pending", label: item.title, detail: `PendÃªncia â€¢ ${item.type}` })),
+    ...state.market.map((item) => ({ section: "market", label: item.name, detail: `Mercado â€¢ ${item.bought ? "comprado" : "pendente"}` })),
+    ...state.personal.goals.map((item) => ({ section: "personal", label: item.title, detail: `Meta pessoal â€¢ ${item.area}` })),
+    ...state.personal.docs.map((item) => ({ section: "personal", label: item.title, detail: `Documento/link â€¢ ${item.value || "sem detalhe"}` })),
+    ...state.wishlist.map((item) => ({ section: "wishlist", label: item.name, detail: `Compra futura â€¢ ${item.priority}` })),
+    ...state.agenda.map((item) => ({ section: "agenda", label: item.title, detail: `Agenda â€¢ ${formatDate(item.date)}` })),
+    ...state.wins.map((item) => ({ section: "wins", label: item.title, detail: `Conquista â€¢ ${formatDate(item.date)}` })),
+    ...state.wardrobeItems.map((item) => ({ section: "wardrobe", label: item.name, detail: `Guarda-Roupa â€¢ ${wardrobeCategoryLabel(item.category)} â€¢ ${item.color}` })),
+    ...state.notes.map((item) => ({ section: "quick-notes", label: item.text, detail: `Nota â€¢ ${item.date}` })),
+    ...state.finance.map((item) => ({ section: "finance", label: item.title, detail: `Financeiro â€¢ ${item.category} â€¢ ${formatDate(item.dueDate)}` })),
   ];
 }
 
@@ -3261,11 +3261,11 @@ function renderTodaySummary() {
 
   box.innerHTML = `
     <article><span>Tarefas abertas</span><strong>${openTasks}</strong></article>
-    <article><span>Pendências abertas</span><strong>${openPending}</strong></article>
+    <article><span>PendÃªncias abertas</span><strong>${openPending}</strong></article>
     <article><span>Agenda de hoje</span><strong>${todayAgenda}</strong></article>
     <article><span>Financeiro hoje</span><strong>${todayFinance}</strong></article>
     <article><span>Compras pendentes</span><strong>${market}</strong></article>
-    <article><span>Rotina concluída</span><strong>${routinePercent}%</strong></article>
+    <article><span>Rotina concluÃ­da</span><strong>${routinePercent}%</strong></article>
   `;
 }
 
@@ -3273,7 +3273,7 @@ function renderNotes() {
   const list = document.querySelector("#notes-list");
   list.innerHTML = "";
   if (!state.notes.length) {
-    list.innerHTML = `<div class="empty-state notes-empty">Nenhuma anotação salva ainda.</div>`;
+    list.innerHTML = `<div class="empty-state notes-empty">Nenhuma anotaÃ§Ã£o salva ainda.</div>`;
     return;
   }
   state.notes.forEach((note) => {
@@ -3281,7 +3281,7 @@ function renderNotes() {
     card.className = "note-card";
     card.innerHTML = `
       <div class="note-card-top">
-        <span>Nota rápida</span>
+        <span>Nota rÃ¡pida</span>
         <small>${escapeHtml(note.date)}</small>
       </div>
       <p>${escapeHtml(note.text)}</p>
@@ -3297,9 +3297,9 @@ function renderNotes() {
 function renderRoutine() {
   const types = ["required", "endday", "day", "weekly"];
   const emptyText = {
-    required: "Nenhum obrigatório cadastrado.",
+    required: "Nenhum obrigatÃ³rio cadastrado.",
     endday: "Nada no fim do dia por enquanto.",
-    day: "Nenhuma ação do dia cadastrada.",
+    day: "Nenhuma aÃ§Ã£o do dia cadastrada.",
     weekly: "Nenhum item semanal cadastrado.",
   };
 
@@ -3320,10 +3320,10 @@ function renderRoutine() {
       const row = document.createElement("article");
       row.className = `routine-item ${item.done ? "done" : ""}`;
       row.innerHTML = `
-        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-routine-check="${item.id}">✓</button>
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-routine-check="${item.id}">âœ“</button>
         <strong>${item.title}</strong>
         <button class="edit-btn" type="button" data-generic-edit="routine:${item.id}">Editar</button>
-        <button class="delete-btn" type="button" data-routine-delete="${item.id}">×</button>
+        <button class="delete-btn" type="button" data-routine-delete="${item.id}">Ã—</button>
       `;
       list.append(row);
     });
@@ -3332,7 +3332,7 @@ function renderRoutine() {
 
 function renderRoutineDashboardLegacy() {
   const tracker = state.routineTracker;
-  const habits = state.routine.filter((item) => !/água|agua/i.test(item.title));
+  const habits = state.routine.filter((item) => !/Ã¡gua|agua/i.test(item.title));
   const waterDone = tracker.waterMl >= tracker.waterGoalMl;
   const doneCount = habits.filter((item) => item.done).length + (waterDone ? 1 : 0);
   const totalCount = habits.length + 1;
@@ -3340,10 +3340,10 @@ function renderRoutineDashboardLegacy() {
   tracker.history[todayISO()] = progress;
 
   document.querySelector("#routine-progress-percent").textContent = `${progress}%`;
-  document.querySelector("#routine-progress-title").textContent = `${doneCount} de ${totalCount} hábitos concluídos`;
+  document.querySelector("#routine-progress-title").textContent = `${doneCount} de ${totalCount} hÃ¡bitos concluÃ­dos`;
   document.querySelector("#routine-progress-message").textContent = progress === 100
     ? "Dia completo. Excelente trabalho."
-    : progress >= 70 ? "Continue assim. Você está perto de vencer o dia." : "Cada hábito concluído aproxima você da meta.";
+    : progress >= 70 ? "Continue assim. VocÃª estÃ¡ perto de vencer o dia." : "Cada hÃ¡bito concluÃ­do aproxima vocÃª da meta.";
   document.querySelector("#routine-progress-bar").style.width = `${progress}%`;
   document.querySelector("#routine-progress-ring").style.background = `conic-gradient(#f3bd36 ${progress}%, rgba(255,255,255,.09) 0)`;
   document.querySelector("#routine-done-count").textContent = doneCount;
@@ -3372,7 +3372,7 @@ function renderRoutineDashboardLegacy() {
 
   document.querySelector("#routine-water-label").textContent = `${(tracker.waterMl / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}L / ${(tracker.waterGoalMl / 1000).toLocaleString("pt-BR")}L`;
   document.querySelector("#routine-water-drops").innerHTML = Array.from({ length: 6 }, (_, index) =>
-    `<span class="${tracker.waterMl >= (index + 1) * 500 ? "filled" : ""}">●</span>`
+    `<span class="${tracker.waterMl >= (index + 1) * 500 ? "filled" : ""}">â—</span>`
   ).join("");
 
   const monthKey = todayISO().slice(0, 7);
@@ -3393,10 +3393,10 @@ function renderRoutineDashboardLegacy() {
   });
 
   const labels = {
-    required: ["Essenciais", "Hábitos básicos de todos os dias."],
-    endday: ["Saúde", "Exercícios e cuidados pessoais."],
-    day: ["Produtividade", "Trabalho e ações importantes."],
-    weekly: ["Semana", "Hábitos que acontecem durante a semana."],
+    required: ["Essenciais", "HÃ¡bitos bÃ¡sicos de todos os dias."],
+    endday: ["SaÃºde", "ExercÃ­cios e cuidados pessoais."],
+    day: ["Produtividade", "Trabalho e aÃ§Ãµes importantes."],
+    weekly: ["Semana", "HÃ¡bitos que acontecem durante a semana."],
   };
   Object.entries(labels).forEach(([type, [label, description]]) => {
     const list = document.querySelector(`#routine-${type}`);
@@ -3405,17 +3405,17 @@ function renderRoutineDashboardLegacy() {
     section.querySelector("h3").textContent = label;
     section.querySelector("p").textContent = description;
     section.dataset.progress = `${items.filter((item) => item.done).length}/${items.length}`;
-    list.innerHTML = items.length ? "" : `<div class="empty-state">Nenhum hábito cadastrado.</div>`;
+    list.innerHTML = items.length ? "" : `<div class="empty-state">Nenhum hÃ¡bito cadastrado.</div>`;
     items.forEach((item) => {
-      const icon = /café|cafe/i.test(item.title) ? "☕" : /almoço|janta|lanche|sobremesa/i.test(item.title) ? "🍽" : /fruta/i.test(item.title) ? "🍎" : /academia/i.test(item.title) ? "🏋" : /correr/i.test(item.title) ? "🏃" : /luta/i.test(item.title) ? "🥊" : /sol/i.test(item.title) ? "☀" : /trabalh/i.test(item.title) ? "💼" : /b12|remédio|remedio/i.test(item.title) ? "💊" : "✓";
+      const icon = /cafÃ©|cafe/i.test(item.title) ? "â˜•" : /almoÃ§o|janta|lanche|sobremesa/i.test(item.title) ? "ðŸ½" : /fruta/i.test(item.title) ? "ðŸŽ" : /academia/i.test(item.title) ? "ðŸ‹" : /correr/i.test(item.title) ? "ðŸƒ" : /luta/i.test(item.title) ? "ðŸ¥Š" : /sol/i.test(item.title) ? "â˜€" : /trabalh/i.test(item.title) ? "ðŸ’¼" : /b12|remÃ©dio|remedio/i.test(item.title) ? "ðŸ’Š" : "âœ“";
       const row = document.createElement("article");
       row.className = `routine-item ${item.done ? "done" : ""}`;
       row.innerHTML = `
-        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-routine-check="${item.id}">✓</button>
+        <button class="check-btn ${item.done ? "active" : ""}" type="button" data-routine-check="${item.id}">âœ“</button>
         <span class="routine-item-icon">${icon}</span>
         <strong>${escapeHtml(item.title)}</strong>
         <button class="edit-btn" type="button" data-generic-edit="routine:${item.id}">Editar</button>
-        <button class="delete-btn" type="button" data-routine-delete="${item.id}">×</button>
+        <button class="delete-btn" type="button" data-routine-delete="${item.id}">Ã—</button>
       `;
       list.append(row);
     });
@@ -3438,7 +3438,7 @@ function getRoutinePeriodStats(tracker, habits, selectedDate, viewMode) {
       pending: Math.max(0, total - done - inProgress),
       total,
       progress: Math.round((done / Math.max(1, total)) * 100),
-      label: "hábitos",
+      label: "hÃ¡bitos",
     };
   }
 
@@ -3490,7 +3490,7 @@ function renderRoutineDashboard() {
     : routineViewMode === "month"
       ? new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(selected)
       : new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric" }).format(selected);
-  document.querySelector("#routine-toggle-view").textContent = routineViewMode === "day" ? "Ver mês" : routineViewMode === "month" ? "Ver ano" : "Ver dia";
+  document.querySelector("#routine-toggle-view").textContent = routineViewMode === "day" ? "Ver mÃªs" : routineViewMode === "month" ? "Ver ano" : "Ver dia";
   document.querySelector("#routine-date-subtitle").textContent = routineViewMode === "year"
     ? `Ano de ${selectedYear}`
     : routineViewMode === "month"
@@ -3499,18 +3499,18 @@ function renderRoutineDashboard() {
   document.querySelector(".routine-page-head h2").textContent = routineViewMode === "year"
     ? "Rotina do Ano"
     : routineViewMode === "month"
-      ? "Rotina do Mês"
+      ? "Rotina do MÃªs"
       : selectedDate === todayISO() ? "Rotina de Hoje" : "Rotina do Dia";
   document.querySelector(".routine-hero-copy > span").textContent = routineViewMode === "year"
     ? "Progresso do ano"
     : routineViewMode === "month"
-      ? "Progresso do mês"
+      ? "Progresso do mÃªs"
       : "Progresso do dia";
   document.querySelector("#routine-progress-percent").textContent = `${progress}%`;
   document.querySelector("#routine-progress-title").textContent = routineViewMode === "day"
-    ? `${doneCount} de ${totalCount} hábitos concluídos`
+    ? `${doneCount} de ${totalCount} hÃ¡bitos concluÃ­dos`
     : `${doneCount} dias completos de ${totalCount} registrados`;
-  document.querySelector("#routine-progress-message").textContent = progress === 100 ? "Dia completo. Excelente trabalho!" : progress >= 70 ? "Continue assim! Você está no caminho certo." : "Cada hábito concluído aproxima você da meta.";
+  document.querySelector("#routine-progress-message").textContent = progress === 100 ? "Dia completo. Excelente trabalho!" : progress >= 70 ? "Continue assim! VocÃª estÃ¡ no caminho certo." : "Cada hÃ¡bito concluÃ­do aproxima vocÃª da meta.";
   document.querySelector("#routine-progress-ring").style.background = `conic-gradient(#f5c542 ${progress}%, rgba(255,255,255,.09) 0)`;
   document.querySelector("#routine-done-count").textContent = doneCount;
   document.querySelector("#routine-progress-count").textContent = progressCount;
@@ -3598,7 +3598,7 @@ function renderRoutineDashboard() {
   Object.entries(groups).forEach(([type, items]) => {
     const list = document.querySelector(`#routine-${type}`);
     document.querySelector(`#routine-${type}-progress`).textContent = `${items.filter(isItemDone).length}/${items.length}`;
-    list.innerHTML = items.length ? "" : `<div class="empty-state">Nenhum hábito cadastrado.</div>`;
+    list.innerHTML = items.length ? "" : `<div class="empty-state">Nenhum hÃ¡bito cadastrado.</div>`;
     items.forEach((item) => {
       const done = isItemDone(item);
       const isProgress = !done && progressItems.some((progressItem) => progressItem.id === item.id);
@@ -3606,7 +3606,7 @@ function renderRoutineDashboard() {
       row.className = `routine-item ${done ? "done" : isProgress ? "in-progress" : "pending"}`;
       row.draggable = true;
       row.dataset.routineHabitDrag = item.id;
-      row.innerHTML = `<span class="routine-item-icon">${escapeHtml(item.emoji || inferRoutineEmoji(item.title))}</span><strong>${escapeHtml(item.title)}</strong>${type === "weekly" ? `<small>${/b12/i.test(item.title) ? "Sáb" : "Dom"}</small>` : ""}<button class="routine-status-dot" type="button" data-routine-check="${item.id}" title="Alterar status">${done ? "✓" : ""}</button><button class="routine-item-edit" type="button" data-generic-edit="routine:${item.id}" title="Editar">⋮</button>`;
+      row.innerHTML = `<span class="routine-item-icon">${escapeHtml(item.emoji || inferRoutineEmoji(item.title))}</span><strong>${escapeHtml(item.title)}</strong>${type === "weekly" ? `<small>${/b12/i.test(item.title) ? "SÃ¡b" : "Dom"}</small>` : ""}<button class="routine-status-dot" type="button" data-routine-check="${item.id}" title="Alterar status">${done ? "âœ“" : ""}</button><button class="routine-item-edit" type="button" data-generic-edit="routine:${item.id}" title="Editar">â‹®</button>`;
       list.append(row);
     });
   });
@@ -3615,7 +3615,7 @@ function renderRoutineDashboard() {
   waterRow.className = `routine-item routine-water-row ${waterDone ? "done" : displayWaterMl ? "in-progress" : "pending"}`;
   waterRow.draggable = true;
   waterRow.dataset.routineHabitDrag = "__water";
-  waterRow.innerHTML = `<span class="routine-item-icon">💧</span><strong>Água</strong><button type="button" data-routine-water-less>-500ml</button><span class="routine-water-visual">${Array.from({ length: 6 }, (_, index) => `<i class="${displayWaterMl >= (index + 1) * 500 ? "filled" : ""}">●</i>`).join("")}</span><small>${(displayWaterMl / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}L / ${(tracker.waterGoalMl / 1000).toLocaleString("pt-BR")}L</small><button type="button" data-routine-water-more>+500ml</button>`;
+  waterRow.innerHTML = `<span class="routine-item-icon">ðŸ’§</span><strong>Ãgua</strong><button type="button" data-routine-water-less>-500ml</button><span class="routine-water-visual">${Array.from({ length: 6 }, (_, index) => `<i class="${displayWaterMl >= (index + 1) * 500 ? "filled" : ""}">â—</i>`).join("")}</span><small>${(displayWaterMl / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}L / ${(tracker.waterGoalMl / 1000).toLocaleString("pt-BR")}L</small><button type="button" data-routine-water-more>+500ml</button>`;
   const waterType = tracker.waterType || "required";
   const waterTarget = document.querySelector(`#routine-${waterType}`) || document.querySelector("#routine-required");
   waterTarget.append(waterRow);
@@ -3647,8 +3647,8 @@ function renderRoutineDashboard() {
     .slice(0, 4);
   document.querySelector("#routine-consistency-list").innerHTML = consistent.length
     ? consistent.map(({ title, percent, done, total }) => `<article><div class="routine-mini-ring" style="--routine-percent:${percent}%"><strong>${percent}%</strong></div><div><strong>${escapeHtml(title)}</strong><small>${done}/${total} ${total === 1 ? "dia" : "dias"}</small></div></article>`).join("")
-    : `<div class="empty-state">A consistência começa a ser calculada a partir de hoje.</div>`;
-  document.querySelector("#routine-due-list").innerHTML = `<article><span>⏱</span><strong>B12 1 semana</strong><small>Sábado</small></article><article><span>▣</span><strong>Limpeza geral</strong><small>Domingo</small></article>`;
+    : `<div class="empty-state">A consistÃªncia comeÃ§a a ser calculada a partir de hoje.</div>`;
+  document.querySelector("#routine-due-list").innerHTML = `<article><span>â±</span><strong>B12 1 semana</strong><small>SÃ¡bado</small></article><article><span>â–£</span><strong>Limpeza geral</strong><small>Domingo</small></article>`;
 }
 
 let suppressNextNavClick = false;
@@ -3842,7 +3842,7 @@ document.querySelector("#nav-edit-form").addEventListener("submit", (event) => {
   });
   document.querySelectorAll("[data-nav-icon]").forEach((input) => {
     const section = input.dataset.navIcon;
-    state.navIcons[section] = input.value.trim() || defaultNavMeta[section]?.icon || "•";
+    state.navIcons[section] = input.value.trim() || defaultNavMeta[section]?.icon || "â€¢";
   });
   document.querySelectorAll("[data-nav-label]").forEach((input) => {
     const section = input.dataset.navLabel;
@@ -3903,7 +3903,7 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
   updateAuthButtons();
 
   if (!result.data.session) {
-    message.textContent = "Conta criada. Confirme o e-mail se o Supabase pedir confirmação.";
+    message.textContent = "Conta criada. Confirme o e-mail se o Supabase pedir confirmaÃ§Ã£o.";
     setSyncStatus("Verifique email", "local");
     return;
   }
@@ -4219,7 +4219,7 @@ document.querySelectorAll("[data-routine-expand]").forEach((button) => {
       const insights = button.closest(".routine-insights");
       if (!insights) return;
       insights.classList.toggle("expanded");
-      button.textContent = insights.classList.contains("expanded") ? "Fechar relatório" : "Ver relatório completo";
+      button.textContent = insights.classList.contains("expanded") ? "Fechar relatÃ³rio" : "Ver relatÃ³rio completo";
       return;
     }
     section.classList.toggle("expanded");
@@ -4697,7 +4697,7 @@ document.querySelector("#fixed-add-btn").addEventListener("click", () => {
 
 document.querySelector("#variable-add-btn").addEventListener("click", () => {
   rememberUndo();
-  state.variableCosts.push({ id: crypto.randomUUID(), title: "Novo custo variável", value: 0, dueDate: `${currentFinanceMonth()}-01`, paidMonths: {}, paid: false });
+  state.variableCosts.push({ id: crypto.randomUUID(), title: "Novo custo variÃ¡vel", value: 0, dueDate: `${currentFinanceMonth()}-01`, paidMonths: {}, paid: false });
   commitChange();
 });
 
@@ -4852,7 +4852,7 @@ document.addEventListener("click", (event) => {
   if (routineAddType) {
     const category = state.routineCategories.find((item) => item.id === routineAddType.dataset.routineAddType);
     document.querySelector("#routine-add-habit-type").value = routineAddType.dataset.routineAddType;
-    document.querySelector("#routine-add-habit-title").textContent = `Novo hábito em ${category?.name || "Rotina"}`;
+    document.querySelector("#routine-add-habit-title").textContent = `Novo hÃ¡bito em ${category?.name || "Rotina"}`;
     document.querySelector("#routine-add-habit-panel").classList.add("open");
     document.querySelector("#routine-add-habit-panel").setAttribute("aria-hidden", "false");
     document.querySelector("#routine-add-habit-name").focus();
@@ -4862,7 +4862,7 @@ document.addEventListener("click", (event) => {
   if (routineDeleteCard) {
     const categoryId = routineDeleteCard.dataset.routineDeleteCard;
     const category = state.routineCategories.find((item) => item.id === categoryId);
-    if (!category || category.locked || !window.confirm(`Excluir o card "${category.name}" e seus hábitos?`)) return;
+    if (!category || category.locked || !window.confirm(`Excluir o card "${category.name}" e seus hÃ¡bitos?`)) return;
     rememberUndo();
     state.routineCategories = state.routineCategories.filter((item) => item.id !== categoryId);
     state.routineLayout = state.routineLayout.filter((item) => item !== categoryId);
@@ -5382,7 +5382,7 @@ if ("serviceWorker" in navigator) {
 
 function initFinanceInteractions() {
   // 1. Month bar: arrows, trigger dropdown, year nav
-  const monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  const monthNames = ["Janeiro","Fevereiro","MarÃ§o","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
   const monthNamesShort = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
   let dropdownOpen = false;
   let dropdownYear = 0;
@@ -5559,7 +5559,7 @@ function initFinanceInteractions() {
   };
   initFinanceTabs();
 
-    // 4. "Novo lançamento" button opens popup modal
+    // 4. "Novo lanÃ§amento" button opens popup modal
   const btn = document.getElementById('btn-novo-lancamento');
   if(btn) {
     btn.addEventListener('click', () => {
@@ -5589,13 +5589,13 @@ function initFinanceInteractions() {
       const date = document.getElementById('finance-add-date')?.value || todayISO();
       
       if(!title || !valStr || !type) {
-        alert('Por favor, preencha todos os campos do lançamento.');
+        alert('Por favor, preencha todos os campos do lanÃ§amento.');
         return;
       }
       
       const val = parseFloat(valStr);
       if(isNaN(val) || val <= 0) {
-        alert('Por favor, insira um valor válido maior que zero.');
+        alert('Por favor, insira um valor vÃ¡lido maior que zero.');
         return;
       }
       
@@ -5619,7 +5619,7 @@ function initFinanceInteractions() {
         panel.setAttribute('aria-hidden', 'true');
       }
       
-      alert('Lançamento adicionado com sucesso!');
+      alert('LanÃ§amento adicionado com sucesso!');
     });
   }
   // 6. Add fixed/variable cost or subscription modal open
@@ -5649,7 +5649,7 @@ function initFinanceInteractions() {
       const panel = document.getElementById('budget-add-panel');
       if (panel) {
         document.getElementById('budget-add-title-text').textContent = 'Nova Conta Fixa';
-        document.getElementById('budget-add-title').placeholder = 'Ex: Aluguel, Água, Internet';
+        document.getElementById('budget-add-title').placeholder = 'Ex: Aluguel, Ãgua, Internet';
         document.getElementById('budget-add-kind').value = 'fixed';
         document.getElementById('budget-add-kind').dataset.subscription = 'false';
         document.getElementById('budget-add-day-label').style.display = 'grid';
@@ -5673,13 +5673,13 @@ function initFinanceInteractions() {
       const kind = document.getElementById('budget-add-kind').value;
       
       if (!title || !valStr) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+        alert('Por favor, preencha todos os campos obrigatÃ³rios.');
         return;
       }
       
       const value = parseFloat(valStr);
       if (isNaN(value) || value <= 0) {
-        alert('Por favor, insira um valor válido maior que zero.');
+        alert('Por favor, insira um valor vÃ¡lido maior que zero.');
         return;
       }
       
@@ -5688,7 +5688,7 @@ function initFinanceInteractions() {
         const dayStr = document.getElementById('budget-add-day').value;
         const dueDay = parseInt(dayStr);
         if (isNaN(dueDay) || dueDay < 1 || dueDay > 31) {
-          alert('Por favor, insira um dia de vencimento válido entre 1 e 31.');
+          alert('Por favor, insira um dia de vencimento vÃ¡lido entre 1 e 31.');
           return;
         }
         const isSubscription = document.getElementById('budget-add-kind').dataset.subscription === 'true';
@@ -5881,333 +5881,195 @@ if (document.readyState === 'loading') {
   const BUCKET = 'documentos';
   const MAX_SIZE = 10 * 1024 * 1024;
   const ACCEPTED = ['image/jpeg','image/png','image/webp','application/pdf'];
+  const STORAGE_KEY = 'painel-pessoal-docs-data';
 
-  const DOCS = [
-    { id: 'rg_cpf',         name: 'RG / CPF',               icon: '🪪', desc: 'Registro Geral e Cadastro de Pessoa Física' },
-    { id: 'cnh',           name: 'CNH',                  icon: '🚗', desc: 'Carteira Nacional de Habilitação' },
-    { id: 'certidao_nasc', name: 'Certidão de Nascimento', icon: '👶', desc: 'Certidão de Nascimento' },
-    { id: 'titulo_eleitor', name: 'Título de Eleitor',   icon: '🗳️', desc: 'Título de Eleitor' },
-
-    { id: 'reservista',    name: 'Certificado Reservista', icon: '🎖️', desc: 'Certificado de Serviço Militar' },
-    { id: 'passaporte',    name: 'Passaporte',            icon: '✈️', desc: 'Passaporte Brasileiro' },
-    { id: 'comprovante_res', name: 'Comprovante de Residência', icon: '🏠', desc: 'Comprovante de Residência' },
-    { id: 'certidao_casamento', name: 'Certificado MEI', icon: '🏢', desc: 'Certificado de Microempreendedor Individual' },
-    { id: 'antec_sp',      name: 'Antecedentes Criminais SP', icon: '🔍', desc: 'Antecedentes Criminais - Estado de SP' },
-    { id: 'antec_nacional', name: 'Antecedentes Criminais Nacional', icon: '🔍', desc: 'Antecedentes Criminais -âmbito Nacional' },
+  const ICON_COLORS = {
+    pessoais: 'rgba(59,130,246,0.12)', identificacao: 'rgba(239,68,68,0.12)',
+    veiculos: 'rgba(168,85,247,0.12)', financeiros: 'rgba(34,197,94,0.12)',
+    profissionais: 'rgba(245,158,11,0.12)', saude: 'rgba(236,72,153,0.12)',
+    outros: 'rgba(107,114,128,0.12)',
+  };
+  const DEFAULT_DOCS = [
+    { id: 'rg_cpf', name: 'RG / CPF', desc: 'Registro Geral e Cadastro de Pessoa FÃ­sica', icon: 'ðŸªª', cat: 'identificacao' },
+    { id: 'comprovante_res', name: 'Comprovante de ResidÃªncia', desc: 'Comprovante de ResidÃªncia', icon: 'ðŸ ', cat: 'pessoais' },
+    { id: 'reservista', name: 'Certificado Reservista', desc: 'Certificado de ServiÃ§o Militar', icon: 'ðŸŽ–ï¸', cat: 'identificacao' },
+    { id: 'titulo_eleitor', name: 'TÃ­tulo de Eleitor', desc: 'TÃ­tulo de Eleitor', icon: 'ðŸ—³ï¸', cat: 'identificacao' },
+    { id: 'certidao_nasc', name: 'CertidÃ£o de Nascimento', desc: 'CertidÃ£o de Nascimento', icon: 'ðŸ‘¶', cat: 'identificacao' },
+    { id: 'certidao_MEI', name: 'Certificado MEI', desc: 'Certificado de Microempreendedor Individual', icon: 'ðŸ¢', cat: 'financeiros' },
+    { id: 'cnh', name: 'CNH', desc: 'Carteira Nacional de HabilitaÃ§Ã£o', icon: 'ðŸš—', cat: 'veiculos' },
+    { id: 'passaporte', name: 'Passaporte', desc: 'Passaporte Brasileiro', icon: 'âœˆï¸', cat: 'identificacao' },
+    { id: 'antec_sp', name: 'Antecedentes Criminais SP', desc: 'Antecedentes Criminais â€” Estado de SP', icon: 'ðŸ”', cat: 'pessoais' },
+    { id: 'antec_nacional', name: 'Antecedentes Criminais Nacional', desc: 'Antecedentes Criminais â€” Ã‚mbito Nacional', icon: 'ðŸ”', cat: 'pessoais' },
   ];
-
-  function getSupabase() {
-    return window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+  function getSupabase() { return window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null); }
+  function loadDocsData() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; } }
+  function saveDocsData(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+  function getAllDocs() {
+    const saved = loadDocsData();
+    return [...DEFAULT_DOCS, ...(saved.customDocs || [])].map(d => ({
+      ...d, favorite: saved[d.id]?.favorite || false, updated_at: saved[d.id]?.updated_at || null,
+    }));
   }
-
-  function formatSize(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  }
-
-  async function getUserId() {
-    const sb = getSupabase();
-    if (!sb) return null;
-    const session = await sb.auth.getSession();
-    return session?.data?.session?.user?.id || null;
-  }
-
-  async function uploadFile(docId, slotType, file) {
-    const sb = getSupabase();
-    if (!sb) { alert('Supabase não conectado.'); return null; }
-    if (!ACCEPTED.includes(file.type)) { alert('Tipo de arquivo não aceito.'); return null; }
-    if (file.size > MAX_SIZE) { alert('Arquivo muito grande (máx. 10MB).'); return null; }
-
-    const userId = await getUserId();
-    if (!userId) { alert('Faça login para enviar documentos.'); return null; }
-
-    const ext = file.name.split('.').pop();
-    const path = userId + '/' + docId + '-' + slotType + '.' + ext;
-
-    const { error } = await sb.storage.from(BUCKET).upload(path, file, {
-      contentType: file.type,
-      upsert: true
-    });
-
-    if (error) { alert('Erro ao enviar: ' + error.message); return null; }
-    return { path, name: file.name, size: file.size, type: file.type };
-  }
-
+  function fmtDate(iso) { if (!iso) return 'â€”'; return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+  function fmtSize(b) { if (!b) return ''; if (b < 1024) return b+' B'; if (b < 1048576) return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
+  async function getUserId() { const sb = getSupabase(); if (!sb) return null; const s = await sb.auth.getSession(); return s?.data?.session?.user?.id || null; }
   async function listUserFiles() {
-    const sb = getSupabase();
-    if (!sb) return {};
-    const userId = await getUserId();
-    if (!userId) return {};
-
-    const { data, error } = await sb.storage.from(BUCKET).list(userId, {
-      limit: 100
-    });
-    if (error || !data) return {};
-
-    const files = {};
+    const sb = getSupabase(); if (!sb) return {}; const userId = await getUserId(); if (!userId) return {};
+    const { data, error } = await sb.storage.from(BUCKET).list(userId, { limit: 100 });
+    if (error || !data) return {}; const files = {};
     data.forEach(f => {
-      const fileName = f.name;
-      const baseName = fileName.split('.')[0];
-      const lastDash = baseName.lastIndexOf('-');
-      if (lastDash > 0) {
-        const docId = baseName.substring(0, lastDash);
-        const slotType = baseName.substring(lastDash + 1);
-        if (['pdf', 'img'].includes(slotType)) {
-          if (!files[docId]) files[docId] = { pdf: null, img: null };
-          files[docId][slotType] = {
-            path: userId + '/' + fileName,
-            name: fileName,
-            size: f.metadata?.size || 0,
-            type: f.metadata?.mimetype || '',
-            created_at: f.created_at || f.updated_at || null
-          };
-        }
-      }
-    });
-    return files;
+      const bn = f.name.split('.')[0], ld = bn.lastIndexOf('-');
+      if (ld > 0) { const did = bn.substring(0, ld), st = bn.substring(ld + 1);
+        if (['pdf','img'].includes(st)) { if (!files[did]) files[did] = { pdf:null, img:null };
+          files[did][st] = { path: userId+'/'+f.name, name:f.name, size:f.metadata?.size||0, type:f.metadata?.mimetype||'', created_at:f.created_at||f.updated_at||null }; } }
+    }); return files;
   }
-
-  async function downloadFile(path) {
-    const sb = getSupabase();
-    if (!sb) return;
-    const { data, error } = await sb.storage.from(BUCKET).download(path);
-    if (error) { alert('Erro ao baixar: ' + error.message); return; }
-    const url = URL.createObjectURL(data);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = path.split('/').pop();
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  async function uploadFile(docId, slotType, file) {
+    const sb = getSupabase(); if (!sb) { alert('Supabase nÃ£o conectado.'); return null; }
+    if (!ACCEPTED.includes(file.type)) { alert('Tipo nÃ£o aceito.'); return null; }
+    if (file.size > MAX_SIZE) { alert('MÃ¡x. 10MB.'); return null; }
+    const userId = await getUserId(); if (!userId) { alert('FaÃ§a login.'); return null; }
+    const ext = file.name.split('.').pop(), path = userId+'/'+docId+'-'+slotType+'.'+ext;
+    const { error } = await sb.storage.from(BUCKET).upload(path, file, { contentType: file.type, upsert: true });
+    if (error) { alert('Erro: '+error.message); return null; }
+    const saved = loadDocsData(); if (!saved[docId]) saved[docId] = {};
+    saved[docId].updated_at = new Date().toISOString(); saveDocsData(saved); return { path };
   }
+  async function dlFile(path) { const sb = getSupabase(); if (!sb) return; const {data,error} = await sb.storage.from(BUCKET).download(path);
+    if (error) { alert('Erro: '+error.message); return; } const url = URL.createObjectURL(data);
+    const a = document.createElement('a'); a.href=url; a.download=path.split('/').pop();
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }
+  async function viewFile(path) { const sb = getSupabase(); if (!sb) return; const {data,error} = await sb.storage.from(BUCKET).download(path);
+    if (error) { alert('Erro: '+error.message); return; } if (data) window.open(URL.createObjectURL(data),'_blank'); }
+  async function delFile(path) { const sb = getSupabase(); if (!sb) return; const {error} = await sb.storage.from(BUCKET).remove([path]); if (error) alert('Erro: '+error.message); }
 
-  async function viewFile(path) {
-    const sb = getSupabase();
-    if (!sb) return;
-    const { data, error } = await sb.storage.from(BUCKET).download(path);
-    if (error) { alert('Erro ao abrir: ' + error.message); return; }
-    if (data) {
-      const url = URL.createObjectURL(data);
-      window.open(url, '_blank');
-    }
+  let curFilter='all', curSort='recent', curView='grid', searchQ='', allFiles={};
+  function getFiltered(docs) {
+    let f = docs;
+    if (curFilter!=='all') f = f.filter(d => d.cat===curFilter);
+    if (searchQ) { const q=searchQ.toLowerCase(); f = f.filter(d => d.name.toLowerCase().includes(q)||d.desc.toLowerCase().includes(q)); }
+    if (curSort==='recent') f.sort((a,b) => (b.updated_at||allFiles[b.id]?.pdf?.created_at||allFiles[b.id]?.img?.created_at||'').localeCompare(a.updated_at||allFiles[a.id]?.pdf?.created_at||allFiles[a.id]?.img?.created_at||''));
+    else if (curSort==='name') f.sort((a,b) => a.name.localeCompare(b.name));
+    else if (curSort==='oldest') f.sort((a,b) => (a.updated_at||'').localeCompare(b.updated_at||''));
+    return f;
   }
-
-  async function deleteFile(path) {
-    const sb = getSupabase();
-    if (!sb) return;
-    const { error } = await sb.storage.from(BUCKET).remove([path]);
-    if (error) { alert('Erro ao excluir: ' + error.message); }
-  }
-
-  function renderDocGrid(files) {
-    const grid = document.getElementById('jonathan-docs-grid');
-    const empty = document.getElementById('jonathan-empty');
-    const detailPanel = document.getElementById('jonathan-detail-panel');
-    if (!grid) return;
-    grid.innerHTML = '';
-    if (detailPanel) detailPanel.style.display = 'none';
-
-    const STORAGE_KEY = 'painel-pessoal-docs-order';
-
-    function getOrderedDocs() {
-      try {
-        const order = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (order && Array.isArray(order)) {
-          const docMap = {};
-          DOCS.forEach(d => docMap[d.id] = d);
-          const ordered = order.map(id => docMap[id]).filter(Boolean);
-          DOCS.forEach(d => { if (!ordered.find(o => o.id === d.id)) ordered.push(d); });
-          return ordered;
-        }
-      } catch(e) {}
-      return [...DOCS];
-    }
-
-    function saveOrder() {
-      const order = Array.from(grid.querySelectorAll('.jonathan-doc-card')).map(c => c.dataset.docId);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
-    }
-
-    const orderedDocs = getOrderedDocs();
-    const hasAnyFile = orderedDocs.some(d => files[d.id]?.pdf || files[d.id]?.img);
-    if (empty) empty.style.display = hasAnyFile ? 'none' : '';
-
-    function formatDate(iso) {
-      if (!iso) return '';
-      const d = new Date(iso);
-      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    }
-
-    function openDetail(doc) {
-      if (!detailPanel) return;
-      const pdfFile = files[doc.id]?.pdf || null;
-      const imgFile = files[doc.id]?.img || null;
-
-      document.getElementById('jonathan-detail-icon').textContent = doc.icon;
-      document.getElementById('jonathan-detail-name').textContent = doc.name;
-      document.getElementById('jonathan-detail-desc').textContent = doc.desc;
-
-      const slotsEl = document.getElementById('jonathan-detail-slots');
-      slotsEl.innerHTML = '';
-
-      const pdfSlot = document.createElement('div');
-      pdfSlot.className = 'jonathan-detail-slot' + (pdfFile ? ' has-file' : '');
-      pdfSlot.innerHTML = `
-        <input type="file" accept=".pdf" />
-        <div class="jonathan-detail-slot-label">PDF</div>
-        <span class="jonathan-detail-slot-icon">📄</span>
-        <span class="jonathan-detail-slot-text">${pdfFile ? formatSize(pdfFile.size) : 'Clique para enviar PDF'}</span>
-        ${pdfFile ? `<div class="jonathan-detail-slot-actions">
-          <button class="jonathan-dl-btn" data-path="${pdfFile.path}">⬇ Baixar</button>
-          <button class="jonathan-del-btn delete-btn" data-path="${pdfFile.path}" data-doc="${doc.id}" data-slot="pdf">🗑 Excluir</button>
-        </div>` : ''}
-      `;
-      if (!pdfFile) {
-        pdfSlot.addEventListener('click', () => pdfSlot.querySelector('input').click());
-        pdfSlot.querySelector('input').addEventListener('change', async (e) => {
-          if (!e.target.files.length) return;
-          await uploadFile(doc.id, 'pdf', e.target.files[0]);
-          openDetail(doc);
-        });
-      }
-      slotsEl.appendChild(pdfSlot);
-
-      const imgSlot = document.createElement('div');
-      imgSlot.className = 'jonathan-detail-slot' + (imgFile ? ' has-file' : '');
-      imgSlot.innerHTML = `
-        <input type="file" accept=".jpg,.jpeg,.png,.webp" />
-        <div class="jonathan-detail-slot-label">Imagem</div>
-        <span class="jonathan-detail-slot-icon">🖼️</span>
-        <span class="jonathan-detail-slot-text">${imgFile ? formatSize(imgFile.size) : 'Clique para enviar imagem'}</span>
-        ${imgFile ? `<div class="jonathan-detail-slot-actions">
-          <button class="jonathan-dl-btn" data-path="${imgFile.path}">⬇ Baixar</button>
-          <button class="jonathan-del-btn delete-btn" data-path="${imgFile.path}" data-doc="${doc.id}" data-slot="img">🗑 Excluir</button>
-        </div>` : ''}
-      `;
-      if (!imgFile) {
-        imgSlot.addEventListener('click', () => imgSlot.querySelector('input').click());
-        imgSlot.querySelector('input').addEventListener('change', async (e) => {
-          if (!e.target.files.length) return;
-          await uploadFile(doc.id, 'img', e.target.files[0]);
-          openDetail(doc);
-        });
-      }
-      slotsEl.appendChild(imgSlot);
-
-      slotsEl.querySelectorAll('.jonathan-dl-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => { e.stopPropagation(); downloadFile(btn.dataset.path); });
-      });
-      slotsEl.querySelectorAll('.jonathan-del-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          if (confirm('Excluir este arquivo?')) {
-            await deleteFile(btn.dataset.path);
-            refreshGrid();
-          }
-        });
-      });
-
-      const dateEl = document.getElementById('jonathan-detail-date');
-      const dates = [];
-      if (pdfFile?.created_at) dates.push('📄 PDF: ' + formatDate(pdfFile.created_at));
-      if (imgFile?.created_at) dates.push('🖼️ Img: ' + formatDate(imgFile.created_at));
-      dateEl.textContent = dates.join('  ·  ');
-      dateEl.style.display = dates.length ? '' : 'none';
-
-      detailPanel.style.display = '';
-      grid.style.display = 'none';
-      if (empty) empty.style.display = 'none';
-    }
-
-    function refreshGrid() {
-      initJonathan();
-    }
-
-    document.getElementById('jonathan-detail-back')?.addEventListener('click', () => {
-      if (detailPanel) detailPanel.style.display = 'none';
-      grid.style.display = '';
-      if (hasAnyFile && empty) empty.style.display = 'none';
-      refreshGrid();
-    });
-
-    orderedDocs.forEach(doc => {
-      const pdfFile = files[doc.id]?.pdf || null;
-      const imgFile = files[doc.id]?.img || null;
-
-      const card = document.createElement('div');
-      card.className = 'jonathan-doc-card draggable-doc';
-      card.draggable = true;
-      card.dataset.docId = doc.id;
-      card.innerHTML = `
-        <span class="jonathan-doc-drag-handle" title="Arrastar">⠿</span>
-        <div class="jonathan-doc-icon">${doc.icon}</div>
-        <div class="jonathan-doc-info">
-          <h3 class="jonathan-doc-name">${doc.name}</h3>
-          <p class="jonathan-doc-desc">${doc.desc}</p>
-        </div>
-        <div class="jonathan-doc-status">
-          <span class="jonathan-doc-status-badge ${pdfFile ? 'has-pdf' : ''}" title="PDF"></span>
-          <span class="jonathan-doc-status-badge ${imgFile ? 'has-img' : ''}" title="Imagem"></span>
-        </div>
-        <span class="jonathan-doc-arrow">›</span>
-      `;
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('.jonathan-doc-drag-handle')) return;
-        openDetail(doc);
-      });
+  function renderCards(docs) {
+    const grid = document.getElementById('jd-grid'), empty = document.getElementById('jd-empty');
+    if (!grid) return; grid.innerHTML = ''; grid.className = 'jd-grid'+(curView==='list'?' list-view':'');
+    if (!docs.length) { grid.style.display='none'; if(empty) empty.style.display=''; return; }
+    if (empty) empty.style.display='none'; grid.style.display='';
+    docs.forEach(doc => {
+      const pdf=allFiles[doc.id]?.pdf||null, img=allFiles[doc.id]?.img||null;
+      const bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros, upd=doc.updated_at||pdf?.created_at||img?.created_at;
+      const card=document.createElement('div'); card.className='jd-card';
+      card.innerHTML=`<div class="jd-card-top"><div class="jd-card-icon" style="background:${bg}">${doc.icon}</div><button class="jd-card-star ${doc.favorite?'active':''}" data-fav="${doc.id}">â˜…</button></div>
+        <h3 class="jd-card-name">${doc.name}</h3><p class="jd-card-desc">${doc.desc}</p>
+        <div class="jd-card-date">${upd?'Atualizado em '+fmtDate(upd):'Sem atualizaÃ§Ã£o'}</div>
+        <div class="jd-card-actions"><button class="jd-card-btn primary" data-open="${doc.id}">ðŸ“‹ Abrir</button><button class="jd-card-btn" data-dl="${doc.id}">â¬‡ Baixar</button>
+        <div class="jd-card-menu"><button class="jd-card-menu-btn" data-menu="${doc.id}">â‹®</button><div class="jd-card-dropdown" id="dd-${doc.id}"><button data-edit="${doc.id}">âœï¸ Editar</button><button class="danger" data-del-doc="${doc.id}">ðŸ—‘ Excluir</button></div></div></div>`;
       grid.appendChild(card);
     });
-
-    let draggedCard = null;
-    grid.addEventListener('dragstart', (e) => {
-      const card = e.target.closest('.jonathan-doc-card');
-      if (!card) return;
-      draggedCard = card;
-      card.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    grid.addEventListener('dragend', (e) => {
-      const card = e.target.closest('.jonathan-doc-card');
-      if (card) card.classList.remove('dragging');
-      grid.querySelectorAll('.jonathan-doc-card').forEach(c => c.classList.remove('drag-over-card'));
-      draggedCard = null;
-    });
-    grid.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      const target = e.target.closest('.jonathan-doc-card');
-      if (target && target !== draggedCard) {
-        grid.querySelectorAll('.jonathan-doc-card').forEach(c => c.classList.remove('drag-over-card'));
-        target.classList.add('drag-over-card');
-      }
-    });
-    grid.addEventListener('dragleave', (e) => {
-      const target = e.target.closest('.jonathan-doc-card');
-      if (target) target.classList.remove('drag-over-card');
-    });
-    grid.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const target = e.target.closest('.jonathan-doc-card');
-      if (!target || !draggedCard || target === draggedCard) return;
-      const cards = Array.from(grid.querySelectorAll('.jonathan-doc-card'));
-      const fromIdx = cards.indexOf(draggedCard);
-      const toIdx = cards.indexOf(target);
-      if (fromIdx < toIdx) {
-        grid.insertBefore(draggedCard, target.nextSibling);
-      } else {
-        grid.insertBefore(draggedCard, target);
-      }
-      target.classList.remove('drag-over-card');
-      saveOrder();
-    });
   }
-
-  async function initJonathan() {
-    const files = await listUserFiles();
-    renderDocGrid(files);
+  function renderStats(docs) {
+    const st=document.getElementById('jd-stats'); if(!st) return;
+    const favs=docs.filter(d=>d.favorite).length, cats=new Set(docs.map(d=>d.cat)).size;
+    const wa=new Date(Date.now()-7*864e5).toISOString(), recent=docs.filter(d=>d.updated_at&&d.updated_at>wa).length;
+    st.innerHTML=`<div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(59,130,246,0.12)">ðŸ“</div><div class="jd-stat-info"><div class="jd-stat-value">${docs.length}</div><div class="jd-stat-label">documentos salvos</div></div></div>
+      <div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(250,204,21,0.12)">â­</div><div class="jd-stat-info"><div class="jd-stat-value">${favs}</div><div class="jd-stat-label">marcados como favoritos</div></div></div>
+      <div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(168,85,247,0.12)">ðŸ“‚</div><div class="jd-stat-info"><div class="jd-stat-value">${cats}</div><div class="jd-stat-label">categorias diferentes</div></div></div>
+      <div class="jd-stat"><div class="jd-stat-icon" style="background:rgba(34,197,94,0.12)">ðŸ•</div><div class="jd-stat-info"><div class="jd-stat-value">${recent}</div><div class="jd-stat-label">atualizados esta semana</div></div></div>`;
   }
+  const CAT_LABELS = {pessoais:'Pessoais',identificacao:'IdentificaÃ§Ã£o',veiculos:'VeÃ­culos',financeiros:'Financeiros',profissionais:'Profissionais',saude:'SaÃºde',outros:'Outros'};
+  function openDetail(docId) {
+    const docs=getAllDocs(), doc=docs.find(d=>d.id===docId); if(!doc) return;
+    const ov=document.getElementById('jd-detail-overlay'), pn=document.getElementById('jd-detail-panel');
+    if(!ov||!pn) return;
+    const pdf=allFiles[doc.id]?.pdf||null, img=allFiles[doc.id]?.img||null, bg=ICON_COLORS[doc.cat]||ICON_COLORS.outros;
+    pn.innerHTML=`<button class="jd-detail-back" id="jd-detail-back">â† Voltar</button>
+      <div class="jd-detail-head"><div class="jd-detail-icon" style="background:${bg}">${doc.icon}</div><div><h3 class="jd-detail-name">${doc.name}</h3><p class="jd-detail-desc">${doc.desc}</p></div></div>
+      <div class="jd-detail-meta"><span>ðŸ“‚ ${CAT_LABELS[doc.cat]||'Outros'}</span><span>ðŸ“… ${doc.updated_at?fmtDate(doc.updated_at):'Sem atualizaÃ§Ã£o'}</span></div>
+      <div class="jd-detail-files">
+      ${pdf?`<div class="jd-detail-file"><div class="jd-detail-file-header"><span class="jd-detail-file-icon">ðŸ“„</span><span class="jd-detail-file-name">PDF</span><span class="jd-detail-file-size">${fmtSize(pdf.size)}</span></div><div class="jd-detail-file-actions"><button onclick="window.jdView('${pdf.path}')">ðŸ‘ Abrir</button><button onclick="window.jdDownload('${pdf.path}')">â¬‡ Baixar</button><button onclick="window.jdUpload('${doc.id}','pdf')">ðŸ”„ Substituir</button><button class="danger" onclick="window.jdRemoveFile('${doc.id}','pdf','${pdf.path}')">ðŸ—‘ Remover</button></div></div>`:`<div class="jd-detail-file-empty" onclick="window.jdUpload('${doc.id}','pdf')"><p>ðŸ“„ Clique para enviar PDF</p></div>`}
+      ${img?`<div class="jd-detail-file"><div class="jd-detail-file-header"><span class="jd-detail-file-icon">ðŸ–¼ï¸</span><span class="jd-detail-file-name">Imagem</span><span class="jd-detail-file-size">${fmtSize(img.size)}</span></div><div class="jd-detail-file-actions"><button onclick="window.jdView('${img.path}')">ðŸ‘ Abrir</button><button onclick="window.jdDownload('${img.path}')">â¬‡ Baixar</button><button onclick="window.jdUpload('${doc.id}','img')">ðŸ”„ Substituir</button><button class="danger" onclick="window.jdRemoveFile('${doc.id}','img','${img.path}')">ðŸ—‘ Remover</button></div></div>`:`<div class="jd-detail-file-empty" onclick="window.jdUpload('${doc.id}','img')"><p>ðŸ–¼ï¸ Clique para enviar imagem</p></div>`}
+      </div>`;
+    ov.style.display='';
+    pn.querySelector('#jd-detail-back').addEventListener('click',()=>{ov.style.display='none';refreshAll();});
+    ov.addEventListener('click',(e)=>{if(e.target===ov){ov.style.display='none';refreshAll();}});
+  }
+  function openAddModal() {
+    const ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
+    if(!ov||!md) return;
+    md.innerHTML=`<h3>Adicionar documento</h3>
+      <div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" placeholder="Ex: CartÃ£o de vacinaÃ§Ã£o" /></div>
+      <div class="jd-modal-field"><label>DescriÃ§Ã£o</label><input id="jd-m-desc" placeholder="DescriÃ§Ã£o curta" /></div>
+      <div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">${Object.entries(CAT_LABELS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+      <div class="jd-modal-field"><label>Ãcone (emoji)</label><input id="jd-m-icon" placeholder="Ex: ðŸ“‹" maxlength="4" /></div>
+      <div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>`;
+    ov.style.display='';
+    md.querySelector('#jd-m-cancel').addEventListener('click',()=>{ov.style.display='none';});
+    md.querySelector('#jd-m-save').addEventListener('click',()=>{
+      const n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
+      const c=md.querySelector('#jd-m-cat').value, i=md.querySelector('#jd-m-icon').value.trim()||'ðŸ“„';
+      if(!n){alert('Digite o nome.');return;}
+      const saved=loadDocsData(); if(!saved.customDocs) saved.customDocs=[];
+      saved.customDocs.push({id:'custom_'+Date.now(),name:n,desc:d,icon:i,cat:c});
+      saveDocsData(saved); ov.style.display='none'; refreshAll();
+    });
+    ov.addEventListener('click',(e)=>{if(e.target===ov) ov.style.display='none';});
+  }
+  function openEditModal(doc) {
+    const ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
+    if(!ov||!md) return;
+    md.innerHTML=`<h3>Editar documento</h3>
+      <div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" value="${doc.name}" /></div>
+      <div class="jd-modal-field"><label>DescriÃ§Ã£o</label><input id="jd-m-desc" value="${doc.desc}" /></div>
+      <div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">${Object.entries(CAT_LABELS).map(([k,v])=>`<option value="${k}" ${doc.cat===k?'selected':''}>${v}</option>`).join('')}</select></div>
+      <div class="jd-modal-field"><label>Ãcone (emoji)</label><input id="jd-m-icon" value="${doc.icon}" maxlength="4" /></div>
+      <div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>`;
+    ov.style.display='';
+    md.querySelector('#jd-m-cancel').addEventListener('click',()=>{ov.style.display='none';});
+    md.querySelector('#jd-m-save').addEventListener('click',()=>{
+      const n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
+      const c=md.querySelector('#jd-m-cat').value, i=md.querySelector('#jd-m-icon').value.trim()||'ðŸ“„';
+      if(!n){alert('Digite o nome.');return;}
+      const saved=loadDocsData(); const isDef=DEFAULT_DOCS.some(dd=>dd.id===doc.id);
+      if(isDef){if(!saved[doc.id]) saved[doc.id]={}; Object.assign(saved[doc.id],{name:n,desc:d,cat:c,icon:i});}
+      else{const cu=(saved.customDocs||[]).find(dd=>dd.id===doc.id); if(cu) Object.assign(cu,{name:n,desc:d,cat:c,icon:i});}
+      saveDocsData(saved); ov.style.display='none'; refreshAll();
+    });
+    ov.addEventListener('click',(e)=>{if(e.target===ov) ov.style.display='none';});
+  }
+  async function refreshAll() { allFiles=await listUserFiles(); const docs=getAllDocs(); renderCards(getFiltered(docs)); renderStats(docs); }
+  window.jdView = async(p)=>{await viewFile(p);};
+  window.jdDownload = async(p)=>{await dlFile(p);};
+  window.jdUpload = (docId,st)=>{const i=document.createElement('input');i.type='file';i.accept=st==='pdf'?'.pdf':'.jpg,.jpeg,.png,.webp';
+    i.addEventListener('change',async()=>{if(!i.files.length)return;await uploadFile(docId,st,i.files[0]);openDetail(docId);});i.click();};
+  window.jdRemoveFile = async(docId,st,path)=>{if(!confirm('Remover este arquivo?'))return;await delFile(path);
+    const s=loadDocsData();if(s[docId]){s[docId].updated_at=new Date().toISOString();saveDocsData(s);}openDetail(docId);};
 
-  document.addEventListener('DOMContentLoaded', initJonathan);
+  function initJD() {
+    document.getElementById('jd-header-date').textContent = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
+    document.getElementById('jd-search-input')?.addEventListener('input',(e)=>{searchQ=e.target.value;refreshAll();});
+    document.querySelectorAll('.jd-filter').forEach(b=>b.addEventListener('click',()=>{
+      document.querySelectorAll('.jd-filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');curFilter=b.dataset.cat;refreshAll();}));
+    document.getElementById('jd-sort')?.addEventListener('change',(e)=>{curSort=e.target.value;refreshAll();});
+    document.getElementById('jd-view-grid')?.addEventListener('click',()=>{curView='grid';document.getElementById('jd-view-grid').classList.add('active');document.getElementById('jd-view-list').classList.remove('active');refreshAll();});
+    document.getElementById('jd-view-list')?.addEventListener('click',()=>{curView='list';document.getElementById('jd-view-list').classList.add('active');document.getElementById('jd-view-grid').classList.remove('active');refreshAll();});
+    document.getElementById('jd-add-btn')?.addEventListener('click',openAddModal);
+    document.getElementById('jd-grid')?.addEventListener('click',async(e)=>{
+      const fb=e.target.closest('[data-fav]');if(fb){e.stopPropagation();const did=fb.dataset.fav;const s=loadDocsData();if(!s[did])s[did]={};s[did].favorite=!s[did].favorite;saveDocsData(s);refreshAll();return;}
+      const ob=e.target.closest('[data-open]');if(ob){openDetail(ob.dataset.open);return;}
+      const db=e.target.closest('[data-dl]');if(db){e.stopPropagation();const did=db.dataset.dl;const p=allFiles[did]?.pdf,img=allFiles[did]?.img;
+        if(p&&img){const dd=document.getElementById('dd-'+did);if(dd)dd.classList.toggle('open');}else if(p)await dlFile(p.path);else if(img)await dlFile(img.path);return;}
+      const mb=e.target.closest('[data-menu]');if(mb){e.stopPropagation();const dd=document.getElementById('dd-'+mb.dataset.menu);
+        document.querySelectorAll('.jd-card-dropdown.open').forEach(d=>{if(d!==dd)d.classList.remove('open');});if(dd)dd.classList.toggle('open');return;}
+      const eb=e.target.closest('[data-edit]');if(eb){e.stopPropagation();const doc=getAllDocs().find(d=>d.id===eb.dataset.edit);if(doc)openEditModal(doc);return;}
+      const xb=e.target.closest('[data-del-doc]');if(xb){e.stopPropagation();if(!confirm('Excluir este documento e seus arquivos?'))return;const did=xb.dataset.delDoc;
+        const p=allFiles[did]?.pdf,img=allFiles[did]?.img;if(p)await delFile(p.path);if(img)await delFile(img.path);
+        const s=loadDocsData();delete s[did];s.customDocs=(s.customDocs||[]).filter(d=>d.id!==did);saveDocsData(s);refreshAll();return;}
+    });
+    document.addEventListener('click',(e)=>{if(!e.target.closest('.jd-card-menu'))document.querySelectorAll('.jd-card-dropdown.open').forEach(d=>d.classList.remove('open'));});
+    refreshAll();
+  }
+  document.addEventListener('DOMContentLoaded', initJD);
 })();

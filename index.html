@@ -795,31 +795,64 @@
         </section>
 
         <section class="page" id="jonathan">
-          <div class="jonathan-header">
-            <h2>Meus Documentos</h2>
-            <p>Armazene suas versões PDF e imagem de cada documento importante.</p>
-          </div>
-
-          <div class="jonathan-docs-grid" id="jonathan-docs-grid"></div>
-
-          <div class="jonathan-empty" id="jonathan-empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <p>Nenhum documento cadastrado.</p>
-          </div>
-
-          <div class="jonathan-detail-panel" id="jonathan-detail-panel" style="display:none">
-            <div class="jonathan-detail-header">
-              <button class="jonathan-detail-back" id="jonathan-detail-back">← Voltar</button>
-              <div class="jonathan-detail-title">
-                <span class="jonathan-detail-icon" id="jonathan-detail-icon"></span>
-                <div>
-                  <h3 id="jonathan-detail-name"></h3>
-                  <p id="jonathan-detail-desc"></p>
+          <div class="jd-header">
+            <div class="jd-header-top">
+              <div>
+                <span class="jd-header-date" id="jd-header-date"></span>
+                <h2 class="jd-header-title">Meus Documentos</h2>
+                <p class="jd-header-sub">Armazene suas versões PDF e imagem de cada documento importante.</p>
+              </div>
+              <div class="jd-header-actions">
+                <div class="jd-search">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" id="jd-search-input" placeholder="Buscar documento..." />
                 </div>
+                <button class="jd-add-btn" id="jd-add-btn">+ Adicionar documento</button>
               </div>
             </div>
-            <div class="jonathan-detail-slots" id="jonathan-detail-slots"></div>
-            <div class="jonathan-detail-date" id="jonathan-detail-date"></div>
+            <div class="jd-filters-row">
+              <div class="jd-filters" id="jd-filters">
+                <button class="jd-filter active" data-cat="all">Todos</button>
+                <button class="jd-filter" data-cat="pessoais">Pessoais</button>
+                <button class="jd-filter" data-cat="identificacao">Identificação</button>
+                <button class="jd-filter" data-cat="veiculos">Veículos</button>
+                <button class="jd-filter" data-cat="financeiros">Financeiros</button>
+                <button class="jd-filter" data-cat="profissionais">Profissionais</button>
+                <button class="jd-filter" data-cat="saude">Saúde</button>
+                <button class="jd-filter" data-cat="outros">Outros</button>
+              </div>
+              <div class="jd-view-controls">
+                <span class="jd-sort-label">Ordenar por:</span>
+                <select id="jd-sort" class="jd-sort-select">
+                  <option value="recent">Recentes primeiro</option>
+                  <option value="name">Nome A-Z</option>
+                  <option value="oldest">Mais antigos</option>
+                </select>
+                <button class="jd-view-btn active" id="jd-view-grid" title="Grid">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                </button>
+                <button class="jd-view-btn" id="jd-view-list" title="Lista">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="jd-grid" id="jd-grid"></div>
+
+          <div class="jd-empty" id="jd-empty" style="display:none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <p>Nenhum documento encontrado.</p>
+          </div>
+
+          <div class="jd-stats" id="jd-stats"></div>
+
+          <div class="jd-detail-overlay" id="jd-detail-overlay" style="display:none">
+            <div class="jd-detail-panel" id="jd-detail-panel"></div>
+          </div>
+
+          <div class="jd-modal-overlay" id="jd-modal-overlay" style="display:none">
+            <div class="jd-modal" id="jd-modal"></div>
           </div>
         </section>
 
@@ -1123,5 +1156,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="script.js?v=2.2"></script>
+  <script>
+    document.addEventListener('gesturestart', e => e.preventDefault());
+    document.addEventListener('gesturechange', e => e.preventDefault());
+    document.addEventListener('gestureend', e => e.preventDefault());
+    document.addEventListener('touchstart', e => {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', e => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = now;
+    }, false);
+    document.addEventListener('wheel', e => {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  </script>
   </body>
 </html>
