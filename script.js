@@ -41,10 +41,9 @@ function openEmojiPicker(input, anchor) {
   picker.style.top = `${Math.max(12, top)}px`;
 }
 
-const defaultNavOrder = ["dashboard", "personal", "quick-notes", "tasks", "pending", "pc", "diet", "wins", "cnh", "home", "agenda", "wishlist", "market", "routine", "finance", "wardrobe"];
+const defaultNavOrder = ["dashboard", "quick-notes", "tasks", "pending", "pc", "diet", "wins", "cnh", "home", "agenda", "wishlist", "market", "routine", "finance", "jonathan", "wardrobe"];
 const defaultNavGroups = {
   dashboard: "featured",
-  personal: "general",
   "quick-notes": "general",
   tasks: "general",
   pending: "general",
@@ -58,11 +57,11 @@ const defaultNavGroups = {
   market: "shopping",
   routine: "personal",
   finance: "personal",
+  jonathan: "personal",
   wardrobe: "personal",
 };
 const defaultNavMeta = {
   dashboard: { icon: "⌂", label: "Painel" },
-  personal: { icon: "🏙", label: "Jonatã" },
   "quick-notes": { icon: "📝", label: "Anotações" },
   tasks: { icon: "📋", label: "Coisas a fazer" },
   pending: { icon: "🚨", label: "Pendências" },
@@ -75,6 +74,7 @@ const defaultNavMeta = {
   wishlist: { icon: "🛍", label: "Coisas a comprar" },
   market: { icon: "🛒", label: "Mercado" },
   routine: { icon: "💪", label: "Rotina" },
+  jonathan: { icon: "📄", label: "Docs" },
   finance: { icon: "💰", label: "Finanças" },
   wardrobe: { icon: "👔", label: "Guarda Roupa" },
 };
@@ -1308,6 +1308,11 @@ function openSection(sectionId) {
     monthBar.style.display = (realSection === 'finance') ? 'flex' : 'none';
   }
 
+  const financeNav = document.getElementById('finance-internal-nav');
+  if (financeNav) {
+    financeNav.style.display = (realSection === 'finance') ? '' : 'none';
+  }
+
   const novaNotaBtn = document.querySelector('[data-section-shortcut="quick-notes"]');
   if (novaNotaBtn) {
     novaNotaBtn.style.display = (realSection === 'quick-notes') ? '' : 'none';
@@ -1794,13 +1799,7 @@ function renderFinance() {
       const reserveGoal = (state.financeGoals && state.financeGoals[0]) ? state.financeGoals[0] : { current: 0, target: 10000 };
       const reservePercent = reserveGoal.target > 0 ? Math.round((reserveGoal.current / reserveGoal.target) * 100) : 0;
       cards[3].querySelector('strong').textContent = formatMoney(reserveGoal.current);
-      const smalls = cards[3].querySelectorAll('small');
-      if(smalls.length >= 2) {
-        smalls[0].textContent = 'Meta: ' + formatMoney(reserveGoal.target);
-        smalls[1].textContent = reservePercent + '%';
-      }
-      const bar = cards[3].querySelector('.reserve-bar div');
-      if (bar) bar.style.width = reservePercent + '%';
+      cards[3].querySelector('small').textContent = 'Meta: ' + formatMoney(reserveGoal.target) + ' · ' + reservePercent + '%';
       
       cards[3].style.cursor = 'pointer';
       cards[3].onclick = () => {
@@ -1834,65 +1833,65 @@ function renderFinance() {
     const className = isList ? 'finance-list-icon' : 'finance-item-icon';
     
     // Brand logos via Simple Icons SVG CDN
-    if (ltitle.includes('netflix')) return `<img src="https://cdn.simpleicons.org/netflix/E50914" class="${className}" style="padding: 6px; background: rgba(229, 9, 20, 0.1);" alt="Netflix" />`;
-    if (ltitle.includes('spotify')) return `<img src="https://cdn.simpleicons.org/spotify/1DB954" class="${className}" style="padding: 6px; background: rgba(29, 185, 84, 0.1);" alt="Spotify" />`;
-    if (ltitle.includes('icloud') || ltitle.includes('apple')) return `<img src="https://cdn.simpleicons.org/icloud/007AFF" class="${className}" style="padding: 6px; background: rgba(0, 122, 255, 0.1);" alt="iCloud" />`;
-    if (ltitle.includes('amazon') || ltitle.includes('prime')) return `<img src="https://cdn.simpleicons.org/amazon/FF9900" class="${className}" style="padding: 6px; background: rgba(255, 153, 0, 0.1);" alt="Amazon" />`;
-    if (ltitle.includes('youtube')) return `<img src="https://cdn.simpleicons.org/youtube/FF0000" class="${className}" style="padding: 6px; background: rgba(255, 0, 0, 0.1);" alt="YouTube" />`;
-    if (ltitle.includes('disney')) return `<img src="https://cdn.simpleicons.org/disneyplus/11385B" class="${className}" style="padding: 6px; background: rgba(17, 56, 91, 0.1);" alt="Disney" />`;
-    if (ltitle.includes('playstation') || ltitle.includes('psn') || ltitle.includes('ps5')) return `<img src="https://cdn.simpleicons.org/playstation/003087" class="${className}" style="padding: 6px; background: rgba(0, 48, 135, 0.1);" alt="PlayStation" />`;
-    if (ltitle.includes('xbox')) return `<img src="https://cdn.simpleicons.org/xbox/107C10" class="${className}" style="padding: 6px; background: rgba(16, 124, 16, 0.1);" alt="Xbox" />`;
-    if (ltitle.includes('steam')) return `<img src="https://cdn.simpleicons.org/steam/000000" class="${className}" style="padding: 6px; background: rgba(255, 255, 255, 0.08);" alt="Steam" />`;
-    if (ltitle.includes('chatgpt') || ltitle.includes('openai')) return `<img src="https://cdn.simpleicons.org/openai/412991" class="${className}" style="padding: 6px; background: rgba(65, 41, 145, 0.1);" alt="ChatGPT" />`;
-    if (ltitle.includes('globo')) return `<img src="https://cdn.simpleicons.org/globoplay/EB2629" class="${className}" style="padding: 6px; background: rgba(235, 38, 41, 0.1);" alt="GloboPlay" />`;
-    if (ltitle.includes('hbo') || ltitle.includes('max')) return `<img src="https://cdn.simpleicons.org/hbo/002D62" class="${className}" style="padding: 6px; background: rgba(0, 45, 98, 0.1);" alt="HBO" />`;
-    if (ltitle.includes('uber')) return `<img src="https://cdn.simpleicons.org/uber/000000" class="${className}" style="padding: 6px; background: rgba(255, 255, 255, 0.08);" alt="Uber" />`;
-    if (ltitle.includes('nubank')) return `<img src="https://cdn.simpleicons.org/nubank/820AD9" class="${className}" style="padding: 6px; background: rgba(130, 10, 217, 0.1);" alt="Nubank" />`;
-    if (ltitle.includes('bradesco')) return `<img src="https://cdn.simpleicons.org/bradesco/CC092F" class="${className}" style="padding: 6px; background: rgba(204, 9, 47, 0.1);" alt="Bradesco" />`;
-    if (ltitle.includes('itaú') || ltitle.includes('itau')) return `<img src="https://cdn.simpleicons.org/itau/EC7000" class="${className}" style="padding: 6px; background: rgba(236, 112, 0, 0.1);" alt="Itaú" />`;
-    if (ltitle.includes('santander')) return `<img src="https://cdn.simpleicons.org/santander/EC0000" class="${className}" style="padding: 6px; background: rgba(236, 0, 0, 0.1);" alt="Santander" />`;
-    if (ltitle.includes('mercado livre') || ltitle.includes('mercado pago')) return `<img src="https://cdn.simpleicons.org/mercadolibre/FFE600" class="${className}" style="padding: 6px; background: rgba(255, 230, 0, 0.1);" alt="Mercado Livre" />`;
-    if (ltitle.includes('claro')) return `<div class="${className}" style="background: rgba(218, 41, 28, 0.15); color: #DA291C; font-weight: bold; font-size: 11px; letter-spacing: -0.5px;">Claro</div>`;
-    if (ltitle.includes('vivo')) return `<img src="https://cdn.simpleicons.org/vivo/CC0066" class="${className}" style="padding: 6px; background: rgba(204, 0, 102, 0.1);" alt="Vivo" />`;
-    if (ltitle.includes('tim')) return `<img src="https://cdn.simpleicons.org/tim/003DA5" class="${className}" style="padding: 6px; background: rgba(0, 61, 165, 0.1);" alt="TIM" />`;
+    if (ltitle.includes('netflix')) return `<img src="https://cdn.simpleicons.org/netflix/E50914" class="${className}" style="padding: 6px; background: #E50914; border-radius: 50%; filter: brightness(0) invert(1);" alt="Netflix" />`;
+    if (ltitle.includes('spotify')) return `<img src="https://cdn.simpleicons.org/spotify/1DB954" class="${className}" style="padding: 6px; background: #1DB954; border-radius: 50%; filter: brightness(0) invert(1);" alt="Spotify" />`;
+    if (ltitle.includes('icloud') || ltitle.includes('apple')) return `<img src="https://cdn.simpleicons.org/icloud/007AFF" class="${className}" style="padding: 6px; background: #007AFF; border-radius: 50%; filter: brightness(0) invert(1);" alt="iCloud" />`;
+    if (ltitle.includes('amazon') || ltitle.includes('prime')) return `<img src="https://cdn.simpleicons.org/amazon/FF9900" class="${className}" style="padding: 6px; background: #FF9900; border-radius: 50%; filter: brightness(0) invert(1);" alt="Amazon" />`;
+    if (ltitle.includes('youtube')) return `<img src="https://cdn.simpleicons.org/youtube/FF0000" class="${className}" style="padding: 6px; background: #FF0000; border-radius: 50%; filter: brightness(0) invert(1);" alt="YouTube" />`;
+    if (ltitle.includes('disney')) return `<img src="https://cdn.simpleicons.org/disneyplus/11385B" class="${className}" style="padding: 6px; background: #11385B; border-radius: 50%; filter: brightness(0) invert(1);" alt="Disney" />`;
+    if (ltitle.includes('playstation') || ltitle.includes('psn') || ltitle.includes('ps5')) return `<img src="https://cdn.simpleicons.org/playstation/003087" class="${className}" style="padding: 6px; background: #003087; border-radius: 50%; filter: brightness(0) invert(1);" alt="PlayStation" />`;
+    if (ltitle.includes('xbox')) return `<img src="https://cdn.simpleicons.org/xbox/107C10" class="${className}" style="padding: 6px; background: #107C10; border-radius: 50%; filter: brightness(0) invert(1);" alt="Xbox" />`;
+    if (ltitle.includes('steam')) return `<img src="https://cdn.simpleicons.org/steam/1B2838" class="${className}" style="padding: 6px; background: #1B2838; border-radius: 50%; filter: brightness(0) invert(1);" alt="Steam" />`;
+    if (ltitle.includes('chatgpt') || ltitle.includes('openai')) return `<img src="https://cdn.simpleicons.org/openai/412991" class="${className}" style="padding: 6px; background: #412991; border-radius: 50%; filter: brightness(0) invert(1);" alt="ChatGPT" />`;
+    if (ltitle.includes('globo')) return `<img src="https://cdn.simpleicons.org/globoplay/EB2629" class="${className}" style="padding: 6px; background: #EB2629; border-radius: 50%; filter: brightness(0) invert(1);" alt="GloboPlay" />`;
+    if (ltitle.includes('hbo') || ltitle.includes('max')) return `<img src="https://cdn.simpleicons.org/hbo/002D62" class="${className}" style="padding: 6px; background: #002D62; border-radius: 50%; filter: brightness(0) invert(1);" alt="HBO" />`;
+    if (ltitle.includes('uber')) return `<img src="https://cdn.simpleicons.org/uber/000000" class="${className}" style="padding: 6px; background: #276EF1; border-radius: 50%; filter: brightness(0) invert(1);" alt="Uber" />`;
+    if (ltitle.includes('nubank')) return `<img src="https://cdn.simpleicons.org/nubank/820AD9" class="${className}" style="padding: 6px; background: #820AD9; border-radius: 50%; filter: brightness(0) invert(1);" alt="Nubank" />`;
+    if (ltitle.includes('bradesco')) return `<img src="https://cdn.simpleicons.org/bradesco/CC092F" class="${className}" style="padding: 6px; background: #CC092F; border-radius: 50%; filter: brightness(0) invert(1);" alt="Bradesco" />`;
+    if (ltitle.includes('itaú') || ltitle.includes('itau')) return `<img src="https://cdn.simpleicons.org/itau/EC7000" class="${className}" style="padding: 6px; background: #EC7000; border-radius: 50%; filter: brightness(0) invert(1);" alt="Itaú" />`;
+    if (ltitle.includes('santander')) return `<img src="https://cdn.simpleicons.org/santander/EC0000" class="${className}" style="padding: 6px; background: #EC0000; border-radius: 50%; filter: brightness(0) invert(1);" alt="Santander" />`;
+    if (ltitle.includes('mercado livre') || ltitle.includes('mercado pago')) return `<img src="https://cdn.simpleicons.org/mercadolibre/FFE600" class="${className}" style="padding: 6px; background: #FFE600; border-radius: 50%; filter: brightness(0) invert(1);" alt="Mercado Livre" />`;
+    if (ltitle.includes('claro')) return `<div class="${className}" style="background: #DA291C; color: #fff; font-weight: bold; font-size: 11px; letter-spacing: -0.5px;">Claro</div>`;
+    if (ltitle.includes('vivo')) return `<img src="https://cdn.simpleicons.org/vivo/CC0066" class="${className}" style="padding: 6px; background: #CC0066; border-radius: 50%; filter: brightness(0) invert(1);" alt="Vivo" />`;
+    if (ltitle.includes('tim')) return `<img src="https://cdn.simpleicons.org/tim/003DA5" class="${className}" style="padding: 6px; background: #003DA5; border-radius: 50%; filter: brightness(0) invert(1);" alt="TIM" />`;
 
     // General categories with colored background and emoji
     if (ltitle.includes('barbeiro') || ltitle.includes('barbearia') || ltitle.includes('cabelereiro')) {
-      return `<div class="${className}" style="background: rgba(139, 92, 246, 0.15); font-size: 16px;">✂️</div>`;
+      return `<div class="${className}" style="background: #8b5cf6; color: #fff; font-size: 16px;">✂️</div>`;
     }
     if (ltitle.includes('mei')) {
-      return `<div class="${className}" style="background: rgba(244, 67, 54, 0.15); font-size: 16px;">📄</div>`;
+      return `<div class="${className}" style="background: #ef4444; color: #fff; font-size: 16px;">📄</div>`;
     }
     if (ltitle.includes('aluguel') || ltitle.includes('casa') || ltitle.includes('condomínio') || ltitle.includes('moradia')) {
-      return `<div class="${className}" style="background: rgba(156, 39, 176, 0.15); font-size: 16px;">🏠</div>`;
+      return `<div class="${className}" style="background: #9c27b0; color: #fff; font-size: 16px;">🏠</div>`;
     }
     if (ltitle.includes('internet') || ltitle.includes('wifi')) {
-      return `<div class="${className}" style="background: rgba(76, 175, 80, 0.15); font-size: 16px;">📶</div>`;
+      return `<div class="${className}" style="background: #4caf50; color: #fff; font-size: 16px;">📶</div>`;
     }
     if (ltitle.includes('energia') || ltitle.includes('luz') || ltitle.includes('enel') || ltitle.includes('cpfl')) {
-      return `<div class="${className}" style="background: rgba(255, 193, 7, 0.15); font-size: 16px;">⚡</div>`;
+      return `<div class="${className}" style="background: #ff9800; color: #fff; font-size: 16px;">⚡</div>`;
     }
     if (ltitle.includes('água') || ltitle.includes('sabesp') || ltitle.includes('copasa')) {
-      return `<div class="${className}" style="background: rgba(33, 150, 243, 0.15); font-size: 16px;">💧</div>`;
+      return `<div class="${className}" style="background: #2196f3; color: #fff; font-size: 16px;">💧</div>`;
     }
     if (ltitle.includes('salário') || ltitle.includes('trabalho') || ltitle.includes('job') || ltitle.includes('pagamento')) {
-      return `<div class="${className}" style="background: rgba(46, 125, 50, 0.15); font-size: 16px;">💼</div>`;
+      return `<div class="${className}" style="background: #2e7d32; color: #fff; font-size: 16px;">💼</div>`;
     }
     if (ltitle.includes('mercado') || ltitle.includes('alimentação') || ltitle.includes('comida') || ltitle.includes('ifood') || ltitle.includes('feira')) {
-      return `<div class="${className}" style="background: rgba(244, 67, 54, 0.15); font-size: 16px;">🛒</div>`;
+      return `<div class="${className}" style="background: #f44336; color: #fff; font-size: 16px;">🛒</div>`;
     }
     if (ltitle.includes('academia') || ltitle.includes('saúde') || ltitle.includes('médico') || ltitle.includes('treino') || ltitle.includes('farmácia')) {
-      return `<div class="${className}" style="background: rgba(0, 188, 212, 0.15); font-size: 16px;">💪</div>`;
+      return `<div class="${className}" style="background: #00bcd4; color: #fff; font-size: 16px;">💪</div>`;
     }
     
     // Default fallback arrows
     if (t === 'income') {
-      return `<div class="${className}" style="background: rgba(46, 125, 50, 0.15); color: #2e7d32; font-weight: bold; font-size: 14px;">↗</div>`;
+      return `<div class="${className}" style="background: #22c55e; color: #fff; font-weight: bold; font-size: 14px;">↗</div>`;
     }
     if (t === 'fixed' || t === 'expense' || t === 'variable') {
-      return `<div class="${className}" style="background: rgba(244, 67, 54, 0.15); color: #d32f2f; font-weight: bold; font-size: 14px;">↘</div>`;
+      return `<div class="${className}" style="background: #ef4444; color: #fff; font-weight: bold; font-size: 14px;">↘</div>`;
     }
-    return `<div class="${className}" style="background: rgba(255, 255, 255, 0.08); font-size: 16px;">👤</div>`;
+    return `<div class="${className}" style="background: #6b7280; color: #fff; font-size: 16px;">👤</div>`;
   };
 
   // Build All Items for Month
@@ -2761,6 +2760,7 @@ function renderMarketShop() {
 }
 
 function renderPersonal() {
+  if (!document.querySelector("#personal-name")) return;
   const info = state.personal.info;
   document.querySelector("#personal-name").value = info.name || "";
   document.querySelector("#personal-phone").value = info.phone || "";
@@ -4041,23 +4041,23 @@ document.querySelector("#market-shop-finish").addEventListener("click", () => {
   commitChange();
 });
 
-document.querySelector("#personal-save-btn").addEventListener("click", () => {
+document.querySelector("#personal-save-btn")?.addEventListener("click", () => {
   rememberUndo();
   state.personal.info = {
-    name: document.querySelector("#personal-name").value.trim(),
-    phone: document.querySelector("#personal-phone").value.trim(),
-    email: document.querySelector("#personal-email").value.trim(),
-    address: document.querySelector("#personal-address").value.trim(),
-    notes: document.querySelector("#personal-notes").value.trim(),
+    name: document.querySelector("#personal-name")?.value.trim() || "",
+    phone: document.querySelector("#personal-phone")?.value.trim() || "",
+    email: document.querySelector("#personal-email")?.value.trim() || "",
+    address: document.querySelector("#personal-address")?.value.trim() || "",
+    notes: document.querySelector("#personal-notes")?.value.trim() || "",
   };
   commitChange();
 });
 
-document.querySelector("#personal-goal-form").addEventListener("submit", (event) => {
+document.querySelector("#personal-goal-form")?.addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#personal-goal-title");
   const area = document.querySelector("#personal-goal-area");
-  if (!title.value.trim()) return;
+  if (!title?.value.trim()) return;
   rememberUndo();
   state.personal.goals.unshift({
     id: crypto.randomUUID(),
@@ -4069,11 +4069,11 @@ document.querySelector("#personal-goal-form").addEventListener("submit", (event)
   commitChange();
 });
 
-document.querySelector("#personal-doc-form").addEventListener("submit", (event) => {
+document.querySelector("#personal-doc-form")?.addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#personal-doc-title");
   const value = document.querySelector("#personal-doc-value");
-  if (!title.value.trim()) return;
+  if (!title?.value.trim()) return;
   rememberUndo();
   state.personal.docs.unshift({
     id: crypto.randomUUID(),
@@ -5875,3 +5875,307 @@ if (document.readyState === 'loading') {
 } else {
   initFinanceInteractions();
 }
+
+/* ===================== JONATHAN - DOCUMENTOS ===================== */
+(function() {
+  const BUCKET = 'documentos';
+  const MAX_SIZE = 10 * 1024 * 1024;
+  const ACCEPTED = ['image/jpeg','image/png','image/webp','application/pdf'];
+
+  const DOCS = [
+    { id: 'rg_cpf',         name: 'RG / CPF',               icon: '🪪', desc: 'Registro Geral e Cadastro de Pessoa Física' },
+    { id: 'cnh',           name: 'CNH',                  icon: '🚗', desc: 'Carteira Nacional de Habilitação' },
+    { id: 'certidao_nasc', name: 'Certidão de Nascimento', icon: '👶', desc: 'Certidão de Nascimento' },
+    { id: 'titulo_eleitor', name: 'Título de Eleitor',   icon: '🗳️', desc: 'Título de Eleitor' },
+
+    { id: 'reservista',    name: 'Certificado Reservista', icon: '🎖️', desc: 'Certificado de Serviço Militar' },
+    { id: 'passaporte',    name: 'Passaporte',            icon: '✈️', desc: 'Passaporte Brasileiro' },
+    { id: 'comprovante_res', name: 'Comprovante de Residência', icon: '🏠', desc: 'Comprovante de Residência' },
+    { id: 'certidao_casamento', name: 'Certificado MEI', icon: '🏢', desc: 'Certificado de Microempreendedor Individual' },
+    { id: 'antec_sp',      name: 'Antecedentes Criminais SP', icon: '🔍', desc: 'Antecedentes Criminais - Estado de SP' },
+    { id: 'antec_nacional', name: 'Antecedentes Criminais Nacional', icon: '🔍', desc: 'Antecedentes Criminais -âmbito Nacional' },
+  ];
+
+  function getSupabase() {
+    return window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  async function getUserId() {
+    const sb = getSupabase();
+    if (!sb) return null;
+    const session = await sb.auth.getSession();
+    return session?.data?.session?.user?.id || null;
+  }
+
+  async function uploadFile(docId, slotType, file) {
+    const sb = getSupabase();
+    if (!sb) { alert('Supabase não conectado.'); return null; }
+    if (!ACCEPTED.includes(file.type)) { alert('Tipo de arquivo não aceito.'); return null; }
+    if (file.size > MAX_SIZE) { alert('Arquivo muito grande (máx. 10MB).'); return null; }
+
+    const userId = await getUserId();
+    if (!userId) { alert('Faça login para enviar documentos.'); return null; }
+
+    const ext = file.name.split('.').pop();
+    const path = userId + '/' + docId + '-' + slotType + '.' + ext;
+
+    const { error } = await sb.storage.from(BUCKET).upload(path, file, {
+      contentType: file.type,
+      upsert: true
+    });
+
+    if (error) { alert('Erro ao enviar: ' + error.message); return null; }
+    return { path, name: file.name, size: file.size, type: file.type };
+  }
+
+  async function listUserFiles() {
+    const sb = getSupabase();
+    if (!sb) return {};
+    const userId = await getUserId();
+    if (!userId) return {};
+
+    const { data, error } = await sb.storage.from(BUCKET).list(userId, {
+      limit: 100
+    });
+    if (error || !data) return {};
+
+    const files = {};
+    data.forEach(f => {
+      const fileName = f.name;
+      const baseName = fileName.split('.')[0];
+      const lastDash = baseName.lastIndexOf('-');
+      if (lastDash > 0) {
+        const docId = baseName.substring(0, lastDash);
+        const slotType = baseName.substring(lastDash + 1);
+        if (['pdf', 'img'].includes(slotType)) {
+          if (!files[docId]) files[docId] = { pdf: null, img: null };
+          files[docId][slotType] = {
+            path: userId + '/' + fileName,
+            name: fileName,
+            size: f.metadata?.size || 0,
+            type: f.metadata?.mimetype || '',
+            created_at: f.created_at || f.updated_at || null
+          };
+        }
+      }
+    });
+    return files;
+  }
+
+  async function downloadFile(path) {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data, error } = await sb.storage.from(BUCKET).download(path);
+    if (error) { alert('Erro ao baixar: ' + error.message); return; }
+    const url = URL.createObjectURL(data);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = path.split('/').pop();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  async function viewFile(path) {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { data, error } = await sb.storage.from(BUCKET).download(path);
+    if (error) { alert('Erro ao abrir: ' + error.message); return; }
+    if (data) {
+      const url = URL.createObjectURL(data);
+      window.open(url, '_blank');
+    }
+  }
+
+  async function deleteFile(path) {
+    const sb = getSupabase();
+    if (!sb) return;
+    const { error } = await sb.storage.from(BUCKET).remove([path]);
+    if (error) { alert('Erro ao excluir: ' + error.message); }
+  }
+
+  function renderDocGrid(files) {
+    const grid = document.getElementById('jonathan-docs-grid');
+    const empty = document.getElementById('jonathan-empty');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const STORAGE_KEY = 'painel-pessoal-docs-order';
+
+    function getOrderedDocs() {
+      try {
+        const order = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (order && Array.isArray(order)) {
+          const docMap = {};
+          DOCS.forEach(d => docMap[d.id] = d);
+          const ordered = order.map(id => docMap[id]).filter(Boolean);
+          DOCS.forEach(d => { if (!ordered.find(o => o.id === d.id)) ordered.push(d); });
+          return ordered;
+        }
+      } catch(e) {}
+      return [...DOCS];
+    }
+
+    function saveOrder() {
+      const order = Array.from(grid.querySelectorAll('.jonathan-doc-card')).map(c => c.dataset.docId);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+    }
+
+    const orderedDocs = getOrderedDocs();
+    const hasAnyFile = orderedDocs.some(d => files[d.id]?.pdf || files[d.id]?.img);
+    if (empty) empty.style.display = hasAnyFile ? 'none' : '';
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    orderedDocs.forEach(doc => {
+      const pdfFile = files[doc.id]?.pdf || null;
+      const imgFile = files[doc.id]?.img || null;
+
+      const card = document.createElement('div');
+      card.className = 'jonathan-doc-card draggable-doc';
+      card.draggable = true;
+      card.dataset.docId = doc.id;
+      card.innerHTML = `
+        <div class="jonathan-doc-top">
+          <span class="jonathan-doc-drag-handle" title="Arrastar">⠿</span>
+          <div class="jonathan-doc-icon">${doc.icon}</div>
+          <div class="jonathan-doc-info">
+            <h3 class="jonathan-doc-name">${doc.name}</h3>
+            <p class="jonathan-doc-desc">${doc.desc}</p>
+          </div>
+        </div>
+        <div class="jonathan-doc-slots">
+          <div class="jonathan-doc-slot-col">
+            <div class="jonathan-doc-slot ${pdfFile ? 'has-file' : ''}" data-doc="${doc.id}" data-slot="pdf">
+              <input type="file" accept=".pdf" />
+              <div class="jonathan-doc-slot-label">PDF</div>
+              <span class="jonathan-doc-slot-icon">📄</span>
+              <span class="jonathan-doc-slot-text">${pdfFile ? formatSize(pdfFile.size) : 'Enviar PDF'}</span>
+            </div>
+            ${pdfFile ? `<div class="jonathan-doc-slot-btns">
+              <button class="jonathan-doc-dl" data-path="${pdfFile.path}">⬇</button>
+              <button class="jonathan-doc-del delete-btn" data-path="${pdfFile.path}" data-doc="${doc.id}" data-slot="pdf">×</button>
+            </div>` : ''}
+          </div>
+          <div class="jonathan-doc-slot-col">
+            <div class="jonathan-doc-slot ${imgFile ? 'has-file' : ''}" data-doc="${doc.id}" data-slot="img">
+              <input type="file" accept=".jpg,.jpeg,.png,.webp" />
+              <div class="jonathan-doc-slot-label">Imagem</div>
+              <span class="jonathan-doc-slot-icon">🖼️</span>
+              <span class="jonathan-doc-slot-text">${imgFile ? formatSize(imgFile.size) : 'Enviar imagem'}</span>
+            </div>
+            ${imgFile ? `<div class="jonathan-doc-slot-btns">
+              <button class="jonathan-doc-dl" data-path="${imgFile.path}">⬇</button>
+              <button class="jonathan-doc-del delete-btn" data-path="${imgFile.path}" data-doc="${doc.id}" data-slot="img">×</button>
+            </div>` : ''}
+          </div>
+        </div>
+        ${(pdfFile?.created_at || imgFile?.created_at) ? `<div class="jonathan-doc-date">${pdfFile?.created_at ? '📄 ' + formatDate(pdfFile.created_at) : ''}${pdfFile?.created_at && imgFile?.created_at ? ' · ' : ''}${imgFile?.created_at ? '🖼️ ' + formatDate(imgFile.created_at) : ''}</div>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+
+    grid.querySelectorAll('.jonathan-doc-slot').forEach(slot => {
+      slot.addEventListener('click', async () => {
+        const docId = slot.dataset.doc;
+        const slotType = slot.dataset.slot;
+        const fileData = slotType === 'pdf' ? files[docId]?.pdf : files[docId]?.img;
+        if (fileData) {
+          await viewFile(fileData.path);
+          return;
+        }
+        const input = slot.querySelector('input[type="file"]');
+        if (input) input.click();
+      });
+      const input = slot.querySelector('input[type="file"]');
+      if (input) {
+        input.addEventListener('change', async () => {
+          if (!input.files.length) return;
+          const docId = slot.dataset.doc;
+          const slotType = slot.dataset.slot;
+          await uploadFile(docId, slotType, input.files[0]);
+          input.value = '';
+          initJonathan();
+        });
+      }
+    });
+
+    grid.querySelectorAll('.jonathan-doc-dl').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        downloadFile(btn.dataset.path);
+      });
+    });
+
+    grid.querySelectorAll('.jonathan-doc-del').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (confirm('Excluir este arquivo?')) {
+          await deleteFile(btn.dataset.path);
+          initJonathan();
+        }
+      });
+    });
+
+    let draggedCard = null;
+    grid.addEventListener('dragstart', (e) => {
+      const card = e.target.closest('.jonathan-doc-card');
+      if (!card) return;
+      draggedCard = card;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    grid.addEventListener('dragend', (e) => {
+      const card = e.target.closest('.jonathan-doc-card');
+      if (card) card.classList.remove('dragging');
+      grid.querySelectorAll('.jonathan-doc-card').forEach(c => c.classList.remove('drag-over-card'));
+      draggedCard = null;
+    });
+    grid.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const target = e.target.closest('.jonathan-doc-card');
+      if (target && target !== draggedCard) {
+        grid.querySelectorAll('.jonathan-doc-card').forEach(c => c.classList.remove('drag-over-card'));
+        target.classList.add('drag-over-card');
+      }
+    });
+    grid.addEventListener('dragleave', (e) => {
+      const target = e.target.closest('.jonathan-doc-card');
+      if (target) target.classList.remove('drag-over-card');
+    });
+    grid.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const target = e.target.closest('.jonathan-doc-card');
+      if (!target || !draggedCard || target === draggedCard) return;
+      const cards = Array.from(grid.querySelectorAll('.jonathan-doc-card'));
+      const fromIdx = cards.indexOf(draggedCard);
+      const toIdx = cards.indexOf(target);
+      if (fromIdx < toIdx) {
+        grid.insertBefore(draggedCard, target.nextSibling);
+      } else {
+        grid.insertBefore(draggedCard, target);
+      }
+      target.classList.remove('drag-over-card');
+      saveOrder();
+    });
+  }
+
+  async function initJonathan() {
+    const files = await listUserFiles();
+    renderDocGrid(files);
+  }
+
+  document.addEventListener('DOMContentLoaded', initJonathan);
+})();
