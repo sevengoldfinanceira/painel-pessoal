@@ -9484,6 +9484,23 @@ html[data-theme="light"] #section-historico table td {
   border-bottom: 1px solid #E5E7EB !important;
 }
 
+#section-historico table tbody tr.current-month-row {
+  background: rgba(234, 179, 8, 0.1);
+  border-left: 3px solid var(--accent, #d4af37);
+}
+#section-historico table tbody tr.current-month-row td:first-child {
+  font-weight: 800;
+  color: var(--accent, #d4af37);
+}
+html[data-theme="light"] #section-historico table tbody tr.current-month-row {
+  background: rgba(234, 179, 8, 0.12) !important;
+  border-left: 3px solid #d4af37 !important;
+}
+html[data-theme="light"] #section-historico table tbody tr.current-month-row td:first-child {
+  font-weight: 800 !important;
+  color: #B45309 !important;
+}
+
 /* Navegação Interna (Abas) */
 html[data-theme="light"] .finance-internal-nav {
   background: #E5E7EB !important;

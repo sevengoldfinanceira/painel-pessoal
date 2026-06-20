@@ -2039,17 +2039,18 @@ function renderFinance() {
     if(nonSubs.length === 0) fixasList.innerHTML = '<p style="color:var(--text-muted);font-size:13px;padding-top:8px;">Nenhuma conta fixa.</p>';
   }
 
-  // ROW 3: Histórico mensal — últimos 6 meses reais
+  // ROW 3: Visão mensal — 3 meses antes e 3 depois do mês selecionado
   const histTbody = document.querySelector('#section-historico tbody');
   if (histTbody) {
     const monthNamesShort = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
     const [curY, curM] = (state.financePlan.month || todayISO().slice(0, 7)).split('-').map(Number);
     const rows = [];
-    for (let i = 0; i < 6; i++) {
-      const d = new Date(curY, curM - 1 - i, 1);
+    for (let i = -3; i <= 3; i++) {
+      const d = new Date(curY, curM - 1 + i, 1);
       const year = d.getFullYear();
       const month = d.getMonth() + 1;
       const monthKey = `${year}-${String(month).padStart(2, '0')}`;
+      const isCurrent = i === 0;
 
       const monthIncome = state.finance.filter(item => {
         const dt = String(item.dueDate || '');
@@ -2075,7 +2076,8 @@ function renderFinance() {
       const monthPaid = monthFixed + monthVariable + monthExpenseExtra;
       const monthBalance = monthIncome - monthPaid;
 
-      rows.push(`<tr>
+      const rowClass = isCurrent ? ' class="current-month-row"' : '';
+      rows.push(`<tr${rowClass}>
         <td>${monthNamesShort[month - 1]}/${year}</td>
         <td class="money-income">${formatMoney(monthIncome)}</td>
         <td class="money-expense">${formatMoney(monthPaid)}</td>
