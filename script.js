@@ -6072,11 +6072,9 @@ if (document.readyState === 'loading') {
     var gridEl = document.getElementById('jd-grid');
     if (gridEl) gridEl.addEventListener('click',function(e){
       var fb=e.target.closest('[data-fav]');if(fb){e.stopPropagation();var did=fb.dataset.fav;var s=loadDocsData();if(!s[did])s[did]={};s[did].favorite=!s[did].favorite;saveDocsData(s);refreshAll();return;}
-      var ob=e.target.closest('[data-open]');if(ob){openDetail(ob.dataset.open);return;}
-      var db=e.target.closest('[data-dl]');if(db){e.stopPropagation();var did2=db.dataset.dl;var p=allFiles[did2]?allFiles[did2].pdf:null,im=allFiles[did2]?allFiles[did2].img:null;
-        if(p&&im){var dd=document.getElementById('dd-'+did2);if(dd)dd.classList.toggle('open');}else if(p)dlFile(p.path);else if(im)dlFile(im.path);return;}
-      var mb=e.target.closest('[data-menu]');if(mb){e.stopPropagation();var dd2=document.getElementById('dd-'+mb.dataset.menu);
-        document.querySelectorAll('.jd-card-dropdown.open').forEach(function(d){if(d!==dd2)d.classList.remove('open');});if(dd2)dd2.classList.toggle('open');return;}
+      var ob=e.target.closest('[data-open]');if(ob){var did4=ob.dataset.open;var f=allFiles[did4];if(f&&f.pdf){viewFile(f.pdf.path);}else{openDetail(did4);}return;}
+      var db=e.target.closest('[data-dl]');if(db){e.stopPropagation();var did2=db.dataset.dl;var f2=allFiles[did2];if(f2&&f2.pdf){dlFile(f2.pdf.path);}else if(f2&&f2.img){dlFile(f2.img.path);}return;}
+      var mb=e.target.closest('[data-menu]');if(mb){e.stopPropagation();openDetail(mb.dataset.menu);return;}
       var eb=e.target.closest('[data-edit]');if(eb){e.stopPropagation();var docs=getAllDocs();for(var i=0;i<docs.length;i++){if(docs[i].id===eb.dataset.edit){openEditModal(docs[i]);break;}}return;}
       var xb=e.target.closest('[data-del-doc]');if(xb){e.stopPropagation();if(!confirm('Excluir este documento e seus arquivos?'))return;var did3=xb.dataset.delDoc;
         var p2=allFiles[did3]?allFiles[did3].pdf:null,im2=allFiles[did3]?allFiles[did3].img:null;if(p2)delFile(p2.path);if(im2)delFile(im2.path);
