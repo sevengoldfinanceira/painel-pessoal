@@ -8118,7 +8118,7 @@ html[data-theme="light"] #routine .routine-progress-ring strong {
 }
 
 html[data-theme="light"] #routine .routine-hero-copy span {
-  color: #d4af37 !important;
+  color: #0f172a !important;
 }
 
 html[data-theme="light"] #routine .routine-hero-copy h2 {
@@ -8126,7 +8126,7 @@ html[data-theme="light"] #routine .routine-hero-copy h2 {
 }
 
 html[data-theme="light"] #routine .routine-hero-copy p {
-  color: #64748b !important;
+  color: #0f172a !important;
 }
 
 html[data-theme="light"] #routine .routine-progress-track {
@@ -8134,7 +8134,7 @@ html[data-theme="light"] #routine .routine-progress-track {
 }
 
 html[data-theme="light"] #routine .routine-streak-card span {
-  color: #64748b !important;
+  color: #0f172a !important;
 }
 
 html[data-theme="light"] #routine .routine-streak-card strong {
@@ -8142,7 +8142,7 @@ html[data-theme="light"] #routine .routine-streak-card strong {
 }
 
 html[data-theme="light"] #routine .routine-summary strong {
-  color: #16a34a !important;
+  color: #0f172a !important;
 }
 
 html[data-theme="light"] #routine .routine-calendar-weekdays {
@@ -8151,7 +8151,7 @@ html[data-theme="light"] #routine .routine-calendar-weekdays {
 
 html[data-theme="light"] #routine .routine-calendar-grid span {
   background: #f1f5f9 !important;
-  color: #64748b !important;
+  color: #0f172a !important;
 }
 
 html[data-theme="light"] #routine .routine-calendar-grid span.complete {
