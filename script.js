@@ -5342,6 +5342,9 @@ render();
 updateUndoButton();
 initAuth();
 
+var todayDateEl = document.querySelector("#today-full-date");
+if (todayDateEl) todayDateEl.textContent = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
+
 // Profile Dropdown Menu Toggle and Actions
 const profileTrigger = document.querySelector("#profile-trigger-btn");
 const profileMenu = document.querySelector("#profile-menu-dropdown");

@@ -3656,6 +3656,16 @@ html[data-theme="dark"] .global-search-bar input::placeholder {
   text-transform: uppercase;
 }
 
+.today-separator {
+  margin: 0 4px;
+  opacity: 0.5;
+}
+
+#today-full-date {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
 h1,
 h2,
 h3,
