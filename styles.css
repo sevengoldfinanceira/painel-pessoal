@@ -2996,11 +2996,11 @@ button {
 .sidebar.floating-navbar {
   position: fixed;
   top: 10px;
-  left: 6px;
-  right: 6px;
+  left: 20px;
+  right: 20px;
   height: 56px;
   width: auto;
-  max-width: calc(100% - 12px);
+  max-width: calc(100% - 40px);
   margin: 0;
   z-index: 1000;
   border-radius: 16px;
