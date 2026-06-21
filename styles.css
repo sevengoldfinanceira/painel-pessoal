@@ -3188,9 +3188,10 @@ html[data-theme="light"] .horizontal-nav button:hover {
 }
 
 html[data-theme="light"] .horizontal-nav button.active {
-  background: rgba(37, 99, 235, 0.08) !important;
-  color: #2563eb !important;
-  border: 1px solid rgba(37, 99, 235, 0.2) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: #0f172a !important;
+  box-shadow: 0 0 16px rgba(15, 23, 42, 0.3) !important;
 }
 
 .horizontal-nav button span {
@@ -9740,10 +9741,10 @@ html[data-theme="light"] .finance-internal-nav button:hover {
   background: rgba(0, 0, 0, 0.03) !important;
 }
 html[data-theme="light"] .finance-internal-nav button.active {
-  background: rgba(212, 175, 55, 0.10) !important;
-  border: 1px solid rgba(212, 175, 55, 0.30) !important;
-  color: #1e293b !important;
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.08) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: #64748b !important;
+  box-shadow: 0 0 16px rgba(100, 116, 139, 0.3) !important;
   border-radius: 10px !important;
 }
 html[data-theme="light"] .finance-internal-nav button.active .finance-tab-label {
