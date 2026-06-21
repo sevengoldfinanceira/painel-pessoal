@@ -1963,13 +1963,15 @@ function renderFinance() {
     const pagarItems = allMonthItems.filter(i => i.realType !== 'income' && !isSubscriptionItem(i));
     const pagarTotal = pagarItems.reduce((sum, i) => sum + (i.value || 0), 0);
     pagarList.innerHTML = pagarItems.map(i => {
+      const date = formatDay(i.dueDate);
       return `
         <article class="finance-list-item ${i.done ? 'done-item' : ''}">
           <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="Marcar como pago">✓</button>
+          <div class="finance-list-date"><strong>${date.d}</strong><span>${date.m}</span></div>
           ${getIconHTML(i, i.realType, true)}
           <div class="finance-list-info">
             <strong>${i.title}</strong>
-            <span>Vence dia ${i.dueDate ? i.dueDate.split('-').reverse().join('/').slice(0,5) : '--'}</span>
+            <span>A pagar</span>
           </div>
           <div class="finance-list-value">
             <strong class="money-expense">${formatMoney(i.value)}</strong>
@@ -1991,13 +1993,15 @@ function renderFinance() {
     const receberItems = allMonthItems.filter(i => i.realType === 'income');
     const receberTotal = receberItems.reduce((sum, i) => sum + (i.value || 0), 0);
     receberList.innerHTML = receberItems.map(i => {
+      const date = formatDay(i.dueDate);
       return `
         <article class="finance-list-item ${i.done ? 'done-item' : ''}">
           <button class="check-btn ${i.done ? 'active' : ''}" type="button" ${i.realType === 'fixed' || i.realType === 'variable' ? `data-budget-paid="${i.realType}:${i.id}"` : `data-finance-done="${i.id}"`} title="Marcar como recebido">✓</button>
+          <div class="finance-list-date"><strong>${date.d}</strong><span>${date.m}</span></div>
           ${getIconHTML(i, i.realType, true)}
           <div class="finance-list-info">
             <strong>${i.title}</strong>
-            <span>Recebimento</span>
+            <span>A receber</span>
           </div>
           <div class="finance-list-value">
             <strong class="money-income">${formatMoney(i.value)}</strong>
