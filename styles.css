@@ -9557,9 +9557,12 @@ html[data-theme="light"] .routine-add-card:hover {
 
 /* Fundo da Página */
 html[data-theme="light"] body,
-html[data-theme="light"] .app-shell,
-html[data-theme="light"] #finance {
+html[data-theme="light"] .app-shell {
   background: #E5E7EB !important;
+  color: #111827 !important;
+}
+html[data-theme="light"] #finance {
+  background: transparent !important;
   color: #111827 !important;
 }
 
