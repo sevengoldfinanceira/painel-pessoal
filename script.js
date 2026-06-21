@@ -5955,12 +5955,7 @@ document.addEventListener("click", (event) => {
     commitChange();
     return;
   }
-  const noteTrashFloat = target.closest("#notes-trash-float");
-  if (noteTrashFloat) {
-    state.notePrefs.filter = "trash";
-    renderNotes();
-    return;
-  }
+
 
   const taskCheck = target.closest("[data-task-check]")?.dataset.taskCheck;
   const taskDelete = target.closest("[data-task-delete]")?.dataset.taskDelete;
