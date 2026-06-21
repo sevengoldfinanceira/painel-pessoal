@@ -1962,6 +1962,18 @@ function render() {
   if (avatarImg) {
     avatarImg.src = (profile?.avatar) || state.profilePhoto || "assets/jonata.jpeg";
   }
+  const mobileNameSpan = document.querySelector("#mobile-profile-name");
+  if (mobileNameSpan) {
+    mobileNameSpan.textContent = displayName;
+  }
+  const mobileEmailSpan = document.querySelector("#mobile-profile-email");
+  if (mobileEmailSpan) {
+    mobileEmailSpan.textContent = profile?.email || "Particular";
+  }
+  const mobileAvatarImg = document.querySelector("#mobile-profile-avatar");
+  if (mobileAvatarImg) {
+    mobileAvatarImg.src = (profile?.avatar) || state.profilePhoto || "assets/jonata.jpeg";
+  }
   renderTasks();
   renderPending();
   renderMarket();
@@ -6288,6 +6300,13 @@ if (dropdownLogout) {
   dropdownLogout.addEventListener("click", () => {
     document.querySelector("#logout-btn")?.click();
     if (profileMenu) profileMenu.hidden = true;
+  });
+}
+
+const mobileLogoutBtn = document.querySelector("#mobile-logout-btn");
+if (mobileLogoutBtn) {
+  mobileLogoutBtn.addEventListener("click", () => {
+    document.querySelector("#logout-btn")?.click();
   });
 }
 

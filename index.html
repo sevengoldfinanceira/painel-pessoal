@@ -20,13 +20,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=6.5" />
+    <link rel="stylesheet" href="styles.css?v=6.6" />
   </head>
   <body class="auth-locked">
     <div class="app-shell">
 <aside class="sidebar floating-navbar mobile-sidebar" aria-label="Menu mobile">
   <div class="navbar-container">
     <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">×</button>
+    <!-- Mobile Profile Header -->
+    <div class="mobile-profile-header">
+      <img class="mobile-avatar" id="mobile-profile-avatar" src="assets/jonata.jpeg" alt="Foto de Perfil" />
+      <div class="mobile-profile-info">
+        <strong class="mobile-profile-name" id="mobile-profile-name">Jonatã</strong>
+        <span class="mobile-profile-email" id="mobile-profile-email">Particular</span>
+      </div>
+    </div>
     <!-- Navigation Tabs Section -->
     <nav class="side-nav horizontal-nav" aria-label="Areas do painel">
       <button class="active" data-section="dashboard">
@@ -126,8 +134,12 @@
         </div>
       </div>
     </div>
+    <!-- Mobile Sidebar Footer -->
+    <div class="mobile-sidebar-footer">
+      <button type="button" class="mobile-logout-btn" id="mobile-logout-btn">Sair</button>
+    </div>
   </div>
-      </aside>
+</aside>
       <div class="mobile-overlay" aria-hidden="true"></div>
 
       <main class="main-area">
@@ -1338,7 +1350,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="script.js?v=4.1"></script>
+    <script src="script.js?v=4.2"></script>
   <script>
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('gesturechange', e => e.preventDefault());
