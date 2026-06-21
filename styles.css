@@ -7674,6 +7674,18 @@ html[data-theme="light"] .wishlist-summary article span {
   color: #64748b !important;
 }
 
+html[data-theme="light"] .wishlist-summary article {
+  background: #ffffff !important;
+  border: 2px solid #E5E7EB !important;
+  border-radius: 24px !important;
+}
+
+html[data-theme="light"] .cnh-summary article {
+  background: #ffffff !important;
+  border: 2px solid #E5E7EB !important;
+  border-radius: 24px !important;
+}
+
 html[data-theme="light"] .metrics-grid article strong,
 html[data-theme="light"] .finance-summary article strong,
 html[data-theme="light"] .routine-summary article strong,
@@ -7706,11 +7718,11 @@ html[data-theme="light"] .empty-state,
 html[data-theme="light"] .dashboard-grid .panel,
 html[data-theme="light"] .composer,
 html[data-theme="light"] .module-preview article {
-  background: #ffffff !important;
-  color: #111827 !important;
-  border: 1px solid rgba(15, 23, 42, 0.08) !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
-  border-radius: 16px !important;
+background: #ffffff !important;
+color: #111827 !important;
+border: 2px solid #E5E7EB !important;
+box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+border-radius: 24px !important;
 }
 
 /* --- Dashboard Grid --- */
@@ -7719,7 +7731,8 @@ html[data-theme="light"] .dashboard-grid {
 }
 
 html[data-theme="light"] .dashboard-grid section {
-  border-radius: 20px !important;
+border-radius: 24px !important;
+border: 2px solid #E5E7EB !important;
 }
 
 /* --- List Headers --- */
@@ -7894,16 +7907,9 @@ html[data-theme="light"] #finance {
 }
 
 html[data-theme="light"] #finance .panel,
-html[data-theme="light"] #finance .finance-summary article,
-html[data-theme="light"] #finance .finance-year-summary article,
-html[data-theme="light"] #finance .finance-category-card,
-html[data-theme="light"] #finance .finance-planner,
-html[data-theme="light"] #finance .finance-form,
-html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
+html[data-theme="light"] .home-grid article {
   background: #ffffff !important;
-  color: #111827 !important;
   border: 2px solid #E5E7EB !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
   border-radius: 24px !important;
 }
 
@@ -8078,11 +8084,11 @@ html[data-theme="light"] .routine-calendar-panel,
 html[data-theme="light"] .routine-insights,
 html[data-theme="light"] .routine-consistency-card,
 html[data-theme="light"] .routine-due-card {
-  background: #ffffff !important;
-  color: #111827 !important;
-  border: 1px solid rgba(15, 23, 42, 0.08) !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
-  border-radius: 16px !important;
+background: #ffffff !important;
+color: #111827 !important;
+border: 2px solid #E5E7EB !important;
+box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+border-radius: 24px !important;
 }
 
 html[data-theme="light"] #routine .routine-item {
@@ -8287,22 +8293,25 @@ html[data-theme="light"] .top-actions .primary-action {
 
 /* --- Notificações e Cards internos --- */
 html[data-theme="light"] .pending-item {
-  background: #f8fafc !important;
-  border-radius: 12px !important;
+background: #ffffff !important;
+border: 2px solid #E5E7EB !important;
+border-radius: 24px !important;
 }
 
 html[data-theme="light"] .pending-item:hover {
-  background: #f1f5f9 !important;
+background: #f1f5f9 !important;
 }
 
 html[data-theme="light"] .market-item-row {
-  background: #f8fafc !important;
-  border-radius: 10px !important;
+  background: #ffffff !important;
+  border: 2px solid #E5E7EB !important;
+  border-radius: 24px !important;
 }
 
 html[data-theme="light"] .wishlist-row {
-  background: #f8fafc !important;
-  border-radius: 10px !important;
+  background: #ffffff !important;
+  border: 2px solid #E5E7EB !important;
+  border-radius: 24px !important;
 }
 
 /* --- CNH --- */
@@ -8366,8 +8375,9 @@ html[data-theme="light"] .wins-timeline article {
 
 /* --- Mobília --- */
 html[data-theme="light"] .home-grid article {
-  background: #ffffff !important;
-  border-color: #e2e8f0 !important;
+background: #ffffff !important;
+border: 2px solid #E5E7EB !important;
+border-radius: 24px !important;
 }
 
 /* --- Coisas a Comprar (wishlist) --- */
@@ -8414,16 +8424,17 @@ html[data-theme="light"] .market-shop-panel {
 /* --- Anotações --- */
 html[data-theme="light"] .notes-grid article {
   background: #ffffff !important;
-  border-color: #e2e8f0 !important;
+  border: 2px solid #E5E7EB !important;
+  border-radius: 24px !important;
 }
 
 /* --- Pendências --- */
 html[data-theme="light"] .pending-board {
-  gap: 16px;
+gap: 16px;
 }
 
 html[data-theme="light"] .task-column {
-  border-radius: 16px !important;
+border-radius: 24px !important;
 }
 
 html[data-theme="light"] .task-column-head {
@@ -8441,8 +8452,9 @@ html[data-theme="light"] .task-column-head p {
 
 /* --- Tarefas --- */
 html[data-theme="light"] .task-column {
-  background: #ffffff !important;
-  border-color: #e2e8f0 !important;
+background: #ffffff !important;
+border: 2px solid #E5E7EB !important;
+border-radius: 24px !important;
 }
 
 /* --- Scrollbar --- */
@@ -9570,16 +9582,10 @@ html[data-theme="light"] #finance {
 /* Cards e Painéis */
 html[data-theme="light"] #finance .panel,
 html[data-theme="light"] #finance .finance-card,
-html[data-theme="light"] #finance .finance-summary article,
-html[data-theme="light"] #finance .finance-year-summary article,
-html[data-theme="light"] #finance .finance-category-card,
-html[data-theme="light"] #finance .finance-planner,
-html[data-theme="light"] #finance .finance-form,
-html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
+html[data-theme="light"] .home-grid article {
   background: #ffffff !important;
   border: 2px solid #E5E7EB !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  border-radius: 24px !important;
 }
 
 /* Efeito Hover nos Cards */
