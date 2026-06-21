@@ -163,12 +163,30 @@
         </header>
 
         <nav class="finance-internal-nav" id="finance-internal-nav" style="display: none;">
-          <button class="active" type="button" data-finance-tab="section-resumo">Resumo</button>
-          <button type="button" data-finance-tab="section-receber">A Receber</button>
-          <button type="button" data-finance-tab="section-pagar">A Pagar</button>
-          <button type="button" data-finance-tab="section-assinaturas">Assinaturas</button>
-          <button type="button" data-finance-tab="section-fixas">Contas Fixas</button>
-          <button type="button" data-finance-tab="section-historico">Mensal</button>
+          <button class="active" type="button" data-finance-tab="section-resumo">
+            <span class="finance-tab-icon" data-color="green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+            <span class="finance-tab-label">Resumo</span>
+          </button>
+          <button type="button" data-finance-tab="section-receber">
+            <span class="finance-tab-icon" data-color="teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 17 17 7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+            <span class="finance-tab-label">A Receber</span>
+          </button>
+          <button type="button" data-finance-tab="section-pagar">
+            <span class="finance-tab-icon" data-color="red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 7 7 17"/><polyline points="17 17 7 17 7 7"/></svg></span>
+            <span class="finance-tab-label">A Pagar</span>
+          </button>
+          <button type="button" data-finance-tab="section-assinaturas">
+            <span class="finance-tab-icon" data-color="purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+            <span class="finance-tab-label">Assinaturas</span>
+          </button>
+          <button type="button" data-finance-tab="section-fixas">
+            <span class="finance-tab-icon" data-color="blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+            <span class="finance-tab-label">Contas Fixas</span>
+          </button>
+          <button type="button" data-finance-tab="section-historico">
+            <span class="finance-tab-icon" data-color="orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            <span class="finance-tab-label">Mensal</span>
+          </button>
         </nav>
 
         <section class="page active" id="dashboard">
