@@ -798,6 +798,15 @@ function loadState() {
       type: item.type === "day" && /sair/i.test(item.title) ? "extras" : item.type || "required",
       emoji: item.emoji || inferRoutineEmoji(item.title),
     }));
+
+    // Limpeza: remover entradas financeiras antes de junho/2025
+    const cutoffDate = "2025-06-01";
+    const prevFinanceLen = merged.finance.length;
+    const prevVarLen = merged.variableCosts.length;
+    merged.finance = merged.finance.filter((item) => (item.dueDate || "9999-12-31") >= cutoffDate);
+    merged.variableCosts = merged.variableCosts.filter((item) => (item.dueDate || "9999-12-31") >= cutoffDate);
+    if (merged.finance.length !== prevFinanceLen || merged.variableCosts.length !== prevVarLen) stateWasMigrated = true;
+
     return merged;
   } catch {
     return defaultState;
