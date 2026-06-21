@@ -20,12 +20,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=3.6" />
+    <link rel="stylesheet" href="styles.css?v=6.5" />
   </head>
   <body class="auth-locked">
     <div class="app-shell">
-<aside class="sidebar floating-navbar">
+<aside class="sidebar floating-navbar mobile-sidebar" aria-label="Menu mobile">
   <div class="navbar-container">
+    <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">×</button>
     <!-- Navigation Tabs Section -->
     <nav class="side-nav horizontal-nav" aria-label="Areas do painel">
       <button class="active" data-section="dashboard">
@@ -127,21 +128,93 @@
     </div>
   </div>
       </aside>
+      <div class="mobile-overlay" aria-hidden="true"></div>
 
       <main class="main-area">
         <header class="topbar">
-          <button class="menu-toggle" type="button" aria-label="Abrir menu" style="display: none;">☰</button>
+          <button class="menu-toggle mobile-menu-toggle" type="button" aria-label="Abrir menu" style="display: none;">☰</button>
           <div class="topbar-left">
             <div class="topbar-title-group">
               <p class="today-label"><span id="today-date-label">Hoje</span> <span class="today-separator">·</span> <span id="today-full-date"></span></p>
               <h1 id="page-title"><span id="page-title-icon"></span><span id="page-title-text">Painel</span></h1>
             </div>
+            <!-- Cards de resumo da Agenda -->
+            <div id="agenda-summary-cards" class="agenda-summary-cards" style="display: none;">
+              <div class="agenda-summary-card card-blue">
+                <div class="card-icon-container">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-svg-icon">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="card-content">
+                  <span class="card-label">Hoje</span>
+                  <strong class="card-value" id="agenda-count-today">0</strong>
+                  <span class="card-sublabel">compromissos</span>
+                </div>
+              </div>
+              <div class="agenda-summary-card card-green">
+                <div class="card-icon-container">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-svg-icon">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="card-content">
+                  <span class="card-label">Esta semana</span>
+                  <strong class="card-value" id="agenda-count-week">0</strong>
+                  <span class="card-sublabel">compromissos</span>
+                </div>
+              </div>
+            </div>
+            <div id="pc-summary-cards" class="pc-summary-grid pc-top-summary" style="display: none;">
+              <article>
+                <span class="pc-summary-icon blue">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="4" x2="6" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/><line x1="18" y1="4" x2="18" y2="20"/><line x1="4" y1="8" x2="8" y2="8"/><line x1="10" y1="12" x2="14" y2="12"/><line x1="16" y1="16" x2="20" y2="16"/></svg>
+                </span>
+                <div><small>Modificações</small><strong id="pc-summary-mods">0</strong><em>registradas</em></div>
+              </article>
+              <article>
+                <span class="pc-summary-icon green">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
+                </span>
+                <div><small>Aplicativos</small><strong id="pc-summary-apps">0</strong><em>registrados</em></div>
+              </article>
+              <article>
+                <span class="pc-summary-icon purple">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </span>
+                <div><small>Meu PC</small><strong>Atualizado</strong><em id="pc-summary-date">Hoje</em></div>
+              </article>
+              <article>
+                <span class="pc-summary-icon amber">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 17 10 11 14 15 21 8"/><polyline points="15 8 21 8 21 14"/></svg>
+                </span>
+                <div><small>Upgrades mapeados</small><strong id="pc-summary-upgrades">0</strong><em>possibilidades</em></div>
+              </article>
+            </div>
           </div>
           <div class="top-actions">
             <button class="icon-btn" type="button" id="search-btn" title="Pesquisar" style="display: none;">⌕</button>
-            <button class="primary-action" type="button" data-section-shortcut="quick-notes">Nova nota</button>
             <button class="primary-action warning-bg" id="btn-novo-lancamento" style="display: none;">+ Novo lançamento</button>
             <button class="primary-action" id="jd-add-btn-top" style="display: none;">+ Adicionar documento</button>
+            <div class="routine-topbar-controls" id="routine-topbar-controls" style="display: none; align-items: center; gap: 12px;">
+              <button class="primary-action routine-new-button" type="button" id="routine-new-item">＋ Novo card</button>
+              <div class="routine-date-controls">
+                <button class="period-arrow" type="button" id="routine-date-prev" title="Período anterior">‹</button>
+                <label class="routine-period-label">
+                  <span class="routine-period-icon">📅</span>
+                  <strong id="routine-period-label">Dia</strong>
+                  <span class="routine-period-chevron">▾</span>
+                  <input id="routine-month-input" type="month" aria-label="Escolher mês da rotina" />
+                </label>
+                <button class="period-arrow" type="button" id="routine-date-next" title="Próximo período">›</button>
+              </div>
+            </div>
             <div class="finance-month-bar" style="display: none;">
               <button class="finance-month-arrow" type="button" title="Mês anterior" id="finance-month-prev-btn">‹</button>
               <button class="finance-month-trigger" type="button" id="finance-month-trigger">
@@ -229,16 +302,65 @@
         </section>
 
         <section class="page" id="quick-notes">
-          <div class="section-head">
-            <span class="section-kicker">Captura rápida</span>
-            <h2>Anotações</h2>
-            <p>Jogue ideias, lembretes e pensamentos sem precisar organizar na hora.</p>
+          <div class="notes-page-shell">
+            <header class="notes-page-header">
+              <div class="notes-toolbar">
+                <label class="notes-search">
+                  <span>⌕</span>
+                  <input id="notes-search-input" type="search" placeholder="Buscar anotações..." autocomplete="off" />
+                </label>
+                <button class="notes-view-toggle" type="button" id="notes-view-toggle" title="Alternar grid/lista">Grid</button>
+                <button class="notes-new-btn" type="button" id="notes-new-btn">+ Nova anotação</button>
+              </div>
+            </header>
+
+            <form class="notes-quick-card" id="note-form">
+              <div>
+                <span>Anotação rápida</span>
+                <strong>Capture antes que a ideia escape.</strong>
+              </div>
+              <textarea id="note-input" rows="4" placeholder="Escreva algo rapidamente..."></textarea>
+              <button class="primary-action" type="submit">Salvar</button>
+            </form>
+
+            <div class="notes-filter-row" role="tablist" aria-label="Filtros de anotações">
+              <button class="active" type="button" data-notes-filter="all">Todas</button>
+              <button type="button" data-notes-filter="recent">Recentes</button>
+              <button type="button" data-notes-filter="favorites">Favoritas</button>
+              <button type="button" data-notes-filter="trash">Lixeira</button>
+            </div>
+
+            <div class="notes-trash-actions" id="notes-trash-actions" hidden>
+              <span id="notes-trash-count">0 anotações na lixeira</span>
+              <div>
+                <button class="restore" type="button" id="notes-restore-all">Restaurar todos</button>
+                <button class="danger" type="button" id="notes-destroy-all">Apagar todos</button>
+              </div>
+            </div>
+
+            <div class="notes-board notes-grid-view" id="notes-list"></div>
+
+            <p class="notes-tip">💡 Dica: Arraste as anotações para organizar como quiser.</p>
+            <button class="notes-trash-float" type="button" id="notes-trash-float" title="Abrir lixeira">🗑</button>
           </div>
-          <form class="composer" id="note-form">
-            <textarea id="note-input" rows="4" placeholder="Escreva uma anotação rápida..."></textarea>
-            <button class="primary-action" type="submit">Salvar nota</button>
-          </form>
-          <div class="notes-grid" id="notes-list"></div>
+
+          <section class="notes-edit-panel" id="notes-edit-panel" aria-hidden="true">
+            <form class="notes-edit-card" id="notes-edit-form">
+              <div class="notes-edit-head">
+                <h3>Editar anotação</h3>
+                <button type="button" id="notes-edit-cancel-top">×</button>
+              </div>
+              <input id="notes-edit-id" type="hidden" />
+              <label>
+                <span>Anotação</span>
+                <textarea id="notes-edit-content" rows="7"></textarea>
+              </label>
+              <div class="notes-edit-actions">
+                <button type="button" id="notes-edit-cancel">Cancelar</button>
+                <button class="primary-action" type="submit">Salvar</button>
+              </div>
+            </form>
+          </section>
         </section>
 
         <section class="page" id="tasks">
@@ -334,22 +456,9 @@
         </section>
 
         <section class="page" id="routine">
-          <header class="routine-page-head">
+          <header class="routine-page-head" style="display: none !important;">
             <div><h2>💪 Rotina de Hoje</h2><p id="routine-date-subtitle">Hoje</p></div>
-            <div class="routine-date-controls">
-              <button class="period-arrow" type="button" id="routine-date-prev" title="Período anterior">‹</button>
-              <label class="routine-period-label">
-                <span>▣</span>
-                <strong id="routine-period-label">Mês</strong>
-                <span>⌄</span>
-                <input id="routine-month-input" type="month" aria-label="Escolher mês da rotina" />
-              </label>
-              <button class="period-arrow" type="button" id="routine-date-next" title="Próximo período">›</button>
-            </div>
-            <div class="routine-head-actions">
-              <button type="button" id="routine-toggle-view">Ver ano</button>
-              <button class="primary-action routine-new-button" type="button" id="routine-new-item">＋ Novo card</button>
-            </div>
+            <button type="button" id="routine-toggle-view" style="display: none !important;">Ver ano</button>
           </header>
 
           <div class="routine-app-layout">
@@ -631,17 +740,7 @@
             </section>
           </div>
 
-          <div class="finance-year-calendar" id="finance-year-calendar">
-            <div class="finance-year-cal-grid-icon">⋮⋮</div>
-            <div class="finance-year-calendar-header">
-              <strong id="finance-year-cal-label">2026</strong>
-              <div class="finance-year-cal-nav">
-                <button type="button" class="finance-month-year-btn" id="finance-year-cal-prev">‹</button>
-                <button type="button" class="finance-month-year-btn" id="finance-year-cal-next">›</button>
-              </div>
-            </div>
-            <div class="finance-year-month-grid" id="finance-year-month-grid"></div>
-          </div>
+
         </section>
 
         <section class="page" id="cnh">
@@ -694,37 +793,44 @@
             <h2>Agenda</h2>
             <p>Compromissos, lembretes e datas importantes com status simples.</p>
           </div>
-          <section class="agenda-calendar">
-            <div class="agenda-calendar-header">
-              <button class="period-arrow" type="button" id="agenda-month-prev" title="Mês anterior">‹</button>
-              <h3 id="agenda-calendar-title">Mês</h3>
-              <button class="period-arrow" type="button" id="agenda-month-next" title="Próximo mês">›</button>
+          <div class="agenda-layout">
+            <div class="agenda-col-left">
+              <section class="agenda-calendar">
+                <div class="agenda-calendar-header">
+                  <button class="period-arrow" type="button" id="agenda-month-prev" title="Mês anterior">‹</button>
+                  <h3 id="agenda-calendar-title">Mês</h3>
+                  <button class="period-arrow" type="button" id="agenda-month-next" title="Próximo mês">›</button>
+                </div>
+                <div class="agenda-weekdays" aria-hidden="true">
+                  <span>Dom</span>
+                  <span>Seg</span>
+                  <span>Ter</span>
+                  <span>Qua</span>
+                  <span>Qui</span>
+                  <span>Sex</span>
+                  <span>Sáb</span>
+                </div>
+                <div class="agenda-calendar-grid" id="agenda-calendar-grid"></div>
+              </section>
             </div>
-            <div class="agenda-weekdays" aria-hidden="true">
-              <span>Dom</span>
-              <span>Seg</span>
-              <span>Ter</span>
-              <span>Qua</span>
-              <span>Qui</span>
-              <span>Sex</span>
-              <span>Sáb</span>
+            <div class="agenda-col-right">
+              <form class="inline-form agenda-form" id="agenda-form">
+                <input id="agenda-description" type="text" placeholder="Descrição do compromisso" class="agenda-desc-input" />
+                <input id="agenda-title" type="text" placeholder="Compromisso ou lembrete" />
+                <input id="agenda-date" type="date" />
+                <select id="agenda-type">
+                  <option value="appointment">Compromisso</option>
+                  <option value="reminder">Lembrete</option>
+                  <option value="deadline">Prazo</option>
+                </select>
+                <button class="primary-action" type="submit">Adicionar</button>
+              </form>
+              <div class="agenda-list-heading">
+                <h3>Compromissos e afazeres</h3>
+              </div>
+              <div class="timeline" id="agenda-list"></div>
             </div>
-            <div class="agenda-calendar-grid" id="agenda-calendar-grid"></div>
-          </section>
-          <form class="inline-form agenda-form" id="agenda-form">
-            <input id="agenda-title" type="text" placeholder="Compromisso ou lembrete" />
-            <input id="agenda-date" type="date" />
-            <select id="agenda-type">
-              <option value="appointment">Compromisso</option>
-              <option value="reminder">Lembrete</option>
-              <option value="deadline">Prazo</option>
-            </select>
-            <button class="primary-action" type="submit">Adicionar</button>
-          </form>
-          <div class="agenda-list-heading">
-            <h3>Compromissos e afazeres</h3>
           </div>
-          <div class="timeline" id="agenda-list"></div>
         </section>
 
         <section class="page" id="wardrobe">
@@ -775,6 +881,61 @@
             <div class="wardrobe-section-head"><div><h3>Looks Salvos</h3><p>Suas combinações guardadas para usar depois.</p></div><label class="wardrobe-favorite-filter"><input id="wardrobe-favorites-only" type="checkbox" /><span>Somente favoritos</span></label></div>
             <div class="wardrobe-looks-grid" id="wardrobe-saved-looks"></div>
           </section>
+        </section>
+
+        <section class="page" id="pc">
+          <div class="pc-page">
+            <nav class="pc-tabs" aria-label="Abas internas do PC">
+              <button class="active" type="button" data-pc-tab="mods">☷ <span>Modificações</span></button>
+              <button type="button" data-pc-tab="apps">▦ <span>Aplicativos</span></button>
+              <button type="button" data-pc-tab="specs">⚙ <span>Especificações</span></button>
+            </nav>
+
+            <div class="pc-tab-panel active" id="pc-panel-mods">
+              <section class="pc-table-card">
+                <div class="pc-toolbar">
+                  <button class="pc-primary-btn" type="button" data-pc-add="mod">+ Nova modificação</button>
+                  <input id="pc-mod-search" type="search" placeholder="Buscar modificações..." autocomplete="off" />
+                </div>
+                <div class="pc-table-wrap">
+                  <table class="pc-table">
+                    <thead><tr><th>Nome</th><th>O que faz</th><th>Link</th><th>Ações</th></tr></thead>
+                    <tbody id="pc-mod-list"></tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+
+            <div class="pc-tab-panel" id="pc-panel-apps">
+              <section class="pc-table-card">
+                <div class="pc-toolbar">
+                  <button class="pc-primary-btn" type="button" data-pc-add="app">+ Novo aplicativo</button>
+                  <input id="pc-app-search" type="search" placeholder="Buscar aplicativos..." autocomplete="off" />
+                </div>
+                <div class="pc-table-wrap">
+                  <table class="pc-table">
+                    <thead><tr><th>Nome</th><th>Função</th><th>Fonte/Link</th><th>Ações</th></tr></thead>
+                    <tbody id="pc-app-list"></tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+
+            <div class="pc-tab-panel" id="pc-panel-specs">
+              <div class="pc-spec-columns">
+                <section class="pc-spec-section">
+                  <h3>Meu PC atual</h3>
+                  <div class="pc-spec-grid" id="pc-current-specs"></div>
+                </section>
+                <section class="pc-spec-section">
+                  <h3>Possibilidades de upgrade</h3>
+                  <div class="pc-spec-grid" id="pc-upgrade-specs"></div>
+                </section>
+              </div>
+            </div>
+
+            <p class="pc-tip">💡 Dica: Use esta central para organizar tudo que você precisa instalar, configurar e melhorar depois de formatar o PC.</p>
+          </div>
         </section>
 
         <section class="page" id="home">
@@ -1090,6 +1251,48 @@
           </form>
         </section>
 
+        <section class="overlay-panel" id="pc-edit-panel" aria-hidden="true">
+          <form class="overlay-card pc-edit-card" id="pc-edit-form">
+            <div class="panel-header">
+              <h3 id="pc-edit-title">Editar item</h3>
+              <button type="button" data-close-overlay>Fechar</button>
+            </div>
+            <input id="pc-edit-type" type="hidden" />
+            <input id="pc-edit-id" type="hidden" />
+            <input id="pc-edit-spec-group" type="hidden" />
+            <div class="finance-edit-grid">
+              <label id="pc-edit-icon-wrap">
+                <span>Ícone</span>
+                <input id="pc-edit-icon" type="text" maxlength="4" placeholder="Ex.: 💻" />
+              </label>
+              <label id="pc-edit-name-wrap">
+                <span id="pc-edit-name-label">Nome</span>
+                <input id="pc-edit-name" type="text" placeholder="Nome" />
+              </label>
+              <label id="pc-edit-desc-wrap">
+                <span id="pc-edit-desc-label">Descrição</span>
+                <textarea id="pc-edit-desc" rows="3" placeholder="Descrição curta"></textarea>
+              </label>
+              <label id="pc-edit-link-wrap">
+                <span id="pc-edit-link-label">Link</span>
+                <input id="pc-edit-link" type="text" placeholder="https://..." />
+              </label>
+              <label id="pc-edit-value-wrap">
+                <span>Valor principal</span>
+                <input id="pc-edit-value" type="text" placeholder="Ex.: Intel Core i5" />
+              </label>
+              <label id="pc-edit-details-wrap">
+                <span>Detalhes</span>
+                <textarea id="pc-edit-details" rows="4" placeholder="Um detalhe por linha"></textarea>
+              </label>
+            </div>
+            <div class="overlay-actions">
+              <button class="danger-action" type="button" id="pc-edit-delete">Excluir</button>
+              <button class="primary-action" type="submit">Salvar alterações</button>
+            </div>
+          </form>
+        </section>
+
         <section class="overlay-panel" id="routine-add-habit-panel" aria-hidden="true">
           <form class="overlay-card routine-small-modal" id="routine-add-habit-form">
             <div class="panel-header"><h3 id="routine-add-habit-title">Novo hábito</h3><button type="button" data-close-overlay>Fechar</button></div>
@@ -1135,7 +1338,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="script.js?v=2.2"></script>
+    <script src="script.js?v=4.1"></script>
   <script>
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('gesturechange', e => e.preventDefault());

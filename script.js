@@ -86,6 +86,84 @@ const navGroupDefinitions = [
   { id: "personal", label: "Pessoal" },
 ];
 
+const noteColorPalette = ["note-yellow", "note-blue", "note-green", "note-pink", "note-purple", "note-white"];
+const pcModCategories = ["Interface", "Personalização", "Contexto", "Miniaturas", "Monitoramento", "Produtividade", "Sistema", "Segurança", "Utilitários"];
+const pcAppCategories = ["Monitoramento", "Arquivos", "Transferência", "Jogos", "Steam", "Sincronização", "Nuvem", "Mídia", "Personalização", "Sistema", "Utilitários"];
+const pcKnownIconDomains = {
+  "wind hawk": "windhawk.net",
+  "nilesoft shell": "nilesoft.org",
+  sagethumbs: "sourceforge.net",
+  "fluent flyout": "fluentflyout.com",
+  "kil0bit system monitor": "github.com",
+  "microsoft powertoys": "apps.microsoft.com",
+  "cpu-z": "cpuid.com",
+  "7-zip": "7-zip.org",
+  blip: "blip.net",
+  steam: "store.steampowered.com",
+  "steam tools": "steamtools.net",
+  "lua tools plugin": "discord.com",
+  "google drive": "google.com",
+  freefilesync: "freefilesync.org",
+  "lively wallpaper": "rocksdanister.com",
+  spotify: "spotify.com",
+  telegram: "desktop.telegram.org",
+  treesize: "jam-software.com",
+  "twinkle tray": "twinkletray.com",
+};
+
+function createDefaultPcCenter() {
+  return {
+    activeTab: "mods",
+    modSearch: "",
+    appSearch: "",
+    modCategory: "",
+    appCategory: "",
+    modifications: [
+      { id: crypto.randomUUID(), icon: "▣", name: "Wind Hawk", description: "Barra Windows, botão Windows e notificações com efeito acrílico", category: "Interface", link: "https://windhawk.net/" },
+      { id: crypto.randomUUID(), icon: "☰", name: "Nilesoft Shell", description: "Personaliza e moderniza o menu de contexto do Windows", category: "Contexto", link: "https://nilesoft.org/download" },
+      { id: crypto.randomUUID(), icon: "▧", name: "SageThumbs", description: "Adiciona miniaturas e pré-visualização para vários tipos de arquivo", category: "Miniaturas", link: "https://sourceforge.net/projects/sagethumbs/" },
+      { id: crypto.randomUUID(), icon: "▤", name: "Fluent Flyout", description: "Barra de volume e indicador de Caps Lock modernos", category: "Interface", link: "https://fluentflyout.com/" },
+      { id: crypto.randomUUID(), icon: "☷", name: "kil0bit System Monitor", description: "Monitor de RAM, CPU e outros recursos do sistema", category: "Monitoramento", link: "https://github.com/kil0bit-kb/kil0bit-system-monitor" },
+      { id: crypto.randomUUID(), icon: "⊞", name: "Microsoft PowerToys", description: "Telas divididas, seletor de cor e ferramentas úteis do Windows", category: "Produtividade", link: "https://apps.microsoft.com/detail/xp89dcgq3k6vld?hl=pt-BR&gl=BR" },
+    ],
+    apps: [
+      { id: crypto.randomUUID(), icon: "▣", name: "CPU-Z", description: "Monitorar sistema e informações de hardware", category: "Monitoramento", link: "https://www.cpuid.com/softwares/cpu-z.html#google_vignette" },
+      { id: crypto.randomUUID(), icon: "▤", name: "7-Zip", description: "Extrair e compactar arquivos", category: "Arquivos", link: "https://www.7-zip.org/download.html" },
+      { id: crypto.randomUUID(), icon: "⇄", name: "Blip", description: "Transferir arquivos entre dispositivos", category: "Transferência", link: "https://blip.net/download?email=jonatasantana2030%40hotmail.com" },
+      { id: crypto.randomUUID(), icon: "🎮", name: "Steam", description: "Loja e biblioteca de jogos", category: "Jogos", link: "https://store.steampowered.com/" },
+      { id: crypto.randomUUID(), icon: "🛠", name: "Steam Tools", description: "Ferramentas auxiliares para Steam", category: "Steam", link: "https://steamtools.net/" },
+      { id: crypto.randomUUID(), icon: "☾", name: "Lua Tools Plugin", description: "Plugin/ferramentas Lua pelo Discord", category: "Steam", link: "https://discord.com/channels/1408201417834893385/1495896119647932506" },
+      { id: crypto.randomUUID(), icon: "☁", name: "Google Drive", description: "Sincronizar pasta no Google Drive automaticamente", category: "Sincronização", link: "https://support.google.com/a/users/answer/13022292?hl=pt" },
+      { id: crypto.randomUUID(), icon: "↻", name: "FreeFileSync", description: "Sincronizar e comparar pastas automaticamente", category: "Sincronização", link: "https://freefilesync.org/download.php" },
+      { id: crypto.randomUUID(), icon: "▨", name: "Lively Wallpaper", description: "Wallpapers animados", category: "Personalização", link: "https://www.rocksdanister.com/lively/" },
+      { id: crypto.randomUUID(), icon: "♪", name: "Spotify", description: "Streaming de músicas", category: "Mídia", link: "https://www.spotify.com/download/" },
+      { id: crypto.randomUUID(), icon: "☁", name: "Telegram", description: "Nuvem infinita para arquivos", category: "Nuvem", link: "https://desktop.telegram.org/" },
+      { id: crypto.randomUUID(), icon: "▥", name: "TreeSize", description: "Ver tamanho das pastas e uso do armazenamento", category: "Arquivos", link: "https://www.jam-software.com/treesize" },
+      { id: crypto.randomUUID(), icon: "☀", name: "Twinkle Tray", description: "Alterar brilho do monitor", category: "Sistema", link: "https://twinkletray.com/" },
+    ],
+    currentSpecs: [
+      { id: "cpu", icon: "▣", title: "CPU", value: "Ryzen 5 5600GT", details: ["AM4", "Vídeo integrado", "Plataforma AMD"] },
+      { id: "ram", icon: "▤", title: "Memória RAM", value: "16 GB RAM", details: ["DDR4", "Configuração atual", "Editável"] },
+      { id: "gpu", icon: "▧", title: "Placa de vídeo", value: "Integrada", details: ["GPU integrada do Ryzen 5 5600GT", "Sem placa dedicada"] },
+      { id: "storage", icon: "▥", title: "Armazenamento", value: "SSD 1 TB", details: ["Armazenamento principal", "Capacidade atual"] },
+      { id: "motherboard", icon: "▩", title: "Placa-mãe", value: "Danuri B550M-PX", details: ["Chipset AMD B550", "Soquete AM4", "PCI-Express 4.0 x16"] },
+      { id: "bios", icon: "⚙", title: "BIOS", value: "American Megatrends 5.17", details: ["Data: 03/01/2023", "American Megatrends International LLC"] },
+      { id: "system", icon: "⊞", title: "Sistema", value: "Windows", details: ["Sistema operacional atual", "Editar depois se quiser detalhar versão"] },
+      { id: "monitor", icon: "▭", title: "Monitor", value: "VALAK 144Hz", details: ["Monitor principal", "144 Hz"] },
+    ],
+    upgradeSpecs: [
+      { id: "cpu-max", icon: "▣", title: "CPU máxima recomendada", value: "Ryzen 7 5700X3D", details: ["AM4", "Excelente para jogos", "Upgrade forte na B550"] },
+      { id: "ram-max", icon: "▤", title: "Upgrade de RAM", value: "32 GB DDR4 3600", details: ["Kit 2x16 GB", "DDR4 3200/3600 MHz", "CL16, 1.35V"] },
+      { id: "storage-up", icon: "▥", title: "Armazenamento", value: "SSD maior / NVMe", details: ["B550 com PCIe 4.0", "Manter SSD 1TB ou expandir"] },
+      { id: "gpu-up", icon: "▧", title: "Placa de vídeo máxima", value: "RTX 5070", details: ["Jogos em Full HD e Quad HD", "Antes confirme fonte e gabinete"] },
+      { id: "psu-up", icon: "⚡", title: "Fonte recomendada", value: "650W - 750W", details: ["Boa qualidade", "Necessária para GPU dedicada forte"] },
+      { id: "cooler", icon: "❄", title: "Cooler", value: "Air cooler de torre", details: ["Recomendado para Ryzen 7 5700X3D", "Melhora temperatura e ruído"] },
+      { id: "motherboard-limit", icon: "▩", title: "Limite da placa-mãe", value: "AM4 / B550", details: ["Danuri B550M-PX", "PCIe 4.0 x16", "Plataforma Ryzen AM4"] },
+      { id: "other-upgrades", icon: "↟", title: "Resultado esperado", value: "PC muito forte", details: ["Full HD alto desempenho", "Quad HD com placa dedicada", "Máquina equilibrada para jogos"] },
+    ],
+  };
+}
+
 const defaultState = {
   profilePhoto: "",
   navLayoutVersion: 3,
@@ -182,8 +260,24 @@ const defaultState = {
     ],
   },
   notes: [
-    { id: crypto.randomUUID(), text: "Ideia: transformar cada área do Notion em um módulo real do app.", date: new Date().toLocaleDateString("pt-BR") },
+    {
+      id: crypto.randomUUID(),
+      title: "Ideia para o projeto",
+      content: "Ideia: transformar cada área do Notion em um módulo real do app.",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      favorite: false,
+      deleted: false,
+      color: "note-yellow",
+      order: 0,
+    },
   ],
+  notePrefs: {
+    filter: "all",
+    view: "grid",
+    search: "",
+  },
+  pcCenter: createDefaultPcCenter(),
   finance: [
     { id: crypto.randomUUID(), title: "Salário", type: "income", category: "Salário", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
     { id: crypto.randomUUID(), title: "Mercado", type: "expense", category: "Mercado", value: 0, dueDate: todayISO(), done: false, date: new Date().toLocaleDateString("pt-BR") },
@@ -500,6 +594,28 @@ const pages = document.querySelectorAll(".page");
 const navButtons = document.querySelectorAll(".side-nav button");
 const sidebar = document.querySelector(".sidebar");
 const pageTitle = document.querySelector("#page-title");
+const mobileOverlay = document.querySelector(".mobile-overlay");
+const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+const mobileSidebarClose = document.querySelector(".mobile-sidebar-close");
+
+function closeMobileMenu() {
+  sidebar?.classList.remove("open");
+  mobileOverlay?.classList.remove("open");
+  document.body.classList.remove("mobile-menu-open");
+  mobileMenuToggle?.setAttribute("aria-expanded", "false");
+}
+
+function openMobileMenu() {
+  sidebar?.classList.add("open");
+  mobileOverlay?.classList.add("open");
+  document.body.classList.add("mobile-menu-open");
+  mobileMenuToggle?.setAttribute("aria-expanded", "true");
+}
+
+function toggleMobileMenu() {
+  if (sidebar?.classList.contains("open")) closeMobileMenu();
+  else openMobileMenu();
+}
 
 function loadState() {
   try {
@@ -521,6 +637,8 @@ function loadState() {
       wardrobeLooks: saved.wardrobeLooks || defaultState.wardrobeLooks,
       personal: saved.personal || defaultState.personal,
       notes: saved.notes || defaultState.notes,
+      notePrefs: saved.notePrefs || defaultState.notePrefs,
+      pcCenter: saved.pcCenter || defaultState.pcCenter,
       finance: saved.finance || defaultState.finance,
       financePlan: saved.financePlan || defaultState.financePlan,
       financeLayout: saved.financeLayout || defaultState.financeLayout,
@@ -533,6 +651,15 @@ function loadState() {
       routineLayout: saved.routineLayout || defaultState.routineLayout,
       routine: savedRoutineHasGroups ? saved.routine : defaultState.routine,
     } : defaultState;
+    merged.notePrefs = {
+      ...defaultState.notePrefs,
+      ...(merged.notePrefs || {}),
+      filter: ["all", "recent", "favorites", "trash"].includes(merged.notePrefs?.filter) ? merged.notePrefs.filter : "all",
+      view: merged.notePrefs?.view === "list" ? "list" : "grid",
+      search: "",
+    };
+    merged.notes = (merged.notes || []).map((note, index) => normalizeNote(note, index));
+    merged.pcCenter = normalizePcCenter(merged.pcCenter);
     merged.pending = merged.pending.map((task) => ({ ...task, subtasks: task.subtasks || [] }));
     merged.wardrobeItems = (merged.wardrobeItems || []).map((item) => ({
       ...item,
@@ -978,6 +1105,26 @@ function shouldRememberLogin() {
   return localStorage.getItem(authRememberKey) !== "false";
 }
 
+const authStorage = {
+  getItem: (key) => {
+    return localStorage.getItem(key) || sessionStorage.getItem(key);
+  },
+  setItem: (key, value) => {
+    const remember = localStorage.getItem(authRememberKey) !== "false";
+    if (remember) {
+      localStorage.setItem(key, value);
+      sessionStorage.removeItem(key);
+    } else {
+      sessionStorage.setItem(key, value);
+      localStorage.removeItem(key);
+    }
+  },
+  removeItem: (key) => {
+    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+  }
+};
+
 function initSupabaseClient() {
   if (!isSupabaseConfigured()) {
     setSyncStatus("Local", "local");
@@ -990,7 +1137,7 @@ function initSupabaseClient() {
   supabaseClient = window.supabase.createClient(config.url, config.anonKey, {
     auth: {
       storageKey: "painel-pessoal-jonata-auth",
-      storage: window.localStorage,
+      storage: authStorage,
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: false,
@@ -1094,8 +1241,10 @@ async function initAuth() {
   updateSavedLoginCard();
 
   if (currentUser) {
+    allowAuthAutoEnter = true;
+    setAuthGate(false);
+    closeLoginPanel();
     await loadRemoteState();
-    openLoginPanel("Escolha a conta salva para entrar ou use outra conta.");
   } else {
     setAuthGate(true);
     setSyncStatus("Sem login", "local");
@@ -1161,6 +1310,173 @@ function formatDate(value) {
   if (!value) return "Sem data";
   const [year, month, day] = value.split("-");
   return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(Number(year), Number(month) - 1, Number(day)));
+}
+
+function normalizePcCenter(pcCenter = {}) {
+  const defaults = createDefaultPcCenter();
+  const rawModifications = shouldReplacePcModExamples(pcCenter.modifications) ? defaults.modifications : (pcCenter.modifications || defaults.modifications);
+  const rawApps = shouldReplacePcAppExamples(pcCenter.apps) ? defaults.apps : (pcCenter.apps || defaults.apps);
+  const rawCurrentSpecs = shouldReplacePcSpecExamples(pcCenter.currentSpecs) ? defaults.currentSpecs : (pcCenter.currentSpecs || defaults.currentSpecs);
+  const rawUpgradeSpecs = shouldReplacePcUpgradeExamples(pcCenter.upgradeSpecs) ? defaults.upgradeSpecs : (pcCenter.upgradeSpecs || defaults.upgradeSpecs);
+  return {
+    ...defaults,
+    ...pcCenter,
+    activeTab: ["mods", "apps", "specs"].includes(pcCenter.activeTab) ? pcCenter.activeTab : "mods",
+    modifications: rawModifications.map((item) => normalizePcListItem(item)),
+    apps: rawApps.map((item) => normalizePcListItem(item)),
+    currentSpecs: rawCurrentSpecs.map((item) => normalizePcSpec(item)),
+    upgradeSpecs: rawUpgradeSpecs.map((item) => normalizePcSpec(item)),
+  };
+}
+
+function shouldReplacePcModExamples(items = []) {
+  const names = (items || []).map((item) => String(item.name || "").toLowerCase());
+  const legacyHits = ["winutil", "startallback", "rainmeter", "o&o shutup10++", "winaero tweaker"].filter((name) => names.includes(name)).length;
+  return legacyHits >= 3 && !names.includes("wind hawk");
+}
+
+function shouldReplacePcAppExamples(items = []) {
+  const names = (items || []).map((item) => String(item.name || "").toLowerCase());
+  const legacyHits = ["google chrome", "visual studio code", "discord", "whatsapp", "microsoft powertoys"].filter((name) => names.includes(name)).length;
+  return legacyHits >= 3 && !names.includes("cpu-z");
+}
+
+function shouldReplacePcSpecExamples(items = []) {
+  const values = (items || []).map((item) => String(item.value || "").toLowerCase()).join(" ");
+  return values.includes("intel core i5-10400f") || values.includes("asus prime h410m-e") || values.includes("gtx 1660");
+}
+
+function shouldReplacePcUpgradeExamples(items = []) {
+  const values = (items || []).map((item) => String(item.value || "").toLowerCase()).join(" ");
+  return values.includes("intel core i9-10900k") || values.includes("rtx 3060 ti") || values.includes("chipset h410");
+}
+
+function normalizePcListItem(item = {}) {
+  return {
+    id: item.id || crypto.randomUUID(),
+    icon: item.icon || "▦",
+    name: item.name || "Novo item",
+    description: item.description || "",
+    category: item.category || "Utilitários",
+    link: item.link || "",
+    iconUrl: item.iconUrl || pcIconUrl(item),
+  };
+}
+
+function normalizePcSpec(item = {}) {
+  return {
+    id: item.id || crypto.randomUUID(),
+    icon: item.icon || "▣",
+    title: item.title || "Especificação",
+    value: item.value || "Não informado",
+    details: Array.isArray(item.details) ? item.details : String(item.details || "").split("\n").filter(Boolean),
+  };
+}
+
+function pcCenter() {
+  state.pcCenter = normalizePcCenter(state.pcCenter);
+  return state.pcCenter;
+}
+
+function pcSafeUrl(link) {
+  const raw = String(link || "").trim();
+  if (!raw) return "";
+  if (/^https?:\/\//i.test(raw)) return raw;
+  if (/^[\w.-]+\.[a-z]{2,}/i.test(raw)) return `https://${raw}`;
+  return "";
+}
+
+function pcLinkLabel(link) {
+  const safe = pcSafeUrl(link);
+  if (!safe) return link || "Sem link";
+  try {
+    return new URL(safe).hostname.replace(/^www\./, "");
+  } catch {
+    return link || "Abrir";
+  }
+}
+
+function pcIconUrl(item = {}) {
+  if (item.iconUrl) return item.iconUrl;
+  const knownDomain = pcKnownIconDomains[String(item.name || "").toLowerCase()];
+  if (knownDomain) return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(knownDomain)}&sz=64`;
+  const safe = pcSafeUrl(item.link);
+  if (!safe) return "";
+  try {
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(new URL(safe).hostname)}&sz=64`;
+  } catch {
+    return "";
+  }
+}
+
+function pcIconMarkup(item = {}) {
+  const url = pcIconUrl(item);
+  if (url) return `<img src="${escapeHtml(url)}" alt="" loading="lazy" referrerpolicy="no-referrer" />`;
+  return `<span>${escapeHtml(item.icon || "▦")}</span>`;
+}
+
+function pcBadgeClass(category = "") {
+  const key = category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-");
+  return `pc-badge pc-badge-${key || "default"}`;
+}
+
+function noteTitleFromContent(content) {
+  const clean = String(content || "").replace(/\s+/g, " ").trim();
+  if (!clean) return "Anotação rápida";
+  return clean.split(" ").slice(0, 5).join(" ").replace(/[.,;:!?]+$/, "");
+}
+
+function normalizeNote(note, index = 0) {
+  const content = note.content ?? note.text ?? "";
+  const createdAt = note.createdAt || note.updatedAt || new Date().toISOString();
+  return {
+    id: note.id || crypto.randomUUID(),
+    title: note.title || noteTitleFromContent(content),
+    content,
+    createdAt,
+    updatedAt: note.updatedAt || createdAt,
+    favorite: Boolean(note.favorite),
+    deleted: Boolean(note.deleted),
+    color: note.color || noteColorPalette[index % noteColorPalette.length],
+    order: Number.isFinite(Number(note.order)) ? Number(note.order) : index,
+  };
+}
+
+function formatNoteDateTime(value) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value || Date.now()));
+}
+
+function currentNotesFilter() {
+  return state.notePrefs?.filter || "all";
+}
+
+function currentNotesView() {
+  return state.notePrefs?.view === "list" ? "list" : "grid";
+}
+
+function filteredNotes() {
+  const filter = currentNotesFilter();
+  const query = String(state.notePrefs?.search || "").trim().toLowerCase();
+  let notes = [...state.notes];
+  if (filter === "trash") {
+    notes = notes.filter((note) => note.deleted);
+  } else {
+    notes = notes.filter((note) => !note.deleted);
+    if (filter === "favorites") notes = notes.filter((note) => note.favorite);
+  }
+  if (query) {
+    notes = notes.filter((note) => `${note.title} ${note.content}`.toLowerCase().includes(query));
+  }
+  if (filter === "recent") {
+    return notes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  }
+  return notes.sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
 }
 
 function isUrl(value) {
@@ -1337,6 +1653,23 @@ function openSection(sectionId) {
     novaNotaBtn.style.display = (realSection === 'quick-notes') ? '' : 'none';
   }
 
+  const agendaCards = document.querySelector('#agenda-summary-cards');
+  if (agendaCards) {
+    agendaCards.style.display = (realSection === 'agenda') ? 'flex' : 'none';
+  }
+  const pcCards = document.querySelector('#pc-summary-cards');
+  if (pcCards) {
+    pcCards.style.display = (realSection === 'pc') ? 'grid' : 'none';
+  }
+  if (realSection === 'agenda') {
+    updateAgendaSummary();
+  }
+
+  const routineControls = document.querySelector('#routine-topbar-controls');
+  if (routineControls) {
+    routineControls.style.display = (realSection === 'routine') ? 'flex' : 'none';
+  }
+
   if (realSection === "placeholder") {
     const [title, copy] = placeholders[sectionId] || ["Área em construção", "Esse módulo está reservado para evoluir depois."];
     document.querySelector("#placeholder-title").textContent = title;
@@ -1344,7 +1677,7 @@ function openSection(sectionId) {
     document.querySelector("#placeholder-kicker").textContent = "Módulo reservado";
   }
 
-  sidebar.classList.remove("open");
+  closeMobileMenu();
 }
 
 function applyNavOrder() {
@@ -1473,6 +1806,143 @@ function applyRoutineLayoutOrder() {
   state.routineLayout.forEach((key) => cards.get(key) && board.insertBefore(cards.get(key), addCard));
 }
 
+function renderPcCenter() {
+  const page = document.querySelector("#pc");
+  if (!page) return;
+  const pc = pcCenter();
+  const todayText = new Intl.DateTimeFormat("pt-BR").format(new Date());
+  const setText = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = value;
+  };
+
+  setText("#pc-summary-mods", pc.modifications.length);
+  setText("#pc-summary-apps", pc.apps.length);
+  setText("#pc-summary-upgrades", pc.upgradeSpecs.length);
+  setText("#pc-summary-date", todayText);
+
+  document.querySelectorAll("[data-pc-tab]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.pcTab === pc.activeTab);
+  });
+  document.querySelectorAll(".pc-tab-panel").forEach((panel) => {
+    panel.classList.toggle("active", panel.id === `pc-panel-${pc.activeTab}`);
+  });
+
+  const modSearch = document.querySelector("#pc-mod-search");
+  const appSearch = document.querySelector("#pc-app-search");
+  if (modSearch && modSearch.value !== pc.modSearch) modSearch.value = pc.modSearch || "";
+  if (appSearch && appSearch.value !== pc.appSearch) appSearch.value = pc.appSearch || "";
+
+  renderPcTable("mod", pc.modifications, pc.modSearch, "#pc-mod-list");
+  renderPcTable("app", pc.apps, pc.appSearch, "#pc-app-list");
+  renderPcSpecs("current", pc.currentSpecs, "#pc-current-specs");
+  renderPcSpecs("upgrade", pc.upgradeSpecs, "#pc-upgrade-specs");
+}
+
+function renderPcTable(type, items, search, selector) {
+  const body = document.querySelector(selector);
+  if (!body) return;
+  const query = String(search || "").trim().toLowerCase();
+  const filtered = items.filter((item) => {
+    return !query || [item.name, item.description, item.category, item.link].join(" ").toLowerCase().includes(query);
+  });
+  if (!filtered.length) {
+    body.innerHTML = `<tr class="pc-empty-row"><td colspan="4">Nenhum item encontrado.</td></tr>`;
+    return;
+  }
+  body.innerHTML = filtered.map((item) => {
+    const url = pcSafeUrl(item.link);
+    const actionLabel = type === "mod" ? "modificação" : "aplicativo";
+    return `
+      <tr>
+        <td data-label="Nome"><div class="pc-item-name"><span>${pcIconMarkup(item)}</span><strong>${escapeHtml(item.name)}</strong></div></td>
+        <td data-label="${type === "mod" ? "O que faz" : "Função"}">${escapeHtml(item.description)}</td>
+        <td data-label="${type === "mod" ? "Link" : "Fonte/Link"}"><a href="${escapeHtml(url || "#")}" target="_blank" rel="noopener">${escapeHtml(pcLinkLabel(item.link))}</a></td>
+        <td data-label="Ações">
+          <div class="pc-actions">
+            <button type="button" data-pc-open-link="${escapeHtml(item.id)}" data-pc-type="${type}" title="Abrir link">↗</button>
+            <button type="button" data-pc-edit="${escapeHtml(item.id)}" data-pc-type="${type}" title="Editar ${actionLabel}">✎</button>
+            <button class="danger" type="button" data-pc-delete="${escapeHtml(item.id)}" data-pc-type="${type}" title="Excluir ${actionLabel}">🗑</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function renderPcSpecs(group, specs, selector) {
+  const container = document.querySelector(selector);
+  if (!container) return;
+  container.innerHTML = specs.map((spec, index) => `
+    <article class="pc-spec-card pc-spec-tone-${(index % 8) + 1}">
+      <div class="pc-spec-head"><span>${escapeHtml(spec.icon)}</span><button type="button" data-pc-spec-edit="${escapeHtml(spec.id)}" data-pc-spec-group="${group}">Editar</button></div>
+      <h4>${escapeHtml(spec.title)}</h4>
+      <strong>${escapeHtml(spec.value)}</strong>
+      <ul>${(spec.details || []).map((detail) => `<li>${escapeHtml(detail)}</li>`).join("")}</ul>
+    </article>
+  `).join("");
+}
+
+function openPcEditor(type, id = "") {
+  const pc = pcCenter();
+  const panel = document.querySelector("#pc-edit-panel");
+  if (!panel) return;
+  const isApp = type === "app";
+  const item = id ? (isApp ? pc.apps : pc.modifications).find((entry) => entry.id === id) : null;
+  document.querySelector("#pc-edit-title").textContent = item ? `Editar ${isApp ? "aplicativo" : "modificação"}` : `Novo ${isApp ? "aplicativo" : "modificação"}`;
+  document.querySelector("#pc-edit-type").value = type;
+  document.querySelector("#pc-edit-id").value = id;
+  document.querySelector("#pc-edit-spec-group").value = "";
+  document.querySelector("#pc-edit-name-label").textContent = "Nome";
+  document.querySelector("#pc-edit-desc-label").textContent = isApp ? "Função" : "O que faz";
+  document.querySelector("#pc-edit-link-label").textContent = isApp ? "Fonte/Link" : "Link";
+  document.querySelector("#pc-edit-icon").value = item?.icon || (isApp ? "▦" : "☷");
+  document.querySelector("#pc-edit-name").value = item?.name || "";
+  document.querySelector("#pc-edit-desc").value = item?.description || "";
+  document.querySelector("#pc-edit-link").value = item?.link || "";
+  document.querySelector("#pc-edit-value").value = "";
+  document.querySelector("#pc-edit-details").value = "";
+  setPcEditorMode("list");
+  document.querySelector("#pc-edit-delete").hidden = !item;
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false");
+  document.querySelector("#pc-edit-name").focus();
+}
+
+function openPcSpecEditor(group, id) {
+  const pc = pcCenter();
+  const specs = group === "upgrade" ? pc.upgradeSpecs : pc.currentSpecs;
+  const spec = specs.find((entry) => entry.id === id);
+  const panel = document.querySelector("#pc-edit-panel");
+  if (!spec || !panel) return;
+  document.querySelector("#pc-edit-title").textContent = "Editar especificação";
+  document.querySelector("#pc-edit-type").value = "spec";
+  document.querySelector("#pc-edit-id").value = id;
+  document.querySelector("#pc-edit-spec-group").value = group;
+  document.querySelector("#pc-edit-icon").value = spec.icon || "▣";
+  document.querySelector("#pc-edit-name").value = spec.title || "";
+  document.querySelector("#pc-edit-value").value = spec.value || "";
+  document.querySelector("#pc-edit-details").value = (spec.details || []).join("\n");
+  setPcEditorMode("spec");
+  document.querySelector("#pc-edit-delete").hidden = true;
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false");
+  document.querySelector("#pc-edit-value").focus();
+}
+
+function setPcEditorMode(mode) {
+  const listOnly = ["pc-edit-desc-wrap", "pc-edit-link-wrap"];
+  const specOnly = ["pc-edit-value-wrap", "pc-edit-details-wrap"];
+  listOnly.forEach((id) => {
+    const el = document.querySelector(`#${id}`);
+    if (el) el.hidden = mode !== "list";
+  });
+  specOnly.forEach((id) => {
+    const el = document.querySelector(`#${id}`);
+    if (el) el.hidden = mode !== "spec";
+  });
+}
+
 function render() {
   applyNavOrder();
   applyFinanceLayoutOrder();
@@ -1504,6 +1974,7 @@ function render() {
   renderHomeItems();
   renderWardrobe();
   renderNotes();
+  renderPcCenter();
   renderRoutineDashboard();
   renderDashboard();
   renderToday();
@@ -1851,28 +2322,38 @@ function renderFinance() {
     const ltitle = item.title ? item.title.toLowerCase() : '';
     const className = isList ? 'finance-list-icon' : 'finance-item-icon';
     
-    // Brand logos via Simple Icons SVG CDN
-    if (ltitle.includes('netflix')) return `<img src="https://cdn.simpleicons.org/netflix/E50914" class="${className}" style="padding: 6px; background: #E50914; border-radius: 50%; filter: brightness(0) invert(1);" alt="Netflix" />`;
-    if (ltitle.includes('spotify')) return `<img src="https://cdn.simpleicons.org/spotify/1DB954" class="${className}" style="padding: 6px; background: #1DB954; border-radius: 50%; filter: brightness(0) invert(1);" alt="Spotify" />`;
-    if (ltitle.includes('icloud') || ltitle.includes('apple')) return `<img src="https://cdn.simpleicons.org/icloud/007AFF" class="${className}" style="padding: 6px; background: #007AFF; border-radius: 50%; filter: brightness(0) invert(1);" alt="iCloud" />`;
-    if (ltitle.includes('amazon') || ltitle.includes('prime')) return `<img src="https://cdn.simpleicons.org/amazon/FF9900" class="${className}" style="padding: 6px; background: #FF9900; border-radius: 50%; filter: brightness(0) invert(1);" alt="Amazon" />`;
-    if (ltitle.includes('youtube')) return `<img src="https://cdn.simpleicons.org/youtube/FF0000" class="${className}" style="padding: 6px; background: #FF0000; border-radius: 50%; filter: brightness(0) invert(1);" alt="YouTube" />`;
-    if (ltitle.includes('disney')) return `<img src="https://cdn.simpleicons.org/disneyplus/11385B" class="${className}" style="padding: 6px; background: #11385B; border-radius: 50%; filter: brightness(0) invert(1);" alt="Disney" />`;
-    if (ltitle.includes('playstation') || ltitle.includes('psn') || ltitle.includes('ps5')) return `<img src="https://cdn.simpleicons.org/playstation/003087" class="${className}" style="padding: 6px; background: #003087; border-radius: 50%; filter: brightness(0) invert(1);" alt="PlayStation" />`;
-    if (ltitle.includes('xbox')) return `<img src="https://cdn.simpleicons.org/xbox/107C10" class="${className}" style="padding: 6px; background: #107C10; border-radius: 50%; filter: brightness(0) invert(1);" alt="Xbox" />`;
-    if (ltitle.includes('steam')) return `<img src="https://cdn.simpleicons.org/steam/1B2838" class="${className}" style="padding: 6px; background: #1B2838; border-radius: 50%; filter: brightness(0) invert(1);" alt="Steam" />`;
-    if (ltitle.includes('chatgpt') || ltitle.includes('openai')) return `<img src="https://cdn.simpleicons.org/openai/412991" class="${className}" style="padding: 6px; background: #412991; border-radius: 50%; filter: brightness(0) invert(1);" alt="ChatGPT" />`;
-    if (ltitle.includes('globo')) return `<img src="https://cdn.simpleicons.org/globoplay/EB2629" class="${className}" style="padding: 6px; background: #EB2629; border-radius: 50%; filter: brightness(0) invert(1);" alt="GloboPlay" />`;
-    if (ltitle.includes('hbo') || ltitle.includes('max')) return `<img src="https://cdn.simpleicons.org/hbo/002D62" class="${className}" style="padding: 6px; background: #002D62; border-radius: 50%; filter: brightness(0) invert(1);" alt="HBO" />`;
-    if (ltitle.includes('uber')) return `<img src="https://cdn.simpleicons.org/uber/000000" class="${className}" style="padding: 6px; background: #276EF1; border-radius: 50%; filter: brightness(0) invert(1);" alt="Uber" />`;
-    if (ltitle.includes('nubank')) return `<img src="https://cdn.simpleicons.org/nubank/820AD9" class="${className}" style="padding: 6px; background: #820AD9; border-radius: 50%; filter: brightness(0) invert(1);" alt="Nubank" />`;
-    if (ltitle.includes('bradesco')) return `<img src="https://cdn.simpleicons.org/bradesco/CC092F" class="${className}" style="padding: 6px; background: #CC092F; border-radius: 50%; filter: brightness(0) invert(1);" alt="Bradesco" />`;
-    if (ltitle.includes('itaú') || ltitle.includes('itau')) return `<img src="https://cdn.simpleicons.org/itau/EC7000" class="${className}" style="padding: 6px; background: #EC7000; border-radius: 50%; filter: brightness(0) invert(1);" alt="Itaú" />`;
-    if (ltitle.includes('santander')) return `<img src="https://cdn.simpleicons.org/santander/EC0000" class="${className}" style="padding: 6px; background: #EC0000; border-radius: 50%; filter: brightness(0) invert(1);" alt="Santander" />`;
-    if (ltitle.includes('mercado livre') || ltitle.includes('mercado pago')) return `<img src="https://cdn.simpleicons.org/mercadolibre/FFE600" class="${className}" style="padding: 6px; background: #FFE600; border-radius: 50%; filter: brightness(0) invert(1);" alt="Mercado Livre" />`;
-    if (ltitle.includes('claro')) return `<div class="${className}" style="background: #DA291C; color: #fff; font-weight: bold; font-size: 11px; letter-spacing: -0.5px;">Claro</div>`;
-    if (ltitle.includes('vivo')) return `<img src="https://cdn.simpleicons.org/vivo/CC0066" class="${className}" style="padding: 6px; background: #CC0066; border-radius: 50%; filter: brightness(0) invert(1);" alt="Vivo" />`;
-    if (ltitle.includes('tim')) return `<img src="https://cdn.simpleicons.org/tim/003DA5" class="${className}" style="padding: 6px; background: #003DA5; border-radius: 50%; filter: brightness(0) invert(1);" alt="TIM" />`;
+    // Brand logos via Simple Icons SVG CDN (Encapsulados em div para garantir visibilidade e responsividade)
+    const brands = [
+      { keys: ['netflix'], slug: 'netflix', bg: '#E50914', alt: 'Netflix' },
+      { keys: ['spotify'], slug: 'spotify', bg: '#1DB954', alt: 'Spotify' },
+      { keys: ['icloud', 'apple'], slug: 'icloud', bg: '#007AFF', alt: 'iCloud' },
+      { keys: ['amazon', 'prime'], slug: 'amazon', bg: '#FF9900', alt: 'Amazon' },
+      { keys: ['youtube'], slug: 'youtube', bg: '#FF0000', alt: 'YouTube' },
+      { keys: ['disney'], slug: 'disneyplus', bg: '#11385B', alt: 'Disney' },
+      { keys: ['playstation', 'psn', 'ps5'], slug: 'playstation', bg: '#003087', alt: 'PlayStation' },
+      { keys: ['xbox'], slug: 'xbox', bg: '#107C10', alt: 'Xbox' },
+      { keys: ['steam'], slug: 'steam', bg: '#1B2838', alt: 'Steam' },
+      { keys: ['chatgpt', 'openai'], slug: 'openai', bg: '#412991', alt: 'ChatGPT' },
+      { keys: ['globo'], slug: 'globoplay', bg: '#EB2629', alt: 'GloboPlay' },
+      { keys: ['hbo', 'max'], slug: 'hbo', bg: '#002D62', alt: 'HBO' },
+      { keys: ['uber'], slug: 'uber', bg: '#276EF1', alt: 'Uber' },
+      { keys: ['nubank'], slug: 'nubank', bg: '#820AD9', alt: 'Nubank' },
+      { keys: ['bradesco'], slug: 'bradesco', bg: '#CC092F', alt: 'Bradesco' },
+      { keys: ['itaú', 'itau'], slug: 'itau', bg: '#EC7000', alt: 'Itaú' },
+      { keys: ['santander'], slug: 'santander', bg: '#EC0000', alt: 'Santander' },
+      { keys: ['mercado livre', 'mercado pago'], slug: 'mercadolibre', bg: '#FFE600', alt: 'Mercado Livre' },
+      { keys: ['vivo'], slug: 'vivo', bg: '#CC0066', alt: 'Vivo' },
+      { keys: ['tim'], slug: 'tim', bg: '#003DA5', alt: 'TIM' }
+    ];
+
+    const matchedBrand = brands.find(b => b.keys.some(k => ltitle.includes(k)));
+    if (matchedBrand) {
+      return `<div class="${className}" style="background: ${matchedBrand.bg}; border-radius: 50%; display: flex !important; align-items: center !important; justify-content: center !important; padding: 6px !important; box-sizing: border-box !important;">
+                <img src="https://cdn.simpleicons.org/${matchedBrand.slug}" style="width: 100% !important; height: 100% !important; object-fit: contain !important; filter: brightness(0) invert(1) !important;" alt="${matchedBrand.alt}" />
+              </div>`;
+    }
+
+    if (ltitle.includes('claro')) return `<div class="${className}" style="background: #DA291C; color: #fff; font-weight: bold; font-size: 11px; letter-spacing: -0.5px; display: flex !important; align-items: center !important; justify-content: center !important;">Claro</div>`;
 
     // General categories with colored background and emoji
     if (ltitle.includes('barbeiro') || ltitle.includes('barbearia') || ltitle.includes('cabelereiro')) {
@@ -2306,11 +2787,12 @@ const genericEditConfigs = {
     find: (id) => state.agenda.find((item) => item.id === id),
     fields: [
       { key: "title", label: "Compromisso", type: "text" },
+      { key: "description", label: "Descrição", type: "text" },
       { key: "date", label: "Data", type: "date" },
       { key: "type", label: "Tipo", type: "select", options: [["appointment", "Compromisso"], ["reminder", "Lembrete"], ["deadline", "Prazo"]] },
     ],
     save: (id, values) => {
-      state.agenda = state.agenda.map((item) => item.id === id ? { ...item, title: values.title || item.title, date: values.date || item.date, type: values.type } : item);
+      state.agenda = state.agenda.map((item) => item.id === id ? { ...item, title: values.title || item.title, description: values.description || "", date: values.date || item.date, type: values.type } : item);
     },
   },
   cnh: {
@@ -2350,9 +2832,14 @@ const genericEditConfigs = {
   note: {
     title: "Editar anotação",
     find: (id) => state.notes.find((item) => item.id === id),
-    fields: [{ key: "text", label: "Anotação", type: "textarea" }],
+    fields: [{ key: "content", label: "Anotação", type: "textarea" }],
     save: (id, values) => {
-      state.notes = state.notes.map((item) => item.id === id ? { ...item, text: values.text || item.text } : item);
+      state.notes = state.notes.map((item) => item.id === id ? {
+        ...item,
+        content: values.content || item.content,
+        title: noteTitleFromContent(values.content || item.content),
+        updatedAt: new Date().toISOString(),
+      } : item);
     },
   },
   personalGoal: {
@@ -2484,7 +2971,7 @@ function deleteGenericItem(entity, id) {
   if (entity === "agenda") state.agenda = state.agenda.filter((item) => item.id !== id);
   if (entity === "cnh") state.cnh.steps = state.cnh.steps.filter((item) => item.id !== id);
   if (entity === "financeGoal") state.financeGoals = state.financeGoals.filter((item) => item.id !== id);
-  if (entity === "note") state.notes = state.notes.filter((item) => item.id !== id);
+  if (entity === "note") state.notes = state.notes.map((item) => item.id === id ? { ...item, deleted: true, updatedAt: new Date().toISOString() } : item);
   if (entity === "personalGoal") state.personal.goals = state.personal.goals.filter((item) => item.id !== id);
   if (entity === "personalDoc") state.personal.docs = state.personal.docs.filter((item) => item.id !== id);
   if (entity === "win") state.wins = state.wins.filter((item) => item.id !== id);
@@ -2946,7 +3433,9 @@ function renderAgenda() {
   }).format(new Date(year, month - 1, 1));
 
   calendar.innerHTML = "";
-  Array.from({ length: 42 }, (_, index) => {
+  const totalDaysNeeded = firstWeekday + monthDays;
+  const totalCells = totalDaysNeeded <= 28 ? 28 : (totalDaysNeeded <= 35 ? 35 : 42);
+  Array.from({ length: totalCells }, (_, index) => {
     const relativeDay = index - firstWeekday + 1;
     let date = "";
     let day = relativeDay;
@@ -2967,7 +3456,10 @@ function renderAgenda() {
     const events = sorted.filter((item) => item.date === date);
     const dayButton = document.createElement("button");
     dayButton.type = "button";
-    dayButton.className = `agenda-day ${outside ? "outside" : ""} ${date === todayISO() ? "today" : ""}`;
+    const isWeekend = (index % 7 === 0 || index % 7 === 6);
+    const selectedDateInput = document.querySelector("#agenda-date")?.value;
+    const isSelected = selectedDateInput ? (date === selectedDateInput) : false;
+    dayButton.className = `agenda-day ${outside ? "outside" : ""} ${date === todayISO() ? "today" : ""} ${isSelected ? "selected" : ""} ${isWeekend ? "weekend" : ""}`;
     dayButton.dataset.agendaDay = date;
     dayButton.innerHTML = `
       <span class="agenda-day-number">${day}</span>
@@ -2992,17 +3484,72 @@ function renderAgenda() {
     const row = document.createElement("article");
     row.className = item.done ? "done" : "";
     row.innerHTML = `
-      <button class="check-btn ${item.done ? "active" : ""}" type="button" data-agenda-check="${item.id}">✓</button>
+      <button class="check-btn circular-check ${item.done ? "active" : ""}" type="button" data-agenda-check="${item.id}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon check-icon">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </button>
       <b>${formatDate(item.date)}</b>
-      <div>
-        <strong>${escapeHtml(item.title)}</strong>
-        <span>${typeLabels[item.type] || "Lembrete"}</span>
+      <div class="agenda-item-content">
+        <div class="agenda-item-main-info">
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${typeLabels[item.type] || "Lembrete"}</span>
+        </div>
+        <div class="agenda-item-details">
+          ${item.description ? `<p class="agenda-item-desc">${escapeHtml(item.description)}</p>` : ""}
+        </div>
       </div>
-      <button class="edit-btn" type="button" data-generic-edit="agenda:${item.id}">Editar</button>
-      <button class="delete-btn" type="button" data-agenda-delete="${item.id}">×</button>
+      <button class="edit-btn" type="button" data-generic-edit="agenda:${item.id}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        <span>Editar</span>
+      </button>
+      <button class="delete-btn" type="button" data-agenda-delete="${item.id}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+      </button>
     `;
     list.append(row);
   });
+  updateAgendaSummary();
+}
+
+function updateAgendaSummary() {
+  const today = todayISO();
+  // Contar compromissos de hoje (não concluídos)
+  const todayCount = state.agenda.filter((item) => item.date === today && !item.done).length;
+
+  // Contar compromissos da semana atual (não concluídos)
+  const weekCount = state.agenda.filter((item) => {
+    if (item.done) return false;
+    try {
+      const itemDate = new Date(item.date + "T00:00:00");
+      const todayDate = new Date();
+      todayDate.setHours(0, 0, 0, 0);
+
+      const currentDay = todayDate.getDay();
+      const startOfWeek = new Date(todayDate);
+      startOfWeek.setDate(todayDate.getDate() - currentDay);
+
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+      return itemDate >= startOfWeek && itemDate <= endOfWeek;
+    } catch (e) {
+      return false;
+    }
+  }).length;
+
+  const todayEl = document.querySelector("#agenda-count-today");
+  const weekEl = document.querySelector("#agenda-count-week");
+  if (todayEl) todayEl.textContent = todayCount;
+  if (weekEl) weekEl.textContent = weekCount;
 }
 
 function renderCnh() {
@@ -3240,7 +3787,9 @@ function buildSearchItems() {
     ...state.agenda.map((item) => ({ section: "agenda", label: item.title, detail: `Agenda • ${formatDate(item.date)}` })),
     ...state.wins.map((item) => ({ section: "wins", label: item.title, detail: `Conquista • ${formatDate(item.date)}` })),
     ...state.wardrobeItems.map((item) => ({ section: "wardrobe", label: item.name, detail: `Guarda-Roupa • ${wardrobeCategoryLabel(item.category)} • ${item.color}` })),
-    ...state.notes.map((item) => ({ section: "quick-notes", label: item.text, detail: `Nota • ${item.date}` })),
+    ...state.notes
+      .filter((item) => !item.deleted)
+      .map((item) => ({ section: "quick-notes", label: item.title || noteTitleFromContent(item.content), detail: `Nota • ${formatNoteDateTime(item.updatedAt)}` })),
     ...state.finance.map((item) => ({ section: "finance", label: item.title, detail: `Financeiro • ${item.category} • ${formatDate(item.dueDate)}` })),
   ];
 }
@@ -3294,27 +3843,104 @@ function renderTodaySummary() {
 
 function renderNotes() {
   const list = document.querySelector("#notes-list");
+  if (!list) return;
+  const filter = currentNotesFilter();
+  const view = currentNotesView();
+  const notes = filteredNotes();
+  const trashNotes = state.notes.filter((note) => note.deleted);
+  const currentDate = document.querySelector("#notes-current-date");
+  if (currentDate) {
+    currentDate.textContent = `Hoje · ${new Intl.DateTimeFormat("pt-BR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }).format(new Date())}`;
+  }
+  document.querySelectorAll("[data-notes-filter]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.notesFilter === filter);
+  });
+  const searchInput = document.querySelector("#notes-search-input");
+  if (searchInput && searchInput.value !== (state.notePrefs?.search || "")) {
+    searchInput.value = state.notePrefs?.search || "";
+  }
+  const viewToggle = document.querySelector("#notes-view-toggle");
+  if (viewToggle) {
+    viewToggle.textContent = view === "grid" ? "Lista" : "Grid";
+    viewToggle.title = view === "grid" ? "Ver em lista" : "Ver em grid";
+  }
+  list.classList.toggle("notes-grid-view", view === "grid");
+  list.classList.toggle("notes-list-view", view === "list");
+  const trashActions = document.querySelector("#notes-trash-actions");
+  const trashCount = document.querySelector("#notes-trash-count");
+  if (trashActions) {
+    const showTrashActions = filter === "trash" && trashNotes.length > 0;
+    trashActions.hidden = !showTrashActions;
+    trashActions.classList.toggle("show", showTrashActions);
+  }
+  if (trashCount) {
+    trashCount.textContent = `${trashNotes.length} ${trashNotes.length === 1 ? "anotação" : "anotações"} na lixeira`;
+  }
   list.innerHTML = "";
-  if (!state.notes.length) {
-    list.innerHTML = `<div class="empty-state notes-empty">Nenhuma anotação salva ainda.</div>`;
+
+  if (!notes.length) {
+    const emptyTitle = filter === "trash" ? "Lixeira vazia." : "Você ainda não tem anotações.";
+    const emptyCopy = filter === "trash" ? "As anotações excluídas aparecerão aqui." : "Escreva algo acima para criar sua primeira nota rápida.";
+    list.innerHTML = `<div class="notes-empty"><strong>${emptyTitle}</strong><span>${emptyCopy}</span></div>`;
     return;
   }
-  state.notes.forEach((note) => {
+
+  notes.forEach((note) => {
     const card = document.createElement("article");
-    card.className = "note-card";
-    card.innerHTML = `
+    card.className = `note-card ${escapeHtml(note.color || "note-white")} ${note.favorite ? "favorite" : ""}`;
+    card.draggable = filter !== "trash";
+    card.dataset.noteCard = note.id;
+    card.innerHTML = filter === "trash" ? `
       <div class="note-card-top">
-        <span>Nota rápida</span>
-        <small>${escapeHtml(note.date)}</small>
+        <button class="note-drag-handle" type="button" title="Arrastar" disabled>⠿</button>
+        <small>${formatNoteDateTime(note.updatedAt)}</small>
       </div>
-      <p>${escapeHtml(note.text)}</p>
+      <h3>${escapeHtml(note.title)}</h3>
+      <p>${escapeHtml(note.content)}</p>
       <div class="note-card-actions">
-        <button class="edit-btn" type="button" data-generic-edit="note:${note.id}">Editar</button>
-        <button class="delete-btn" type="button" data-note-delete="${note.id}">Excluir</button>
+        <button type="button" data-note-restore="${note.id}">Restaurar</button>
+        <button class="danger" type="button" data-note-destroy="${note.id}">Apagar definitivamente</button>
+      </div>
+    ` : `
+      <div class="note-card-top">
+        <button class="note-drag-handle" type="button" title="Arrastar">⠿</button>
+        <small>${formatNoteDateTime(note.updatedAt)}</small>
+      </div>
+      <h3>${escapeHtml(note.title)}</h3>
+      <p>${escapeHtml(note.content)}</p>
+      <div class="note-card-actions">
+        <button class="note-favorite ${note.favorite ? "active" : ""}" type="button" data-note-favorite="${note.id}" title="Favoritar">${note.favorite ? "★" : "☆"}</button>
+        <button type="button" data-note-edit="${note.id}">Editar</button>
+        <button class="danger" type="button" data-note-trash="${note.id}">Excluir</button>
       </div>
     `;
     list.append(card);
   });
+}
+
+function openNoteEditor(noteId) {
+  const note = state.notes.find((item) => item.id === noteId);
+  const panel = document.querySelector("#notes-edit-panel");
+  if (!note || !panel) return;
+  document.querySelector("#notes-edit-id").value = note.id;
+  document.querySelector("#notes-edit-content").value = note.content || "";
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false");
+  document.querySelector("#notes-edit-content").focus();
+}
+
+function closeNoteEditor() {
+  const panel = document.querySelector("#notes-edit-panel");
+  if (!panel) return;
+  panel.classList.remove("open");
+  panel.setAttribute("aria-hidden", "true");
+  document.querySelector("#notes-edit-id").value = "";
+  document.querySelector("#notes-edit-content").value = "";
 }
 
 function renderRoutine() {
@@ -3499,7 +4125,7 @@ function renderRoutineDashboard() {
   ensureRoutineDayRecord(todayISO());
   const selectedDate = tracker.selectedDate || todayISO();
   ensureRoutineDayRecord(selectedDate);
-  const routineViewMode = tracker.viewMode || "day";
+  const routineViewMode = "day";
   const selected = new Date(`${selectedDate}T12:00:00`);
   const fullDate = new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(selected);
   const selectedMonthKey = selectedDate.slice(0, 7);
@@ -3816,7 +4442,12 @@ document.querySelectorAll("[data-section-shortcut]").forEach((button) => {
   button.addEventListener("click", () => openSection(button.dataset.sectionShortcut));
 });
 
-document.querySelector(".menu-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
+mobileMenuToggle?.addEventListener("click", toggleMobileMenu);
+mobileSidebarClose?.addEventListener("click", closeMobileMenu);
+mobileOverlay?.addEventListener("click", closeMobileMenu);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeMobileMenu();
+});
 const themeToggleButton = document.querySelector("#theme-toggle");
 if (themeToggleButton) {
   themeToggleButton.addEventListener("click", toggleTheme);
@@ -3934,11 +4565,7 @@ document.querySelector("#login-form").addEventListener("submit", async (event) =
   setAuthGate(false);
   closeLoginPanel();
   await loadRemoteState();
-  if (!rememberLogin) {
-    window.addEventListener("beforeunload", () => {
-      supabaseClient?.auth.signOut();
-    }, { once: true });
-  }
+
 });
 
 const avatarBtn = document.querySelector("#avatar-button") || document.querySelector("#dropdown-change-avatar");
@@ -4202,16 +4829,7 @@ document.querySelector("#routine-add-card").addEventListener("click", () => {
 function moveRoutinePeriod(direction) {
   rememberUndo();
   const selectedDate = state.routineTracker.selectedDate || todayISO();
-  const viewMode = state.routineTracker.viewMode || "day";
-  if (viewMode === "day") {
-    state.routineTracker.selectedDate = addDays(selectedDate, direction);
-  } else if (viewMode === "year") {
-    const [year, month, day] = selectedDate.split("-").map(Number);
-    state.routineTracker.selectedDate = dateToISO(new Date(year + direction, month - 1, day));
-  } else {
-    state.routineTracker.selectedDate = addMonthsToDate(selectedDate, direction);
-    state.routineTracker.viewMode = "month";
-  }
+  state.routineTracker.selectedDate = addDays(selectedDate, direction);
   commitChange();
 }
 
@@ -4221,8 +4839,7 @@ document.querySelector("#routine-date-next").addEventListener("click", () => mov
 
 document.querySelector("#routine-toggle-view").addEventListener("click", () => {
   rememberUndo();
-  const currentMode = state.routineTracker.viewMode || "day";
-  state.routineTracker.viewMode = currentMode === "day" ? "month" : currentMode === "month" ? "year" : "day";
+  state.routineTracker.viewMode = "day";
   commitChange();
 });
 
@@ -4231,7 +4848,7 @@ document.querySelector("#routine-month-input").addEventListener("change", (event
   rememberUndo();
   const currentDay = String(state.routineTracker.selectedDate || todayISO()).slice(8, 10) || "01";
   state.routineTracker.selectedDate = `${event.target.value}-${String(Math.min(Number(currentDay), daysInMonth(event.target.value))).padStart(2, "0")}`;
-  state.routineTracker.viewMode = "month";
+  state.routineTracker.viewMode = "day";
   commitChange();
 });
 
@@ -4294,6 +4911,67 @@ document.querySelector("#wardrobe-clear-selection").addEventListener("click", ()
   commitChange();
 });
 
+document.querySelector("#pc-mod-search")?.addEventListener("input", (event) => {
+  state.pcCenter.modSearch = event.target.value;
+  renderPcCenter();
+  saveState();
+});
+
+document.querySelector("#pc-app-search")?.addEventListener("input", (event) => {
+  state.pcCenter.appSearch = event.target.value;
+  renderPcCenter();
+  saveState();
+});
+
+document.querySelector("#pc-edit-form")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const type = document.querySelector("#pc-edit-type").value;
+  const id = document.querySelector("#pc-edit-id").value;
+  const group = document.querySelector("#pc-edit-spec-group").value;
+  const pc = pcCenter();
+  rememberUndo();
+
+  if (type === "spec") {
+    const key = group === "upgrade" ? "upgradeSpecs" : "currentSpecs";
+    pc[key] = pc[key].map((spec) => spec.id === id ? {
+      ...spec,
+      icon: document.querySelector("#pc-edit-icon").value.trim() || "▣",
+      title: document.querySelector("#pc-edit-name").value.trim() || spec.title,
+      value: document.querySelector("#pc-edit-value").value.trim() || "Não informado",
+      details: document.querySelector("#pc-edit-details").value.split("\n").map((line) => line.trim()).filter(Boolean),
+    } : spec);
+  } else {
+    const key = type === "app" ? "apps" : "modifications";
+    const previousItem = id ? pc[key].find((entry) => entry.id === id) : null;
+    const item = {
+      id: id || crypto.randomUUID(),
+      icon: document.querySelector("#pc-edit-icon").value.trim() || (type === "app" ? "▦" : "☷"),
+      name: document.querySelector("#pc-edit-name").value.trim() || "Novo item",
+      description: document.querySelector("#pc-edit-desc").value.trim(),
+      category: previousItem?.category || (type === "app" ? "Utilitários" : "Sistema"),
+      link: document.querySelector("#pc-edit-link").value.trim(),
+      iconUrl: previousItem?.iconUrl || "",
+    };
+    pc[key] = id ? pc[key].map((entry) => entry.id === id ? item : entry) : [item, ...pc[key]];
+  }
+
+  document.querySelector("#pc-edit-panel").classList.remove("open");
+  document.querySelector("#pc-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
+document.querySelector("#pc-edit-delete")?.addEventListener("click", () => {
+  const type = document.querySelector("#pc-edit-type").value;
+  const id = document.querySelector("#pc-edit-id").value;
+  if (!id || !["mod", "app"].includes(type) || !window.confirm("Excluir este item?")) return;
+  rememberUndo();
+  const key = type === "app" ? "apps" : "modifications";
+  state.pcCenter[key] = state.pcCenter[key].filter((item) => item.id !== id);
+  document.querySelector("#pc-edit-panel").classList.remove("open");
+  document.querySelector("#pc-edit-panel").setAttribute("aria-hidden", "true");
+  commitChange();
+});
+
 document.addEventListener("change", (event) => {
   const wardrobeSelect = event.target.dataset.wardrobeSelect;
   if (!wardrobeSelect) return;
@@ -4348,6 +5026,7 @@ if (el__finance_goal_form) {
 document.querySelector("#agenda-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const title = document.querySelector("#agenda-title");
+  const description = document.querySelector("#agenda-description");
   const date = document.querySelector("#agenda-date");
   const type = document.querySelector("#agenda-type");
   if (!title.value.trim()) return;
@@ -4355,11 +5034,13 @@ document.querySelector("#agenda-form").addEventListener("submit", (event) => {
   state.agenda.push({
     id: crypto.randomUUID(),
     title: title.value.trim(),
+    description: description ? description.value.trim() : "",
     date: date.value || todayISO(),
     type: type.value,
     done: false,
   });
   title.value = "";
+  if (description) description.value = "";
   date.value = "";
   commitChange();
 });
@@ -4404,6 +5085,10 @@ document.querySelector("#agenda-month-next").addEventListener("click", () => mov
 document.querySelector("#agenda-calendar-grid").addEventListener("click", (event) => {
   const day = event.target.closest("[data-agenda-day]");
   if (!day) return;
+  document.querySelectorAll("#agenda-calendar-grid .agenda-day").forEach(el => {
+    el.classList.remove("selected");
+  });
+  day.classList.add("selected");
   document.querySelector("#agenda-date").value = day.dataset.agendaDay;
   document.querySelector("#agenda-title").focus();
 });
@@ -4821,10 +5506,126 @@ document.querySelector("#note-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const input = document.querySelector("#note-input");
   if (!input.value.trim()) return;
+  const now = new Date().toISOString();
   rememberUndo();
-  state.notes.unshift({ id: crypto.randomUUID(), text: input.value.trim(), date: new Date().toLocaleDateString("pt-BR") });
+  state.notes.unshift({
+    id: crypto.randomUUID(),
+    title: noteTitleFromContent(input.value),
+    content: input.value.trim(),
+    createdAt: now,
+    updatedAt: now,
+    favorite: false,
+    deleted: false,
+    color: noteColorPalette[state.notes.length % noteColorPalette.length],
+    order: Math.min(0, ...state.notes.map((note) => Number(note.order || 0))) - 1,
+  });
+  state.notePrefs.filter = "all";
   input.value = "";
   commitChange();
+});
+
+document.querySelector("#notes-new-btn")?.addEventListener("click", () => {
+  document.querySelector("#note-input")?.focus();
+  document.querySelector("#note-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+document.querySelector("#notes-search-input")?.addEventListener("input", (event) => {
+  state.notePrefs.search = event.target.value;
+  renderNotes();
+});
+
+document.querySelectorAll("[data-notes-filter]").forEach((button) => {
+  button.addEventListener("click", () => {
+    state.notePrefs.filter = button.dataset.notesFilter;
+    renderNotes();
+    saveState();
+  });
+});
+
+document.querySelector("#notes-view-toggle")?.addEventListener("click", () => {
+  state.notePrefs.view = currentNotesView() === "grid" ? "list" : "grid";
+  renderNotes();
+  saveState();
+});
+
+document.querySelector("#notes-restore-all")?.addEventListener("click", () => {
+  const trashNotes = state.notes.filter((note) => note.deleted);
+  if (!trashNotes.length) return;
+  rememberUndo();
+  state.notes = state.notes.map((note) => note.deleted ? {
+    ...note,
+    deleted: false,
+    updatedAt: new Date().toISOString(),
+  } : note);
+  state.notePrefs.filter = "all";
+  commitChange();
+});
+
+document.querySelector("#notes-destroy-all")?.addEventListener("click", () => {
+  const trashNotes = state.notes.filter((note) => note.deleted);
+  if (!trashNotes.length) return;
+  if (!window.confirm("Apagar definitivamente todas as anotações da lixeira?")) return;
+  rememberUndo();
+  state.notes = state.notes.filter((note) => !note.deleted);
+  commitChange();
+});
+
+document.querySelector("#notes-edit-form")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const id = document.querySelector("#notes-edit-id").value;
+  const content = document.querySelector("#notes-edit-content").value.trim();
+  if (!id || !content) return;
+  rememberUndo();
+  state.notes = state.notes.map((note) => note.id === id ? {
+    ...note,
+    title: noteTitleFromContent(content),
+    content,
+    updatedAt: new Date().toISOString(),
+  } : note);
+  closeNoteEditor();
+  commitChange();
+});
+
+document.querySelector("#notes-edit-cancel")?.addEventListener("click", closeNoteEditor);
+document.querySelector("#notes-edit-cancel-top")?.addEventListener("click", closeNoteEditor);
+
+let draggedNoteId = null;
+
+document.querySelector("#notes-list")?.addEventListener("dragstart", (event) => {
+  const card = event.target.closest("[data-note-card]");
+  if (!card || currentNotesFilter() === "trash") return;
+  draggedNoteId = card.dataset.noteCard;
+  card.classList.add("note-dragging");
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", draggedNoteId);
+});
+
+document.querySelector("#notes-list")?.addEventListener("dragover", (event) => {
+  if (!draggedNoteId) return;
+  const target = event.target.closest("[data-note-card]");
+  const list = document.querySelector("#notes-list");
+  if (!target || !list || target.dataset.noteCard === draggedNoteId) return;
+  event.preventDefault();
+  const rect = target.getBoundingClientRect();
+  const placeAfter = event.clientY > rect.top + rect.height / 2 || event.clientX > rect.left + rect.width / 2;
+  const dragged = list.querySelector(`[data-note-card="${draggedNoteId}"]`);
+  if (dragged) list.insertBefore(dragged, placeAfter ? target.nextSibling : target);
+});
+
+document.querySelector("#notes-list")?.addEventListener("drop", (event) => {
+  if (!draggedNoteId || currentNotesFilter() === "trash") return;
+  event.preventDefault();
+  const orderedIds = [...document.querySelectorAll("#notes-list [data-note-card]")].map((card) => card.dataset.noteCard);
+  rememberUndo();
+  const visibleOrder = new Map(orderedIds.map((id, index) => [id, index]));
+  state.notes = state.notes.map((note) => visibleOrder.has(note.id) ? { ...note, order: visibleOrder.get(note.id) } : note);
+  draggedNoteId = null;
+  commitChange();
+});
+
+document.querySelector("#notes-list")?.addEventListener("dragend", () => {
+  document.querySelectorAll(".note-dragging").forEach((card) => card.classList.remove("note-dragging"));
+  draggedNoteId = null;
 });
 
 document.querySelector("#search-btn").addEventListener("click", () => {
@@ -4870,6 +5671,45 @@ document.addEventListener("click", (event) => {
   }
   if (!target.closest("#emoji-picker") && !target.closest("[data-emoji-picker-target]") && !document.querySelector("#emoji-picker").hidden) {
     closeEmojiPicker();
+  }
+  const pcTab = target.closest("[data-pc-tab]");
+  if (pcTab) {
+    state.pcCenter.activeTab = pcTab.dataset.pcTab;
+    renderPcCenter();
+    saveState();
+    return;
+  }
+  const pcAdd = target.closest("[data-pc-add]");
+  if (pcAdd) {
+    openPcEditor(pcAdd.dataset.pcAdd);
+    return;
+  }
+  const pcEdit = target.closest("[data-pc-edit]");
+  if (pcEdit) {
+    openPcEditor(pcEdit.dataset.pcType, pcEdit.dataset.pcEdit);
+    return;
+  }
+  const pcDelete = target.closest("[data-pc-delete]");
+  if (pcDelete) {
+    if (!window.confirm("Excluir este item?")) return;
+    rememberUndo();
+    const key = pcDelete.dataset.pcType === "app" ? "apps" : "modifications";
+    state.pcCenter[key] = state.pcCenter[key].filter((item) => item.id !== pcDelete.dataset.pcDelete);
+    commitChange();
+    return;
+  }
+  const pcOpenLink = target.closest("[data-pc-open-link]");
+  if (pcOpenLink) {
+    const key = pcOpenLink.dataset.pcType === "app" ? "apps" : "modifications";
+    const item = pcCenter()[key].find((entry) => entry.id === pcOpenLink.dataset.pcOpenLink);
+    const url = pcSafeUrl(item?.link);
+    if (url) window.open(url, "_blank", "noopener");
+    return;
+  }
+  const pcSpecEdit = target.closest("[data-pc-spec-edit]");
+  if (pcSpecEdit) {
+    openPcSpecEditor(pcSpecEdit.dataset.pcSpecGroup, pcSpecEdit.dataset.pcSpecEdit);
+    return;
   }
   const routineAddType = target.closest("[data-routine-add-type]");
   if (routineAddType) {
@@ -5050,6 +5890,59 @@ document.addEventListener("click", (event) => {
     openGenericEdit(entity, id);
     return;
   }
+  const noteFavorite = target.closest("[data-note-favorite]");
+  if (noteFavorite) {
+    rememberUndo();
+    state.notes = state.notes.map((note) => note.id === noteFavorite.dataset.noteFavorite ? {
+      ...note,
+      favorite: !note.favorite,
+      updatedAt: new Date().toISOString(),
+    } : note);
+    commitChange();
+    return;
+  }
+  const noteEdit = target.closest("[data-note-edit]");
+  if (noteEdit) {
+    openNoteEditor(noteEdit.dataset.noteEdit);
+    return;
+  }
+  const noteTrash = target.closest("[data-note-trash]");
+  if (noteTrash) {
+    rememberUndo();
+    state.notes = state.notes.map((note) => note.id === noteTrash.dataset.noteTrash ? {
+      ...note,
+      deleted: true,
+      updatedAt: new Date().toISOString(),
+    } : note);
+    commitChange();
+    return;
+  }
+  const noteRestore = target.closest("[data-note-restore]");
+  if (noteRestore) {
+    rememberUndo();
+    state.notes = state.notes.map((note) => note.id === noteRestore.dataset.noteRestore ? {
+      ...note,
+      deleted: false,
+      updatedAt: new Date().toISOString(),
+    } : note);
+    state.notePrefs.filter = "all";
+    commitChange();
+    return;
+  }
+  const noteDestroy = target.closest("[data-note-destroy]");
+  if (noteDestroy) {
+    if (!window.confirm("Apagar esta anotação definitivamente?")) return;
+    rememberUndo();
+    state.notes = state.notes.filter((note) => note.id !== noteDestroy.dataset.noteDestroy);
+    commitChange();
+    return;
+  }
+  const noteTrashFloat = target.closest("#notes-trash-float");
+  if (noteTrashFloat) {
+    state.notePrefs.filter = "trash";
+    renderNotes();
+    return;
+  }
 
   const taskCheck = target.closest("[data-task-check]")?.dataset.taskCheck;
   const taskDelete = target.closest("[data-task-delete]")?.dataset.taskDelete;
@@ -5136,7 +6029,7 @@ document.addEventListener("click", (event) => {
   if (wishlistDelete) state.wishlist = state.wishlist.filter((item) => item.id !== wishlistDelete);
   if (cnhCheck) state.cnh.steps = state.cnh.steps.map((item) => item.id === cnhCheck ? { ...item, done: !item.done } : item);
   if (cnhDelete) state.cnh.steps = state.cnh.steps.filter((item) => item.id !== cnhDelete);
-  if (noteDelete) state.notes = state.notes.filter((item) => item.id !== noteDelete);
+  if (noteDelete) state.notes = state.notes.map((item) => item.id === noteDelete ? { ...item, deleted: true, updatedAt: new Date().toISOString() } : item);
   if (agendaCheck) state.agenda = state.agenda.map((item) => item.id === agendaCheck ? { ...item, done: !item.done } : item);
   if (agendaDelete) state.agenda = state.agenda.filter((item) => item.id !== agendaDelete);
   if (winDelete) state.wins = state.wins.filter((item) => item.id !== winDelete);
