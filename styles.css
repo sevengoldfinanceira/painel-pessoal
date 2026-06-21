@@ -9705,7 +9705,7 @@ html[data-theme="dark"] textarea:hover {
 .jd-header-title { font-size: 22px; font-weight: 800; margin: 4px 0 2px; color: var(--text); }
 .jd-header-sub { font-size: 13px; color: var(--muted); margin: 0; }
 .jd-header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.jd-search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; min-width: 220px; }
+.jd-search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 12px; min-width: 220px; }
 .jd-search svg { color: var(--muted); flex-shrink: 0; }
 .jd-search input { border: none; background: none; color: var(--text); font-size: 13px; outline: none; width: 100%; }
 .jd-search input::placeholder { color: var(--muted); }

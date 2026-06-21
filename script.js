@@ -6016,21 +6016,19 @@ if (document.readyState === 'loading') {
   function openAddModal() {
     var ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
     if(!ov||!md) return;
-    var catOpts=''; Object.keys(CAT_LABELS).forEach(function(k){catOpts+='<option value="'+k+'">'+CAT_LABELS[k]+'</option>';});
     md.innerHTML='<h3>Adicionar documento</h3>'
       +'<div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" placeholder="Ex: Cart\u00e3o de vacina\u00e7\u00e3o" /></div>'
       +'<div class="jd-modal-field"><label>Descri\u00e7\u00e3o</label><input id="jd-m-desc" placeholder="Descri\u00e7\u00e3o curta" /></div>'
-      +'<div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">'+catOpts+'</select></div>'
       +'<div class="jd-modal-field"><label>\u00cdcone (emoji)</label><input id="jd-m-icon" placeholder="Ex: \uD83D\uDCCB" maxlength="4" /></div>'
       +'<div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>';
     ov.style.display='';
     md.querySelector('#jd-m-cancel').addEventListener('click',function(){ov.style.display='none';});
     md.querySelector('#jd-m-save').addEventListener('click',function(){
       var n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
-      var c=md.querySelector('#jd-m-cat').value, ic=md.querySelector('#jd-m-icon').value.trim()||'\uD83D\uDCCB';
+      var ic=md.querySelector('#jd-m-icon').value.trim()||'\uD83D\uDCCB';
       if(!n){alert('Digite o nome.');return;}
       var saved=loadDocsData(); if(!saved.customDocs) saved.customDocs=[];
-      saved.customDocs.push({id:'custom_'+Date.now(),name:n,desc:d,icon:ic,cat:c});
+      saved.customDocs.push({id:'custom_'+Date.now(),name:n,desc:d,icon:ic,cat:'outros'});
       saveDocsData(saved); ov.style.display='none'; refreshAll();
     });
     ov.addEventListener('click',function(e){if(e.target===ov) ov.style.display='none';});
@@ -6038,23 +6036,21 @@ if (document.readyState === 'loading') {
   function openEditModal(doc) {
     var ov=document.getElementById('jd-modal-overlay'), md=document.getElementById('jd-modal');
     if(!ov||!md) return;
-    var catOpts=''; Object.keys(CAT_LABELS).forEach(function(k){catOpts+='<option value="'+k+'"'+(doc.cat===k?' selected':'')+'>'+CAT_LABELS[k]+'</option>';});
     md.innerHTML='<h3>Editar documento</h3>'
       +'<div class="jd-modal-field"><label>Nome</label><input id="jd-m-name" value="'+doc.name+'" /></div>'
       +'<div class="jd-modal-field"><label>Descri\u00e7\u00e3o</label><input id="jd-m-desc" value="'+doc.desc+'" /></div>'
-      +'<div class="jd-modal-field"><label>Categoria</label><select id="jd-m-cat">'+catOpts+'</select></div>'
       +'<div class="jd-modal-field"><label>\u00cdcone (emoji)</label><input id="jd-m-icon" value="'+doc.icon+'" maxlength="4" /></div>'
       +'<div class="jd-modal-actions"><button class="cancel" id="jd-m-cancel">Cancelar</button><button class="save" id="jd-m-save">Salvar</button></div>';
     ov.style.display='';
     md.querySelector('#jd-m-cancel').addEventListener('click',function(){ov.style.display='none';});
     md.querySelector('#jd-m-save').addEventListener('click',function(){
       var n=md.querySelector('#jd-m-name').value.trim(), d=md.querySelector('#jd-m-desc').value.trim();
-      var c=md.querySelector('#jd-m-cat').value, ic=md.querySelector('#jd-m-icon').value.trim()||'\uD83D\uDCCB';
+      var ic=md.querySelector('#jd-m-icon').value.trim()||'\uD83D\uDCCB';
       if(!n){alert('Digite o nome.');return;}
       var saved=loadDocsData(); var isDef=false;
       for(var i=0;i<DEFAULT_DOCS.length;i++){if(DEFAULT_DOCS[i].id===doc.id){isDef=true;break;}}
-      if(isDef){if(!saved[doc.id]) saved[doc.id]={}; saved[doc.id].name=n; saved[doc.id].desc=d; saved[doc.id].cat=c; saved[doc.id].icon=ic;}
-      else{var cus=saved.customDocs||[]; for(var j=0;j<cus.length;j++){if(cus[j].id===doc.id){cus[j].name=n;cus[j].desc=d;cus[j].cat=c;cus[j].icon=ic;break;}}}
+      if(isDef){if(!saved[doc.id]) saved[doc.id]={}; saved[doc.id].name=n; saved[doc.id].desc=d; saved[doc.id].icon=ic;}
+      else{var cus=saved.customDocs||[]; for(var j=0;j<cus.length;j++){if(cus[j].id===doc.id){cus[j].name=n;cus[j].desc=d;cus[j].icon=ic;break;}}}
       saveDocsData(saved); ov.style.display='none'; refreshAll();
     });
     ov.addEventListener('click',function(e){if(e.target===ov) ov.style.display='none';});
@@ -6070,8 +6066,6 @@ if (document.readyState === 'loading') {
   function initJD() {
     var searchEl = document.getElementById('jd-search-input');
     if (searchEl) searchEl.addEventListener('input',function(e){searchQ=e.target.value;refreshAll();});
-    document.querySelectorAll('.jd-filter').forEach(function(b){b.addEventListener('click',function(){
-      document.querySelectorAll('.jd-filter').forEach(function(x){x.classList.remove('active');});b.classList.add('active');curFilter=b.dataset.cat;refreshAll();});});
     var sortEl = document.getElementById('jd-sort');
     if (sortEl) sortEl.addEventListener('change',function(e){curSort=e.target.value;refreshAll();});
     var gridBtn = document.getElementById('jd-view-grid');
