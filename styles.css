@@ -7902,9 +7902,9 @@ html[data-theme="light"] #finance .finance-form,
 html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
   background: #ffffff !important;
   color: #111827 !important;
-  border: 1px solid #E5E7EB !important;
+  border: 2px solid #E5E7EB !important;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
-  border-radius: 16px !important;
+  border-radius: 24px !important;
 }
 
 html[data-theme="light"] #finance .finance-row,
@@ -8555,7 +8555,7 @@ html[data-theme="light"] .routine-add-card:hover {
 }
 .finance-card {
   background: var(--surface);
-  border-radius: 12px;
+  border-radius: 24px;
   padding: 14px;
   display: flex;
   align-items: center;
@@ -9577,7 +9577,7 @@ html[data-theme="light"] #finance .finance-planner,
 html[data-theme="light"] #finance .finance-form,
 html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
   background: #ffffff !important;
-  border: 1px solid #E5E7EB !important;
+  border: 2px solid #E5E7EB !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
   transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
