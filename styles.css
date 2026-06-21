@@ -7632,7 +7632,7 @@ html[data-theme="light"] .app-shell {
 }
 
 html[data-theme="light"] .main-area {
-  background: #ffffff !important;
+  background: #f5f6f8 !important;
   color: #111827 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -7900,9 +7900,9 @@ html[data-theme="light"] #finance .finance-category-card,
 html[data-theme="light"] #finance .finance-planner,
 html[data-theme="light"] #finance .finance-form,
 html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
-  background: #f5f6f8 !important;
+  background: #ffffff !important;
   color: #111827 !important;
-  border: 1px solid #f5f6f8 !important;
+  border: 1px solid #E5E7EB !important;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
   border-radius: 16px !important;
 }
@@ -9576,8 +9576,8 @@ html[data-theme="light"] #finance .finance-category-card,
 html[data-theme="light"] #finance .finance-planner,
 html[data-theme="light"] #finance .finance-form,
 html[data-theme="light"] #finance .finance-dashboard-grid > [data-finance-dashboard-card] {
-  background: #f5f6f8 !important;
-  border: 1px solid #f5f6f8 !important;
+  background: #ffffff !important;
+  border: 1px solid #E5E7EB !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
   transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
