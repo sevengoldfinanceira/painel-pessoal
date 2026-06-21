@@ -4813,16 +4813,16 @@ document.querySelector("#search-btn").addEventListener("click", () => {
 
 document.querySelector("#global-search").addEventListener("input", (event) => renderSearch(event.target.value));
 
-document.querySelector("#sidebar-global-search").addEventListener("input", (event) => {
+document.querySelector("#sidebar-global-search")?.addEventListener("input", (event) => {
   const value = event.target.value;
   const results = document.querySelector("#sidebar-search-results");
-  results.hidden = !value.trim();
+  if (results) results.hidden = !value.trim();
   renderSearch(value, "#sidebar-search-results", 8);
 });
 
-document.querySelector("#sidebar-global-search").addEventListener("focus", (event) => {
+document.querySelector("#sidebar-global-search")?.addEventListener("focus", (event) => {
   const results = document.querySelector("#sidebar-search-results");
-  if (event.target.value.trim()) {
+  if (results && event.target.value.trim()) {
     results.hidden = false;
     renderSearch(event.target.value, "#sidebar-search-results", 8);
   }
