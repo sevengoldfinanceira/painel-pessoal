@@ -946,7 +946,7 @@ function updateAuthButtons() {
 function getCurrentUserProfile() {
   const metadata = currentUser?.user_metadata || {};
   const rawName = metadata.full_name || metadata.name || "";
-  const firstName = rawName.trim().split(" ")[0] || "Usuário";
+  const firstName = rawName.trim().split(" ")[0] || "Jonatã";
   return {
     name: firstName,
     email: currentUser?.email || "",
@@ -963,7 +963,6 @@ function updateSavedLoginCard() {
   document.querySelector("#login-saved-avatar").src = profile.avatar;
   document.querySelector("#login-saved-name").textContent = profile.name;
   document.querySelector("#login-saved-email").textContent = profile.email;
-  document.querySelector("#login-brand-avatar").textContent = profile.name.trim().charAt(0).toUpperCase() || "J";
 }
 
 function shouldRememberLogin() {
@@ -1460,7 +1459,7 @@ function render() {
   ensureRoutineCategoryCards();
   applyRoutineLayoutOrder();
   const profile = currentUser ? getCurrentUserProfile() : null;
-  const displayName = profile ? profile.name : (state.personal?.info?.name?.split(" ")[0] || "Usuário");
+  const displayName = profile ? profile.name : (state.personal?.info?.name?.split(" ")[0] || "Jonatã");
   const nameSpan = document.querySelector(".profile-name-text");
   if (nameSpan) {
     nameSpan.textContent = displayName;
@@ -6047,9 +6046,9 @@ if (document.readyState === 'loading') {
   window.jdView = function(p){viewFile(p);};
   window.jdDownload = function(p){dlFile(p);};
   window.jdUpload = function(docId,st){var inp=document.createElement('input');inp.type='file';inp.accept=st==='pdf'?'.pdf':'.jpg,.jpeg,.png,.webp';
-    inp.addEventListener('change',function(){if(!inp.files.length)return;uploadFile(docId,st,inp.files[0]).then(function(){openDetail(docId);});});inp.click();};
-  window.jdRemoveFile = function(docId,st,path){if(!confirm('Remover este arquivo?'))return;delFile(path).then(function(){
-    var s=loadDocsData();if(s[docId]){s[docId].updated_at=new Date().toISOString();saveDocsData(s);}openDetail(docId);});};
+    inp.addEventListener('change',function(){if(!inp.files.length)return;uploadFile(docId,st,inp.files[0]).then(async function(){await refreshAll();openDetail(docId);});});inp.click();};
+  window.jdRemoveFile = function(docId,st,path){if(!confirm('Remover este arquivo?'))return;delFile(path).then(async function(){
+    var s=loadDocsData();if(s[docId]){s[docId].updated_at=new Date().toISOString();saveDocsData(s);}await refreshAll();openDetail(docId);});};
 
   function initJD() {
     var dateEl = document.getElementById('jd-header-date');

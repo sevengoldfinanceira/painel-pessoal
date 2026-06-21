@@ -1012,17 +1012,11 @@
         </section>
 
         <section class="overlay-panel" id="login-panel" aria-hidden="true">
-          <video class="login-bg-video" autoplay muted loop playsinline preload="metadata">
-            <source src="assets/spider-man-login.mp4" type="video/mp4" />
-          </video>
+          <canvas id="login-particles" class="login-bg-particles"></canvas>
           <form class="overlay-card login-card" id="login-form">
             <div class="panel-header login-card-head">
-              <div class="login-brand-avatar" id="login-brand-avatar">J</div>
-              <div>
-                <span>Sistema Pessoal</span>
-                <h3>Jonatã</h3>
-              </div>
-              <button type="button" data-close-overlay>Fechar</button>
+              <span>Sistema Pessoal</span>
+              <h3>Jonatã</h3>
             </div>
             <p class="login-copy">Escolha uma conta salva ou use seu e-mail e senha para acessar.</p>
             <div class="saved-login" id="saved-login" hidden>
@@ -1163,6 +1157,30 @@
     document.addEventListener('wheel', e => {
       if (e.ctrlKey) e.preventDefault();
     }, { passive: false });
+  </script>
+  <script>
+  (function(){
+    var canvas=document.getElementById('login-particles');
+    if(!canvas)return;
+    var ctx=canvas.getContext('2d'),W,H,particles=[];
+    function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+    window.addEventListener('resize',resize);resize();
+    var COUNT=Math.min(80,Math.floor(W*H/12000));
+    for(var i=0;i<COUNT;i++){
+      particles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*3+1.5,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5,o:Math.random()*0.4+0.15});
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<particles.length;i++){
+        var p=particles[i];p.x+=p.dx;p.y+=p.dy;
+        if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,'+p.o+')';ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
   </script>
   </body>
 </html>
