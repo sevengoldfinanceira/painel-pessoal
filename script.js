@@ -799,8 +799,8 @@ function loadState() {
       emoji: item.emoji || inferRoutineEmoji(item.title),
     }));
 
-    // Limpeza: remover entradas financeiras antes de junho/2025
-    const cutoffDate = "2025-06-01";
+    // Limpeza: remover entradas financeiras antes de junho/2026
+    const cutoffDate = "2026-06-01";
     const prevFinanceLen = merged.finance.length;
     const prevVarLen = merged.variableCosts.length;
     merged.finance = merged.finance.filter((item) => (item.dueDate || "9999-12-31") >= cutoffDate);
