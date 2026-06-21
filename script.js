@@ -6068,8 +6068,6 @@ if (document.readyState === 'loading') {
     var s=loadDocsData();if(s[docId]){s[docId].updated_at=new Date().toISOString();saveDocsData(s);}await refreshAll();openDetail(docId);});};
 
   function initJD() {
-    var dateEl = document.getElementById('jd-header-date');
-    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}).toUpperCase();
     var searchEl = document.getElementById('jd-search-input');
     if (searchEl) searchEl.addEventListener('input',function(e){searchQ=e.target.value;refreshAll();});
     document.querySelectorAll('.jd-filter').forEach(function(b){b.addEventListener('click',function(){
