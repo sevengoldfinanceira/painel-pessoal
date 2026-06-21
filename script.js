@@ -12,9 +12,15 @@ function applyTheme(theme) {
   sun.style.display = isDark ? "" : "none";
   moon.style.display = isDark ? "none" : "";
   const button = sun.closest("#theme-toggle");
-  if (!button) return;
-  button.title = isDark ? "Ativar modo claro" : "Ativar modo escuro";
-  button.setAttribute("aria-label", button.title);
+  if (button) {
+    button.title = isDark ? "Ativar modo claro" : "Ativar modo escuro";
+    button.setAttribute("aria-label", button.title);
+  }
+  // Mobile Theme Switcher Buttons Highlight
+  const themeOptButtons = document.querySelectorAll(".theme-opt-btn");
+  themeOptButtons.forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.themeVal === nextTheme);
+  });
 }
 
 function toggleTheme() {
@@ -6309,6 +6315,15 @@ if (mobileLogoutBtn) {
     document.querySelector("#logout-btn")?.click();
   });
 }
+
+const themeOptButtons = document.querySelectorAll(".theme-opt-btn");
+themeOptButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const val = btn.dataset.themeVal;
+    localStorage.setItem(themeStorageKey, val);
+    applyTheme(val);
+  });
+});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

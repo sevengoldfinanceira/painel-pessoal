@@ -11495,7 +11495,9 @@ button {
 .mobile-sidebar-close,
 .mobile-overlay,
 .mobile-profile-header,
-.mobile-sidebar-footer {
+.mobile-system-section,
+.mobile-profile-footer,
+.mobile-divider {
   display: none;
 }
 
@@ -11778,30 +11780,132 @@ button {
     color: inherit !important;
   }
 
-  .mobile-sidebar-footer {
+  .mobile-divider {
     display: block !important;
-    padding: 16px 20px 24px;
+    border: 0;
     border-top: 1px solid var(--border-color-global, rgba(255, 255, 255, 0.08));
-    background: rgba(255, 255, 255, 0.01);
+    margin: 4px 0;
+    width: 100%;
   }
 
-  .mobile-sidebar-footer .mobile-logout-btn {
+  .mobile-system-section {
+    display: flex !important;
+    flex-direction: column;
+    padding: 16px 20px;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .mobile-system-section .system-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--text-muted, #64748b);
+  }
+
+  .theme-toggle-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main, #ffffff);
+  }
+
+  .theme-toggle-options {
+    display: flex !important;
+    background: var(--bg-card-soft, rgba(255, 255, 255, 0.04));
+    padding: 3px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color-global, rgba(255, 255, 255, 0.08));
+    gap: 2px;
+  }
+
+  .theme-opt-btn {
+    border: 0;
+    background: transparent;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 16px;
+    color: var(--text-muted, #aeb7c5);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .theme-opt-btn.active {
+    background: var(--accent-gold, #f8c83e) !important;
+    color: #111827 !important;
+    box-shadow: 0 2px 6px rgba(248, 200, 62, 0.2);
+  }
+
+  .mobile-system-section .mobile-logout-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100% !important;
     height: 44px;
-    border-radius: 22px;
-    background: #e11d48 !important;
-    color: #ffffff !important;
+    border-radius: 12px;
+    border: 1.5px solid rgba(239, 68, 68, 0.3) !important;
+    background: transparent !important;
+    color: #ef4444 !important;
     font-size: 13px;
     font-weight: 700;
-    border: 0;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
-    transition: transform 0.2s, opacity 0.2s;
+    transition: background 0.2s, border-color 0.2s;
   }
 
-  .mobile-sidebar-footer .mobile-logout-btn:active {
-    transform: scale(0.97);
-    opacity: 0.9;
+  .mobile-system-section .mobile-logout-btn:active {
+    background: rgba(239, 68, 68, 0.06) !important;
+  }
+
+  .logout-icon-svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    flex: 0 0 15px;
+  }
+
+  .mobile-profile-footer {
+    display: flex !important;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px 24px;
+    width: 100%;
+  }
+
+  .mobile-profile-footer .mobile-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--accent-gold, #f8c83e);
+  }
+
+  .mobile-profile-footer .mobile-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .mobile-profile-footer .mobile-profile-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main, #ffffff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-profile-footer .mobile-profile-email {
+    font-size: 11px;
+    color: var(--text-muted, #aeb7c5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .topbar {

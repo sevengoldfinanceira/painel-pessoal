@@ -20,21 +20,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=6.7" />
+    <link rel="stylesheet" href="styles.css?v=6.8" />
   </head>
   <body class="auth-locked">
     <div class="app-shell">
 <aside class="sidebar floating-navbar mobile-sidebar" aria-label="Menu mobile">
   <div class="navbar-container">
     <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">×</button>
-    <!-- Mobile Profile Header -->
-    <div class="mobile-profile-header">
-      <img class="mobile-avatar" id="mobile-profile-avatar" src="assets/jonata.jpeg" alt="Foto de Perfil" />
-      <div class="mobile-profile-info">
-        <strong class="mobile-profile-name" id="mobile-profile-name">Jonatã</strong>
-        <span class="mobile-profile-email" id="mobile-profile-email">Particular</span>
-      </div>
-    </div>
+
     <!-- Navigation Tabs Section -->
     <nav class="side-nav horizontal-nav" aria-label="Areas do painel">
       <button class="active" data-section="dashboard">
@@ -134,9 +127,33 @@
         </div>
       </div>
     </div>
-    <!-- Mobile Sidebar Footer -->
-    <div class="mobile-sidebar-footer">
-      <button type="button" class="mobile-logout-btn" id="mobile-logout-btn">Sair</button>
+    <!-- Mobile Sidebar Footer / System Actions & Profile -->
+    <hr class="mobile-divider" />
+    <div class="mobile-system-section">
+      <span class="system-title">SISTEMA</span>
+      <div class="theme-toggle-row">
+        <span>Tema:</span>
+        <div class="theme-toggle-options">
+          <button type="button" class="theme-opt-btn" data-theme-val="light">Claro</button>
+          <button type="button" class="theme-opt-btn" data-theme-val="dark">Escuro</button>
+        </div>
+      </div>
+      <button type="button" class="mobile-logout-btn" id="mobile-logout-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logout-icon-svg">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        Sair
+      </button>
+    </div>
+    <hr class="mobile-divider" />
+    <div class="mobile-profile-footer">
+      <img class="mobile-avatar" id="mobile-profile-avatar" src="assets/jonata.jpeg" alt="Foto de Perfil" />
+      <div class="mobile-profile-info">
+        <strong class="mobile-profile-name" id="mobile-profile-name">Jonatã</strong>
+        <span class="mobile-profile-email" id="mobile-profile-email">Particular</span>
+      </div>
     </div>
   </div>
 </aside>
@@ -1350,7 +1367,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
-    <script src="script.js?v=4.2"></script>
+    <script src="script.js?v=4.3"></script>
   <script>
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('gesturechange', e => e.preventDefault());
