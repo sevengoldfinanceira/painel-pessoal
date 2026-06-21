@@ -5958,7 +5958,7 @@ if (document.readyState === 'loading') {
     if (result.error) { alert('Erro: '+result.error.message); return; } if (result.data) window.open(URL.createObjectURL(result.data),'_blank'); }
   async function delFile(path) { var sb = getSupabase(); if (!sb) return; var result = await sb.storage.from(BUCKET).remove([path]); if (result.error) alert('Erro: '+result.error.message); }
 
-  var curFilter='all', curSort='recent', curView='grid', allFiles={};
+  var curSort='recent', curView='grid', allFiles={};
   function getFileDate(docId) {
     var f = allFiles[docId];
     if (!f) return '';
@@ -5970,7 +5970,6 @@ if (document.readyState === 'loading') {
   }
   function getFiltered(docs) {
     var f = docs.slice();
-    if (searchQ) { var q=searchQ.toLowerCase(); f = f.filter(function(d){return d.name.toLowerCase().indexOf(q)!==-1||d.desc.toLowerCase().indexOf(q)!==-1;}); }
     if (curSort==='recent') f.sort(function(a,b){
       var da = getFileDate(a.id) || a.updated_at || '';
       var db = getFileDate(b.id) || b.updated_at || '';
