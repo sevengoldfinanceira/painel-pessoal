@@ -1295,7 +1295,13 @@ function openSection(sectionId) {
   navButtons.forEach((button) => button.classList.toggle("active", button.dataset.section === sectionId));
 
   const navLabel = state.navLabels?.[sectionId] || defaultNavMeta[sectionId]?.label || "Painel";
-  pageTitle.textContent = sectionId === "dashboard" ? "Visão geral" : navLabel;
+  const navIcon = state.navIcons?.[sectionId] || defaultNavMeta[sectionId]?.icon || "";
+  const titleText = sectionId === "dashboard" ? "Visão geral" : navLabel;
+  const titleIcon = sectionId === "dashboard" ? "⌂" : navIcon;
+  const titleTextEl = document.querySelector("#page-title-text");
+  const titleIconEl = document.querySelector("#page-title-icon");
+  if (titleTextEl) titleTextEl.textContent = titleText;
+  if (titleIconEl) titleIconEl.textContent = titleIcon;
 
   const novoLancBtn = document.querySelector('#btn-novo-lancamento');
   if (novoLancBtn) {
@@ -5949,9 +5955,17 @@ if (document.readyState === 'loading') {
     var f = docs.slice();
     if (curFilter!=='all') f = f.filter(function(d){return d.cat===curFilter;});
     if (searchQ) { var q=searchQ.toLowerCase(); f = f.filter(function(d){return d.name.toLowerCase().indexOf(q)!==-1||d.desc.toLowerCase().indexOf(q)!==-1;}); }
-    if (curSort==='recent') f.sort(function(a,b){ return (b.updated_at||'').localeCompare(a.updated_at||''); });
+    if (curSort==='recent') f.sort(function(a,b){
+      if (a.updated_at && !b.updated_at) return -1;
+      if (!a.updated_at && b.updated_at) return 1;
+      return (b.updated_at||'').localeCompare(a.updated_at||'');
+    });
     else if (curSort==='name') f.sort(function(a,b){ return a.name.localeCompare(b.name); });
-    else if (curSort==='oldest') f.sort(function(a,b){ return (a.updated_at||'').localeCompare(b.updated_at||''); });
+    else if (curSort==='oldest') f.sort(function(a,b){
+      if (a.updated_at && !b.updated_at) return -1;
+      if (!a.updated_at && b.updated_at) return 1;
+      return (a.updated_at||'').localeCompare(b.updated_at||'');
+    });
     return f;
   }
   function renderCards(docs) {

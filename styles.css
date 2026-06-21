@@ -3668,6 +3668,14 @@ h1 {
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 750;
   letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#page-title-icon {
+  font-size: clamp(28px, 3.5vw, 42px);
+  line-height: 1;
 }
 
 .top-actions {
