@@ -13506,13 +13506,13 @@ html[data-theme="light"] .menu-item svg {
   }
 
   .menu-item {
-    color: #374151 !important;
+    color: #000000 !important;
     background: transparent !important;
     border-color: transparent !important;
   }
 
   .menu-item svg {
-    color: #6b7280 !important;
+    color: #000000 !important;
   }
 
   .menu-item:hover {
@@ -13520,27 +13520,27 @@ html[data-theme="light"] .menu-item svg {
     transform: none !important;
     border-color: transparent !important;
     box-shadow: none !important;
-    color: #111827 !important;
+    color: #000000 !important;
   }
 
   .menu-item:hover svg {
-    color: #d4af37 !important;
+    color: #000000 !important;
   }
 
   .menu-item.active {
-    background: rgba(212, 175, 55, 0.12) !important;
-    border: 1px solid rgba(212, 175, 55, 0.4) !important;
-    color: #111827 !important;
+    background: rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    color: #000000 !important;
     box-shadow: none !important;
   }
 
   .menu-item.active svg {
-    color: #d4af37 !important;
+    color: #000000 !important;
     filter: none !important;
   }
 
   .menu-item.active::before {
-    background: linear-gradient(180deg, #f6d365, #d4af37) !important;
+    background: #000000 !important;
     box-shadow: none !important;
   }
 
@@ -13566,21 +13566,21 @@ html[data-theme="light"] .menu-item svg {
   }
 
   .theme-btn-toggle.active {
-    background: #fbf5e6 !important;
-    border-color: #d4af37 !important;
-    color: #a47e1b !important;
+    background: rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    color: #000000 !important;
   }
 
   .profile-icon-action {
-    border-color: rgba(212, 175, 55, 0.35) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
     background: rgba(0, 0, 0, 0.02) !important;
-    color: #a47e1b !important;
+    color: #000000 !important;
   }
 
   .profile-icon-action:hover {
-    background: rgba(212, 175, 55, 0.08) !important;
-    border-color: #d4af37 !important;
-    color: #8a6500 !important;
+    background: rgba(0, 0, 0, 0.06) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    color: #000000 !important;
   }
 
   .sidebar-logout-btn {
@@ -13595,11 +13595,11 @@ html[data-theme="light"] .menu-item svg {
   }
 
   .profile-name-row strong {
-    color: #111827 !important;
+    color: #000000 !important;
   }
 
   .profile-role {
-    color: #a47e1b !important;
+    color: #555555 !important;
   }
 
   .profile-email {
