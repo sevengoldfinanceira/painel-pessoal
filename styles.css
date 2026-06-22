@@ -3605,7 +3605,7 @@ html[data-theme="dark"] .global-search-bar input::placeholder {
 
 .main-area {
   min-width: 0;
-  padding: 24px clamp(18px, 3vw, 42px) 46px !important;
+  padding: 42px clamp(18px, 3vw, 42px) 46px !important;
   width: calc(100% - 80px);
   margin: 0 auto !important;
   border: 1px solid var(--border-color-global);
@@ -3667,7 +3667,7 @@ html[data-theme="light"] .main-area {
   .main-area {
     width: calc(100% - 16px);
     margin: 0 auto !important;
-    padding: 18px 14px 36px !important;
+    padding: 32px 14px 36px !important;
     border-radius: 12px;
   }
 }
@@ -3700,9 +3700,9 @@ html[data-theme="light"] .main-area {
 
 .today-label,
 .section-kicker {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   color: var(--blue);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   text-align: center;
@@ -3727,7 +3727,7 @@ p {
 
 h1 {
   margin-bottom: 0;
-  font-size: clamp(26px, 3vw, 38px);
+  font-size: clamp(22px, 2.5vw, 32px);
   font-weight: 750;
   letter-spacing: 0;
   display: flex;
@@ -3739,7 +3739,7 @@ h1 {
 }
 
 #page-title-icon {
-  font-size: clamp(28px, 3.5vw, 42px);
+  font-size: clamp(24px, 3vw, 36px);
   line-height: 1;
 }
 
@@ -3882,8 +3882,8 @@ h1 {
 .hero-panel h2,
 .section-head h2 {
   max-width: 850px;
-  margin-bottom: 12px;
-  font-size: clamp(28px, 4vw, 48px);
+  margin-bottom: 10px;
+  font-size: clamp(22px, 3.5vw, 40px);
   line-height: 1.05;
   font-weight: 750;
   letter-spacing: 0;
@@ -10838,7 +10838,7 @@ html[data-theme="dark"] textarea:hover {
 }
 
 #pc .pc-table-wrap {
-  overflow: visible;
+  overflow-x: auto;
 }
 
 #pc .pc-table {
@@ -11694,7 +11694,7 @@ button {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 12px 12px 28px !important;
+    padding: 32px 12px 28px !important;
     border-radius: 0 !important;
   }
 
@@ -12312,7 +12312,7 @@ button {
 
 @media (max-width: 480px) {
   .main-area {
-    padding: 10px 10px 24px !important;
+    padding: 28px 10px 24px !important;
   }
 
   .topbar {
@@ -12320,7 +12320,7 @@ button {
   }
 
   #page-title {
-    font-size: clamp(28px, 10vw, 38px) !important;
+    font-size: clamp(22px, 8vw, 32px) !important;
   }
 
   .today-label,
@@ -12469,4 +12469,327 @@ html[data-theme="light"] .mobile-sidebar .horizontal-nav button.active {
   background: #e9e9e9 !important;
   border-color: #e5e7eb !important;
   box-shadow: inset 3px 0 0 #f5c542, 0 3px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* ============================================
+   GLOBAL OVERFLOW SAFETY NET
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.main-area {
+  overflow-x: hidden;
+}
+
+.page.active {
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ============================================
+   DASHBOARD
+   ============================================ */
+
+.metrics-grid article,
+.dashboard-grid .panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.simple-list li {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   QUICK NOTES
+   ============================================ */
+
+.notes-grid article,
+.module-preview article,
+.note-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.note-card p {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ============================================
+   TASKS
+   ============================================ */
+
+.table-panel {
+  overflow-x: auto;
+}
+
+/* ============================================
+   PENDING
+   ============================================ */
+
+.task-column {
+  overflow: hidden;
+}
+
+.pending-item {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.pending-item strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   ROUTINE
+   ============================================ */
+
+.routine-hero-copy {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.routine-consistency-card,
+.routine-due-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+#routine-consistency-list article {
+  min-width: 0;
+  overflow: hidden;
+}
+
+#routine-due-list article {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   MARKET
+   ============================================ */
+
+.market-layout > * {
+  min-width: 0;
+}
+
+.market-sections {
+  overflow: hidden;
+}
+
+.market-item-row,
+.market-shop-row {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.market-shop-toolbar > * {
+  min-width: 0;
+}
+
+/* ============================================
+   WISHLIST
+   ============================================ */
+
+.wishlist-row {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.wishlist-summary article {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   FINANCE
+   ============================================ */
+
+.finance-overview-grid .finance-card,
+.finance-card-content {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.finance-row-2 > .panel,
+.finance-row-3 > .panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+#finance .panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.finance-list-mock {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.finance-list-item {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.finance-list-item .finance-list-info strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finance-horizontal-item {
+  overflow: hidden;
+}
+
+.finance-horizontal-item .finance-item-text strong,
+.finance-horizontal-item .finance-item-price {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finance-panel-total {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   CNH
+   ============================================ */
+
+.cnh-list {
+  overflow: hidden;
+}
+
+.cnh-step {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cnh-summary article {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   AGENDA
+   ============================================ */
+
+.agenda-col-left,
+.agenda-col-right {
+  min-width: 0;
+}
+
+.timeline article {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   WARDROBE
+   ============================================ */
+
+.wardrobe-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.wardrobe-look-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.wardrobe-item-body h4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   PC
+   ============================================ */
+
+#pc .pc-table-wrap {
+  overflow-x: auto;
+}
+
+#pc .pc-table tr {
+  min-width: 0;
+}
+
+#pc .pc-spec-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+#pc .pc-toolbar > * {
+  min-width: 0;
+}
+
+/* ============================================
+   HOME
+   ============================================ */
+
+.home-summary article {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   WINS
+   ============================================ */
+
+.wins-form > * {
+  min-width: 0;
+}
+
+/* ============================================
+   JONATHAN (Docs)
+   ============================================ */
+
+.jd-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.jd-card-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jd-card-desc {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.jd-stat {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.jd-grid.list-view .jd-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   ROUTINE FOOTER
+   ============================================ */
+
+.routine-footer-grid > * {
+  min-width: 0;
+  overflow: hidden;
 }
