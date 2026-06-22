@@ -13433,6 +13433,10 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
     left: 296px;
   }
 
+  body.menu-open .sidebar-hamburger {
+    display: none !important;
+  }
+
   .company-sidebar {
     top: 0 !important;
     bottom: 0 !important;
