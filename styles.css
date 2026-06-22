@@ -2945,10 +2945,6 @@ body.auth-locked #login-panel .overlay-card {
 
 @media (max-width: 680px) {
   #routine .routine-hero,
-  #routine .routine-summary,
-  #routine .routine-board,
-  .routine-side-column,
-  #routine-consistency-list,
   #routine .routine-form {
     grid-template-columns: 1fr;
   }
@@ -12152,6 +12148,119 @@ button {
   .login-card {
     width: min(100%, calc(100vw - 24px)) !important;
     max-width: calc(100vw - 24px) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-grid,
+  .dashboard-grid,
+  .module-preview,
+  .category-grid,
+  .pending-board,
+  .finance-summary,
+  .finance-year-summary,
+  .finance-top-cards,
+  .wishlist-categories,
+  .wishlist-summary,
+  .market-shop-totals,
+  .market-side,
+  .cnh-summary,
+  .home-summary,
+  .home-grid,
+  .wardrobe-metrics,
+  .wardrobe-grid,
+  .wardrobe-looks-grid,
+  .today-summary,
+  .jd-stats,
+  html[data-theme] .agenda-summary-cards,
+  #routine .routine-summary,
+  #routine .routine-board,
+  .routine-side-column,
+  #routine-consistency-list,
+  #pc .pc-summary-grid,
+  .pc-top-summary,
+  #pc .pc-spec-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .metrics-grid article,
+  .finance-summary article,
+  .finance-year-summary article,
+  .finance-top-cards article,
+  .wishlist-summary article,
+  .market-shop-totals article,
+  .cnh-summary article,
+  .home-summary article,
+  .wardrobe-metrics article,
+  .today-summary article,
+  .jd-stats article,
+  html[data-theme] .agenda-summary-card,
+  #routine .routine-summary article,
+  .routine-streak-card,
+  #routine-consistency-list article,
+  #pc .pc-summary-grid article,
+  .pc-top-summary article,
+  #pc .pc-spec-grid article,
+  #pc .pc-spec-grid > * {
+    min-width: 0 !important;
+    padding: 12px 10px !important;
+  }
+
+  .category-grid button,
+  .wishlist-categories button,
+  .market-side button,
+  .task-column,
+  .routine-section,
+  .wardrobe-card,
+  .wardrobe-look-card,
+  .home-card,
+  .module-preview article,
+  .dashboard-grid .panel {
+    min-width: 0 !important;
+  }
+
+  .metrics-grid span,
+  .finance-summary span,
+  .finance-year-summary span,
+  .finance-top-cards span,
+  .wishlist-summary span,
+  .market-shop-totals span,
+  .cnh-summary span,
+  .home-summary span,
+  .wardrobe-metrics span,
+  .today-summary span,
+  html[data-theme] .agenda-summary-card .card-label,
+  #routine .routine-summary span,
+  #routine .routine-summary small,
+  #routine-consistency-list small,
+  #pc .pc-summary-grid small,
+  #pc .pc-summary-grid em,
+  .pc-top-summary small,
+  .pc-top-summary em {
+    font-size: 9px !important;
+    line-height: 1.15 !important;
+  }
+
+  .metrics-grid strong,
+  .finance-summary strong,
+  .finance-year-summary strong,
+  .finance-top-cards strong,
+  .wishlist-summary strong,
+  .market-shop-totals strong,
+  .cnh-summary strong,
+  .home-summary strong,
+  .wardrobe-metrics strong,
+  .today-summary strong,
+  html[data-theme] .agenda-summary-card .card-value,
+  #routine .routine-summary strong,
+  #routine-consistency-list strong,
+  #pc .pc-summary-grid strong,
+  .pc-top-summary strong {
+    overflow-wrap: anywhere;
+    font-size: clamp(16px, 5vw, 22px) !important;
+    line-height: 1.05 !important;
   }
 }
 
