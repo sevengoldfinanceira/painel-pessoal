@@ -12830,7 +12830,7 @@ html[data-theme="light"] .mobile-sidebar .horizontal-nav button.active {
   height: 100dvh;
   padding: 24px 18px;
   border-right: 1px solid rgba(212, 175, 55, 0.35);
-  background: #0a0a0a;
+  background: #000000;
   box-shadow: 12px 0 35px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   transform: translateX(-105%);
@@ -13091,7 +13091,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
   padding: 0 14px;
   border-radius: 14px;
   border: 1px solid transparent;
-  color: #cfc7d8;
+  color: #ffffff;
   font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
