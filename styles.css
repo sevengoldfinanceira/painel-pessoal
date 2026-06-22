@@ -13015,12 +13015,12 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
 }
 
 .brand-subtitle {
-  margin-top: 2px;
   color: #ffffff;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.9px;
+  line-height: 1.05;
 }
 
 .mobile-sidebar-close {
