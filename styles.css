@@ -11369,6 +11369,10 @@ html[data-theme] .agenda-summary-cards {
   margin-left: 16px !important;
 }
 
+#agenda-summary-cards[hidden] {
+  display: none !important;
+}
+
 html[data-theme] .agenda-summary-card {
   display: flex !important;
   align-items: center !important;
@@ -12176,7 +12180,6 @@ button {
   .wardrobe-looks-grid,
   .today-summary,
   .jd-stats,
-  html[data-theme] .agenda-summary-cards,
   #routine .routine-summary,
   #routine .routine-board,
   .routine-side-column,
