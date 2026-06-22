@@ -13798,3 +13798,18 @@ html[data-theme="light"] .mobile-sidebar .brand-subtitle {
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
 }
+
+html[data-theme="light"] .system-section-title,
+html[data-theme="light"] .theme-label,
+html[data-theme="light"] .theme-btn-toggle,
+html[data-theme="light"] .theme-btn-toggle.active,
+html[data-theme="light"] .company-sidebar .system-section-title,
+html[data-theme="light"] .company-sidebar .theme-label,
+html[data-theme="light"] .company-sidebar .theme-btn-toggle,
+html[data-theme="light"] .company-sidebar .theme-btn-toggle.active,
+html[data-theme="light"] .mobile-sidebar .system-section-title,
+html[data-theme="light"] .mobile-sidebar .theme-label,
+html[data-theme="light"] .mobile-sidebar .theme-btn-toggle,
+html[data-theme="light"] .mobile-sidebar .theme-btn-toggle.active {
+  color: #000000 !important;
+}
