@@ -6944,7 +6944,24 @@ textarea:focus {
   }
 
   .wishlist-summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  .wishlist-summary article {
+    min-width: 0;
+    padding: 13px 11px;
+  }
+
+  .wishlist-summary span {
+    font-size: 9px;
+    line-height: 1.1;
+  }
+
+  .wishlist-summary strong {
+    margin-top: 7px;
+    font-size: clamp(18px, 5vw, 22px);
+    line-height: 1.1;
   }
 
   .wishlist-row,
