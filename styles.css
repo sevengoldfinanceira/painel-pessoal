@@ -12276,6 +12276,31 @@ html[data-theme="light"] .horizontal-nav button.active {
 }
 
 @media (max-width: 680px) {
+  #market .market-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  #market .market-side button {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: center;
+    justify-content: stretch;
+    min-width: 0;
+    min-height: 92px;
+    padding: 10px 9px;
+    gap: 6px;
+    font-size: 10px;
+    line-height: 1.15;
+  }
+
+  #market .market-side button span,
+  #market .market-side button strong,
+  #market .market-side button small {
+    min-width: 0;
+  }
+
   #pc .pc-summary-grid,
   .pc-top-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
