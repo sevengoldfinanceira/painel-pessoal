@@ -77,7 +77,7 @@ const defaultNavMeta = {
   cnh: { icon: "🪪", label: "CNH" },
   home: { icon: "🪑", label: "Mobília" },
   agenda: { icon: "🗓", label: "Agenda" },
-  wishlist: { icon: "🛍", label: "Coisas a comprar" },
+  wishlist: { icon: "🛍", label: "Compras" },
   market: { icon: "🛒", label: "Mercado" },
   routine: { icon: "💪", label: "Rotina" },
   jonathan: { icon: "📄", label: "Docs" },
@@ -388,7 +388,7 @@ const defaultState = {
 const placeholders = {
   pending: ["Pendências", "Acompanhamento de pendências com prazos, status, responsáveis e alertas."],
   personal: ["Jonatã", "Espaço para documentos, metas pessoais, dados importantes e planos."],
-  wishlist: ["Coisas a comprar", "Lista de desejos com prioridade, preço esperado e link de compra."],
+  wishlist: ["Compras", "Lista de desejos com prioridade, preço esperado e link de compra."],
   diet: ["Dieta", "Controle de refeições, metas, compras e acompanhamento alimentar."],
   cnh: ["CNH", "Etapas, documentos, datas e pendências do processo de habilitação."],
   pc: ["PC", "Configurações, programas, manutenções e histórico do computador."],
