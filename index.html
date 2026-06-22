@@ -246,7 +246,6 @@
           </div>
           <div class="top-actions">
             <button class="icon-btn" type="button" id="search-btn" title="Pesquisar" style="display: none;">⌕</button>
-            <button class="primary-action warning-bg" id="btn-novo-lancamento" style="display: none;">+ Novo lançamento</button>
             <button class="primary-action" id="jd-add-btn-top" style="display: none;">+ Adicionar documento</button>
             <div class="routine-topbar-controls" id="routine-topbar-controls" style="display: none; align-items: center; gap: 12px;">
               <button class="primary-action routine-new-button" type="button" id="routine-new-item">＋ Novo card</button>
@@ -259,23 +258,6 @@
                   <input id="routine-month-input" type="month" aria-label="Escolher mês da rotina" />
                 </label>
                 <button class="period-arrow" type="button" id="routine-date-next" title="Próximo período">›</button>
-              </div>
-            </div>
-            <div class="finance-month-bar" style="display: none;">
-              <button class="finance-month-arrow" type="button" title="Mês anterior" id="finance-month-prev-btn">‹</button>
-              <button class="finance-month-trigger" type="button" id="finance-month-trigger">
-                <span class="finance-month-trigger-icon">📅</span>
-                <span class="finance-month-trigger-label" id="finance-month-trigger-label">Junho/2026</span>
-                <span class="finance-month-trigger-chevron">▾</span>
-              </button>
-              <button class="finance-month-arrow" type="button" title="Próximo mês" id="finance-month-next-btn">›</button>
-              <div class="finance-month-dropdown-panel" id="finance-month-dropdown-panel">
-                <div class="finance-month-dropdown-header">
-                  <button type="button" class="finance-month-year-btn" id="finance-month-year-prev">‹</button>
-                  <strong id="finance-month-year-label">2026</strong>
-                  <button type="button" class="finance-month-year-btn" id="finance-month-year-next">›</button>
-                </div>
-                <div class="finance-month-grid" id="finance-month-grid"></div>
               </div>
             </div>
           </div>
@@ -620,6 +602,27 @@
             <button id="finance-clear-filter"></button>
             <button id="fixed-add-btn"></button>
             <button id="variable-add-btn"></button>
+          </div>
+
+          <div class="finance-page-actions">
+            <button class="primary-action warning-bg" id="btn-novo-lancamento" style="display: none;">+ Novo lançamento</button>
+            <div class="finance-month-bar" style="display: none;">
+              <button class="finance-month-arrow" type="button" title="Mês anterior" id="finance-month-prev-btn">‹</button>
+              <button class="finance-month-trigger" type="button" id="finance-month-trigger">
+                <span class="finance-month-trigger-icon">📅</span>
+                <span class="finance-month-trigger-label" id="finance-month-trigger-label">Junho/2026</span>
+                <span class="finance-month-trigger-chevron">▾</span>
+              </button>
+              <button class="finance-month-arrow" type="button" title="Próximo mês" id="finance-month-next-btn">›</button>
+              <div class="finance-month-dropdown-panel" id="finance-month-dropdown-panel">
+                <div class="finance-month-dropdown-header">
+                  <button type="button" class="finance-month-year-btn" id="finance-month-year-prev">‹</button>
+                  <strong id="finance-month-year-label">2026</strong>
+                  <button type="button" class="finance-month-year-btn" id="finance-month-year-next">›</button>
+                </div>
+                <div class="finance-month-grid" id="finance-month-grid"></div>
+              </div>
+            </div>
           </div>
 
           <nav class="finance-internal-nav" id="finance-internal-nav" style="display: none;">

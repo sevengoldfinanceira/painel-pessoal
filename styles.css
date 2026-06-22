@@ -9719,8 +9719,18 @@ html[data-theme="light"] .routine-add-card:hover {
   gap: 10px;
   position: relative;
 }
-.top-actions .finance-month-bar {
-  margin-bottom: 0;
+.finance-page-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin: 0 0 14px;
+}
+.finance-page-actions #btn-novo-lancamento {
+  min-height: 42px;
+  padding: 0 18px;
+  flex: 0 0 auto;
 }
 .finance-month-arrow {
   width: 42px;
@@ -9788,6 +9798,37 @@ html[data-theme="light"] .routine-add-card:hover {
   font-size: 15px;
   color: var(--text);
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .finance-page-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .finance-page-actions #btn-novo-lancamento {
+    width: 100% !important;
+  }
+
+  .finance-page-actions .finance-month-bar {
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    width: 100%;
+  }
+
+  .finance-page-actions .finance-month-trigger {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .finance-page-actions .finance-month-dropdown-panel {
+    right: 0;
+    left: 0;
+    min-width: 0;
+    width: 100%;
+  }
 }
 .finance-month-year-btn {
   width: 28px;
@@ -12059,7 +12100,6 @@ button {
 
   .topbar-left,
   .top-actions,
-  .finance-month-bar,
   .routine-topbar-controls,
   .notes-toolbar,
   .pc-toolbar,
