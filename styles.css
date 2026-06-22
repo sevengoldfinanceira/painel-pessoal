@@ -3017,9 +3017,9 @@ button {
   top: 10px;
   left: 40px;
   right: 40px;
-  height: 56px;
+  height: 48px;
   width: calc(100% - 80px);
-  margin: 0 auto 14px;
+  margin: 0 auto 8px;
   z-index: 1000;
   border-radius: 16px;
   padding: 0 16px;
@@ -3128,10 +3128,10 @@ html[data-theme="light"] .brand-sub {
   flex-direction: row !important;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   flex-grow: 1;
   overflow-x: auto;
-  padding: 4px 0;
+  padding: 2px 0;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
 }
@@ -3159,14 +3159,14 @@ html[data-theme="light"] .brand-sub {
 .horizontal-nav button {
   white-space: nowrap;
   width: auto !important;
-  min-height: 38px !important;
-  padding: 0 14px !important;
-  border-radius: 10px !important;
-  font-size: 12px !important;
+  min-height: 30px !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+  font-size: 10px !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   border: 1px solid transparent !important;
   background: transparent !important;
   color: #94a3b8 !important;
@@ -3175,8 +3175,8 @@ html[data-theme="light"] .brand-sub {
 }
 
 .horizontal-nav button svg {
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   stroke: currentColor;
   fill: none;
   stroke-width: 1.8;
@@ -3611,7 +3611,7 @@ html[data-theme="dark"] .global-search-bar input::placeholder {
 
 .main-area {
   min-width: 0;
-  padding: 42px clamp(18px, 3vw, 42px) 46px !important;
+  padding: 26px clamp(18px, 3vw, 42px) 30px !important;
   width: calc(100% - 80px);
   margin: 0 auto !important;
   border: 1px solid var(--border-color-global);
@@ -3695,7 +3695,7 @@ html[data-theme="light"] body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 .topbar-left {
   display: flex;
