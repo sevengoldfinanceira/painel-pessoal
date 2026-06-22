@@ -13786,3 +13786,15 @@ html[data-theme="light"] .mobile-sidebar .nav-group-title,
 html[data-theme="light"] .mobile-sidebar .menu-section-title {
   color: #000000 !important;
 }
+
+html[data-theme="light"] .brand-title,
+html[data-theme="light"] .brand-subtitle,
+html[data-theme="light"] .brand-name,
+html[data-theme="light"] .brand-sub,
+html[data-theme="light"] .company-sidebar .brand-title,
+html[data-theme="light"] .company-sidebar .brand-subtitle,
+html[data-theme="light"] .mobile-sidebar .brand-title,
+html[data-theme="light"] .mobile-sidebar .brand-subtitle {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
