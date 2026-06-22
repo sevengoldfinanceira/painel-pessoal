@@ -17,7 +17,7 @@ function applyTheme(theme) {
     button.setAttribute("aria-label", button.title);
   }
   // Mobile Theme Switcher Buttons Highlight
-  const themeOptButtons = document.querySelectorAll(".theme-opt-btn");
+  const themeOptButtons = document.querySelectorAll(".theme-opt-btn, .theme-btn-toggle");
   themeOptButtons.forEach(btn => {
     btn.classList.toggle("active", btn.dataset.themeVal === nextTheme);
   });
@@ -597,29 +597,29 @@ let financeBillFilter = "all";
 const cloudModuleKeys = Object.keys(defaultState);
 
 const pages = document.querySelectorAll(".page");
-const navButtons = document.querySelectorAll(".side-nav button");
-const sidebar = document.querySelector(".sidebar");
+const navButtons = document.querySelectorAll(".menu-item[data-section]");
+const sidebar = document.querySelector(".company-sidebar") || document.querySelector(".sidebar");
 const pageTitle = document.querySelector("#page-title");
-const mobileOverlay = document.querySelector(".mobile-overlay");
-const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+const mobileOverlay = document.querySelector(".sidebar-overlay") || document.querySelector(".mobile-overlay");
+const mobileMenuToggle = document.querySelector(".sidebar-hamburger") || document.querySelector(".mobile-menu-toggle");
 const mobileSidebarClose = document.querySelector(".mobile-sidebar-close");
 
 function closeMobileMenu() {
-  sidebar?.classList.remove("open");
-  mobileOverlay?.classList.remove("open");
-  document.body.classList.remove("mobile-menu-open");
+  sidebar?.classList.remove("open", "drawer-open");
+  mobileOverlay?.classList.remove("active", "open");
+  document.body.classList.remove("menu-open", "mobile-menu-open");
   mobileMenuToggle?.setAttribute("aria-expanded", "false");
 }
 
 function openMobileMenu() {
-  sidebar?.classList.add("open");
-  mobileOverlay?.classList.add("open");
-  document.body.classList.add("mobile-menu-open");
+  sidebar?.classList.add("open", "drawer-open");
+  mobileOverlay?.classList.add("active", "open");
+  document.body.classList.add("menu-open", "mobile-menu-open");
   mobileMenuToggle?.setAttribute("aria-expanded", "true");
 }
 
 function toggleMobileMenu() {
-  if (sidebar?.classList.contains("open")) closeMobileMenu();
+  if (sidebar?.classList.contains("open") || sidebar?.classList.contains("drawer-open")) closeMobileMenu();
   else openMobileMenu();
 }
 
@@ -6325,7 +6325,7 @@ document.querySelector("#mobile-menu-edit")?.addEventListener("click", () => {
   document.querySelector("#nav-edit-btn")?.click();
 });
 
-const themeOptButtons = document.querySelectorAll(".theme-opt-btn");
+const themeOptButtons = document.querySelectorAll(".theme-opt-btn, .theme-btn-toggle");
 themeOptButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     const val = btn.dataset.themeVal;

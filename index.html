@@ -24,157 +24,154 @@
   </head>
   <body class="auth-locked">
     <div class="app-shell">
-<aside class="sidebar floating-navbar mobile-sidebar" aria-label="Menu mobile">
-  <div class="navbar-container">
-    <div class="mobile-sidebar-header">
+<aside class="sidebar company-sidebar mobile-sidebar" id="mobile-sidebar" aria-label="Menu lateral">
+  <div class="unified-sidebar-header">
+    <div class="company-sidebar-brand">
       <img class="mobile-brand-logo" src="assets/icon-192.png" alt="" />
       <div class="mobile-brand-copy">
-        <strong>Seven Gold</strong>
-        <span>Painel Pessoal</span>
+        <strong class="brand-title">SEVEN GOLD</strong>
+        <span class="brand-subtitle">PAINEL PESSOAL</span>
       </div>
-      <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">×</button>
     </div>
+    <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
 
-    <!-- Navigation Tabs Section -->
-    <nav class="side-nav horizontal-nav" aria-label="Areas do painel">
-      <button class="active" data-section="dashboard">
+  <nav class="company-sidebar-nav" aria-label="Navegação do painel">
+    <div class="menu-section">
+      <span class="menu-section-title">PRINCIPAL</span>
+      <button class="menu-item active" data-section="dashboard" type="button" title="Painel">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Painel
+        <span>Painel</span>
       </button>
-      <button data-section="quick-notes">
+      <button class="menu-item" data-section="quick-notes" type="button" title="Anotações">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Anotações
+        <span>Anotações</span>
       </button>
-      <button data-section="tasks">
+      <button class="menu-item" data-section="tasks" type="button" title="Coisas a fazer">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Coisas a fazer
+        <span>Coisas a fazer</span>
       </button>
-      <button data-section="pending">
+      <button class="menu-item" data-section="pending" type="button" title="Pendências">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Pendências
+        <span>Pendências</span>
       </button>
-      <button data-section="routine">
+      <button class="menu-item" data-section="routine" type="button" title="Rotina">
         <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Rotina
+        <span>Rotina</span>
       </button>
-      <button data-section="market">
-        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-        Mercado
-      </button>
-      <button data-section="wishlist">
-        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        Coisas a comprar
-      </button>
-      <button data-section="diet">
-        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-        Dieta
-      </button>
-      <button data-section="finance">
-        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        Finanças
-      </button>
-      <button data-section="cnh">
-        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        CNH
-      </button>
-      <button data-section="agenda">
+      <button class="menu-item" data-section="agenda" type="button" title="Agenda">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Agenda
+        <span>Agenda</span>
       </button>
-      <button data-section="wardrobe">
-        <svg viewBox="0 0 24 24"><path d="M20.38 3.46L16 2 12 3.46 8 2 3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/></svg>
-        Guarda Roupa
-      </button>
-      <button data-section="pc">
-        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        PC
-      </button>
-      <button data-section="home">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Mobília
-      </button>
-      <button data-section="wins">
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Conquistas
-      </button>
-      <button data-section="jonathan">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Docs
-      </button>
-    </nav>
-
-    <!-- Right Profile Section -->
-    <div class="navbar-actions" style="display: none !important;">
-      <!-- Profile Block with Dropdown -->
-      <div class="profile-block-dropdown" id="profile-block-dropdown">
-        <button class="profile-trigger" type="button" id="profile-trigger-btn" title="Menu do perfil">
-          <img class="avatar" id="profile-avatar" src="assets/jonata.jpeg" alt="" />
-          <span class="profile-name-text" id="profile-name-text">Jonatã</span>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <div class="profile-menu-dropdown" id="profile-menu-dropdown" hidden>
-          <div class="profile-info-header">
-            <strong class="dropdown-profile-name">Particular</strong>
-            <span>Painel pessoal</span>
-          </div>
-          <hr />
-          <button type="button" id="dropdown-change-avatar" class="dropdown-item">
-            <span>📷</span> Alterar foto
-          </button>
-          <input id="avatar-input" type="file" accept="image/*" hidden />
-          <button type="button" id="dropdown-edit-menu" class="dropdown-item">
-            <span>⚙️</span> Editar abas
-          </button>
-          <button class="icon-btn sidebar-edit" type="button" id="nav-edit-btn" style="display: none;">Editar</button>
-          <button type="button" id="dropdown-logout" class="dropdown-item danger">
-            <span>🚪</span> Sair
-          </button>
-          <button class="icon-btn sidebar-logout" type="button" id="logout-btn" style="display: none;">Sair</button>
-        </div>
-      </div>
     </div>
-    <!-- Mobile Sidebar Footer / System Actions & Profile -->
-    <hr class="mobile-divider" />
-    <div class="mobile-system-section">
-      <div class="mobile-system-head">
-        <span class="system-title">SISTEMA</span>
-        <div class="mobile-system-actions">
-          <button type="button" id="mobile-profile-settings" aria-label="Editar foto do usuário">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.04.04a2.1 2.1 0 0 1-2.97 2.97l-.04-.04a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.09 1.65V21a2.1 2.1 0 0 1-4.2 0v-.06a1.8 1.8 0 0 0-1.09-1.65 1.8 1.8 0 0 0-1.98.36l-.04.04a2.1 2.1 0 0 1-2.97-2.97l.04-.04A1.8 1.8 0 0 0 3.6 15a1.8 1.8 0 0 0-1.65-1.09H1.9a2.1 2.1 0 0 1 0-4.2h.06A1.8 1.8 0 0 0 3.6 8a1.8 1.8 0 0 0-.36-1.98l-.04-.04A2.1 2.1 0 1 1 6.17 3l.04.04A1.8 1.8 0 0 0 8.2 3.4a1.8 1.8 0 0 0 1.09-1.65V1.7a2.1 2.1 0 0 1 4.2 0v.06A1.8 1.8 0 0 0 14.6 3.4a1.8 1.8 0 0 0 1.98-.36l.04-.04a2.1 2.1 0 0 1 2.97 2.97l-.04.04A1.8 1.8 0 0 0 19.4 8c.1.38.4.7.78.86.27.11.56.18.86.18h.06a2.1 2.1 0 0 1 0 4.2h-.06A1.8 1.8 0 0 0 19.4 15Z"/></svg>
+
+    <div class="menu-section">
+      <span class="menu-section-title">COMPRAS E FINANÇAS</span>
+      <button class="menu-item" data-section="market" type="button" title="Mercado">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <span>Mercado</span>
+      </button>
+      <button class="menu-item" data-section="wishlist" type="button" title="Coisas a comprar">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span>Coisas a comprar</span>
+      </button>
+      <button class="menu-item" data-section="finance" type="button" title="Finanças">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <span>Finanças</span>
+      </button>
+    </div>
+
+    <div class="menu-section">
+      <span class="menu-section-title">ORGANIZAÇÃO</span>
+      <button class="menu-item" data-section="cnh" type="button" title="CNH">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span>CNH</span>
+      </button>
+      <button class="menu-item" data-section="wardrobe" type="button" title="Guarda Roupa">
+        <svg viewBox="0 0 24 24"><path d="M20.38 3.46L16 2 12 3.46 8 2 3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/></svg>
+        <span>Guarda Roupa</span>
+      </button>
+      <button class="menu-item" data-section="pc" type="button" title="PC">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>PC</span>
+      </button>
+      <button class="menu-item" data-section="home" type="button" title="Mobília">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Mobília</span>
+      </button>
+      <button class="menu-item" data-section="wins" type="button" title="Conquistas">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Conquistas</span>
+      </button>
+    </div>
+
+    <div class="menu-section">
+      <span class="menu-section-title">SAÚDE</span>
+      <button class="menu-item" data-section="diet" type="button" title="Dieta">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>Dieta</span>
+      </button>
+    </div>
+
+    <div class="menu-section">
+      <span class="menu-section-title">DOCUMENTOS</span>
+      <button class="menu-item" data-section="jonathan" type="button" title="Docs">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Docs</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer-container">
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-system-section">
+      <div class="sidebar-system-heading">
+        <span class="system-section-title">SISTEMA</span>
+        <div class="sidebar-system-actions">
+          <button type="button" class="profile-icon-action" id="mobile-profile-settings" title="Configurações">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.04.04a2.1 2.1 0 0 1-2.97 2.97l-.04-.04a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.09 1.65V21a2.1 2.1 0 0 1-4.2 0v-.06a1.8 1.8 0 0 0-1.09-1.65 1.8 1.8 0 0 0-1.98.36l-.04.04a2.1 2.1 0 0 1-2.97-2.97l.04-.04A1.8 1.8 0 0 0 3.6 15a1.8 1.8 0 0 0-1.65-1.09H1.9a2.1 2.1 0 0 1 0-4.2h.06A1.8 1.8 0 0 0 3.6 8a1.8 1.8 0 0 0-.36-1.98l-.04-.04A2.1 2.1 0 1 1 6.17 3l.04.04A1.8 1.8 0 0 0 8.2 3.4a1.8 1.8 0 0 0 1.09-1.65V1.7a2.1 2.1 0 0 1 4.2 0v.06A1.8 1.8 0 0 0 14.6 3.4a1.8 1.8 0 0 0 1.98-.36l.04-.04a2.1 2.1 0 0 1 2.97 2.97l-.04.04A1.8 1.8 0 0 0 19.4 8c.1.38.4.7.78.86.27.11.56.18.86.18h.06a2.1 2.1 0 0 1 0 4.2h-.06A1.8 1.8 0 0 0 19.4 15Z"/></svg>
           </button>
-          <button type="button" id="mobile-menu-edit" aria-label="Editar abas">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>
+          <button type="button" class="profile-icon-action" id="mobile-menu-edit" title="Editar menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>
           </button>
         </div>
       </div>
-      <div class="theme-toggle-row">
-        <span>Tema:</span>
-        <div class="theme-toggle-options">
-          <button type="button" class="theme-opt-btn" data-theme-val="light">Claro</button>
-          <button type="button" class="theme-opt-btn" data-theme-val="dark">Escuro</button>
+      <div class="sidebar-theme-toggle-row">
+        <span class="theme-label">Tema:</span>
+        <div class="theme-buttons-group">
+          <button type="button" class="theme-btn-toggle active" data-theme-val="light">Claro</button>
+          <button type="button" class="theme-btn-toggle" data-theme-val="dark">Escuro</button>
         </div>
       </div>
-      <button type="button" class="mobile-logout-btn" id="mobile-logout-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logout-icon-svg">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" />
-        </svg>
+      <button type="button" class="sidebar-logout-btn" id="mobile-logout-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Sair
       </button>
     </div>
-    <hr class="mobile-divider" />
-    <div class="mobile-profile-footer">
-      <img class="mobile-avatar" id="mobile-profile-avatar" src="assets/jonata.jpeg" alt="Foto de Perfil" />
-      <div class="mobile-profile-info">
-        <strong class="mobile-profile-name" id="mobile-profile-name">Jonatã</strong>
-        <span class="mobile-profile-email" id="mobile-profile-email">Particular</span>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-profile-card">
+      <div class="profile-main">
+        <img class="profile-avatar" id="mobile-profile-avatar" src="assets/jonata.jpeg" alt="Foto de Perfil" />
+        <div class="profile-info">
+          <div class="profile-name-row">
+            <strong id="mobile-profile-name">Jonatã</strong>
+            <span class="verified-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#d4af37"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <span class="profile-role">Painel Pessoal</span>
+          <span class="profile-email" id="mobile-profile-email">jonata95820034@gmail.com</span>
+        </div>
       </div>
     </div>
   </div>
 </aside>
-      <div class="mobile-overlay" aria-hidden="true"></div>
+<div class="sidebar-overlay mobile-overlay" aria-hidden="true"></div>
+<button class="sidebar-hamburger mobile-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
 
       <main class="main-area">
         <header class="topbar">
