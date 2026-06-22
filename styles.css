@@ -12299,27 +12299,34 @@ html[data-theme="light"] .horizontal-nav button.active {
 
   #market .market-side {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+    gap: 8px !important;
     padding: 10px !important;
   }
 
   #market .market-side button {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-content: center;
+    align-items: center;
     justify-content: stretch;
     min-width: 0;
-    min-height: 92px;
-    padding: 10px 9px;
+    min-height: 44px;
+    padding: 9px 10px;
     gap: 6px;
     font-size: 10px;
     line-height: 1.15;
   }
 
-  #market .market-side button span,
-  #market .market-side button strong,
-  #market .market-side button small {
+  #market .market-side button span {
     min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #market .market-side button strong {
+    min-width: 0;
+    font-size: 11px;
   }
 
   #pc .pc-summary-grid,
