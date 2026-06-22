@@ -26,7 +26,14 @@
     <div class="app-shell">
 <aside class="sidebar floating-navbar mobile-sidebar" aria-label="Menu mobile">
   <div class="navbar-container">
-    <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">×</button>
+    <div class="mobile-sidebar-header">
+      <img class="mobile-brand-logo" src="assets/icon-192.png" alt="" />
+      <div class="mobile-brand-copy">
+        <strong>Seven Gold</strong>
+        <span>Painel Pessoal</span>
+      </div>
+      <button class="mobile-sidebar-close" type="button" aria-label="Fechar menu">×</button>
+    </div>
 
     <!-- Navigation Tabs Section -->
     <nav class="side-nav horizontal-nav" aria-label="Areas do painel">
@@ -130,7 +137,13 @@
     <!-- Mobile Sidebar Footer / System Actions & Profile -->
     <hr class="mobile-divider" />
     <div class="mobile-system-section">
-      <span class="system-title">SISTEMA</span>
+      <div class="mobile-system-head">
+        <span class="system-title">SISTEMA</span>
+        <div class="mobile-system-actions">
+          <button type="button" id="mobile-profile-settings" aria-label="Editar foto do usuário">⚙</button>
+          <button type="button" id="mobile-menu-edit" aria-label="Editar abas">✎</button>
+        </div>
+      </div>
       <div class="theme-toggle-row">
         <span>Tema:</span>
         <div class="theme-toggle-options">

@@ -6311,6 +6311,16 @@ if (mobileLogoutBtn) {
   });
 }
 
+document.querySelector("#mobile-profile-settings")?.addEventListener("click", () => {
+  closeMobileMenu();
+  document.querySelector("#dropdown-change-avatar")?.click();
+});
+
+document.querySelector("#mobile-menu-edit")?.addEventListener("click", () => {
+  closeMobileMenu();
+  document.querySelector("#nav-edit-btn")?.click();
+});
+
 const themeOptButtons = document.querySelectorAll(".theme-opt-btn");
 themeOptButtons.forEach(btn => {
   btn.addEventListener("click", () => {
