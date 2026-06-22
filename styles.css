@@ -12276,6 +12276,27 @@ html[data-theme="light"] .horizontal-nav button.active {
 }
 
 @media (max-width: 680px) {
+  #market .market-shop-totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  #market .market-shop-totals article {
+    min-width: 0;
+    padding: 13px 11px;
+  }
+
+  #market .market-shop-totals span {
+    font-size: 9px;
+    line-height: 1.1;
+  }
+
+  #market .market-shop-totals strong {
+    margin-top: 7px;
+    font-size: clamp(17px, 5vw, 21px);
+    line-height: 1.1;
+  }
+
   #market .market-side {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
