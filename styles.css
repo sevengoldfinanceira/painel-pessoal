@@ -12264,6 +12264,28 @@ html[data-theme="light"] .horizontal-nav button.active {
     gap: 10px !important;
   }
 
+  #cnh .cnh-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  #cnh .cnh-summary article {
+    min-width: 0;
+    padding: 13px 11px;
+    border-radius: 8px;
+  }
+
+  #cnh .cnh-summary span {
+    font-size: 9px;
+    line-height: 1.1;
+  }
+
+  #cnh .cnh-summary strong {
+    margin-top: 7px;
+    font-size: clamp(18px, 5vw, 22px);
+    line-height: 1.1;
+  }
+
   #routine .routine-summary article {
     grid-template-columns: 36px minmax(0, 1fr);
     min-height: 86px;
