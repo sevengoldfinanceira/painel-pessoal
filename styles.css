@@ -10611,6 +10611,10 @@ html[data-theme="dark"] textarea:hover {
   margin-right: 0;
 }
 
+#pc-summary-cards[hidden] {
+  display: none !important;
+}
+
 #pc .pc-summary-grid article,
 .pc-top-summary article,
 #pc .pc-table-card,
@@ -12178,7 +12182,6 @@ button {
   .routine-side-column,
   #routine-consistency-list,
   #pc .pc-summary-grid,
-  .pc-top-summary,
   #pc .pc-spec-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;

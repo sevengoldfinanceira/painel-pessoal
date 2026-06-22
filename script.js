@@ -1665,7 +1665,9 @@ function openSection(sectionId) {
   }
   const pcCards = document.querySelector('#pc-summary-cards');
   if (pcCards) {
-    pcCards.style.display = (realSection === 'pc') ? 'grid' : 'none';
+    const showPcCards = realSection === 'pc';
+    pcCards.hidden = !showPcCards;
+    pcCards.style.display = showPcCards ? 'grid' : 'none';
   }
   if (realSection === 'agenda') {
     updateAgendaSummary();
