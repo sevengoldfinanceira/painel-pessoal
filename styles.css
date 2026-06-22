@@ -7801,6 +7801,12 @@ body.auth-locked .main-area > :not(#login-panel) {
   display: none !important;
 }
 
+body.auth-locked .company-sidebar,
+body.auth-locked .sidebar-hamburger,
+body.auth-locked .sidebar-overlay {
+  display: none !important;
+}
+
 body.auth-locked .main-area {
   min-height: 100vh;
   padding: 0 !important;

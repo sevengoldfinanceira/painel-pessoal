@@ -733,7 +733,7 @@ function loadState() {
         stateWasMigrated = true;
       }
     });
-    const availableNavSections = [...document.querySelectorAll(".side-nav button")].map((button) => button.dataset.section);
+    const availableNavSections = [...document.querySelectorAll(".menu-item[data-section]")].map((button) => button.dataset.section);
     merged.navOrder = [
       ...(merged.navOrder || []).filter((section) => availableNavSections.includes(section)),
       ...availableNavSections.filter((section) => !(merged.navOrder || []).includes(section)),
@@ -1691,48 +1691,16 @@ function openSection(sectionId) {
 }
 
 function applyNavOrder() {
-  const nav = document.querySelector(".side-nav");
+  const nav = document.querySelector(".company-sidebar-nav");
+  if (!nav) return;
   const buttonsBySection = new Map([...navButtons].map((button) => [button.dataset.section, button]));
-  nav.innerHTML = "";
-  const groupLists = new Map();
-
-  navGroupDefinitions.forEach((groupDefinition) => {
-    const group = document.createElement("div");
-    group.className = `nav-group nav-group-${groupDefinition.id}`;
-    group.dataset.navGroup = groupDefinition.id;
-
-    const groupLabel = state.navGroupLabels?.[groupDefinition.id] ?? groupDefinition.label;
-    if (groupLabel) {
-      const title = document.createElement("strong");
-      title.className = "nav-group-title";
-      title.textContent = groupLabel;
-      group.append(title);
-    }
-
-    const items = document.createElement("div");
-    items.className = "nav-items";
-    items.dataset.navGroupItems = groupDefinition.id;
-    group.append(items);
-    nav.append(group);
-    groupLists.set(groupDefinition.id, items);
-  });
 
   state.navOrder.forEach((section) => {
     const button = buttonsBySection.get(section);
-    const groupId = state.navGroups?.[section] || defaultNavGroups[section] || "personal";
-    const groupList = groupLists.get(groupId) || groupLists.get("personal");
-    if (button) {
-      const icon = state.navIcons?.[section] || defaultNavMeta[section]?.icon || "•";
-      const label = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
-      const iconNode = button.querySelector("span") || document.createElement("span");
-      iconNode.textContent = icon;
-      if (!iconNode.parentElement) button.prepend(iconNode);
-      [...button.childNodes].forEach((node) => {
-        if (node.nodeType === 3) node.remove();
-      });
-      button.append(document.createTextNode(label));
-      groupList.append(button);
-    }
+    if (!button) return;
+    const label = state.navLabels?.[section] || defaultNavMeta[section]?.label || section;
+    const textSpan = button.querySelector("span");
+    if (textSpan) textSpan.textContent = label;
   });
 }
 
@@ -4332,17 +4300,17 @@ navButtons.forEach((button) => button.addEventListener("click", (event) => {
   openSection(button.dataset.section);
 }));
 
-const sideNav = document.querySelector(".side-nav");
+const sideNav = document.querySelector(".company-sidebar-nav");
 let draggedNavButton = null;
 let pointerNavButton = null;
 let pointerNavStart = null;
 let pointerNavDragging = false;
 
 function readNavLayoutFromDom() {
-  state.navOrder = [...sideNav.querySelectorAll("button")].map((button) => button.dataset.section);
-  state.navGroups = [...sideNav.querySelectorAll(".nav-items")].reduce((groups, list) => {
-    list.querySelectorAll("button").forEach((button) => {
-      groups[button.dataset.section] = list.dataset.navGroupItems;
+  state.navOrder = [...sideNav.querySelectorAll(".menu-item[data-section]")].map((button) => button.dataset.section);
+  state.navGroups = [...sideNav.querySelectorAll(".menu-section")].reduce((groups, section) => {
+    section.querySelectorAll(".menu-item[data-section]").forEach((button) => {
+      groups[button.dataset.section] = section.querySelector(".menu-section-title")?.textContent || "";
     });
     return groups;
   }, {});
@@ -4352,10 +4320,10 @@ function moveNavButtonAtPoint(button, clientX, clientY) {
   button.classList.add("nav-pointer-dragging");
   const element = document.elementFromPoint(clientX, clientY);
   button.classList.remove("nav-pointer-dragging");
-  const target = element?.closest?.(".side-nav button");
-  const targetList = target?.closest(".nav-items") || element?.closest?.(".nav-items");
+  const target = element?.closest?.(".menu-item[data-section]");
+  const targetList = target?.closest(".menu-section") || element?.closest?.(".menu-section");
   if (!targetList) return;
-  document.querySelectorAll(".nav-items").forEach((list) => {
+  document.querySelectorAll(".menu-section").forEach((list) => {
     list.classList.toggle("nav-drop-target", list === targetList);
   });
   if (!target || target === button) {
@@ -4379,7 +4347,7 @@ navButtons.forEach((button) => {
   button.addEventListener("dragend", () => {
     draggedNavButton?.classList.remove("nav-dragging");
     sideNav.classList.remove("nav-drag-active");
-    document.querySelectorAll(".nav-items.nav-drop-target").forEach((list) => {
+    document.querySelectorAll(".menu-section.nav-drop-target").forEach((list) => {
       list.classList.remove("nav-drop-target");
     });
     draggedNavButton = null;
@@ -4437,10 +4405,10 @@ sideNav.addEventListener("dragover", (event) => {
   if (!draggedNavButton) return;
   event.preventDefault();
   sideNav.classList.add("nav-drag-active");
-  const target = event.target.closest(".side-nav button");
-  const targetList = target?.closest(".nav-items") || event.target.closest(".nav-items");
+  const target = event.target.closest(".menu-item[data-section]");
+  const targetList = target?.closest(".menu-section") || event.target.closest(".menu-section");
   if (!targetList) return;
-  document.querySelectorAll(".nav-items").forEach((list) => {
+  document.querySelectorAll(".menu-section").forEach((list) => {
     list.classList.toggle("nav-drop-target", list === targetList);
   });
   if (!target || target === draggedNavButton) {
@@ -4474,7 +4442,7 @@ const themeToggleButton = document.querySelector("#theme-toggle");
 if (themeToggleButton) {
   themeToggleButton.addEventListener("click", toggleTheme);
 }
-document.querySelector("#nav-edit-btn").addEventListener("click", () => {
+document.querySelector("#nav-edit-btn, #mobile-menu-edit")?.addEventListener("click", () => {
   renderNavEditor();
   document.querySelector("#nav-edit-panel").classList.add("open");
   document.querySelector("#nav-edit-panel").setAttribute("aria-hidden", "false");
@@ -6295,7 +6263,7 @@ if (profileTrigger && profileMenu) {
 const dropdownEditMenu = document.querySelector("#dropdown-edit-menu");
 if (dropdownEditMenu) {
   dropdownEditMenu.addEventListener("click", () => {
-    document.querySelector("#nav-edit-btn").click();
+    document.querySelector("#nav-edit-btn, #mobile-menu-edit")?.click();
     if (profileMenu) profileMenu.hidden = true;
   });
 }
@@ -6322,7 +6290,9 @@ document.querySelector("#mobile-profile-settings")?.addEventListener("click", ()
 
 document.querySelector("#mobile-menu-edit")?.addEventListener("click", () => {
   closeMobileMenu();
-  document.querySelector("#nav-edit-btn")?.click();
+  renderNavEditor();
+  document.querySelector("#nav-edit-panel").classList.add("open");
+  document.querySelector("#nav-edit-panel").setAttribute("aria-hidden", "false");
 });
 
 const themeOptButtons = document.querySelectorAll(".theme-opt-btn, .theme-btn-toggle");
