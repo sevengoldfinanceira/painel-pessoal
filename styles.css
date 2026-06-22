@@ -12276,6 +12276,60 @@ html[data-theme="light"] .horizontal-nav button.active {
 }
 
 @media (max-width: 680px) {
+  #pc .pc-summary-grid,
+  .pc-top-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  #pc .pc-summary-grid article,
+  .pc-top-summary article {
+    min-width: 0;
+    min-height: 84px;
+    padding: 12px 10px;
+    gap: 9px;
+    border-radius: 16px;
+  }
+
+  #pc .pc-summary-icon,
+  .pc-top-summary .pc-summary-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 11px;
+  }
+
+  #pc .pc-summary-icon svg,
+  .pc-top-summary .pc-summary-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #pc .pc-summary-grid article > div,
+  .pc-top-summary article > div {
+    min-width: 0;
+  }
+
+  #pc .pc-summary-grid small,
+  #pc .pc-summary-grid em,
+  .pc-top-summary small,
+  .pc-top-summary em {
+    overflow: hidden;
+    font-size: 10px;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #pc .pc-summary-grid strong,
+  .pc-top-summary strong {
+    overflow: hidden;
+    font-size: clamp(17px, 5vw, 21px);
+    line-height: 1.05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   #routine .routine-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
