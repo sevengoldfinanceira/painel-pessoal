@@ -11592,6 +11592,7 @@ button {
     transition: transform 220ms ease !important;
     background: #ffffff !important;
     box-shadow: 8px 0 28px rgba(15, 23, 42, 0.18) !important;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
   }
 
   html[data-theme] .sidebar.floating-navbar.mobile-sidebar.open {
@@ -11610,17 +11611,17 @@ button {
   .mobile-sidebar-header {
     display: flex !important;
     align-items: center;
-    gap: 10px;
-    padding: 12px 52px 10px 16px;
+    gap: 8px;
+    padding: 6px 48px 4px 14px;
     background: #ffffff;
     border-bottom: 1px solid #eef2f7;
     position: relative;
   }
 
   .mobile-brand-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
     object-fit: cover;
     border: 1px solid #e2e8f0;
   }
@@ -11702,7 +11703,7 @@ button {
     width: 100% !important;
     flex: 1 !important;
     overflow-y: auto !important;
-    padding: 8px 12px !important;
+    padding: 2px 12px 8px !important;
     align-items: stretch !important;
     justify-content: stretch !important;
   }
@@ -11774,7 +11775,7 @@ button {
     display: block !important;
     border: 0;
     border-top: 1px solid #e5e7eb;
-    margin: 6px 16px;
+    margin: 4px 16px;
     width: auto;
   }
 
@@ -11782,7 +11783,7 @@ button {
     display: flex !important;
     flex-direction: column;
     padding: 8px 16px;
-    gap: 10px;
+    gap: 9px;
     width: 100%;
   }
 
@@ -11816,6 +11817,16 @@ button {
     border-radius: 50%;
     font-size: 16px;
     font-weight: 900;
+  }
+
+  .mobile-system-actions button svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .theme-toggle-row {
@@ -11888,8 +11899,9 @@ button {
     align-items: center;
     justify-content: center;
     gap: 9px;
-    padding: 8px 16px max(18px, env(safe-area-inset-bottom));
-    width: 100%;
+    width: calc(100% - 32px);
+    margin: 0 auto;
+    padding: 6px 0 max(18px, env(safe-area-inset-bottom));
     text-align: center;
   }
 
