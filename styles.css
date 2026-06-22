@@ -3610,7 +3610,7 @@ html[data-theme="dark"] .global-search-bar input::placeholder {
   margin: 0 auto !important;
   border: 1px solid var(--border-color-global);
   border-radius: 16px;
-  background: #ffffff;
+  background: var(--bg-main);
   min-height: calc(100vh - 120px);
 }
 
@@ -3621,6 +3621,18 @@ html[data-theme="dark"] .main-area {
 html[data-theme="light"] .main-area {
   background: #ffffff !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  background: #e5e7eb;
+}
+
+html[data-theme="dark"] body {
+  background: #0a0a0a !important;
+}
+
+html[data-theme="light"] body {
+  background: #e5e7eb !important;
 }
 
 @media (max-width: 992px) {
