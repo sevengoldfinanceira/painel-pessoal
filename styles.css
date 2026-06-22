@@ -522,15 +522,15 @@ body.auth-locked #login-panel .overlay-card {
 }
 
 #finance {
-  --surface: #1f0a29;
-  --surface-2: #291035;
-  --surface-3: #351541;
-  --line: rgba(218, 170, 63, 0.28);
-  --muted: #b9aec2;
-  --text: #f8f4fb;
+  --surface: #0a1628;
+  --surface-2: #0f1f3a;
+  --surface-3: #142744;
+  --line: rgba(100, 150, 255, 0.28);
+  --muted: #7a9cc2;
+  --text: #e8eef5;
   padding: 18px;
   color: var(--text);
-  background: #150126;
+  background: #060a12;
   border-radius: 10px;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -584,18 +584,18 @@ body.auth-locked #login-panel .overlay-card {
 #finance select,
 #finance textarea {
   color: var(--text);
-  background: #21092d;
-  border-color: rgba(218, 170, 63, 0.3);
+  background: #0d1628;
+  border-color: rgba(100, 150, 255, 0.3);
 }
 
 #finance input::placeholder {
-  color: #9c8ca7;
+  color: #5a7a9c;
 }
 
 #finance button:not(.primary-action):not(.check-btn):not(.delete-btn) {
-  color: #f2c34e;
-  background: rgba(218, 170, 63, 0.08);
-  border-color: rgba(218, 170, 63, 0.34);
+  color: #64b5f6;
+  background: rgba(100, 150, 255, 0.08);
+  border-color: rgba(100, 150, 255, 0.34);
 }
 
 #finance .panel,
@@ -604,9 +604,9 @@ body.auth-locked #login-panel .overlay-card {
 #finance .finance-category-card,
 #finance .finance-planner {
   color: var(--text);
-  background: linear-gradient(145deg, #1e0829, #170421);
-  border-color: rgba(218, 170, 63, 0.3);
-  box-shadow: 0 10px 28px rgba(5, 0, 10, 0.2);
+  background: linear-gradient(145deg, #0d1929, #0a1422);
+  border-color: rgba(100, 150, 255, 0.3);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
 }
 
 #finance .finance-summary {
@@ -631,7 +631,7 @@ body.auth-locked #login-panel .overlay-card {
   left: 0;
   height: 3px;
   content: "";
-  background: #d9a82e;
+  background: #5c9aff;
 }
 
 .finance-summary-icon {
@@ -687,12 +687,12 @@ body.auth-locked #login-panel .overlay-card {
   width: 0;
   height: 100%;
   margin: 0 !important;
-  background: linear-gradient(90deg, #f3bd36, #fff0a7);
+  background: linear-gradient(90deg, #5c9aff, #a0c4ff);
   border-radius: inherit;
 }
 
 #finance .finance-summary strong {
-  color: #f3bd36;
+  color: #64b5f6;
   font-size: 25px;
   line-height: 1;
 }
@@ -768,7 +768,7 @@ body.auth-locked #login-panel .overlay-card {
 
 .finance-calendar-icon,
 .finance-period-caret {
-  color: #f3bd36;
+  color: #64b5f6;
 }
 
 .finance-period-caret {
@@ -783,8 +783,8 @@ body.auth-locked #login-panel .overlay-card {
 
 #finance-new-entry {
   min-width: 180px;
-  color: #241400;
-  background: linear-gradient(135deg, #e2ac2d, #ffd765);
+  color: #061220;
+  background: linear-gradient(135deg, #5c9aff, #a0c4ff);
 }
 
 #finance .finance-planner {
@@ -845,8 +845,8 @@ body.auth-locked #login-panel .overlay-card {
 }
 
 .finance-bill-tabs button.active {
-  color: #241400 !important;
-  background: #e2ac2d !important;
+  color: #061220 !important;
+  background: #5c9aff !important;
 }
 
 .finance-donut {
@@ -934,11 +934,11 @@ body.auth-locked #login-panel .overlay-card {
   min-height: 34px;
   margin: 12px auto 0;
   padding: 0 16px;
-  color: #f3bd36 !important;
+  color: #64b5f6 !important;
   font-size: 10px;
   font-weight: 900;
   background: transparent !important;
-  border: 1px solid rgba(218, 170, 63, 0.55) !important;
+  border: 1px solid rgba(100, 150, 255, 0.55) !important;
   border-radius: 6px;
 }
 
@@ -1060,17 +1060,17 @@ body.auth-locked #login-panel .overlay-card {
   place-items: center;
   width: 30px;
   height: 30px;
-  color: #f3bd36;
+  color: #64b5f6;
   font-size: 11px;
   font-weight: 900;
-  background: #0d0313;
-  border: 1px solid rgba(218, 170, 63, 0.25);
+  background: #0a1428;
+  border: 1px solid rgba(100, 150, 255, 0.25);
   border-radius: 7px;
 }
 
 .finance-avatar {
   color: #ffffff;
-  background: linear-gradient(135deg, #7c3aed, #d9a82e);
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
   border-radius: 50%;
 }
 
@@ -1189,7 +1189,7 @@ body.auth-locked #login-panel .overlay-card {
 .finance-distribution-footer strong {
   display: block;
   margin-top: 5px;
-  color: #f3bd36;
+  color: #64b5f6;
 }
 
 .finance-categories-panel {
@@ -1209,7 +1209,7 @@ body.auth-locked #login-panel .overlay-card {
   align-items: center;
   padding: 10px;
   background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(218, 170, 63, 0.15);
+  border: 1px solid rgba(100, 150, 255, 0.15);
   border-radius: 8px;
 }
 
@@ -1339,9 +1339,7 @@ body.auth-locked #login-panel .overlay-card {
 /* Financeiro premium: mantém os componentes e contratos funcionais existentes. */
 #finance {
   padding: 22px;
-  background:
-    radial-gradient(circle at 76% 0%, rgba(62, 30, 95, 0.16), transparent 34%),
-    #08030f;
+  background: #080a14;
   border-radius: 0;
 }
 
@@ -1768,37 +1766,37 @@ body.auth-locked #login-panel .overlay-card {
 }
 
 #routine {
-  --surface: #1f0a29;
-  --surface-2: #291035;
-  --surface-3: #351541;
-  --line: rgba(218, 170, 63, 0.28);
-  --muted: #b9aec2;
-  --text: #f8f4fb;
+  --surface: #0a1628;
+  --surface-2: #0f1f3a;
+  --surface-3: #142744;
+  --line: rgba(100, 150, 255, 0.28);
+  --muted: #7a9cc2;
+  --text: #e8eef5;
   padding: 18px;
   color: var(--text);
-  background: #150126;
+  background: #060a12;
   border-radius: 10px;
 }
 
 #routine input,
 #routine select {
   color: var(--text);
-  background: #21092d;
-  border-color: rgba(218, 170, 63, 0.3);
+  background: #0d1628;
+  border-color: rgba(100, 150, 255, 0.3);
 }
 
 #routine button:not(.primary-action):not(.check-btn):not(.delete-btn) {
-  color: #f2c34e;
-  background: rgba(218, 170, 63, 0.08);
-  border-color: rgba(218, 170, 63, 0.32);
+  color: #64b5f6;
+  background: rgba(100, 150, 255, 0.08);
+  border-color: rgba(100, 150, 255, 0.32);
 }
 
 #routine .panel,
 #routine .routine-section,
 #routine .routine-summary article {
   color: var(--text);
-  background: linear-gradient(145deg, #1e0829, #170421);
-  border-color: rgba(218, 170, 63, 0.28);
+  background: linear-gradient(145deg, #0d1929, #0a1422);
+  border-color: rgba(100, 150, 255, 0.28);
 }
 
 .routine-hero {
@@ -1808,8 +1806,8 @@ body.auth-locked #login-panel .overlay-card {
   align-items: center;
   margin-bottom: 14px;
   padding: 22px;
-  background: linear-gradient(145deg, #1e0829, #170421);
-  border: 1px solid rgba(218, 170, 63, 0.3);
+  background: linear-gradient(145deg, #0d1929, #0a1422);
+  border: 1px solid rgba(100, 150, 255, 0.3);
   border-radius: 10px;
 }
 
@@ -1827,7 +1825,7 @@ body.auth-locked #login-panel .overlay-card {
   width: 98px;
   height: 98px;
   content: "";
-  background: #170421;
+  background: #0a1422;
   border-radius: 50%;
 }
 
@@ -1845,7 +1843,7 @@ body.auth-locked #login-panel .overlay-card {
 .routine-hero-copy > span,
 .routine-summary span,
 .routine-streaks span {
-  color: #f3bd36;
+  color: #64b5f6;
   font-size: 11px;
   font-weight: 900;
   text-transform: uppercase;
@@ -1877,7 +1875,7 @@ body.auth-locked #login-panel .overlay-card {
   display: block;
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg, #f3bd36, #45d483);
+  background: linear-gradient(90deg, #64b5f6, #45d483);
   border-radius: inherit;
 }
 
@@ -1896,7 +1894,7 @@ body.auth-locked #login-panel .overlay-card {
 .routine-streaks strong {
   display: block;
   margin-top: 5px;
-  color: #f3bd36;
+  color: #64b5f6;
   font-size: 19px;
 }
 
@@ -1909,7 +1907,7 @@ body.auth-locked #login-panel .overlay-card {
 
 .routine-summary article {
   padding: 14px;
-  border: 1px solid rgba(218, 170, 63, 0.24);
+  border: 1px solid rgba(100, 150, 255, 0.24);
   border-radius: 8px;
 }
 
@@ -2013,15 +2011,15 @@ body.auth-locked #login-panel .overlay-card {
 }
 
 #routine .routine-section-head > span {
-  color: #f3bd36;
-  background: rgba(218, 170, 63, 0.08);
-  border-color: rgba(218, 170, 63, 0.24);
+  color: #64b5f6;
+  background: rgba(100, 150, 255, 0.08);
+  border-color: rgba(100, 150, 255, 0.24);
 }
 
 #routine .routine-item {
   grid-template-columns: 30px 24px minmax(0, 1fr) 62px 30px;
   background: rgba(255, 255, 255, 0.025);
-  border-color: rgba(218, 170, 63, 0.14);
+  border-color: rgba(100, 150, 255, 0.14);
 }
 
 .routine-item-icon {
@@ -2070,7 +2068,7 @@ body.auth-locked #login-panel .overlay-card {
 
 #routine {
   padding: 22px;
-  background: #08030f;
+  background: #060a12;
   border-radius: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -7485,25 +7483,14 @@ html[data-theme] .sidebar:not(.floating-navbar) {
   flex-direction: column;
   gap: 10px;
   padding: 16px 16px 14px !important;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(255, 214, 88, 0.12), transparent 26%),
-    radial-gradient(circle at 76% 8%, rgba(80, 118, 255, 0.12), transparent 28%),
-    linear-gradient(155deg, rgba(24, 28, 33, 0.96), rgba(4, 5, 7, 0.98)) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: linear-gradient(155deg, rgba(10, 16, 28, 0.98), rgba(6, 10, 18, 0.99)) !important;
+  border-right: 1px solid rgba(100, 150, 255, 0.12) !important;
   box-shadow: 24px 0 70px rgba(0, 0, 0, 0.38);
   scrollbar-width: thin;
 }
 
 html[data-theme] .sidebar:not(.floating-navbar)::before {
-  content: "";
-  position: fixed;
-  inset: 0 auto 0 0;
-  width: 318px;
-  pointer-events: none;
-  background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.08), transparent 32%),
-    radial-gradient(circle at 45% 34%, rgba(255, 255, 255, 0.05), transparent 30%);
-  opacity: 0.8;
+  display: none;
 }
 
 html[data-theme] .profile-block {
