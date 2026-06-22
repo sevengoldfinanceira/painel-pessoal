@@ -4450,7 +4450,7 @@ document.querySelector("#nav-edit-btn, #mobile-menu-edit")?.addEventListener("cl
 document.querySelector("#emoji-picker-grid").innerHTML = routineEmojiOptions
   .map((emoji) => `<button type="button" data-emoji-value="${emoji}" title="Usar ${emoji}">${emoji}</button>`)
   .join("");
-document.querySelector("#emoji-picker-close").addEventListener("click", closeEmojiPicker);
+document.querySelector("#emoji-picker-close")?.addEventListener("click", closeEmojiPicker);
 
 const loginButton = document.querySelector("#login-btn");
 if (loginButton) {
@@ -4506,7 +4506,7 @@ document.querySelector("#nav-edit-reset").addEventListener("click", () => {
   renderNavEditor();
 });
 
-document.querySelector("#logout-btn").addEventListener("click", async () => {
+document.querySelector("#logout-btn, #mobile-logout-btn")?.addEventListener("click", async () => {
   if (!supabaseClient) return;
   await supabaseClient.auth.signOut();
   currentUser = null;
@@ -4563,7 +4563,7 @@ if (avatarBtn) avatarBtn.addEventListener("click", () => {
   document.querySelector("#avatar-input").click();
 });
 
-document.querySelector("#avatar-input").addEventListener("change", (event) => {
+document.querySelector("#avatar-input")?.addEventListener("change", (event) => {
   const file = event.target.files?.[0];
   if (!file || !file.type.startsWith("image/")) return;
 
@@ -6234,9 +6234,9 @@ document.querySelectorAll("[data-pending-column]").forEach((column) => {
 });
 
 applyTheme(localStorage.getItem(themeStorageKey));
-render();
-updateUndoButton();
 initAuth();
+try { render(); } catch(e) { console.error("Render error:", e); }
+updateUndoButton();
 
 var todayDateEl = document.querySelector("#today-full-date");
 if (todayDateEl) todayDateEl.textContent = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
