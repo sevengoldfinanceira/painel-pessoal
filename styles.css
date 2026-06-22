@@ -3034,6 +3034,16 @@ button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.desktop-navbar {
+  display: flex;
+}
+
+@media (max-width: 900px) {
+  .desktop-navbar {
+    display: none !important;
+  }
+}
+
 /* Light Theme Styling for Navbar (Clean White) */
 html[data-theme="light"] .sidebar.floating-navbar {
   background: #ffffff;

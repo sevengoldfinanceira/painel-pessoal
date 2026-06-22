@@ -597,7 +597,7 @@ let financeBillFilter = "all";
 const cloudModuleKeys = Object.keys(defaultState);
 
 const pages = document.querySelectorAll(".page");
-const navButtons = document.querySelectorAll(".menu-item[data-section]");
+const navButtons = document.querySelectorAll("[data-section]");
 const sidebar = document.querySelector(".company-sidebar") || document.querySelector(".sidebar");
 const pageTitle = document.querySelector("#page-title");
 const mobileOverlay = document.querySelector(".sidebar-overlay") || document.querySelector(".mobile-overlay");
@@ -733,7 +733,7 @@ function loadState() {
         stateWasMigrated = true;
       }
     });
-    const availableNavSections = [...document.querySelectorAll(".menu-item[data-section]")].map((button) => button.dataset.section);
+    const availableNavSections = [...document.querySelectorAll("[data-section]")].map((button) => button.dataset.section);
     merged.navOrder = [
       ...(merged.navOrder || []).filter((section) => availableNavSections.includes(section)),
       ...availableNavSections.filter((section) => !(merged.navOrder || []).includes(section)),
@@ -4307,7 +4307,7 @@ let pointerNavStart = null;
 let pointerNavDragging = false;
 
 function readNavLayoutFromDom() {
-  state.navOrder = [...sideNav.querySelectorAll(".menu-item[data-section]")].map((button) => button.dataset.section);
+  state.navOrder = [...sideNav.querySelectorAll("[data-section]")].map((button) => button.dataset.section);
   state.navGroups = [...sideNav.querySelectorAll(".menu-section")].reduce((groups, section) => {
     section.querySelectorAll(".menu-item[data-section]").forEach((button) => {
       groups[button.dataset.section] = section.querySelector(".menu-section-title")?.textContent || "";
