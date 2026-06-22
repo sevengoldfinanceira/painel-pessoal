@@ -3686,9 +3686,17 @@ html[data-theme="light"] .main-area {
 .topbar-left {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   flex: 1;
   min-width: 0;
+}
+.topbar-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
 }
 .topbar-left h1 {
   white-space: nowrap;
@@ -3701,6 +3709,7 @@ html[data-theme="light"] .main-area {
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .today-separator {
@@ -3727,7 +3736,10 @@ h1 {
   letter-spacing: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
+  width: 100%;
+  text-align: center;
 }
 
 #page-title-icon {
@@ -10075,7 +10087,52 @@ html[data-theme="light"] .routine-add-card:hover {
   margin-bottom: 16px;
 }
 @media (max-width: 1024px) { .finance-overview-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 768px) { .finance-overview-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .finance-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  .finance-overview-grid .finance-card {
+    min-width: 0;
+    padding: 11px 9px;
+    gap: 8px;
+    border-radius: 18px;
+  }
+
+  .finance-overview-grid .finance-card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .finance-overview-grid .finance-card-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .finance-overview-grid .finance-card-content {
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .finance-overview-grid .finance-card-content span {
+    font-size: 9px;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+  }
+
+  .finance-overview-grid .finance-card-content strong {
+    font-size: clamp(15px, 4.4vw, 18px);
+    line-height: 1.05;
+  }
+
+  .finance-overview-grid .finance-card-content small {
+    font-size: 9px;
+    line-height: 1.15;
+    margin-top: 3px;
+  }
+}
 
 
 .finance-head-flex { display: flex; justify-content: space-between; align-items: flex-start; }
