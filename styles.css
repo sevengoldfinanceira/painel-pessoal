@@ -9578,24 +9578,37 @@ html[data-theme="light"] .routine-add-card:hover {
 
 @media (max-width: 768px) {
   .finance-internal-nav {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
     margin: 0 0 14px;
-    padding: 4px;
+    padding: 6px;
     border-radius: 12px;
-    gap: 1px;
+    gap: 6px;
+    overflow: visible;
   }
   .finance-internal-nav button {
-    padding: 8px 10px;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    padding: 8px 9px;
     font-size: 11px;
-    gap: 6px;
+    gap: 7px;
+    border-radius: 10px !important;
   }
   .finance-internal-nav button:not(:last-child) {
-    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    border-right: 1px solid transparent;
   }
   .finance-tab-icon {
     width: 28px;
     height: 28px;
     border-radius: 7px;
+  }
+  .finance-tab-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .finance-tab-icon svg {
     width: 14px;
