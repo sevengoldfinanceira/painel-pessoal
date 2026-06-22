@@ -12829,7 +12829,7 @@ html[data-theme="light"] .mobile-sidebar .horizontal-nav button.active {
   height: 100vh;
   height: 100dvh;
   padding: 24px 18px;
-  border-right: 1px solid rgba(212, 175, 55, 0.35);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   background: #000000;
   box-shadow: 12px 0 35px rgba(0, 0, 0, 0.35);
   overflow: hidden;
@@ -12891,8 +12891,8 @@ html[data-theme="light"] .company-sidebar .menu-item:hover i {
 }
 
 html[data-theme="light"] .company-sidebar .menu-item.active {
-  background: rgba(212, 175, 55, 0.12) !important;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
   color: #000000 !important;
   box-shadow: none !important;
 }
@@ -12968,7 +12968,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
   gap: 10px;
   padding-bottom: 20px;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
 
@@ -12986,7 +12986,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
   height: 44px;
   object-fit: contain;
   border-radius: 8px;
-  filter: drop-shadow(0 4px 10px rgba(212, 175, 55, 0.2));
+  filter: none;
 }
 
 .mobile-brand-copy {
@@ -13016,7 +13016,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
   height: 36px;
   padding: 0;
   border-radius: 999px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #ffffff;
   color: #111827;
   display: flex;
@@ -13028,8 +13028,8 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
 }
 
 .mobile-sidebar-close:hover {
-  background: rgba(212, 175, 55, 0.14);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
 }
 
 .mobile-sidebar-close svg {
@@ -13047,7 +13047,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
   overflow-x: hidden;
   padding-right: 4px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(212, 175, 55, 0.15) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 .company-sidebar-nav::-webkit-scrollbar {
@@ -13055,7 +13055,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
 }
 
 .company-sidebar-nav::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }
 
@@ -13071,7 +13071,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
   display: block;
   padding: 0 12px;
   margin-bottom: 10px;
-  color: #f6d365;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -13079,7 +13079,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
 }
 
 .menu-section + .menu-section {
-  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .menu-item {
@@ -13123,9 +13123,9 @@ html[data-theme="light"] .menu-item svg {
 .menu-item:hover {
   background: rgba(255, 255, 255, 0.06);
   transform: translateX(4px);
-  border-color: rgba(212, 175, 55, 0.18);
+  border-color: transparent;
   color: #ffffff;
-  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.12);
+  box-shadow: none;
 }
 
 .menu-item:hover svg,
@@ -13134,11 +13134,11 @@ html[data-theme="light"] .menu-item svg {
 }
 
 .menu-item.active {
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.22), rgba(255, 255, 255, 0.06));
-  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
   font-weight: 700;
-  box-shadow: 0 10px 28px rgba(212, 175, 55, 0.16);
+  box-shadow: none;
   transform: none;
 }
 
@@ -13156,8 +13156,7 @@ html[data-theme="light"] .menu-item svg {
   width: 4px;
   height: 30px;
   border-radius: 0 999px 999px 0;
-  background: linear-gradient(180deg, #f6d365, #d4af37);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+  background: #ffffff;
 }
 
 .menu-item span {
@@ -13177,7 +13176,7 @@ html[data-theme="light"] .menu-item svg {
 }
 
 .sidebar-divider {
-  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   margin: 4px 0;
   width: 100%;
 }
@@ -13217,9 +13216,9 @@ html[data-theme="light"] .menu-item svg {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.04);
-  color: #d4af37;
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -13232,9 +13231,9 @@ html[data-theme="light"] .menu-item svg {
 }
 
 .profile-icon-action:hover {
-  background: rgba(212, 175, 55, 0.12);
-  border-color: rgba(212, 175, 55, 0.5);
-  color: #f6d365;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   transform: translateY(-1px);
 }
 
@@ -13278,10 +13277,10 @@ html[data-theme="light"] .menu-item svg {
 }
 
 .theme-btn-toggle.active {
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  color: #f6d365;
-  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.12);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow: none;
 }
 
 /* Logout Button */
@@ -13320,7 +13319,7 @@ html[data-theme="light"] .menu-item svg {
 /* Profile Card */
 .sidebar-profile-card {
   padding: 12px 14px;
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.03);
 }
@@ -13339,7 +13338,7 @@ html[data-theme="light"] .menu-item svg {
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  border: 2px solid rgba(212, 175, 55, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   flex-shrink: 0;
   object-fit: cover;
 }
@@ -13395,9 +13394,9 @@ html[data-theme="light"] .menu-item svg {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  background: rgba(8, 0, 15, 0.92);
-  color: #d4af37;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #000000;
+  color: #ffffff;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -13408,8 +13407,8 @@ html[data-theme="light"] .menu-item svg {
 }
 
 .sidebar-hamburger:hover {
-  background: rgba(212, 175, 55, 0.14);
-  box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
 }
 
 .sidebar-hamburger svg {
