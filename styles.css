@@ -12287,6 +12287,47 @@ html[data-theme="light"] .horizontal-nav button.active {
     font-size: 20px;
     line-height: 1;
   }
+
+  #routine-consistency-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 10px !important;
+  }
+
+  #routine-consistency-list article {
+    min-width: 0;
+    gap: 8px;
+  }
+
+  #routine-consistency-list article > div:last-child {
+    min-width: 0;
+  }
+
+  #routine-consistency-list article > div:last-child strong {
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #routine-consistency-list small {
+    font-size: 8px;
+  }
+
+  .routine-mini-ring {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .routine-mini-ring::before {
+    width: 32px;
+    height: 32px;
+  }
+
+  .routine-mini-ring strong {
+    font-size: 8px;
+  }
 }
 
 html[data-theme] .mobile-sidebar .horizontal-nav button,
