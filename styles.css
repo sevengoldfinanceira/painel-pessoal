@@ -11682,6 +11682,7 @@ button {
 
   .topbar-title-group {
     max-width: 100%;
+    padding-top: 8px;
   }
 
   .app-shell {
