@@ -11611,7 +11611,7 @@ button {
     display: flex !important;
     align-items: center;
     gap: 10px;
-    padding: 14px 16px 12px;
+    padding: 12px 52px 10px 16px;
     background: #ffffff;
     border-bottom: 1px solid #eef2f7;
     position: relative;
@@ -11656,18 +11656,18 @@ button {
 
   .mobile-sidebar-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
+    top: 8px;
+    right: 8px;
     z-index: 10;
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background: #ffffff;
     border: 1px solid rgba(245, 197, 66, 0.48);
     color: #111827;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 400;
     cursor: pointer;
     transition: background 0.2s;
@@ -11702,7 +11702,7 @@ button {
     width: 100% !important;
     flex: 1 !important;
     overflow-y: auto !important;
-    padding: 12px 12px !important;
+    padding: 8px 12px !important;
     align-items: stretch !important;
     justify-content: stretch !important;
   }
@@ -11730,7 +11730,7 @@ button {
     align-items: center !important;
     justify-content: flex-start !important;
     width: 100% !important;
-    min-height: 44px !important;
+    min-height: 40px !important;
     padding: 0 12px !important;
     border: 1px solid transparent !important;
     border-radius: 14px !important;
@@ -11781,8 +11781,8 @@ button {
   .mobile-system-section {
     display: flex !important;
     flex-direction: column;
-    padding: 10px 16px;
-    gap: 12px;
+    padding: 8px 16px;
+    gap: 10px;
     width: 100%;
   }
 
@@ -11886,9 +11886,11 @@ button {
   .mobile-profile-footer {
     display: flex !important;
     align-items: center;
-    gap: 10px;
-    padding: 10px 16px 14px;
+    justify-content: center;
+    gap: 9px;
+    padding: 8px 16px max(18px, env(safe-area-inset-bottom));
     width: 100%;
+    text-align: center;
   }
 
   .mobile-profile-footer .mobile-avatar {
@@ -11902,6 +11904,7 @@ button {
   .mobile-profile-footer .mobile-profile-info {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2px;
     min-width: 0;
   }
