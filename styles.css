@@ -8105,7 +8105,7 @@ html[data-theme] .horizontal-nav button {
 }
 
 html[data-theme] .horizontal-nav button span {
-  display: none !important;
+  display: inline !important;
 }
 
 html[data-theme] .horizontal-nav button svg {
