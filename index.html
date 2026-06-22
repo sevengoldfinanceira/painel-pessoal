@@ -243,15 +243,20 @@
   </div>
 </aside>
 
-      <main class="main-area">
-        <header class="topbar">
-          <div class="topbar-left">
-            <div class="topbar-title-group">
-              <p class="today-label"><span id="today-date-label">Hoje</span> <span class="today-separator">·</span> <span id="today-full-date"></span></p>
-              <h1 id="page-title"><span id="page-title-icon"></span><span id="page-title-text">Painel</span></h1>
-            </div>
-            <!-- Cards de resumo da Agenda -->
-            <div id="agenda-summary-cards" class="agenda-summary-cards" style="display: none;" hidden>
+  <main class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title-group">
+          <p class="today-label"><span id="today-date-label">Hoje</span> <span class="today-separator">·</span> <span id="today-full-date"></span></p>
+          <h1 id="page-title"><span id="page-title-icon"></span><span id="page-title-text">Painel</span></h1>
+        </div>
+        <!-- Cards de resumo da Agenda -->
+        <div id="agenda-summary-cards" class="agenda-summary-cards" style="display: none;" hidden>
+      </div>
+      <div class="topbar-right">
+        <button class="notes-view-toggle" type="button" id="notes-view-toggle" title="Alternar grid/lista">Grid</button>
+        <button class="notes-new-btn" type="button" id="notes-new-btn">+ Nova anotação</button>
+      </div>
               <div class="agenda-summary-card card-blue">
                 <div class="card-icon-container">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="card-svg-icon">
@@ -370,16 +375,12 @@
 
         <section class="page" id="quick-notes">
           <div class="notes-page-shell">
-            <header class="notes-page-header">
-              <div class="notes-toolbar">
-                <label class="notes-search">
-                  <span>⌕</span>
-                  <input id="notes-search-input" type="search" placeholder="Buscar anotações..." autocomplete="off" />
-                </label>
-                <button class="notes-view-toggle" type="button" id="notes-view-toggle" title="Alternar grid/lista">Grid</button>
-                <button class="notes-new-btn" type="button" id="notes-new-btn">+ Nova anotação</button>
-              </div>
-            </header>
+<header class="notes-page-header">
+        <label class="notes-search">
+          <span>⌕</span>
+          <input id="notes-search-input" type="search" placeholder="Buscar anotações..." autocomplete="off" />
+        </label>
+      </header>
 
             <form class="notes-quick-card" id="note-form">
               <div>
