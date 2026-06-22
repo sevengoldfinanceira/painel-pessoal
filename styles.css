@@ -12870,12 +12870,12 @@ html[data-theme="light"] .company-sidebar .menu-section + .menu-section {
 }
 
 html[data-theme="light"] .company-sidebar .menu-item {
-  color: #374151 !important;
+  color: #000000 !important;
 }
 
 html[data-theme="light"] .company-sidebar .menu-item svg,
 html[data-theme="light"] .company-sidebar .menu-item i {
-  color: #6b7280 !important;
+  color: #000000 !important;
 }
 
 html[data-theme="light"] .company-sidebar .menu-item:hover {
@@ -12887,19 +12887,19 @@ html[data-theme="light"] .company-sidebar .menu-item:hover {
 
 html[data-theme="light"] .company-sidebar .menu-item:hover svg,
 html[data-theme="light"] .company-sidebar .menu-item:hover i {
-  color: #d4af37 !important;
+  color: #000000 !important;
 }
 
 html[data-theme="light"] .company-sidebar .menu-item.active {
   background: rgba(212, 175, 55, 0.12) !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
-  color: #111827 !important;
+  color: #000000 !important;
   box-shadow: none !important;
 }
 
 html[data-theme="light"] .company-sidebar .menu-item.active svg,
 html[data-theme="light"] .company-sidebar .menu-item.active i {
-  color: #d4af37 !important;
+  color: #000000 !important;
   filter: none !important;
 }
 
@@ -13105,7 +13105,7 @@ html[data-theme="light"] .company-sidebar .sidebar-divider {
 .menu-item i {
   width: 20px;
   height: 20px;
-  color: #d4af37;
+  color: #ffffff;
   flex-shrink: 0;
   transition: color 0.25s ease;
   fill: none;
@@ -13130,7 +13130,7 @@ html[data-theme="light"] .menu-item svg {
 
 .menu-item:hover svg,
 .menu-item:hover i {
-  color: #f6d365;
+  color: #ffffff;
 }
 
 .menu-item.active {
@@ -13144,8 +13144,8 @@ html[data-theme="light"] .menu-item svg {
 
 .menu-item.active svg,
 .menu-item.active i {
-  color: #f6d365;
-  filter: drop-shadow(0 0 6px rgba(246, 211, 101, 0.4));
+  color: #ffffff;
+  filter: none;
 }
 
 .menu-item.active::before {
