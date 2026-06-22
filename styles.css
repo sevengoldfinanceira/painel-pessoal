@@ -12397,41 +12397,41 @@ button {
   }
 }
 
-/* --- Barra de Navegação Desktop Amarela com Letras Brancas --- */
+/* --- Barra de Navegação Desktop Azul Escuro --- */
 html[data-theme] .sidebar.floating-navbar {
-  background: linear-gradient(135deg, #f8c83e, #e0a910) !important;
-  box-shadow: 0 6px 24px rgba(224, 169, 16, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: linear-gradient(135deg, #1e40af, #1e3a8a) !important;
+  box-shadow: 0 6px 24px rgba(30, 64, 175, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 html[data-theme="light"] .sidebar.floating-navbar {
-  background: linear-gradient(135deg, #f8c83e, #e0a910) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 6px 24px rgba(224, 169, 16, 0.3) !important;
+  background: linear-gradient(135deg, #1e40af, #1e3a8a) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 6px 24px rgba(30, 64, 175, 0.3) !important;
 }
 
 html[data-theme] .horizontal-nav button {
   color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+  text-shadow: none !important;
   font-weight: 800 !important;
   transition: background 0.2s, color 0.2s !important;
 }
 
 html[data-theme] .horizontal-nav button svg {
   color: #ffffff !important;
-  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.25)) !important;
+  filter: none !important;
 }
 
 html[data-theme] .horizontal-nav button:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
   color: #ffffff !important;
 }
 
 html[data-theme] .horizontal-nav button.active {
   color: #ffffff !important;
-  background: rgba(0, 0, 0, 0.16) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 html[data-theme] .horizontal-nav button.active svg {
@@ -12445,9 +12445,10 @@ html[data-theme="light"] .horizontal-nav button svg {
   color: #ffffff !important;
 }
 html[data-theme="light"] .horizontal-nav button.active {
-  background: rgba(0, 0, 0, 0.16) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: none !important;
   color: #ffffff !important;
+  box-shadow: none !important;
 }
 
 html[data-theme] .mobile-sidebar .horizontal-nav button,
