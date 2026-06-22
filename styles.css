@@ -12258,6 +12258,37 @@ html[data-theme="light"] .horizontal-nav button.active {
   color: #ffffff !important;
 }
 
+@media (max-width: 680px) {
+  #routine .routine-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  #routine .routine-summary article {
+    grid-template-columns: 36px minmax(0, 1fr);
+    min-height: 86px;
+    padding: 11px 10px;
+    gap: 8px;
+  }
+
+  #routine .routine-summary i {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+
+  #routine .routine-summary span,
+  #routine .routine-summary small {
+    font-size: 8.5px;
+    line-height: 1.15;
+  }
+
+  #routine .routine-summary strong {
+    font-size: 20px;
+    line-height: 1;
+  }
+}
+
 html[data-theme] .mobile-sidebar .horizontal-nav button,
 html[data-theme] .mobile-sidebar .horizontal-nav button:hover,
 html[data-theme] .mobile-sidebar .horizontal-nav button.active,
