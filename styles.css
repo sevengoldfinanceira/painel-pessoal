@@ -8152,23 +8152,7 @@ html[data-theme] .profile-name-text {
 }
 
 html[data-theme] .theme-toggle {
-  position: fixed !important;
-  right: 22px !important;
-  bottom: 22px !important;
-  top: auto !important;
-  z-index: 1200 !important;
-  width: 48px !important;
-  height: 48px !important;
-  min-height: 48px !important;
-  padding: 0 !important;
-  display: grid !important;
-  place-items: center !important;
-  color: #d4af37 !important;
-  background: linear-gradient(135deg, #1a1a2e, #111827) !important;
-  border: 1px solid rgba(212, 175, 55, 0.35) !important;
-  border-radius: 999px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
-  transition: all 0.25s ease !important;
+  display: none !important;
 }
 
 html[data-theme] .theme-toggle svg {
