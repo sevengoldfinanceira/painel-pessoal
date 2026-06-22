@@ -11781,6 +11781,11 @@ button {
     width: auto;
   }
 
+  .mobile-sidebar .navbar-actions + .mobile-divider {
+    margin-top: -56px;
+    border-top-color: transparent;
+  }
+
   .mobile-system-section {
     display: flex !important;
     flex-direction: column;
